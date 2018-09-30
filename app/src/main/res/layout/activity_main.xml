@@ -33,7 +33,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/workbookLayout"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
 
@@ -49,6 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:scrollbars="horizontal"
+            android:id="@+id/itemList"
             app:layout_constraintTop_toTopOf="parent">
 
         </android.support.v7.widget.RecyclerView>
@@ -65,5 +66,21 @@
             app:srcCompat="@android:drawable/ic_menu_add"
             android:focusable="true" />
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/quizLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+
+    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>
