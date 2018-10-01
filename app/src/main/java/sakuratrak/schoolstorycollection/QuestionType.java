@@ -1,8 +1,8 @@
 package sakuratrak.schoolstorycollection;
 
 public enum QuestionType {
-    SingleChoice,
-    MultiplyChoice,
-    Blank,
-    Answer
+    SINGLE_CHOICE,
+    MULTIPLY_CHOICE,
+    BLANK,
+    ANSWER
 }

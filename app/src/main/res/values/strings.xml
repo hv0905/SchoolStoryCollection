@@ -166,5 +166,20 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
+    <string name="SingleChoice">单选题</string>
+    <string name="MultiChoice">多选题</string>
+    <string name="BlankFill">填空题</string>
+    <string name="answerable">解答题</string>
+    <string name="ChoseQuestionType">选择题目类型</string>
+    <string name="ChoseSubject">选择科目</string>
+    <string name="SubjectChinese">语文</string>
+    <string name="SubjectMath">数学</string>
+    <string name="SubjectEnglish">英语</string>
+    <string name="SubjectPhysics">物理</string>
+    <string name="SubjectChemistry">化学</string>
+    <string name="SubjectBiology">生物</string>
+    <string name="SubjectPolitics">政治</string>
+    <string name="SubjectHistory">历史</string>
+    <string name="SubjectGeo">地理</string>
 </resources>

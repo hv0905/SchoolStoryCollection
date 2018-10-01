@@ -1,14 +1,14 @@
 package sakuratrak.schoolstorycollection;
 
 public enum LearningSubject {
-    Chinese,
-    Math,
-    English,
-    physics,
-    chemistry,
-    biologic,
-    politics,
-    history,
-    geography,
-    other,
+    CHINESE,
+    MATH,
+    ENGLISH,
+    PHYSICS,
+    CHEMISTRY,
+    BIOLOGIC,
+    POLITICS,
+    HISTORY,
+    GEO,
+    OTHER,
 }

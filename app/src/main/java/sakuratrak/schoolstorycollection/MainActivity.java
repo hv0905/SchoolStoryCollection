@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout _settingLayout;
     private BottomNavigationView _navigation;
     private Button _tempbtn;
-
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,14 +77,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //navigate to add activity
                 //Snackbar.make(v,"Add button clicked!!!",2000).show();
-                AlertDialog ad = new AlertDialog.Builder(MainActivity.this).setTitle("选择题目类型").setIcon(R.drawable.ic_info_black_24dp)
-                        .setItems(new String[]{"单选题", "多选题", "填空题","解答题"}, new DialogInterface.OnClickListener() {
+                CommonAlerts.AskQuestionType(MainActivity.this, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        CommonAlerts.Dialog2QuestionType(i);
                     }
-                }).show();
+                });
 
+                CommonAlerts.AskSubjectType(MainActivity.this, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
             }
 
         });
