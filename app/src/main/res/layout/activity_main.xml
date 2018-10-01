@@ -8,17 +8,48 @@
     android:layout_height="match_parent"
     tools:context="sakuratrak.schoolstorycollection.MainActivity">
 
-<!--    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AppNameCn"
+                android:textColor="#FFFFFFFF"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toRightOf="@+id/subjectSpinner"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="parent"
+                />
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/subjectSpinner"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNav"
@@ -28,9 +59,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workbookLayout"
+        app:layout_constraintTop_toBottomOf="@+id/mainContainerHandler"
         app:menu="@menu/navigation" />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mainContainerHandler"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+
+        android:layout_height="0px">
     <include
         layout="@layout/layout_main_workbook"
         android:id="@+id/workbookLayout"
@@ -40,8 +78,14 @@
         android:id="@+id/quizLayout"
         android:visibility="invisible"/>
 
+    <include layout="@layout/layout_main_unit"
+        android:id="@+id/unitLayout"
+        android:visibility="invisible"/>
+
     <include layout="@layout/layout_main_settings"
         android:id="@+id/settingLayout"
         android:visibility="invisible"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

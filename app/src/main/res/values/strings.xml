@@ -186,4 +186,16 @@
     <string name="UnitManage">管理单元</string>
     <string name="Cancel">取消</string>
     <string name="AppNameCn">错题本Story</string>
+    <string name="unitcompute">单元与统计</string>
+    <string-array name="learning_subjects">
+        <item>语文</item>
+        <item>数学</item>
+        <item>英语</item>
+        <item>物理</item>
+        <item>化学</item>
+        <item>生物</item>
+        <item>政治</item>
+        <item>历史</item>
+        <item>地理</item>
+    </string-array>
 </resources>
