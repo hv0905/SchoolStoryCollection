@@ -31,10 +31,17 @@
         app:layout_constraintTop_toBottomOf="@+id/workbookLayout"
         app:menu="@menu/navigation" />
 
-    <include layout="@layout/layout_main_workbook" android:id="@+id/workbookLayout" android:visibility="visible"/>
+    <include
+        layout="@layout/layout_main_workbook"
+        android:id="@+id/workbookLayout"
+        android:visibility="visible"/>
 
-    <include layout="@layout/layout_main_quiz"     android:id="@+id/quizLayout" android:visibility="invisible"/>
+    <include layout="@layout/layout_main_quiz"
+        android:id="@+id/quizLayout"
+        android:visibility="invisible"/>
 
-    <include layout="@layout/layout_main_settings" android:id="@+id/settingLayout" android:visibility="invisible"/>
+    <include layout="@layout/layout_main_settings"
+        android:id="@+id/settingLayout"
+        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

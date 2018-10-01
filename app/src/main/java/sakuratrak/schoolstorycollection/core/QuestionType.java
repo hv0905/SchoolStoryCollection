@@ -1,6 +1,8 @@
 package sakuratrak.schoolstorycollection.core;
 
-public enum QuestionType {
+import java.io.Serializable;
+
+public enum QuestionType implements Serializable {
     SINGLE_CHOICE,
     MULTIPLY_CHOICE,
     BLANK,

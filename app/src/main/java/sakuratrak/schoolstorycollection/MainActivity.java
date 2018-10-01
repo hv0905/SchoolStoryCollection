@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import javax.security.auth.Subject;
+
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.QuestionType;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout _quizLayout;
     private ConstraintLayout _settingLayout;
     private BottomNavigationView _navigation;
+    private Button _unitManageBtn;
     private Button _tempbtn;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         _quizLayout = findViewById(R.id.quizLayout);
         _settingLayout = findViewById(R.id.settingLayout);
         _tempbtn = findViewById(R.id.tempbtn);
+        _unitManageBtn = findViewById(R.id.main_settings_unitManageBtn);
 
         _navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         _addItemBtn.setOnClickListener(new View.OnClickListener() {
@@ -90,10 +94,20 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
-                               final LearningSubject sub = CommonAlerts.Dialog2Subject(i);
+                                final LearningSubject sub = CommonAlerts.Dialog2Subject(i);
                                 //System.out.println(sub.toString());
                             }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
                         });
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 });
             }
@@ -104,6 +118,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,QuestionDetailActivity.class);
                 MainActivity.this.startActivity(intent);
+            }
+        });
+
+
+        _unitManageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //选择科目
+                CommonAlerts.AskSubjectType(MainActivity.this, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //继续
+                        LearningSubject sub = CommonAlerts.Dialog2Subject(which);
+                        Intent in = new Intent(MainActivity.this, LearningUnitManageActivity.class);
+                        in.putExtra("subject",sub);
+                        MainActivity.this.startActivity(in);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
 

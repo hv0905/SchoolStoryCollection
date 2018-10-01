@@ -9,7 +9,9 @@
     app:layout_constraintBottom_toTopOf="@+id/bottomNav"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    tools:showIn="@layout/activity_main"
+    tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

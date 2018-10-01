@@ -1,9 +1,10 @@
 package sakuratrak.schoolstorycollection.core;
 
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public final class QuestionInfo {
+public final class QuestionInfo implements Serializable {
 
     public String Title;
     public LearningSubject Subject;

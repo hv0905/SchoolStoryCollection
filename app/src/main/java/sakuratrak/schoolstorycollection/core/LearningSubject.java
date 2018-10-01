@@ -1,6 +1,8 @@
 package sakuratrak.schoolstorycollection.core;
 
-public enum LearningSubject {
+import java.io.Serializable;
+
+public enum LearningSubject implements Serializable {
     CHINESE,
     MATH,
     ENGLISH,

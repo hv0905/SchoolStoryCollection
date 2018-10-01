@@ -183,4 +183,7 @@
     <string name="SubjectHistory">历史</string>
     <string name="SubjectGeo">地理</string>
     <string name="title_activity_learning_unit_manage">管理单元</string>
+    <string name="UnitManage">管理单元</string>
+    <string name="Cancel">取消</string>
+    <string name="AppNameCn">错题本Story</string>
 </resources>
