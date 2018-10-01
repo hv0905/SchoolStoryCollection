@@ -26,8 +26,12 @@ import sakuratrak.schoolstorycollection.core.QuestionType;
 public class MainActivity extends AppCompatActivity {
 
     private TextView _mTextMessage;
+
     private RecyclerView _itemList;
+    private RecyclerView _unitList;
+
     private FloatingActionButton _addItemBtn;
+    private FloatingActionButton _addUnitBtn;
 
     private AppCompatSpinner _subjectSpinner;
 
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         _navigation = findViewById(R.id.bottomNav);
         _addItemBtn = findViewById(R.id.addItemBtn);
         _itemList = findViewById(R.id.itemList);
+        _unitList = findViewById(R.id.unitList);
+        _addUnitBtn = findViewById(R.id.addUnitBtn);
         _workbookLayout = findViewById(R.id.workbookLayout);
         _quizLayout = findViewById(R.id.quizLayout);
         _unitLayout = findViewById(R.id.unitLayout);
@@ -170,6 +176,17 @@ public class MainActivity extends AppCompatActivity {
         QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
         _itemList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         _itemList.setAdapter(qia);
+
+        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> ludt = new ArrayList<>();
+
+        for (int i = 0;i<10;i++){
+            ludt.add(new UnitDisplayAdapter.UnitDisplayInfo(i,50,"fff"));
+        }
+
+        UnitDisplayAdapter uda = new UnitDisplayAdapter(ludt);
+
+        _unitList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        _unitList.setAdapter(uda);
 
     }
 

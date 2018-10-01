@@ -17,7 +17,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        Holder hd = new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_questionlistdisplay,parent,false));
+        Holder hd = new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_unitlistdisplay,parent,false));
         return hd;
 
     }
@@ -31,6 +31,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         viewHolder._currectRatioBar.setProgress(udi.QuizCurrectRatio);
         viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
         viewHolder._resetBtn.setOnClickListener(udi.ResetClicked);
+        viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -51,6 +52,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         public TextView _valCurrectRatio;
         public ProgressBar _currectRatioBar;
         public TextView _valQuizCount;
+        public TextView _warningTxt;
 
 
         public Holder(View rootView){
@@ -62,6 +64,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             _valCurrectRatio = _root.findViewById(R.id.valCurrectRatio);
             _currectRatioBar = _root.findViewById(R.id.currectRatioBar);
             _valQuizCount = _root.findViewById(R.id.valQuizCount);
+            _warningTxt = _root.findViewById(R.id.warningTxt);
         }
 
     }
@@ -72,6 +75,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         public View.OnClickListener RmClicked;
         public int QuizCount;
         public int QuizCurrectRatio;
+        public boolean requireMoreRecord = false;
         public String Title;
 
         public UnitDisplayInfo(int quizCount, int quizCurrectRatio, String title) {
