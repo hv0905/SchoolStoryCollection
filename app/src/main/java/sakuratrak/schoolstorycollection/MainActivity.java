@@ -101,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        final QuestionType type = CommonAlerts.Dialog2QuestionType(i);
+                        final QuestionType type = QuestionType.id2Obj(i);
                         //System.out.println(type.toString());
                         CommonAlerts.AskSubjectType(MainActivity.this, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
-                                final LearningSubject sub = CommonAlerts.Dialog2Subject(i);
+                                final LearningSubject sub = LearningSubject.id2Obj(i);
                                 //System.out.println(sub.toString());
                             }
                         }, new DialogInterface.OnClickListener() {
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         //继续
-                        LearningSubject sub = CommonAlerts.Dialog2Subject(which);
+                        LearningSubject sub = LearningSubject.id2Obj(which);
                         Intent in = new Intent(MainActivity.this, LearningUnitManageActivity.class);
                         in.putExtra("subject",sub);
                         MainActivity.this.startActivity(in);
@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
         _itemList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         _itemList.setAdapter(qia);
-
 
     }
 

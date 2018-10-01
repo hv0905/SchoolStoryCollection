@@ -187,6 +187,12 @@
     <string name="Cancel">取消</string>
     <string name="AppNameCn">错题本Story</string>
     <string name="unitcompute">单元与统计</string>
+    <string name="TypeableBlink">可输入的填空题</string>
+    <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
+    <string name="reset_info">重置统计信息</string>
+    <string name="rm_unit">删除单元</string>
+    <string name="currectRatio">正确率%</string>
+    <string name="quizTime">小测次数</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>
@@ -197,5 +203,12 @@
         <item>政治</item>
         <item>历史</item>
         <item>地理</item>
+    </string-array>
+    <string-array name="question_type">
+        <item>单选题</item>
+        <item>多选题</item>
+        <item>可输入的填空题</item>
+        <item>填空题</item>
+        <item>解答题</item>
     </string-array>
 </resources>
