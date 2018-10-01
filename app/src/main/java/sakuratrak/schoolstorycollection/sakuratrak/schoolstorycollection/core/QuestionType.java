@@ -1,4 +1,4 @@
-package sakuratrak.schoolstorycollection;
+package sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core;
 
 public enum QuestionType {
     SINGLE_CHOICE,

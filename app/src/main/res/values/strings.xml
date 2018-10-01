@@ -182,4 +182,5 @@
     <string name="SubjectPolitics">政治</string>
     <string name="SubjectHistory">历史</string>
     <string name="SubjectGeo">地理</string>
+    <string name="title_activity_learning_unit_manage">管理单元</string>
 </resources>

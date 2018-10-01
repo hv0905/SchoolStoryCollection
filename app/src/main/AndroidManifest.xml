@@ -24,6 +24,10 @@
         <activity
             android:name=".QuestionDetailActivity"
             android:label="@string/title_activity_question_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LearningUnitManageActivity"
+            android:label="@string/title_activity_learning_unit_manage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

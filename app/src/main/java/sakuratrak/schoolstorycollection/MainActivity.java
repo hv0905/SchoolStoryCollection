@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.LearningSubject;
+import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.QuestionType;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView _mTextMessage;
@@ -81,18 +84,19 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        CommonAlerts.Dialog2QuestionType(i);
-                    }
-                });
-
-                CommonAlerts.AskSubjectType(MainActivity.this, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                        final QuestionType type = CommonAlerts.Dialog2QuestionType(i);
+                        //System.out.println(type.toString());
+                        CommonAlerts.AskSubjectType(MainActivity.this, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                               final LearningSubject sub = CommonAlerts.Dialog2Subject(i);
+                                //System.out.println(sub.toString());
+                            }
+                        });
                     }
                 });
             }
-
         });
 
         _tempbtn.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
         _itemList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         _itemList.setAdapter(qia);
 
+
+    }
+
+
+    public void refresh(){
 
     }
 
