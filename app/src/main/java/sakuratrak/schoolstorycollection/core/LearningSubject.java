@@ -1,4 +1,4 @@
-package sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core;
+package sakuratrak.schoolstorycollection.core;
 
 public enum LearningSubject {
     CHINESE,

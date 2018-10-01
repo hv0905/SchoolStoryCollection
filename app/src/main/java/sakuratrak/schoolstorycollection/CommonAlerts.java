@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
-import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.LearningSubject;
-import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.QuestionType;
+import sakuratrak.schoolstorycollection.core.LearningSubject;
+import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public final class CommonAlerts {
     public static AlertDialog AskQuestionType(Context context,DialogInterface.OnClickListener listener){

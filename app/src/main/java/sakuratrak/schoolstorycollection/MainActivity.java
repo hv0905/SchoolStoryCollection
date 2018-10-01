@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.LearningSubject;
-import sakuratrak.schoolstorycollection.sakuratrak.schoolstorycollection.core.QuestionType;
+import sakuratrak.schoolstorycollection.core.LearningSubject;
+import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
 
