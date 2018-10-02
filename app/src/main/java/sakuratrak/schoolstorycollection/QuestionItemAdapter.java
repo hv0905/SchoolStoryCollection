@@ -1,5 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,15 +16,15 @@ import java.util.ArrayList;
 public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapter.Holder> {
 
     private ArrayList<String> _mDataSet;
+    @NonNull
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_questionlistdisplay,parent,false);
-        Holder h = new Holder(v);
-        return h;
+        return new Holder(v);
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.title.setText(_mDataSet.get(position));
     }
 
