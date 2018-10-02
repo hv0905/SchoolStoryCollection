@@ -1,5 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -162,6 +164,32 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+            }
+        });
+
+
+        _addUnitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText et = new EditText(MainActivity.this);
+                AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
+                        .setMessage("单元名称:")
+                        .setView(et).setNegativeButton("完成", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                System.out.println(et.getText());
+                                //保存
+
+                            }
+                        })
+                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                ab.show();
             }
         });
 
