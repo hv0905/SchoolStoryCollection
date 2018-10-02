@@ -17,10 +17,13 @@ import java.util.HashMap;
 
 public final class LearningUnitStorageFile implements Serializable {
     public static final String INTERNAL_FILE_NAME = "units.db";
-    static boolean _defaultLoaded;
     static LearningUnitStorageFile _default;
 
     HashMap<LearningSubject,ArrayList<LearningUnitInfo>> _values;
+
+    public LearningUnitStorageFile(){
+        _values = new HashMap<>();
+    }
 
 
     public static LearningUnitStorageFile getDefault() {
@@ -48,7 +51,7 @@ public final class LearningUnitStorageFile implements Serializable {
         return _values;
     }
 
-    public static LearningUnitStorageFile readFromInternalStorage(@NonNull Activity activity) throws ClassNotFoundException {
+    public static LearningUnitStorageFile readFromInternalStorage(@NonNull Activity activity) {
         String[] fileList = activity.fileList();
         if(Arrays.binarySearch(fileList, INTERNAL_FILE_NAME) < 0)
             return null;
@@ -56,9 +59,10 @@ public final class LearningUnitStorageFile implements Serializable {
             try (FileInputStream fis = activity.openFileInput(INTERNAL_FILE_NAME); ObjectInputStream ois = new ObjectInputStream(fis)) {
                 return (LearningUnitStorageFile) ois.readObject();
             }
-        }catch (IOException io){
+        }catch (IOException | ClassNotFoundException io){
             return null;
         }
+
     }
 
     public void saveToInternalStorage(@NonNull Activity activity) throws IOException {

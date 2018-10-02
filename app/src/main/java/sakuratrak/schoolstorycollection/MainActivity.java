@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -15,28 +16,29 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import sakuratrak.schoolstorycollection.core.LearningSubject;
+import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
 import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
 
+    //region ui_control
     private TextView _mTextMessage;
-
     private RecyclerView _itemList;
     private RecyclerView _unitList;
-
     private FloatingActionButton _addItemBtn;
     private FloatingActionButton _addUnitBtn;
-
     private AppCompatSpinner _subjectSpinner;
-
     private ConstraintLayout _workbookLayout;
     private ConstraintLayout _quizLayout;
     private ConstraintLayout _unitLayout;
@@ -45,20 +47,61 @@ public class MainActivity extends AppCompatActivity {
     private Button _unitManageBtn;
     private Button _tempbtn;
     private Toolbar _toolbar;
+    //endregion
+
+    //region events
+    View.OnClickListener unitClearLogListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+            ad.setTitle("清空记录确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s的所有做题记录和统计信息将清空!\n确定要从零开始吗?", "NAME"));
+            ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    //clean log
+                }
+            });
+        }
+    };
+
+    View.OnClickListener unitRmListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+            ad.setTitle("删除确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s将永久失去(真的很久!)!", "NAME"));
+            ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            ad.show();
+        }
+    };
+
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-        //
-        //载入ui
-        //
+        //region loadUI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //endregion
 
-        //
-        //获取空间对象
-        //
+
+        //region get UI elements
         _mTextMessage = findViewById(R.id.message);
         _navigation = findViewById(R.id.bottomNav);
         _addItemBtn = findViewById(R.id.addItemBtn);
@@ -73,15 +116,13 @@ public class MainActivity extends AppCompatActivity {
         _unitManageBtn = findViewById(R.id.main_settings_unitManageBtn);
         _subjectSpinner = findViewById(R.id.subjectSpinner);
         _toolbar = findViewById(R.id.toolbar);
+        //endregion
 
-        //
         //设置工具栏
-        //
         setSupportActionBar(_toolbar);
 
-        //
-        //设置事件
-        //
+        //region Events
+
         _navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -145,12 +186,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         _tempbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, QuestionDetailActivity.class);
-                MainActivity.this.startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, QuestionDetailActivity.class);
+//                MainActivity.this.startActivity(intent);
+                getCurrectSubject();
             }
         });
 
@@ -181,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
         _addUnitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 final EditText et = new EditText(MainActivity.this);
                 AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
                         .setMessage("单元名称:")
@@ -190,7 +231,16 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 System.out.println(et.getText());
-                                //保存
+                                ArrayList<LearningUnitInfo> lisf =  LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
+                                if(lisf == null) lisf = new ArrayList<>();
+                                lisf.add(new LearningUnitInfo(et.getText().toString()));
+                                LearningUnitStorageFile.getDefault().setUnits(getCurrectSubject(),lisf);
+                                refreshUnit();
+                                try {
+                                    LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
+                                }catch (IOException io){
+                                    Snackbar.make(v,"错误:无法保存单元文件",Snackbar.LENGTH_LONG).show();
+                                }
 
                             }
                         })
@@ -204,83 +254,74 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        _subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //load unit
+                refreshUnit();
+            }
 
-        //
-        //初始化列表项目
-        //
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //ignored
+            }
+        });
+
+        //endregion
+
+
+        //region init recycler
+        _itemList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        _unitList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
+        subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
 
         ArrayList<String> lstr = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             lstr.add(String.format("item %d", i));
         }
-        ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
-        subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
 
         _subjectSpinner.setAdapter(subjectDropdown);
 
         QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
-        _itemList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         _itemList.setAdapter(qia);
+        refreshUnit();
 
-        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> ludt = new ArrayList<>();
 
-        View.OnClickListener clearLogListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-                ad.setTitle("清空记录确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s的所有做题记录和统计信息将清空!\n确定要从零开始吗?", "NAME"));
-                ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        //clean log
-                    }
-                });
-            }
-        };
 
-        View.OnClickListener rmListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-                ad.setTitle("删除确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s将永久失去(真的很久!)!", "NAME"));
-                ad.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                ad.show();
-            }
-        };
+        //endregion
 
-//        for (int i = 0;i<10;i++){
-//            ludt.add(new UnitDisplayAdapter.UnitDisplayInfo(i, 50, "fff", );
-//                    ad.show();
-//                }
-//            }, ));
-//        }
 
-        UnitDisplayAdapter uda = new UnitDisplayAdapter(ludt);
 
-        _unitList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        _unitList.setAdapter(uda);
+//        _unitList.setAdapter(uda);
 
     }
 
+    //从顶部组合框中获取目前选中的科目
+    public LearningSubject getCurrectSubject() {
+        return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
+    }
 
-    public void refresh() {
-
+    public void refreshUnit(){
+        if(!LearningUnitStorageFile.defaultLoaded())
+        {
+            LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
+            if(defaults == null){
+                defaults = new LearningUnitStorageFile();
+            }
+            LearningUnitStorageFile.setDefault(defaults);
+        }
+        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
+        if(luis == null)
+            luis = new ArrayList<>();
+        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
+        for (LearningUnitInfo item : luis){
+            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(),50,item.Name);
+            udi.add(udiItem);
+        }
+        UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
+        _unitList.setAdapter(uda);
     }
 
 }
