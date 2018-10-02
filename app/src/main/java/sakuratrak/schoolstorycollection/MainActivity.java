@@ -1,6 +1,5 @@
 package sakuratrak.schoolstorycollection;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -46,23 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private Button _tempbtn;
     private Toolbar _toolbar;
     //endregion
-
-    //region events
-    View.OnClickListener unitClearLogListener = v -> {
-        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-        ad.setTitle("清空记录确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s的所有做题记录和统计信息将清空!\n确定要从零开始吗?", "NAME"));
-        ad.setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).setPositiveButton("确定", (dialog, which) -> {
-            dialog.dismiss();
-            //clean log
-        });
-    };
-
-    View.OnClickListener unitRmListener = v -> {
-        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-        ad.setTitle("删除确认").setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format("%s将永久失去(真的很久!)!", "NAME"));
-        ad.setNegativeButton("取消", (dialog, which) -> dialog.dismiss()).setPositiveButton("确定", (dialog, which) -> dialog.dismiss());
-        ad.show();
-    };
 
     //endregion
 
@@ -175,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
                         } catch (IOException io) {
-                            Snackbar.make(v, "错误:无法保存单元文件", Snackbar.LENGTH_LONG).show();
+                            notifyUnitSaveError(v);
                         }
 
                     })
@@ -233,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
     //载入单元与统计列表
     public void refreshUnit() {
+        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
         if (!LearningUnitStorageFile.defaultLoaded()) {
             LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
             if (defaults == null) {
@@ -243,13 +226,39 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
         if (luis == null)
             luis = new ArrayList<>();
-        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(), item.computeCorrectRatio(), item.Name);
+            udiItem.RmClicked =  v -> {
+                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+                ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udiItem.Title));
+                ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+                    LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject()).remove(item);
+                    try {
+                        LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
+                    } catch (IOException e) {
+                        notifyUnitSaveError(v);
+                    }
+                    refreshUnit();
+                });
+                ad.show();
+            };
+            udiItem.ResetClicked = v -> {
+                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+                ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.comfirmLog_msg), udiItem.Title));
+                ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+
+                });
+                ad.show();
+            };
             udi.add(udiItem);
         }
         UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
         _unitList.setAdapter(uda);
+    }
+
+
+    void notifyUnitSaveError(View v){
+        Snackbar.make(v, "错误:无法保存单元文件", Snackbar.LENGTH_LONG).show();
     }
 
 }
