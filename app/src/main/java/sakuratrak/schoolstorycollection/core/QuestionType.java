@@ -11,7 +11,7 @@ public enum QuestionType implements Serializable {
 
     int _id;
 
-    private QuestionType(int id){
+    QuestionType(int id){
         _id = id;
     }
 

@@ -5,6 +5,5 @@ import java.util.ArrayList;
 
 public class LearningUnitInfo implements Serializable {
     public String Name;
-    public LearningSubject subject;
     public ArrayList<ExerciseLog> ExerciseLogs;
 }

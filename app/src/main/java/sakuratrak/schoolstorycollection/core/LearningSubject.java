@@ -14,6 +14,7 @@ public enum LearningSubject implements Serializable {
     GEO(8),
     OTHER(9);
 
+
     int _id;
 
     LearningSubject(int id){
@@ -40,6 +41,8 @@ public enum LearningSubject implements Serializable {
                 return LearningSubject.HISTORY;
             case 8:
                 return LearningSubject.GEO;
+            case 9:
+                return LearningSubject.OTHER;
         }
         throw new IllegalArgumentException();
     }
