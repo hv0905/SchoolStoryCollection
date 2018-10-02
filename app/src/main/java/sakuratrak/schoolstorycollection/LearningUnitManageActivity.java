@@ -26,6 +26,7 @@ public class LearningUnitManageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final EditText et = new EditText(LearningUnitManageActivity.this);
                 AlertDialog.Builder ab = new AlertDialog.Builder(LearningUnitManageActivity.this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
+                        .setMessage("单元名称:")
                         .setView(et).setNegativeButton("完成", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -1,6 +1,7 @@
 package sakuratrak.schoolstorycollection;
 
 import android.support.annotation.NonNull;
+import android.support.design.button.MaterialButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        Holder hd = new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_unitlistdisplay,parent,false));
-        return hd;
+        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_unitlistdisplay,parent,false));
 
     }
 
@@ -47,8 +47,8 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     {
         private View _root;
         public TextView _valTitle;
-        public Button _resetBtn;
-        public Button _rmBtn;
+        public MaterialButton _resetBtn;
+        public MaterialButton _rmBtn;
         public TextView _valCurrectRatio;
         public ProgressBar _currectRatioBar;
         public TextView _valQuizCount;
@@ -84,7 +84,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             Title = title;
         }
 
-        public UnitDisplayInfo(View.OnClickListener _resetClicked, View.OnClickListener _rmClicked, int quizCount, int quizCurrectRatio, String title) {
+        public UnitDisplayInfo( int quizCount, int quizCurrectRatio, String title,View.OnClickListener _resetClicked, View.OnClickListener _rmClicked) {
             this.ResetClicked = _resetClicked;
             this.RmClicked = _rmClicked;
             QuizCount = quizCount;
