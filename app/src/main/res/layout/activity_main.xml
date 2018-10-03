@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/AppNameCn"
-                android:textColor="#FFFFFFFF"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toRightOf="@+id/subjectSpinner"
                 app:layout_constraintTop_toBottomOf="parent"

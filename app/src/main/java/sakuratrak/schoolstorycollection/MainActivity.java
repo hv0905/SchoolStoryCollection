@@ -1,7 +1,9 @@
 package sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +14,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,6 +31,8 @@ import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
 import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int REQUEST_IMAGE_GET = 1;
 
     //region ui_control
     private TextView _mTextMessage;
@@ -111,18 +116,19 @@ public class MainActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
                 final QuestionType type = QuestionType.id2Obj(i);
                 //System.out.println(type.toString());
-                CommonAlerts.AskSubjectType(MainActivity.this, (dialogInterface1, i1) -> {
-                    dialogInterface1.dismiss();
-                    final LearningSubject sub = LearningSubject.id2Obj(i1);
-                    //System.out.println(sub.toString());
-                }, (dialog, which) -> dialog.dismiss());
-            }, (dialog, which) -> dialog.dismiss());
+
+            }, null);
         });
 
         _tempbtn.setOnClickListener(v -> {
 //                Intent intent = new Intent(MainActivity.this, QuestionDetailActivity.class);
 //                MainActivity.this.startActivity(intent);
-            getCurrectSubject();
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intent, REQUEST_IMAGE_GET);
+            }
         });
 
 
@@ -208,6 +214,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_IMAGE_GET:
+                Uri fullUri = data.getData();
+                break;
+        }
+    }
+
     //从顶部组合框中获取目前选中的科目
     public LearningSubject getCurrectSubject() {
         return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
@@ -228,28 +244,8 @@ public class MainActivity extends AppCompatActivity {
             luis = new ArrayList<>();
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(), item.computeCorrectRatio(), item.Name);
-            udiItem.RmClicked =  v -> {
-                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-                ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udiItem.Title));
-                ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-                    LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject()).remove(item);
-                    try {
-                        LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
-                    } catch (IOException e) {
-                        notifyUnitSaveError(v);
-                    }
-                    refreshUnit();
-                });
-                ad.show();
-            };
-            udiItem.ResetClicked = v -> {
-                AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-                ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.comfirmLog_msg), udiItem.Title));
-                ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-
-                });
-                ad.show();
-            };
+            udiItem.RmClicked =  v -> notifyRmUnit(v,udiItem,item);
+            udiItem.ResetClicked = v -> notifyResetUnit(v,udiItem,item);
             udi.add(udiItem);
         }
         UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
@@ -258,7 +254,31 @@ public class MainActivity extends AppCompatActivity {
 
 
     void notifyUnitSaveError(View v){
-        Snackbar.make(v, "错误:无法保存单元文件", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
+    }
+
+    void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi,LearningUnitInfo info){
+        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+        ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
+        ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+            LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject()).remove(info);
+            try {
+                LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
+            } catch (IOException e) {
+                notifyUnitSaveError(v);
+            }
+            refreshUnit();
+        });
+        ad.show();
+    }
+
+    void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi,LearningUnitInfo info){
+        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
+        ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.comfirmLog_msg), udi.Title));
+        ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+
+        });
+        ad.show();
     }
 
 }
