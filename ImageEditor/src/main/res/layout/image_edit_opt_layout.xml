@@ -10,15 +10,15 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/image_bg_top"
-        android:padding="12dp">
-
+        android:background="#AA000000"
+        android:padding="4dp">
+        <!--android:background="@drawable/image_bg_top"-->
         <android.support.design.button.MaterialButton
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:onClick="onClick"
             android:text="@string/image_cancel"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:onClick="onClick"
             android:text="@string/image_done"
@@ -134,11 +134,11 @@
         android:id="@+id/rg_modes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/image_bg_bottom"
+        android:background="#AA000000"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="20dp">
-
+        <!--android:background="@drawable/image_bg_bottom"-->
         <RadioButton
             android:id="@+id/rb_doodle"
             android:layout_width="wrap_content"

@@ -2,7 +2,7 @@
 <resources>
 
     <color name="image_color_primary">#FFFFFF</color>
-    <color name="image_color_accent">#4CA1FB</color>
+    <color name="image_color_accent">#FF4081</color>
 
     <color name="image_color_white">#FFFFFF</color>
     <color name="image_color_black">#2B2B2B</color>

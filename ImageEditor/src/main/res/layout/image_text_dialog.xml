@@ -34,6 +34,8 @@
 
     </FrameLayout>
 
+    <include layout="@layout/image_color_layout" />
+
     <EditText
         android:id="@+id/et_text"
         android:layout_width="match_parent"
@@ -45,6 +47,6 @@
         android:textColor="@color/image_color_primary"
         android:textSize="24sp" />
 
-    <include layout="@layout/image_color_layout" />
+
 
 </LinearLayout>

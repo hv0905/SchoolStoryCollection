@@ -11,7 +11,7 @@
 
     </style>
 
-    <style name="ImageTextDialog" parent="android:Theme.Holo.Dialog">
+    <style name="ImageTextDialog" parent="Theme.MaterialComponents.Light">
 
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
