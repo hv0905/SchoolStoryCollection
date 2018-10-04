@@ -18,4 +18,5 @@ public final class CommonAlerts {
                 .setItems(R.array.learning_subjects, okListener).setNegativeButton(R.string.Cancel, cancelListener).show();
     }
 
+
 }

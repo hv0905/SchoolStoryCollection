@@ -12,25 +12,23 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
-        <TextView
+        <android.support.design.button.MaterialButton
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="@string/image_cancel"
             android:textColor="@color/image_color_primary"
             android:textSize="16sp" />
 
-        <TextView
+        <android.support.design.button.MaterialButton
             android:id="@+id/tv_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:clickable="true"
-            android:focusable="true"
             android:text="@string/image_done"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textColor="@color/image_color_accent"
             android:textSize="16sp" />
 
@@ -45,8 +43,7 @@
         android:background="@null"
         android:gravity="top"
         android:textColor="@color/image_color_primary"
-        android:textSize="24sp"
-        tools:text="这里添加文字" />
+        android:textSize="24sp" />
 
     <include layout="@layout/image_color_layout" />
 

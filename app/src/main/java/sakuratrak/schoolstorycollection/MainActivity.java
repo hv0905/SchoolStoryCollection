@@ -14,7 +14,6 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,14 +24,13 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import me.kareluo.imaging.IMGEditActivity;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
 import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final int REQUEST_IMAGE_GET = 1;
 
     //region ui_control
     private TextView _mTextMessage;
@@ -126,8 +124,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
             if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(intent, REQUEST_IMAGE_GET);
+                startActivityForResult(intent, IntentRequests.REQUEST_IMAGE_GET);
             }
         });
 
@@ -150,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
                     .setMessage("单元名称:")
                     .setView(et).setNegativeButton("完成", (dialog, which) -> {
-                        dialog.dismiss();
                         if (et.getText().toString().trim().isEmpty()) {
                             new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定",null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
@@ -218,9 +216,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case REQUEST_IMAGE_GET:
+            case IntentRequests.REQUEST_IMAGE_GET:
+                if(resultCode != RESULT_OK) return;
                 Uri fullUri = data.getData();
+                Intent intent = new Intent(this,IMGEditActivity.class);
+                intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI,fullUri);
+                startActivityForResult(intent,IntentRequests.REQUEST_IMAGE_EDIT);
                 break;
+                case IntentRequests.REQUEST_IMAGE_EDIT:
+
+                    break;
         }
     }
 
@@ -274,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi,LearningUnitInfo info){
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
-        ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.comfirmLog_msg), udi.Title));
+        ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udi.Title));
         ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
 
         });

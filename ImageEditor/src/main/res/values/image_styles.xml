@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ImageEditTheme" parent="android:Theme.Holo">
+    <style name="ImageEditTheme" parent="Theme.MaterialComponents.Light">
 
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -36,11 +36,6 @@
         <item name="android:windowEnterAnimation">@anim/image_dialog_enter</item>
         <item name="android:windowExitAnimation">@anim/image_dialog_exit</item>
 
-    </style>
-
-    <style name="ImageGalleryTheme" parent="Theme.AppCompat">
-        <item name="image_gallery_span_count">4</item>
-        <item name="image_gallery_select_shade">#90FFFFFF</item>
     </style>
 
 </resources>

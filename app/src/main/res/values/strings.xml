@@ -98,16 +98,16 @@
     <string name="title_activity_learning_unit_manage">管理单元</string>
     <string name="Cancel">取消</string>
     <string name="AppNameCn">错题本Story</string>
-    <string name="unitcompute">单元与统计</string>
+    <string name="unitCompute">单元与统计</string>
     <string name="TypeableBlink">可输入的填空题</string>
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>
-    <string name="currectRatio">正确率%</string>
+    <string name="correctRatio">正确率%</string>
     <string name="quizTime">小测次数</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
-    <string name="comfirmLog_msg">%s的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>
+    <string name="confirmLog_msg">%s的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>
     <string name="confirmLog_title">清空记录确认</string>
     <string name="confirmRm_msg">%s 将永久失去(真的很久!)!</string>
     <string name="confirmRm_title">删除确认</string>
@@ -129,5 +129,9 @@
         <item>可输入的填空题</item>
         <item>填空题</item>
         <item>解答题</item>
+    </string-array>
+    <string-array name="photoProvidePath">
+        <item>拍照</item>
+        <item>选择照片…</item>
     </string-array>
 </resources>

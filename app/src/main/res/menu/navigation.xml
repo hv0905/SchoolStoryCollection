@@ -13,7 +13,7 @@
     <item
         android:id="@+id/navigation_unit"
         android:icon="@drawable/bar_graph"
-        android:title="@string/unitcompute"
+        android:title="@string/unitCompute"
         />
 
     <item

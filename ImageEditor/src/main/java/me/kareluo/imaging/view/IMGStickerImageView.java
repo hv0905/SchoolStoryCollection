@@ -5,8 +5,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-import me.kareluo.imaging.R;
-
 /**
  * Created by felix on 2017/12/21 下午10:58.
  */
@@ -30,7 +28,6 @@ public class IMGStickerImageView extends IMGStickerView {
     @Override
     public View onCreateContentView(Context context) {
         mImageView = new ImageView(context);
-        mImageView.setImageResource(R.mipmap.ic_launcher);
         return mImageView;
     }
 }
