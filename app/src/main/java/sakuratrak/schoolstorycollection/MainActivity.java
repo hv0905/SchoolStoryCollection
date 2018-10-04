@@ -1,13 +1,18 @@
 package sakuratrak.schoolstorycollection;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -21,10 +26,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import me.kareluo.imaging.IMGEditActivity;
+
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
@@ -47,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private Button _unitManageBtn;
     private Button _tempbtn;
     private Toolbar _toolbar;
+    //endregion
+
+    //region fields
+    private File _cameraCurrentFile;
     //endregion
 
     //endregion
@@ -118,17 +129,37 @@ public class MainActivity extends AppCompatActivity {
             }, null);
         });
 
-        _tempbtn.setOnClickListener(v -> {
-//                Intent intent = new Intent(MainActivity.this, QuestionDetailActivity.class);
-//                MainActivity.this.startActivity(intent);
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(intent, IntentRequests.REQUEST_IMAGE_GET);
+        _tempbtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
+            switch (which) {
+                case 0: {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        Snackbar.make(v, "App被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    try {
+                        File privateFile = AndroidHelper.createLocalImageFile(this);
+                        Uri fileUri = FileProvider.getUriForFile(MainActivity.this, MainActivity.this.getApplicationContext().getPackageName() + ".files", privateFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                        _cameraCurrentFile = privateFile;
+                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_GET);
+                    } catch (IOException e) {
+                        Snackbar.make(v, "App被玩坏了...异常:IOException在创建图像文件时抛出", Snackbar.LENGTH_LONG).show();
+                    }
+                    break;
+                }
+                case 1: {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_GET);
+                    }
+                    break;
+                }
             }
-        });
+        }, null));
 
 
         _unitManageBtn.setOnClickListener(v -> {
@@ -150,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     .setMessage("单元名称:")
                     .setView(et).setNegativeButton("完成", (dialog, which) -> {
                         if (et.getText().toString().trim().isEmpty()) {
-                            new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定",null).setIcon(R.drawable.ic_warning_black_24dp).show();
+                            new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
                         ArrayList<LearningUnitInfo> lisf = LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
@@ -180,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //ignored
+
             }
         });
 
@@ -212,20 +244,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Intent接收事件
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case IntentRequests.REQUEST_IMAGE_GET:
-                if(resultCode != RESULT_OK) return;
-                Uri fullUri = data.getData();
-                Intent intent = new Intent(this,IMGEditActivity.class);
-                intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI,fullUri);
-                startActivityForResult(intent,IntentRequests.REQUEST_IMAGE_EDIT);
+        switch (requestCode) {
+            case IntentResults.REQUEST_IMAGE_CAMERA:
+                if (resultCode != RESULT_OK) return;
+                Intent intent = new Intent(this, IMGEditActivity.class);
+                intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_cameraCurrentFile));
+                startActivityForResult(intent, IntentResults.REQUEST_IMAGE_EDIT);
                 break;
-                case IntentRequests.REQUEST_IMAGE_EDIT:
+            case IntentResults.REQUEST_IMAGE_GET:
+                if (resultCode != RESULT_OK) return;
+                Uri currentUri = data.getData();
+                Intent intent1 = new Intent(this, IMGEditActivity.class);
+                intent1.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_cameraCurrentFile));
+                startActivityForResult(intent1, IntentResults.REQUEST_IMAGE_EDIT);
+                break;
+            case IntentResults.REQUEST_IMAGE_EDIT:
 
-                    break;
+                break;
         }
     }
 
@@ -249,8 +288,8 @@ public class MainActivity extends AppCompatActivity {
             luis = new ArrayList<>();
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(), item.computeCorrectRatio(), item.Name);
-            udiItem.RmClicked =  v -> notifyRmUnit(v,udiItem,item);
-            udiItem.ResetClicked = v -> notifyResetUnit(v,udiItem,item);
+            udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
+            udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
         }
         UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
@@ -258,14 +297,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void notifyUnitSaveError(View v){
+    void notifyUnitSaveError(View v) {
         Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
     }
 
-    void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi,LearningUnitInfo info){
+    void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
-        ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
             LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject()).remove(info);
             try {
                 LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
@@ -277,10 +316,10 @@ public class MainActivity extends AppCompatActivity {
         ad.show();
     }
 
-    void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi,LearningUnitInfo info){
+    void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udi.Title));
-        ad.setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
 
         });
         ad.show();

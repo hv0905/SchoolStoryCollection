@@ -401,7 +401,7 @@ public class IMGImage {
                 mDoodles.add(path);
                 break;
             case MOSAIC:
-                path.setWidth(path.getWidth() * scale);
+                path.setWidth(path.getWidth());
                 mMosaics.add(path);
                 break;
         }

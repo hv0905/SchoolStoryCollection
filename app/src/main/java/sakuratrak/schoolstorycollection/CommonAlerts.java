@@ -18,5 +18,9 @@ public final class CommonAlerts {
                 .setItems(R.array.learning_subjects, okListener).setNegativeButton(R.string.Cancel, cancelListener).show();
     }
 
+    public static AlertDialog AskPhoto(Context context, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener){
+        return new AlertDialog.Builder(context).setItems(R.array.photoProvidePath,okListener).setNegativeButton(R.string.cancel,cancelListener).show();
+    }
+
 
 }
