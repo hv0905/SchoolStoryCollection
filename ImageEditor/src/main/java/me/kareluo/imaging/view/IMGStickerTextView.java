@@ -37,7 +37,7 @@ public class IMGStickerTextView extends IMGStickerView implements IMGTextEditDia
         this(context, attrs, 0);
     }
 
-    public IMGStickerTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    private IMGStickerTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

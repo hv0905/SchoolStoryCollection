@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class LearningUnitInfo implements Serializable {
-    public static final int NEEDMORE_MAX = 5;
+    public static final int NEED_MORE_MAX = 5;
 
     public String Name;
     public ArrayList<ExerciseLog> ExerciseLogs;
@@ -35,6 +35,6 @@ public class LearningUnitInfo implements Serializable {
     }
 
     public boolean getIfNeedMoreQuiz(){
-        return ExerciseLogs.size() < NEEDMORE_MAX;
+        return ExerciseLogs.size() < NEED_MORE_MAX;
     }
 }

@@ -34,19 +34,19 @@ public class IMGImage {
     /**
      * 完整图片边框
      */
-    private RectF mFrame = new RectF();
+    private final RectF mFrame = new RectF();
 
     /**
      * 裁剪图片边框（显示的图片区域）
      */
-    private RectF mClipFrame = new RectF();
+    private final RectF mClipFrame = new RectF();
 
-    private RectF mTempClipFrame = new RectF();
+    private final RectF mTempClipFrame = new RectF();
 
     /**
      * 裁剪模式前状态备份
      */
-    private RectF mBackupClipFrame = new RectF();
+    private final RectF mBackupClipFrame = new RectF();
 
     private float mBackupClipRotate = 0;
 
@@ -63,12 +63,12 @@ public class IMGImage {
 
     private boolean isSteady = true;
 
-    private Path mShade = new Path();
+    private final Path mShade = new Path();
 
     /**
      * 裁剪窗口
      */
-    private IMGClipWindow mClipWin = new IMGClipWindow();
+    private final IMGClipWindow mClipWin = new IMGClipWindow();
 
     private boolean isDrawClip = false;
 
@@ -77,12 +77,12 @@ public class IMGImage {
      */
     private IMGMode mMode = IMGMode.NONE;
 
-    private boolean isFreezing = mMode == IMGMode.CLIP;
+    private boolean isFreezing = false;
 
     /**
      * 可视区域，无Scroll 偏移区域
      */
-    private RectF mWindow = new RectF();
+    private final RectF mWindow = new RectF();
 
     /**
      * 是否初始位置
@@ -97,25 +97,27 @@ public class IMGImage {
     /**
      * 为被选中贴片
      */
-    private List<IMGSticker> mBackStickers = new ArrayList<>();
+    private final List<IMGSticker> mBackStickers = new ArrayList<>();
 
     /**
      * 涂鸦路径
      */
-    private List<IMGPath> mDoodles = new ArrayList<>();
+    private final List<IMGPath> mDoodles = new ArrayList<>();
 
     /**
      * 马赛克路径
      */
-    private List<IMGPath> mMosaics = new ArrayList<>();
+    private final List<IMGPath> mMosaics = new ArrayList<>();
 
     private static final int MIN_SIZE = 500;
 
     private static final int MAX_SIZE = 10000;
 
-    private Paint mPaint, mMosaicPaint, mShadePaint;
+    private final Paint mPaint;
+    private Paint mMosaicPaint;
+    private Paint mShadePaint;
 
-    private Matrix M = new Matrix();
+    private final Matrix M = new Matrix();
 
     private static final boolean DEBUG = false;
 
@@ -320,7 +322,7 @@ public class IMGImage {
         return mFrame;
     }
 
-    public boolean onClipHoming() {
+    private boolean onClipHoming() {
         return mClipWin.homing();
     }
 
@@ -629,10 +631,6 @@ public class IMGImage {
         mClipWin.setShowShade(true);
     }
 
-    public void onScaleBegin() {
-
-    }
-
     public IMGHoming onScroll(float scrollX, float scrollY, float dx, float dy) {
         if (mMode == IMGMode.CLIP) {
             mClipWin.setShowShade(false);
@@ -652,11 +650,11 @@ public class IMGImage {
         return null;
     }
 
-    public float getTargetRotate() {
+    private float getTargetRotate() {
         return mTargetRotate;
     }
 
-    public void setTargetRotate(float targetRotate) {
+    private void setTargetRotate(float targetRotate) {
         this.mTargetRotate = targetRotate;
     }
 
@@ -684,7 +682,7 @@ public class IMGImage {
         setScale(scale, mClipFrame.centerX(), mClipFrame.centerY());
     }
 
-    public void setScale(float scale, float focusX, float focusY) {
+    private void setScale(float scale, float focusX, float focusY) {
         onScale(scale / getScale(), focusX, focusY);
     }
 
@@ -701,12 +699,6 @@ public class IMGImage {
         M.mapRect(mFrame);
         M.mapRect(mClipFrame);
 
-        // 修正clip 窗口
-        if (!mFrame.contains(mClipFrame)) {
-            // TODO
-//            mClipFrame.intersect(mFrame);
-        }
-
         for (IMGSticker sticker : mBackStickers) {
             M.mapRect(sticker.getFrame());
             float tPivotX = sticker.getX() + sticker.getPivotX();
@@ -715,10 +707,6 @@ public class IMGImage {
             sticker.setX(sticker.getX() + sticker.getFrame().centerX() - tPivotX);
             sticker.setY(sticker.getY() + sticker.getFrame().centerY() - tPivotY);
         }
-    }
-
-    public void onScaleEnd() {
-
     }
 
     public void onHomingStart(boolean isRotate) {

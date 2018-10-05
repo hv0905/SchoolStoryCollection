@@ -15,15 +15,15 @@ public class IMGStickerAdjustHelper implements View.OnTouchListener {
 
     private static final String TAG = "IMGStickerAdjustHelper";
 
-    private View mView;
+    private final View mView;
 
-    private IMGStickerView mContainer;
+    private final IMGStickerView mContainer;
 
     private float mCenterX, mCenterY;
 
     private double mRadius, mDegrees;
 
-    private Matrix M = new Matrix();
+    private final Matrix M = new Matrix();
 
     public IMGStickerAdjustHelper(IMGStickerView container, View view) {
         mView = view;

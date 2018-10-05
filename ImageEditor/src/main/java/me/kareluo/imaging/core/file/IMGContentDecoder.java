@@ -26,7 +26,7 @@ public class IMGContentDecoder extends IMGDecoder {
     public Bitmap decode(BitmapFactory.Options options) {
         if(_resolver == null)
             return null;
-        InputStream is = null;
+        InputStream is;
         try {
             is = _resolver.openInputStream(getUri());
         } catch (FileNotFoundException e) {

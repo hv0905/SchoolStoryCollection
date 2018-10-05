@@ -18,24 +18,24 @@ public class IMGClipWindow implements IMGClip {
     /**
      * 裁剪区域
      */
-    private RectF mFrame = new RectF();
+    private final RectF mFrame = new RectF();
 
-    private RectF mBaseFrame = new RectF();
+    private final RectF mBaseFrame = new RectF();
 
-    private RectF mTargetFrame = new RectF();
+    private final RectF mTargetFrame = new RectF();
 
     /**
      * 裁剪窗口
      */
-    private RectF mWinFrame = new RectF();
+    private final RectF mWinFrame = new RectF();
 
-    private RectF mWin = new RectF();
+    private final RectF mWin = new RectF();
 
-    private float[] mCells = new float[16];
+    private final float[] mCells = new float[16];
 
-    private float[] mCorners = new float[32];
+    private final float[] mCorners = new float[32];
 
-    private float[][] mBaseSizes = new float[2][4];
+    private final float[][] mBaseSizes = new float[2][4];
 
     /**
      * 是否在裁剪中
@@ -48,11 +48,11 @@ public class IMGClipWindow implements IMGClip {
 
     private boolean isHoming = false;
 
-    private Matrix M = new Matrix();
+    private final Matrix M = new Matrix();
 
-    private Path mShadePath = new Path();
+    private final Path mShadePath = new Path();
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     /**
      * 垂直窗口比例

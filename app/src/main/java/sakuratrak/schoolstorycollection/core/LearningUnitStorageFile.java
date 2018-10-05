@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public final class LearningUnitStorageFile implements Serializable {
-    public static final String INTERNAL_FILE_NAME = "units.db";
-    static LearningUnitStorageFile _default;
+    private static final String INTERNAL_FILE_NAME = "units.db";
+    private static LearningUnitStorageFile _default;
 
-    HashMap<LearningSubject,ArrayList<LearningUnitInfo>> _values;
+    private HashMap<LearningSubject,ArrayList<LearningUnitInfo>> _values;
 
     public LearningUnitStorageFile(){
         _values = new HashMap<>();

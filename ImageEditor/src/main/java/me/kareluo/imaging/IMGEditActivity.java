@@ -1,6 +1,5 @@
 package me.kareluo.imaging;
 
-import android.content.ContentProvider;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,7 +17,6 @@ import me.kareluo.imaging.core.util.IMGUtils;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by felix on 2017/11/14 下午2:26.
@@ -32,12 +30,7 @@ public class IMGEditActivity extends IMGEditBaseActivity {
 
     public static final String EXTRA_IMAGE_URI = "IMAGE_URI";
 
-    public static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
-
-    @Override
-    public void onCreated() {
-
-    }
+    private static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
 
     @Override
     public Bitmap getBitmap() {

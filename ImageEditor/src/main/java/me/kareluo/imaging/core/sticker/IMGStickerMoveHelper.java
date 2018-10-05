@@ -12,7 +12,7 @@ public class IMGStickerMoveHelper {
 
     private static final String TAG = "IMGStickerMoveHelper";
 
-    private View mView;
+    private final View mView;
 
     private float mX, mY;
 

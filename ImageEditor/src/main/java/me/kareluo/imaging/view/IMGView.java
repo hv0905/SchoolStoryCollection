@@ -42,7 +42,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
 
     private IMGMode mPreMode = IMGMode.NONE;
 
-    private IMGImage mImage = new IMGImage();
+    private final IMGImage mImage = new IMGImage();
 
     private GestureDetector mGDetector;
 
@@ -50,13 +50,13 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
 
     private IMGHomingAnimator mHomingAnimator;
 
-    private Pen mPen = new Pen();
+    private final Pen mPen = new Pen();
 
     private int mPointerCount = 0;
 
-    private Paint mDoodlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mDoodlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    private Paint mMosaicPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mMosaicPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private static final boolean DEBUG = true;
 
@@ -86,7 +86,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         this(context, attrs, 0);
     }
 
-    public IMGView(Context context, AttributeSet attrs, int defStyleAttr) {
+    private IMGView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context);
     }
@@ -117,7 +117,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
     /**
      * 是否真正修正归位
      */
-    boolean isHoming() {
+    private boolean isHoming() {
         return mHomingAnimator != null
                 && mHomingAnimator.isRunning();
     }
@@ -301,7 +301,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         }
     }
 
-    public <V extends View & IMGSticker> void addStickerView(V stickerView, LayoutParams params) {
+    private <V extends View & IMGSticker> void addStickerView(V stickerView, LayoutParams params) {
         if (stickerView != null) {
 
             addView(stickerView, params);
@@ -338,14 +338,11 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         return super.onInterceptTouchEvent(ev);
     }
 
-    boolean onInterceptTouch(MotionEvent event) {
+    private boolean onInterceptTouch(MotionEvent event) {
         if (isHoming()) {
             stopHoming();
             return true;
-        } else if (mImage.getMode() == IMGMode.CLIP) {
-            return true;
-        }
-        return false;
+        } else return mImage.getMode() == IMGMode.CLIP;
     }
 
     @Override
@@ -362,7 +359,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         return onTouch(event);
     }
 
-    boolean onTouch(MotionEvent event) {
+    private boolean onTouch(MotionEvent event) {
 
         if (isHoming()) {
             // Homing
@@ -406,7 +403,8 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
     private boolean onTouchPath(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                return onPathBegin(event);
+                onPathBegin(event);
+                return true;
             case MotionEvent.ACTION_MOVE:
                 return onPathMove(event);
             case MotionEvent.ACTION_UP:
@@ -416,10 +414,9 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         return false;
     }
 
-    private boolean onPathBegin(MotionEvent event) {
+    private void onPathBegin(MotionEvent event) {
         mPen.reset(event.getX(), event.getY());
         mPen.setIdentity(event.getPointerId(0));
-        return true;
     }
 
     private boolean onPathMove(MotionEvent event) {
@@ -449,7 +446,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
         }
     }
 
-    boolean onSteady() {
+    private boolean onSteady() {
         if (DEBUG) {
             Log.d(TAG, "onSteady: isHoming=" + isHoming());
         }
@@ -482,16 +479,12 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        if (mPointerCount > 1) {
-            mImage.onScaleBegin();
-            return true;
-        }
-        return false;
+        return mPointerCount > 1;
     }
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        mImage.onScaleEnd();
+
     }
 
     @Override
@@ -594,11 +587,6 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
             return IMGView.this.onScroll(distanceX, distanceY);
         }
 
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            // TODO
-            return super.onFling(e1, e2, velocityX, velocityY);
-        }
     }
 
     private static class Pen extends IMGPath {

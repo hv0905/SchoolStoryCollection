@@ -72,7 +72,7 @@ public interface IMGClip {
         LEFT_BOTTOM(9),
         RIGHT_BOTTOM(10);
 
-        int v;
+        final int v;
 
         /**
          * LEFT: 0
@@ -91,7 +91,7 @@ public interface IMGClip {
             this.v = v;
         }
 
-        public void move(RectF win, RectF frame, float dx, float dy) {
+        protected void move(RectF win, RectF frame, float dx, float dy) {
             float[] maxFrame = cohesion(win, CLIP_MARGIN);
             float[] minFrame = cohesion(frame, CLIP_FRAME_MIN);
             float[] theFrame = cohesion(frame, 0);
@@ -110,23 +110,23 @@ public interface IMGClip {
             frame.set(theFrame[0], theFrame[2], theFrame[1], theFrame[3]);
         }
 
-        public static float revise(float v, float min, float max) {
+        protected static float revise(float v, float min, float max) {
             return Math.min(Math.max(v, min), max);
         }
 
-        public static float[] cohesion(RectF win, float v) {
+        protected static float[] cohesion(RectF win, float v) {
             return new float[]{
                     win.left + v, win.right - v,
                     win.top + v, win.bottom - v
             };
         }
 
-        public static boolean isCohesionContains(RectF frame, float v, float x, float y) {
+        protected static boolean isCohesionContains(RectF frame, float v, float x, float y) {
             return frame.left + v < x && frame.right - v > x
                     && frame.top + v < y && frame.bottom - v > y;
         }
 
-        public static Anchor valueOf(int v) {
+        protected static Anchor valueOf(int v) {
             Anchor[] values = values();
             for (Anchor anchor : values) {
                 if (anchor.v == v) {

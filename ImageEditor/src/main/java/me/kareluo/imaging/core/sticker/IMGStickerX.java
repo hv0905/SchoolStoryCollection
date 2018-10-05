@@ -19,7 +19,7 @@ public class IMGStickerX {
 
     private float mX = 0f, mY = 0f;
 
-    protected float[] mPivotXY = {0, 0};
+    private final float[] mPivotXY = {0, 0};
 
     private StickerEvent mTouchEvent;
 
@@ -29,17 +29,17 @@ public class IMGStickerX {
      * isActivated 为true时，其坐标相对于屏幕左上角
      * isActivated 为false时，其坐标相对Image，切为单位坐标
      */
-    protected RectF mFrame = new RectF();
+    protected final RectF mFrame = new RectF();
 
-    private RectF mRemoveFrame = new RectF();
+    private final RectF mRemoveFrame = new RectF();
 
-    private RectF mAdjustFrame = new RectF();
+    private final RectF mAdjustFrame = new RectF();
 
     private final static float SIZE_ANCHOR = 60;
 
     private final static float STROKE_FRAME = 6f;
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     {
         mPaint.setColor(Color.RED);
@@ -60,7 +60,7 @@ public class IMGStickerX {
 
     }
 
-    public void onMeasure(float width, float height) {
+    protected void onMeasure(float width, float height) {
         mFrame.set(0, 0, width, height);
         mFrame.offset(mPivotXY[0] - mFrame.centerX(), mPivotXY[1] - mFrame.centerY());
     }
@@ -105,7 +105,7 @@ public class IMGStickerX {
         mBaseRotate = baseRotate;
     }
 
-    public void offset(float dx, float dy) {
+    private void offset(float dx, float dy) {
         mPivotXY[0] += dx;
         mPivotXY[1] += dy;
         mFrame.offset(mPivotXY[0] - mFrame.centerX(), mPivotXY[1] - mFrame.centerY());
@@ -159,11 +159,11 @@ public class IMGStickerX {
         mTouchEvent = touchEvent;
     }
 
-    public boolean isInsideRemove(float x, float y) {
+    private boolean isInsideRemove(float x, float y) {
         return mRemoveFrame.contains(x - mFrame.left, y - mFrame.top);
     }
 
-    public boolean isInsideAdjust(float x, float y) {
+    private boolean isInsideAdjust(float x, float y) {
         return mAdjustFrame.contains(
                 x - mFrame.right + mAdjustFrame.width(),
                 y - mFrame.bottom + mAdjustFrame.height()

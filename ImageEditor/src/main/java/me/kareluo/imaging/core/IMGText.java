@@ -1,6 +1,5 @@
 package me.kareluo.imaging.core;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 
 /**
@@ -11,7 +10,7 @@ public class IMGText {
 
     private String text;
 
-    private int color = Color.WHITE;
+    private int color;
 
     public IMGText(String text, int color) {
         this.text = text;

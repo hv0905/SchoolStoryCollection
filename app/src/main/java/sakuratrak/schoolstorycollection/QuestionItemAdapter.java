@@ -42,9 +42,9 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
     public static class Holder extends RecyclerView.ViewHolder
     {
         private View _root;
-        public TextView title;
+        protected TextView title;
 
-        public Holder(View rootView){
+        protected Holder(View rootView){
             super(rootView);
             _root = rootView;
             title = _root.findViewById(R.id.layout_questionlistdisplay_title);

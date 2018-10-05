@@ -29,7 +29,7 @@ public class IMGUtils {
         fitCenter(win, frame, padding, padding, padding, padding);
     }
 
-    public static void fitCenter(RectF win, RectF frame, float paddingLeft, float paddingTop, float paddingRight, float paddingBottom) {
+    private static void fitCenter(RectF win, RectF frame, float paddingLeft, float paddingTop, float paddingRight, float paddingBottom) {
         if (win.isEmpty() || frame.isEmpty()) {
             return;
         }

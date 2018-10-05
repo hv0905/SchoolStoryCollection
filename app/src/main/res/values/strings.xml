@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">SchoolStoryCollection</string>
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
     <string name="title_settings">设定</string>
@@ -51,20 +50,6 @@
         <item>-1</item>
     </string-array>
 
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
@@ -79,27 +64,12 @@
 
 
     <string name="title_activity_question_detail">错题详情</string>
-    <string name="action_settings">设置</string>
-    <string name="SingleChoice">单选题</string>
-    <string name="MultiChoice">多选题</string>
-    <string name="BlankFill">填空题</string>
-    <string name="answerable">解答题</string>
     <string name="ChoseQuestionType">选择题目类型</string>
     <string name="ChoseSubject">选择科目</string>
-    <string name="SubjectChinese">语文</string>
-    <string name="SubjectMath">数学</string>
-    <string name="SubjectEnglish">英语</string>
-    <string name="SubjectPhysics">物理</string>
-    <string name="SubjectChemistry">化学</string>
-    <string name="SubjectBiology">生物</string>
-    <string name="SubjectPolitics">政治</string>
-    <string name="SubjectHistory">历史</string>
-    <string name="SubjectGeo">地理</string>
     <string name="title_activity_learning_unit_manage">管理单元</string>
     <string name="Cancel">取消</string>
     <string name="AppNameCn">错题本Story</string>
     <string name="unitCompute">单元与统计</string>
-    <string name="TypeableBlink">可输入的填空题</string>
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>

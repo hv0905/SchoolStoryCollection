@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.RadioButton;
 
 import me.kareluo.imaging.R;
 
@@ -16,7 +15,7 @@ import me.kareluo.imaging.R;
  * Created by felix on 2017/12/1 下午2:50.
  */
 
-public class IMGColorRadio extends RadioButton implements ValueAnimator.AnimatorUpdateListener {
+public class IMGColorRadio extends android.support.v7.widget.AppCompatRadioButton implements ValueAnimator.AnimatorUpdateListener {
 
     private static final String TAG = "IMGColorRadio";
 
@@ -28,7 +27,7 @@ public class IMGColorRadio extends RadioButton implements ValueAnimator.Animator
 
     private ValueAnimator mAnimator;
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private static final float RADIUS_BASE = 0.6f;
 
@@ -45,7 +44,7 @@ public class IMGColorRadio extends RadioButton implements ValueAnimator.Animator
         initialize(context, attrs, 0);
     }
 
-    public IMGColorRadio(Context context, AttributeSet attrs, int defStyleAttr) {
+    private IMGColorRadio(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialize(context, attrs, defStyleAttr);
     }

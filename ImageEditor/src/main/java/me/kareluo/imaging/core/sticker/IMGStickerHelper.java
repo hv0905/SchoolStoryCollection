@@ -14,7 +14,7 @@ public class IMGStickerHelper<StickerView extends View & IMGSticker> implements
 
     private RectF mFrame;
 
-    private StickerView mView;
+    private final StickerView mView;
 
     private Callback mCallback;
 

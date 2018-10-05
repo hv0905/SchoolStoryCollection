@@ -12,11 +12,11 @@ public abstract class IMGDecoder {
 
     private Uri uri;
 
-    public IMGDecoder(Uri uri) {
+    protected IMGDecoder(Uri uri) {
         this.uri = uri;
     }
 
-    public Uri getUri() {
+    protected Uri getUri() {
         return uri;
     }
 

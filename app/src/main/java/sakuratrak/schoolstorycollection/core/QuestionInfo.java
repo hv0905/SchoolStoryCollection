@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public final class QuestionInfo implements Serializable {
 
-    public String Title;
-    public LearningSubject Subject;
-    public QuestionType Type;
+    private String Title;
+    private LearningSubject Subject;
+    private QuestionType Type;
     public UUID MainImageId;
     public UUID AnswerImageId;
     public UUID AnalysisImageId;

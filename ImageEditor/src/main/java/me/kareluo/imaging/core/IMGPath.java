@@ -24,19 +24,19 @@ public class IMGPath {
 
     public static final float BASE_MOSAIC_WIDTH = 48f;
 
-    public IMGPath() {
+    protected IMGPath() {
         this(new Path());
     }
 
-    public IMGPath(Path path) {
+    private IMGPath(Path path) {
         this(path, IMGMode.DOODLE);
     }
 
-    public IMGPath(Path path, IMGMode mode) {
+    private IMGPath(Path path, IMGMode mode) {
         this(path, mode, Color.RED);
     }
 
-    public IMGPath(Path path, IMGMode mode, int color) {
+    private IMGPath(Path path, IMGMode mode, int color) {
         this(path, mode, color, BASE_MOSAIC_WIDTH);
     }
 

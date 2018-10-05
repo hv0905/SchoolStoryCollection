@@ -33,15 +33,15 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
 
     private ViewSwitcher mOpSwitcher, mOpSubSwitcher;
 
-    public static final int OP_HIDE = -1;
+    private static final int OP_HIDE = -1;
 
-    public static final int OP_NORMAL = 0;
+    protected static final int OP_NORMAL = 0;
 
-    public static final int OP_CLIP = 1;
+    protected static final int OP_CLIP = 1;
 
-    public static final int OP_SUB_DOODLE = 0;
+    private static final int OP_SUB_DOODLE = 0;
 
-    public static final int OP_SUB_MOSAIC = 1;
+    private static final int OP_SUB_MOSAIC = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +51,7 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
             setContentView(R.layout.image_edit_activity);
             initViews();
             mImgView.setImageBitmap(bitmap);
-            onCreated();
         } else finish();
-    }
-
-    public void onCreated() {
-
     }
 
     private void initViews() {
@@ -100,7 +95,7 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
         }
     }
 
-    public void updateModeUI() {
+    protected void updateModeUI() {
         IMGMode mode = mImgView.getMode();
         switch (mode) {
             case DOODLE:
@@ -118,7 +113,7 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
         }
     }
 
-    public void onTextModeClick() {
+    private void onTextModeClick() {
         if (mTextDialog == null) {
             mTextDialog = new IMGTextEditDialog(this, this);
             mTextDialog.setOnShowListener(this);
@@ -132,13 +127,13 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
         onColorChanged(mColorGroup.getCheckColor());
     }
 
-    public void setOpDisplay(int op) {
+    protected void setOpDisplay(int op) {
         if (op >= 0) {
             mOpSwitcher.setDisplayedChild(op);
         }
     }
 
-    public void setOpSubDisplay(int opSub) {
+    private void setOpSubDisplay(int opSub) {
         if (opSub < 0) {
             mLayoutOpSub.setVisibility(View.GONE);
         } else {
@@ -157,25 +152,25 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
         mOpSwitcher.setVisibility(View.VISIBLE);
     }
 
-    public abstract Bitmap getBitmap();
+    protected abstract Bitmap getBitmap();
 
-    public abstract void onModeClick(IMGMode mode);
+    protected abstract void onModeClick(IMGMode mode);
 
-    public abstract void onUndoClick();
+    protected abstract void onUndoClick();
 
-    public abstract void onCancelClick();
+    protected abstract void onCancelClick();
 
-    public abstract void onDoneClick();
+    protected abstract void onDoneClick();
 
-    public abstract void onCancelClipClick();
+    protected abstract void onCancelClipClick();
 
-    public abstract void onDoneClipClick();
+    protected abstract void onDoneClipClick();
 
-    public abstract void onResetClipClick();
+    protected abstract void onResetClipClick();
 
-    public abstract void onRotateClipClick();
+    protected abstract void onRotateClipClick();
 
-    public abstract void onColorChanged(int checkedColor);
+    protected abstract void onColorChanged(int checkedColor);
 
     @Override
     public abstract void onText(IMGText text);

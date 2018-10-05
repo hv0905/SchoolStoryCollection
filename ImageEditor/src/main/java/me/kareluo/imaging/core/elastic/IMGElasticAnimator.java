@@ -12,7 +12,7 @@ public class IMGElasticAnimator extends ValueAnimator {
 
     private IMGElastic mElastic;
 
-    public IMGElasticAnimator() {
+    private IMGElasticAnimator() {
         setEvaluator(new IMGPointFEvaluator());
         setInterpolator(new AccelerateDecelerateInterpolator());
     }
@@ -22,7 +22,7 @@ public class IMGElasticAnimator extends ValueAnimator {
         setElastic(elastic);
     }
 
-    public void setElastic(IMGElastic elastic) {
+    private void setElastic(IMGElastic elastic) {
         mElastic = elastic;
 
         if (mElastic == null) {

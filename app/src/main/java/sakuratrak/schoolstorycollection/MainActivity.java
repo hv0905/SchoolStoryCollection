@@ -29,6 +29,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import me.kareluo.imaging.IMGEditActivity;
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         Uri fileUri = FileProvider.getUriForFile(MainActivity.this, MainActivity.this.getApplicationContext().getPackageName() + ".files", privateFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                         _cameraCurrentFile = privateFile;
-                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_GET);
+                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_CAMERA);
                     } catch (IOException e) {
                         Snackbar.make(v, "App被玩坏了...异常:IOException在创建图像文件时抛出", Snackbar.LENGTH_LONG).show();
                     }
@@ -184,10 +185,10 @@ public class MainActivity extends AppCompatActivity {
                             new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
-                        ArrayList<LearningUnitInfo> lisf = LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
-                        if (lisf == null) lisf = new ArrayList<>();
-                        lisf.add(new LearningUnitInfo(et.getText().toString().trim()));
-                        LearningUnitStorageFile.getDefault().setUnits(getCurrectSubject(), lisf);
+                        ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject());
+                        if (list == null) list = new ArrayList<>();
+                        list.add(new LearningUnitInfo(et.getText().toString().trim()));
+                        LearningUnitStorageFile.getDefault().setUnits(getCurrentSubject(), list);
                         refreshUnit();
                         try {
                             LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
@@ -225,15 +226,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
         subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
 
-        ArrayList<String> lstr = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            lstr.add(String.format("item %d", i));
-        }
 
         _subjectSpinner.setAdapter(subjectDropdown);
 
-        QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
-        _itemList.setAdapter(qia);
+        //QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
+        //_itemList.setAdapter(qia);
         refreshUnit();
 
 
@@ -258,8 +255,9 @@ public class MainActivity extends AppCompatActivity {
             case IntentResults.REQUEST_IMAGE_GET:
                 if (resultCode != RESULT_OK) return;
                 Uri currentUri = data.getData();
+                if(currentUri == null) return;
                 Intent intent1 = new Intent(this, IMGEditActivity.class);
-                intent1.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_cameraCurrentFile));
+                intent1.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, currentUri);
                 startActivityForResult(intent1, IntentResults.REQUEST_IMAGE_EDIT);
                 break;
             case IntentResults.REQUEST_IMAGE_EDIT:
@@ -269,12 +267,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //从顶部组合框中获取目前选中的科目
-    public LearningSubject getCurrectSubject() {
+    public LearningSubject getCurrentSubject() {
         return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
     }
 
     //载入单元与统计列表
-    public void refreshUnit() {
+    private void refreshUnit() {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
         if (!LearningUnitStorageFile.defaultLoaded()) {
             LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
@@ -283,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             }
             LearningUnitStorageFile.setDefault(defaults);
         }
-        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject());
+        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject());
         if (luis == null)
             luis = new ArrayList<>();
         for (LearningUnitInfo item : luis) {
@@ -297,15 +295,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void notifyUnitSaveError(View v) {
+    private void notifyUnitSaveError(View v) {
         Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
     }
 
-    void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
+    private void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
         ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-            LearningUnitStorageFile.getDefault().getUnits(getCurrectSubject()).remove(info);
+            Objects.requireNonNull(LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject())).remove(info);
             try {
                 LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
             } catch (IOException e) {
@@ -316,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
         ad.show();
     }
 
-    void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
+    private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udi.Title));
         ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {

@@ -15,7 +15,7 @@ public class IMG {
 
     }
 
-    public static class Config {
+    private static class Config {
 
         private boolean isSave;
 

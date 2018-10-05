@@ -43,13 +43,13 @@ public abstract class IMGStickerView extends ViewGroup implements IMGSticker, Vi
 
     private float mMaxScaleValue = MAX_SCALE_VALUE;
 
-    private Paint PAINT;
+    private final Paint PAINT;
 
-    private Matrix mMatrix = new Matrix();
+    private final Matrix mMatrix = new Matrix();
 
-    private RectF mFrame = new RectF();
+    private final RectF mFrame = new RectF();
 
-    private Rect mTempFrame = new Rect();
+    private final Rect mTempFrame = new Rect();
 
     private static final float MAX_SCALE_VALUE = 4f;
 
@@ -66,20 +66,20 @@ public abstract class IMGStickerView extends ViewGroup implements IMGSticker, Vi
         PAINT.setStrokeWidth(STROKE_WIDTH);
     }
 
-    public IMGStickerView(Context context) {
+    protected IMGStickerView(Context context) {
         this(context, null, 0);
     }
 
-    public IMGStickerView(Context context, AttributeSet attrs) {
+    protected IMGStickerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IMGStickerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    protected IMGStickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         onInitialize(context);
     }
 
-    public void onInitialize(Context context) {
+    protected void onInitialize(Context context) {
         setBackgroundColor(Color.TRANSPARENT);
 
         mContentView = onCreateContentView(context);
@@ -102,7 +102,7 @@ public abstract class IMGStickerView extends ViewGroup implements IMGSticker, Vi
         mMoveHelper = new IMGStickerMoveHelper(this);
     }
 
-    public abstract View onCreateContentView(Context context);
+    protected abstract View onCreateContentView(Context context);
 
     @Override
     public float getScale() {
@@ -249,11 +249,11 @@ public abstract class IMGStickerView extends ViewGroup implements IMGSticker, Vi
         }
     }
 
-    public void onRemove() {
+    private void onRemove() {
         mStickerHelper.remove();
     }
 
-    public void onContentTap() {
+    protected void onContentTap() {
 
     }
 

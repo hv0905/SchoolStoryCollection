@@ -10,7 +10,7 @@ public class IMGElastic {
 
     private float width, height;
 
-    private PointF pivot = new PointF();
+    private final PointF pivot = new PointF();
 
     public IMGElastic() {
 

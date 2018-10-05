@@ -15,7 +15,7 @@ import java.io.InputStream;
 
 public class IMGAssetFileDecoder extends IMGDecoder {
 
-    private Context mContext;
+    private final Context mContext;
 
     public IMGAssetFileDecoder(Context context, Uri uri) {
         super(uri);

@@ -25,7 +25,7 @@ public class IMGTextEditDialog extends Dialog implements View.OnClickListener,
 
     private EditText mEditText;
 
-    private Callback mCallback;
+    private final Callback mCallback;
 
     private IMGText mDefaultText;
 
