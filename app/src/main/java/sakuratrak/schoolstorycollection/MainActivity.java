@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     })
-                    .setPositiveButton("取消", (dialog, which) -> dialog.dismiss());
+                    .setPositiveButton("取消",null);
 
             ab.show();
         });

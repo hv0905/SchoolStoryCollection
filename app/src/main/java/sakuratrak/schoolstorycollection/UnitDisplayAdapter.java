@@ -31,6 +31,11 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
         viewHolder._resetBtn.setOnClickListener(udi.ResetClicked);
         viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
+        if(udi.requireMoreRecord){
+            viewHolder._warningTxt.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }else{
+            viewHolder._warningTxt.setHeight(0);
+        }
     }
 
     @Override
