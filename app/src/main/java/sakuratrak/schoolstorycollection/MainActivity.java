@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //endregion
 
+        if (!LearningUnitStorageFile.defaultLoaded()) {
+            LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
+            if (defaults == null) {
+                defaults = new LearningUnitStorageFile();
+            }
+            LearningUnitStorageFile.setDefault(defaults);
+        }
 
         //region get UI elements
         _mTextMessage = findViewById(R.id.message);
@@ -133,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         _tempbtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
             switch (which) {
                 case 0: {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    if (!PermissionAdmin.get(this,Manifest.permission.CAMERA)) {
                         Snackbar.make(v, "App被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
                         return;
                     }
@@ -166,13 +174,14 @@ public class MainActivity extends AppCompatActivity {
         _unitManageBtn.setOnClickListener(v -> {
             //选择科目
             CommonAlerts.AskSubjectType(MainActivity.this, (dialog, which) -> {
-                dialog.dismiss();
-                //继续
                 LearningSubject sub = LearningSubject.id2Obj(which);
-                Intent in = new Intent(MainActivity.this, LearningUnitManageActivity.class);
+                Intent in = new Intent(MainActivity.this, LearningUnitChoosingActivity.class);
                 in.putExtra("subject", sub);
-                MainActivity.this.startActivity(in);
-            }, (dialog, which) -> dialog.dismiss());
+                startActivity(in);
+            }, null);
+//            Intent intent = new Intent(this,SettingsActivity.class);
+//            startActivity(intent);
+
         });
 
 
@@ -185,8 +194,7 @@ public class MainActivity extends AppCompatActivity {
                             new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
-                        ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject());
-                        if (list == null) list = new ArrayList<>();
+                        ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
                         list.add(new LearningUnitInfo(et.getText().toString().trim()));
                         LearningUnitStorageFile.getDefault().setUnits(getCurrentSubject(), list);
                         refreshUnit();
@@ -229,15 +237,10 @@ public class MainActivity extends AppCompatActivity {
 
         _subjectSpinner.setAdapter(subjectDropdown);
 
-        //QuestionItemAdapter qia = new QuestionItemAdapter(lstr);
-        //_itemList.setAdapter(qia);
         refreshUnit();
 
 
         //endregion
-
-
-//        _unitList.setAdapter(uda);
 
     }
 
@@ -274,16 +277,7 @@ public class MainActivity extends AppCompatActivity {
     //载入单元与统计列表
     private void refreshUnit() {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
-        if (!LearningUnitStorageFile.defaultLoaded()) {
-            LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
-            if (defaults == null) {
-                defaults = new LearningUnitStorageFile();
-            }
-            LearningUnitStorageFile.setDefault(defaults);
-        }
-        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject());
-        if (luis == null)
-            luis = new ArrayList<>();
+        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(), item.computeCorrectRatio(), item.Name);
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
@@ -302,8 +296,8 @@ public class MainActivity extends AppCompatActivity {
     private void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
-        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-            Objects.requireNonNull(LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject())).remove(info);
+        ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
+            LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject()).remove(info);
             try {
                 LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
             } catch (IOException e) {
@@ -317,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udi.Title));
-        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
+        ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
 
         });
         ad.show();

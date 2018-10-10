@@ -3,6 +3,7 @@ package sakuratrak.schoolstorycollection.core;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,13 +35,22 @@ public final class LearningUnitStorageFile implements Serializable {
         _default = value;
     }
 
-
-    public ArrayList<LearningUnitInfo> getUnits(LearningSubject subject){
+    @Nullable
+    public ArrayList<LearningUnitInfo> getUnits(@NonNull LearningSubject subject){
         if(_values.containsKey(subject)){
             return _values.get(subject);
         }else{
             return null;
         }
+    }
+
+    @NonNull
+    public ArrayList<LearningUnitInfo> getUnitsOrNew(@NonNull LearningSubject subject){
+        ArrayList<LearningUnitInfo> unit =getUnits(subject);
+        if(unit == null){
+            return new ArrayList<>();
+        }
+        return unit;
     }
 
     public void setUnits(LearningSubject subject,ArrayList<LearningUnitInfo> obj){
@@ -61,7 +72,6 @@ public final class LearningUnitStorageFile implements Serializable {
         }catch (IOException | ClassNotFoundException io){
             return null;
         }
-
     }
 
     public void saveToInternalStorage(@NonNull Activity activity) throws IOException {

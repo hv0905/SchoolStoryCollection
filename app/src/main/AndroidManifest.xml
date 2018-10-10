@@ -49,7 +49,7 @@
             android:label="@string/title_activity_question_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LearningUnitManageActivity"
+            android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_manage"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".LearningUnitManageActivity"
+    tools:context=".LearningUnitChoosingActivity"
     tools:showIn="@layout/activity_learning_unit_manage">
 
     <ListView
+        android:id="@+id/listMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </ListView>
 
 
