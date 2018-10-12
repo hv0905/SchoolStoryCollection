@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -78,8 +79,11 @@ public final class LearningUnitStorageFile implements Serializable {
         FileOutputStream fos = activity.openFileOutput(INTERNAL_FILE_NAME,Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this);
+        oos.flush();
         oos.close();
+        fos.flush();
         fos.close();
+        Toast.makeText(activity, "Unit storage saved.", Toast.LENGTH_SHORT).show();
     }
 
 //    public static LearningUnitStorageFile readFromFile(Uri location){

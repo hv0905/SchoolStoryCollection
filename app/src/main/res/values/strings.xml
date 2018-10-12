@@ -73,7 +73,7 @@
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>
-    <string name="correctRatio">正确率%</string>
+    <string name="correctRatio">正确率</string>
     <string name="quizTime">小测次数</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
@@ -82,6 +82,8 @@
     <string name="confirmRm_msg">%s 将永久失去(真的很久!)!</string>
     <string name="confirmRm_title">删除确认</string>
     <string name="failSaveUnitError">错误:无法保存单元文件</string>
+    <string name="questionCount">错题数量</string>
+    <string name="QuestionRatio">错题占比(不包含已归档的错题)</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

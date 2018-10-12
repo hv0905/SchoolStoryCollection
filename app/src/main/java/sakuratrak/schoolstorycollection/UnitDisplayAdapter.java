@@ -31,6 +31,9 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
         viewHolder._resetBtn.setOnClickListener(udi.ResetClicked);
         viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
+        viewHolder._valQuestionCount.setText("10");
+        viewHolder._valQuestionRatio.setText("50%");
+
         if(udi.requireMoreRecord){
             viewHolder._warningTxt.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }else{
@@ -57,6 +60,8 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         private ProgressBar _currectRatioBar;
         private TextView _valQuizCount;
         private TextView _warningTxt;
+        private TextView _valQuestionCount;
+        private TextView _valQuestionRatio;
 
 
         private Holder(View rootView){
@@ -69,6 +74,8 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             _currectRatioBar = _root.findViewById(R.id.correctRatioBar);
             _valQuizCount = _root.findViewById(R.id.valQuizCount);
             _warningTxt = _root.findViewById(R.id.warningTxt);
+            _valQuestionCount = _root.findViewById(R.id.valQuestionCount);
+            _valQuestionRatio = _root.findViewById(R.id.valQuestionRatio);
         }
 
     }
