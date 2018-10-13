@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+
             app:popupTheme="@style/AppTheme.PopupOverlay" >
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -37,14 +38,13 @@
                 app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="parent"
                 />
-            <android.support.v7.widget.AppCompatSpinner
+            <Spinner
                 android:id="@+id/subjectSpinner"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                app:layout_constraintRight_toRightOf="parent"
-                >
 
-            </android.support.v7.widget.AppCompatSpinner>
+                app:layout_constraintRight_toRightOf="parent"/>
+
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.Toolbar>

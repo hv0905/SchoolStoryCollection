@@ -47,7 +47,7 @@ public final class LearningUnitStorageFile implements Serializable {
 
     @NonNull
     public ArrayList<LearningUnitInfo> getUnitsOrNew(@NonNull LearningSubject subject){
-        ArrayList<LearningUnitInfo> unit =getUnits(subject);
+        ArrayList<LearningUnitInfo> unit = getUnits(subject);
         if(unit == null){
             return new ArrayList<>();
         }
