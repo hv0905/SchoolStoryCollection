@@ -8,6 +8,7 @@ public class LearningUnitInfo implements Serializable {
 
     public String Name;
     public ArrayList<ExerciseLog> ExerciseLogs;
+    public ArrayList<QuestionInfo> Questions;
 
     public LearningUnitInfo(){
 

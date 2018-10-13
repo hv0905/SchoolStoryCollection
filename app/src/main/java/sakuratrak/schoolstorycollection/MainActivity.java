@@ -17,11 +17,14 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView _unitList;
     private FloatingActionButton _addItemBtn;
     private FloatingActionButton _addUnitBtn;
-    private AppCompatSpinner _subjectSpinner;
+    private Spinner _subjectSpinner;
     private ConstraintLayout _workbookLayout;
     private ConstraintLayout _quizLayout;
     private ConstraintLayout _unitLayout;
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private Button _unitManageBtn;
     private Button _tempBtn;
     private Toolbar _toolbar;
+
+    private MenuItem _filterMenu;
     //endregion
 
     //region fields
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         _settingLayout = findViewById(R.id.settingLayout);
         _tempBtn = findViewById(R.id.tempbtn);
         _unitManageBtn = findViewById(R.id.main_settings_unitManageBtn);
-        _subjectSpinner = findViewById(R.id.subjectSpinner);
+        //_subjectSpinner = findViewById(R.id.subjectSpinner);
         _toolbar = findViewById(R.id.toolbar);
         //endregion
 
@@ -105,19 +110,21 @@ public class MainActivity extends AppCompatActivity {
             _unitLayout.setVisibility(View.INVISIBLE);
             _settingLayout.setVisibility(View.INVISIBLE);
             _subjectSpinner.setVisibility(View.VISIBLE);
+            _filterMenu.setVisible(false);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     _workbookLayout.setVisibility(View.VISIBLE);
+                    _filterMenu.setVisible(true);
                     return true;
                 case R.id.navigation_dashboard:
                     _quizLayout.setVisibility(View.VISIBLE);
                     return true;
+                case R.id.navigation_unit:
+                    _unitLayout.setVisibility(View.VISIBLE);
+                    return true;
                 case R.id.navigation_settings:
                     _settingLayout.setVisibility(View.VISIBLE);
                     _subjectSpinner.setVisibility(View.INVISIBLE);
-                    return true;
-                case R.id.navigation_unit:
-                    _unitLayout.setVisibility(View.VISIBLE);
                     return true;
             }
             return false;
@@ -208,19 +215,7 @@ public class MainActivity extends AppCompatActivity {
             ab.show();
         });
 
-        _subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //load unit
-                refreshUnit();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //ignored
-
-            }
-        });
 
         //endregion
 
@@ -228,10 +223,6 @@ public class MainActivity extends AppCompatActivity {
         //region init recycler
         _itemList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         _unitList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
-        subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
-        _subjectSpinner.setAdapter(subjectDropdown);
 
         refreshUnit();
 
@@ -277,6 +268,9 @@ public class MainActivity extends AppCompatActivity {
 
     //从顶部组合框中获取目前选中的科目
     public LearningSubject getCurrentSubject() {
+        if(_subjectSpinner == null){
+            return LearningSubject.CHINESE;
+        }
         return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
     }
 
@@ -285,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
         ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.ExerciseLogs.size(), item.computeCorrectRatio(), item.Name);
+            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.Name, item.ExerciseLogs.size(), item.computeCorrectRatio(),item.ExerciseLogs.size(),50,item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -323,4 +317,40 @@ public class MainActivity extends AppCompatActivity {
         ad.show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_options,menu);
+        _subjectSpinner = (Spinner)menu.findItem(R.id.subjectSpinner).getActionView();
+        _filterMenu = menu.findItem(R.id.filter);
+        _subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //load unit
+                refreshUnit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //ignored
+
+            }
+        });
+
+        //set spinner adapter
+        ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
+        subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
+        _subjectSpinner.setAdapter(subjectDropdown);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.filter:
+                return true;
+        }
+        return false;
+    }
 }

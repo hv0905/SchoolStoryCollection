@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {
     private ArrayList<UnitDisplayInfo> _mDataSet;
@@ -26,13 +27,15 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         UnitDisplayInfo udi = _mDataSet.get(i);
         viewHolder._valTitle.setText(udi.Title);
         viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
-        viewHolder._valCurrectRatio.setText(String.valueOf(udi.QuizCurrectRatio) + "%");
-        viewHolder._currectRatioBar.setProgress(udi.QuizCurrectRatio);
+        viewHolder._valCurrectRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuizCorrectRatio));
+        viewHolder._currectRatioBar.setProgress(udi.QuizCorrectRatio);
         viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
         viewHolder._resetBtn.setOnClickListener(udi.ResetClicked);
         viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
-        viewHolder._valQuestionCount.setText("10");
-        viewHolder._valQuestionRatio.setText("50%");
+        viewHolder._valQuestionCount.setText(String.valueOf(udi.QuestionCount));
+        viewHolder._valQuestionRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuestionRatio));
+        viewHolder._questionRatioBar.setProgress(udi.QuestionRatio);
+
 
         if(udi.requireMoreRecord){
             viewHolder._warningTxt.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -62,6 +65,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         private TextView _warningTxt;
         private TextView _valQuestionCount;
         private TextView _valQuestionRatio;
+        private ProgressBar _questionRatioBar;
 
 
         private Holder(View rootView){
@@ -76,6 +80,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             _warningTxt = _root.findViewById(R.id.warningTxt);
             _valQuestionCount = _root.findViewById(R.id.valQuestionCount);
             _valQuestionRatio = _root.findViewById(R.id.valQuestionRatio);
+            _questionRatioBar = _root.findViewById(R.id.questionRatioBar);
         }
 
     }
@@ -84,22 +89,30 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     public static class UnitDisplayInfo{
         public View.OnClickListener ResetClicked;
         public View.OnClickListener RmClicked;
-        protected int QuizCount;
-        protected int QuizCurrectRatio;
-        protected boolean requireMoreRecord = false;
+        public int QuizCount;
+        public int QuizCorrectRatio;
+        public int QuestionCount;
+        public int QuestionRatio;
+        public boolean requireMoreRecord = false;
         public String Title;
 
-        public UnitDisplayInfo(int quizCount, int quizCurrectRatio, String title) {
+        public UnitDisplayInfo(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
             QuizCount = quizCount;
-            QuizCurrectRatio = quizCurrectRatio;
+            QuizCorrectRatio = quizCorrectRatio;
+            QuestionCount = questionCount;
+            QuestionRatio = questionRatio;
+            this.requireMoreRecord = requireMoreRecord;
             Title = title;
         }
 
-        public UnitDisplayInfo( int quizCount, int quizCurrectRatio, String title,View.OnClickListener _resetClicked, View.OnClickListener _rmClicked) {
-            this.ResetClicked = _resetClicked;
-            this.RmClicked = _rmClicked;
+        public UnitDisplayInfo(View.OnClickListener resetClicked, View.OnClickListener rmClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
+            ResetClicked = resetClicked;
+            RmClicked = rmClicked;
             QuizCount = quizCount;
-            QuizCurrectRatio = quizCurrectRatio;
+            QuizCorrectRatio = quizCorrectRatio;
+            QuestionCount = questionCount;
+            QuestionRatio = questionRatio;
+            this.requireMoreRecord = requireMoreRecord;
             Title = title;
         }
 
