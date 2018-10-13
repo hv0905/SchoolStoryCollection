@@ -35,6 +35,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learning_unit_manage);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _listMain = findViewById(R.id.listMain);
@@ -43,6 +44,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
             final EditText et = new EditText(this);
+            et.setSingleLine();
             AlertDialog.Builder ab = new AlertDialog.Builder(this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
                     .setMessage("单元名称:")
                     .setView(et).setNegativeButton("完成", (dialog, which) -> {

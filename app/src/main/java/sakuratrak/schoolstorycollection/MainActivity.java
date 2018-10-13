@@ -2,7 +2,6 @@ package sakuratrak.schoolstorycollection;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,7 +10,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,12 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Date;
 
 import me.kareluo.imaging.IMGEditActivity;
 
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout _settingLayout;
     private BottomNavigationView _navigation;
     private Button _unitManageBtn;
-    private Button _tempbtn;
+    private Button _tempBtn;
     private Toolbar _toolbar;
     //endregion
 
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         _quizLayout = findViewById(R.id.quizLayout);
         _unitLayout = findViewById(R.id.unitLayout);
         _settingLayout = findViewById(R.id.settingLayout);
-        _tempbtn = findViewById(R.id.tempbtn);
+        _tempBtn = findViewById(R.id.tempbtn);
         _unitManageBtn = findViewById(R.id.main_settings_unitManageBtn);
         _subjectSpinner = findViewById(R.id.subjectSpinner);
         _toolbar = findViewById(R.id.toolbar);
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             }, null);
         });
 
-        _tempbtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
+        _tempBtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
             switch (which) {
                 case 0: {
                     if (!PermissionAdmin.get(this,Manifest.permission.CAMERA)) {
@@ -187,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
         _addUnitBtn.setOnClickListener(v -> {
             final EditText et = new EditText(MainActivity.this);
+            et.setSingleLine();
             AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity.this).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
                     .setMessage("单元名称:")
                     .setView(et).setNegativeButton("完成", (dialog, which) -> {
@@ -233,12 +231,20 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
         subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
-
-
         _subjectSpinner.setAdapter(subjectDropdown);
 
         refreshUnit();
 
+
+        ArrayList<QuestionItemAdapter.QuestionItemInfo> strs = new ArrayList<>();
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1",new Date().toString(),"test unit",null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2",new Date().toString(),"test unit",null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3",new Date().toString(),"test unit",null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4",new Date().toString(),"test unit",null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5",new Date().toString(),"test unit",null));
+
+        QuestionItemAdapter adapter = new QuestionItemAdapter(strs);
+        _itemList.setAdapter(adapter);
 
         //endregion
 
@@ -297,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
-            LearningUnitStorageFile.getDefault().getUnits(getCurrentSubject()).remove(info);
+            LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject()).remove(info);
             try {
                 LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
             } catch (IOException e) {

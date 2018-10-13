@@ -1,10 +1,12 @@
 package sakuratrak.schoolstorycollection;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,17 +17,21 @@ import java.util.ArrayList;
 
 public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapter.Holder> {
 
-    private ArrayList<String> _mDataSet;
+    private ArrayList<QuestionItemInfo> _mDataSet;
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_questionlistdisplay,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_questionlistdisplay, parent, false);
         return new Holder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        holder.title.setText(_mDataSet.get(position));
+        QuestionItemInfo current =  _mDataSet.get(position);
+        holder.title.setText(current.title);
+        holder.valAuthorTime.setText(current.authorTime);
+        holder.valUnit.setText(current.unitInfo);
     }
 
     @Override
@@ -33,21 +39,54 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         return _mDataSet.size();
     }
 
-    public QuestionItemAdapter(ArrayList<String> mDataSet){
+    public QuestionItemAdapter(ArrayList<QuestionItemInfo> mDataSet) {
         _mDataSet = mDataSet;
     }
 
 
-
-    public static class Holder extends RecyclerView.ViewHolder
-    {
+    public static class Holder extends RecyclerView.ViewHolder {
         private View _root;
         protected TextView title;
+        protected ImageView previewImg;
+        protected TextView valAuthorTime;
+        protected TextView valUnit;
 
-        protected Holder(View rootView){
+        protected Holder(View rootView) {
             super(rootView);
             _root = rootView;
-            title = _root.findViewById(R.id.layout_questionlistdisplay_title);
+            previewImg = _root.findViewById(R.id.previewImg);
+            title = _root.findViewById(R.id.title);
+            valAuthorTime = _root.findViewById(R.id.valAuthorTime);
+            valUnit = _root.findViewById(R.id.valUnit);
+        }
+    }
+
+
+    public static class QuestionItemInfo {
+        public String title;
+        public String authorTime;
+        public String unitInfo;
+        public Uri imgUri;
+        public View.OnClickListener detailClicked;
+        public View.OnClickListener quizClicked;
+
+        public QuestionItemInfo(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+            this.title = title;
+            this.authorTime = authorTime;
+            this.unitInfo = unitInfo;
+            this.imgUri = imgUri;
+            this.detailClicked = detailClicked;
+            this.quizClicked = quizClicked;
+        }
+
+        public QuestionItemInfo(String title, String authorTime, String unitInfo, Uri imgUri) {
+            this.title = title;
+            this.authorTime = authorTime;
+            this.unitInfo = unitInfo;
+            this.imgUri = imgUri;
+        }
+
+        public QuestionItemInfo() {
         }
     }
 }

@@ -84,6 +84,9 @@
     <string name="failSaveUnitError">错误:无法保存单元文件</string>
     <string name="questionCount">错题数量</string>
     <string name="QuestionRatio">错题占比(不包含已归档的错题)</string>
+    <string name="test">测试</string>
+    <string name="view">查看</string>
+    <string name="questionPreview">错题预览</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>
