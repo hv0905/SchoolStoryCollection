@@ -89,6 +89,10 @@
     <string name="questionPreview">错题预览</string>
     <string name="subject">科目</string>
     <string name="filter">过滤器</string>
+    <string name="showNormalQuestion">仅显示未归档的错题</string>
+    <string name="showPassedQuestion">仅显示已归档的错题</string>
+    <string name="showAllQuestion">显示所有错题,包括已归档的错题</string>
+    <string name="showUnit">显示单元:</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

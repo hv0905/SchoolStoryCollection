@@ -1,7 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         _tempBtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
             switch (which) {
                 case 0: {
-                    if (!PermissionAdmin.get(this,Manifest.permission.CAMERA)) {
+                    if (!PermissionAdmin.get(this, Manifest.permission.CAMERA)) {
                         Snackbar.make(v, "App被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
                         return;
                     }
@@ -210,11 +208,10 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     })
-                    .setPositiveButton("取消",null);
+                    .setPositiveButton("取消", null);
 
             ab.show();
         });
-
 
 
         //endregion
@@ -228,11 +225,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<QuestionItemAdapter.QuestionItemInfo> strs = new ArrayList<>();
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1",new Date().toString(),"test unit",null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2",new Date().toString(),"test unit",null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3",new Date().toString(),"test unit",null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4",new Date().toString(),"test unit",null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5",new Date().toString(),"test unit",null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1", new Date().toString(), "test unit", null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2", new Date().toString(), "test unit", null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3", new Date().toString(), "test unit", null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4", new Date().toString(), "test unit", null));
+        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5", new Date().toString(), "test unit", null));
 
         QuestionItemAdapter adapter = new QuestionItemAdapter(strs);
         _itemList.setAdapter(adapter);
@@ -255,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             case IntentResults.REQUEST_IMAGE_GET:
                 if (resultCode != RESULT_OK) return;
                 Uri currentUri = data.getData();
-                if(currentUri == null) return;
+                if (currentUri == null) return;
                 Intent intent1 = new Intent(this, IMGEditActivity.class);
                 intent1.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, currentUri);
                 startActivityForResult(intent1, IntentResults.REQUEST_IMAGE_EDIT);
@@ -267,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
     //从顶部组合框中获取目前选中的科目
     public LearningSubject getCurrentSubject() {
-        if(_subjectSpinner == null){
+        if (_subjectSpinner == null) {
             return LearningSubject.CHINESE;
         }
         return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
@@ -278,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
         ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.Name, item.ExerciseLogs.size(), item.computeCorrectRatio(),item.ExerciseLogs.size(),50,item.getIfNeedMoreQuiz());
+            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.Name, item.ExerciseLogs.size(), item.computeCorrectRatio(), item.ExerciseLogs.size(), 50, item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -318,8 +315,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_options,menu);
-        _subjectSpinner = (Spinner)menu.findItem(R.id.subjectSpinner).getActionView();
+        getMenuInflater().inflate(R.menu.top_options, menu);
+        _subjectSpinner = (Spinner) menu.findItem(R.id.subjectSpinner).getActionView();
         _filterMenu = menu.findItem(R.id.filter);
         _subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -346,16 +343,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.filter:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("筛选器");
-                builder.setView(R.layout.layout_filter_dialog);
-                builder.setIcon(R.drawable.ic_filter_list_black_24dp);
-                builder.setNegativeButton("确定", (dialog, which) -> {
-                    dialog.dismiss();
-                });
-                builder.show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setTitle("筛选器");
+//                builder.setView(R.layout.layout_filter_dialog);
+//                builder.setIcon(R.drawable.ic_filter_list_black_24dp);
+//                builder.setNegativeButton("确定", (dialog, which) -> {
+//                    dialog.dismiss();
+//                });
+//                builder.show();
+                FilterDialog fd = new FilterDialog();
+                fd.show(getSupportFragmentManager(), "filter");
                 return true;
         }
         return false;
