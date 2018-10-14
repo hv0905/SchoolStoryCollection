@@ -1,6 +1,7 @@
 package sakuratrak.schoolstorycollection;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import me.kareluo.imaging.IMGEditActivity;
-
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
@@ -261,7 +261,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent1, IntentResults.REQUEST_IMAGE_EDIT);
                 break;
             case IntentResults.REQUEST_IMAGE_EDIT:
-
                 break;
         }
     }
@@ -349,6 +348,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.filter:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("筛选器");
+                builder.setView(R.layout.layout_filter_dialog);
+                builder.setIcon(R.drawable.ic_filter_list_black_24dp);
+                builder.setNegativeButton("确定", (dialog, which) -> {
+                    dialog.dismiss();
+                });
+                builder.show();
                 return true;
         }
         return false;
