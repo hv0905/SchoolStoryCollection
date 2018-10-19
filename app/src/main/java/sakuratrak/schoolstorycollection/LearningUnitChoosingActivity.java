@@ -6,11 +6,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,6 @@ import java.util.List;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
-import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
-
-import static sakuratrak.schoolstorycollection.core.LearningUnitStorageFile.getDefault;
 
 public class LearningUnitChoosingActivity extends AppCompatActivity {
 
@@ -28,6 +26,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
     //region views
     ListView _listMain;
+    LinearLayout _unitEmptyNotice;
     //endregion
 
 
@@ -42,6 +41,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _listMain = findViewById(R.id.listMain);
+        _unitEmptyNotice = findViewById(R.id.unitEmptyNotice);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -55,15 +55,6 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                             new AlertDialog.Builder(this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
-//                        ArrayList<LearningUnitInfo> list = getDefault().getUnitsOrNew(_currentSubject);
-//                        list.add(new LearningUnitInfo(et.getText().toString().trim()));
-//                        getDefault().setUnits(_currentSubject, list);
-//                        refreshUnit();
-//                        try {
-//                            getDefault().saveToInternalStorage(this);
-//                        } catch (IOException io) {
-//                            Snackbar.make(view, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
-//                        }
                         try {
                             DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(),_currentSubject));
                         } catch (SQLException e) {
@@ -88,6 +79,13 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         } catch (SQLException e) {
                 Snackbar.make(_listMain,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
                 return;
+        }
+        if(info.size() == 0){
+            //empty
+            _unitEmptyNotice.setVisibility(View.VISIBLE);
+            return;
+        }else{
+            _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         ArrayList<String> display = new ArrayList<>();
         for(LearningUnitInfo item : info){

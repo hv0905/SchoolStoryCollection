@@ -8,6 +8,8 @@
     tools:context=".LearningUnitChoosingActivity"
     tools:showIn="@layout/activity_learning_unit_manage">
 
+    <include layout="@layout/element_unit_empty" />
+
     <ListView
         android:id="@+id/listMain"
         android:layout_width="match_parent"

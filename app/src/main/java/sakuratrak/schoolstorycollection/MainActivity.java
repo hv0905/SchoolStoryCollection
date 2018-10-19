@@ -23,9 +23,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Button _unitManageBtn;
     private Button _tempBtn;
     private Toolbar _toolbar;
+    private LinearLayout _unitEmptyNotice;
 
     private MenuItem _filterMenu;
     //endregion
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         _unitManageBtn = findViewById(R.id.main_settings_unitManageBtn);
         //_subjectSpinner = findViewById(R.id.subjectSpinner);
         _toolbar = findViewById(R.id.toolbar);
+        _unitEmptyNotice = findViewById(R.id.unitEmptyNotice);
         //endregion
 
         //设置工具栏
@@ -292,6 +294,11 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
             return;
+        }
+        if(luis.size() == 0){
+            _unitEmptyNotice.setVisibility(View.VISIBLE);
+        }else{
+            _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.getName(), item.getExerciseLogs().size(), item.computeCorrectRatio(), item.getExerciseLogs().size(), 50, item.getIfNeedMoreQuiz());
