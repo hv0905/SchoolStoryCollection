@@ -66,7 +66,7 @@
     <string name="title_activity_question_detail">错题详情</string>
     <string name="ChoseQuestionType">选择题目类型</string>
     <string name="ChoseSubject">选择科目</string>
-    <string name="title_activity_learning_unit_manage">管理单元</string>
+    <string name="title_activity_learning_unit_choice">选择单元</string>
     <string name="Cancel">取消</string>
     <string name="AppNameCn">错题本Story</string>
     <string name="unitCompute">单元与统计</string>
@@ -93,6 +93,7 @@
     <string name="showPassedQuestion">仅显示已归档的错题</string>
     <string name="showAllQuestion">显示所有错题,包括已归档的错题</string>
     <string name="showUnit">显示单元:</string>
+    <string name="sqlExp">Story酱被玩坏了…错误:SqlException</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

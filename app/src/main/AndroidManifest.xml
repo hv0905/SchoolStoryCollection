@@ -50,7 +50,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LearningUnitChoosingActivity"
-            android:label="@string/title_activity_learning_unit_manage"
+            android:label="@string/title_activity_learning_unit_choice"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

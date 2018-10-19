@@ -10,15 +10,15 @@ import java.util.Date;
 @DatabaseTable(tableName = "ExerciseLog")
 public class ExerciseLog implements Serializable {
     @DatabaseField(generatedId = true)
-    private int id;
+    public int id;
 
     @DatabaseField
-    private int questionId;
+    public int questionId;
 
     @DatabaseField
-    private int correctRatio;
+    public int correctRatio;
 
     @DatabaseField
-    private Date happenedTime;
+    public Date happenedTime;
 
 }

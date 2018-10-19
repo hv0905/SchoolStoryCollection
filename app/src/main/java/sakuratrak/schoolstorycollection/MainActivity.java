@@ -25,13 +25,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import me.kareluo.imaging.IMGEditActivity;
+import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             switch (which) {
                 case 0: {
                     if (!PermissionAdmin.get(this, Manifest.permission.CAMERA)) {
-                        Snackbar.make(v, "App被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, "Story酱被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
                         return;
                     }
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                         _cameraCurrentFile = privateFile;
                         startActivityForResult(intent, IntentResults.REQUEST_IMAGE_CAMERA);
                     } catch (IOException e) {
-                        Snackbar.make(v, "App被玩坏了...异常:IOException在创建图像文件时抛出", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, "Story酱被玩坏了...异常:IOException在创建图像文件时抛出", Snackbar.LENGTH_LONG).show();
                     }
                     break;
                 }
@@ -197,15 +201,22 @@ public class MainActivity extends AppCompatActivity {
                             new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
-                        ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
-                        list.add(new LearningUnitInfo(et.getText().toString().trim()));
-                        LearningUnitStorageFile.getDefault().setUnits(getCurrentSubject(), list);
-                        refreshUnit();
+                        //ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
+                        //list.add(new LearningUnitInfo(et.getText().toString().trim()));
+                        //LearningUnitStorageFile.getDefault().setUnits(getCurrentSubject(), list);
+                        //refreshUnit();
                         try {
-                            LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
-                        } catch (IOException io) {
-                            notifyUnitSaveError(v);
+                            DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(),getCurrentSubject()));
+                        } catch (SQLException e) {
+                            Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                            return;
                         }
+                        refreshUnit();
+//                        try {
+//                            LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
+//                        } catch (IOException io) {
+//                            notifyUnitSaveError(v);
+//                        }
 
                     })
                     .setPositiveButton("取消", null);
@@ -273,9 +284,17 @@ public class MainActivity extends AppCompatActivity {
     //载入单元与统计列表
     private void refreshUnit() {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
-        ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
+        //ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
+        List<LearningUnitInfo> luis = null;
+        try {
+            luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId",getCurrentSubject().getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+            return;
+        }
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.Name, item.ExerciseLogs.size(), item.computeCorrectRatio(), item.ExerciseLogs.size(), 50, item.getIfNeedMoreQuiz());
+            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.getName(), item.getExerciseLogs().size(), item.computeCorrectRatio(), item.getExerciseLogs().size(), 50, item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -293,11 +312,16 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
-            LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject()).remove(info);
+//            LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject()).remove(info);
+//            try {
+//                LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
+//            } catch (IOException e) {
+//                notifyUnitSaveError(v);
+//            }
             try {
-                LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
-            } catch (IOException e) {
-                notifyUnitSaveError(v);
+                DbManager.getHelper(this).getLearningUnitInfos().delete(info);
+            } catch (SQLException e) {
+                Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
             }
             refreshUnit();
         });

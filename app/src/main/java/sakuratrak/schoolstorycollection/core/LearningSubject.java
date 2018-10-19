@@ -14,8 +14,7 @@ public enum LearningSubject implements Serializable {
     GEO(8),
     OTHER(9);
 
-
-    int _id;
+    private int _id;
 
     LearningSubject(int id){
         _id = id;
