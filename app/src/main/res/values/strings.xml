@@ -96,6 +96,7 @@
     <string name="sqlExp">Story酱被玩坏了…错误:SqlException</string>
     <string name="unitEmptyUi">当前没有创建任何单元\n点击添加按钮开始创建喵</string>
     <string name="aboutTitle">关于错题本Story</string>
+    <string name="about">关于</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

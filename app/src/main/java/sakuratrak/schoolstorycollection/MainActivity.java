@@ -52,9 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout _workbookLayout;
     private ConstraintLayout _quizLayout;
     private ConstraintLayout _unitLayout;
-    private ConstraintLayout _settingLayout;
+    private LinearLayout _settingLayout;
     private BottomNavigationView _navigation;
     private Button _unitManageBtn;
+    private Button _aboutBtn;
     private Button _tempBtn;
     private Toolbar _toolbar;
     private LinearLayout _unitEmptyNotice;
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         //_subjectSpinner = findViewById(R.id.subjectSpinner);
         _toolbar = findViewById(R.id.toolbar);
         _unitEmptyNotice = findViewById(R.id.unitEmptyNotice);
+        _aboutBtn = findViewById(R.id.main_settings_about);
         //endregion
 
         //设置工具栏
@@ -196,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         try {
                             DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(),getCurrentSubject()));
+                            DbManager.releaseHelper();
                         } catch (SQLException e) {
                             Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
                             return;
@@ -206,6 +209,10 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("取消", null);
 
             ab.show();
+        });
+
+        _aboutBtn.setOnClickListener(v -> {
+            startActivityForResult(new Intent(this,AboutActivity.class),0);
         });
 
 
@@ -271,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
         List<LearningUnitInfo> luis = null;
         try {
             luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId",getCurrentSubject().getId());
+            DbManager.releaseHelper();
         } catch (SQLException e) {
             e.printStackTrace();
             Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
@@ -302,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
             try {
                 DbManager.getHelper(this).getLearningUnitInfos().delete(info);
+                DbManager.releaseHelper();
             } catch (SQLException e) {
                 Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
             }
@@ -360,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        DbManager.ReleaseHelper();
+        DbManager.releaseHelper();
         super.onDestroy();
     }
 }

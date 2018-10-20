@@ -98,7 +98,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
         return (DbManager) currentHelper;
     }
 
-    public static void ReleaseHelper(){
+    public static void releaseHelper(){
         if(currentHelper != null){
             OpenHelperManager.releaseHelper();
                 currentHelper = null;

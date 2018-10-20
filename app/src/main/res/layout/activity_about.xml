@@ -7,7 +7,7 @@
     tools:context=".AboutActivity">
 
     <br.tiagohm.markdownview.MarkdownView
-        android:id="@+id/mainForm"
+        android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
