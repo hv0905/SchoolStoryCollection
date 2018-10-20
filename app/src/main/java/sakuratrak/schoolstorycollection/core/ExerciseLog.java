@@ -4,16 +4,12 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @DatabaseTable(tableName = "ExerciseLog")
 public class ExerciseLog implements Serializable {
     @DatabaseField(generatedId = true)
     private int id;
-
-    @DatabaseField
-    private int questionId;
 
     @DatabaseField
     private int correctRatio;
@@ -32,14 +28,6 @@ public class ExerciseLog implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
     }
 
     public int getCorrectRatio() {

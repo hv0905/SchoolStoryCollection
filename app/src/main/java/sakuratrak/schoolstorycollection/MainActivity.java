@@ -38,7 +38,6 @@ import me.kareluo.imaging.IMGEditActivity;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
-import sakuratrak.schoolstorycollection.core.LearningUnitStorageFile;
 import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,14 +75,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //endregion
-
-        if (!LearningUnitStorageFile.defaultLoaded()) {
-            LearningUnitStorageFile defaults = LearningUnitStorageFile.readFromInternalStorage(this);
-            if (defaults == null) {
-                defaults = new LearningUnitStorageFile();
-            }
-            LearningUnitStorageFile.setDefault(defaults);
-        }
 
         //region get UI elements
         _mTextMessage = findViewById(R.id.message);
@@ -277,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
     //载入单元与统计列表
     private void refreshUnit() {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
-        //ArrayList<LearningUnitInfo> luis = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
         List<LearningUnitInfo> luis = null;
         try {
             luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId",getCurrentSubject().getId());
@@ -310,12 +300,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
-//            LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject()).remove(info);
-//            try {
-//                LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
-//            } catch (IOException e) {
-//                notifyUnitSaveError(v);
-//            }
             try {
                 DbManager.getHelper(this).getLearningUnitInfos().delete(info);
             } catch (SQLException e) {
@@ -367,14 +351,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("筛选器");
-//                builder.setView(R.layout.layout_filter_dialog);
-//                builder.setIcon(R.drawable.ic_filter_list_black_24dp);
-//                builder.setNegativeButton("确定", (dialog, which) -> {
-//                    dialog.dismiss();
-//                });
-//                builder.show();
                 FilterDialog fd = new FilterDialog();
                 fd.show(getSupportFragmentManager(), "filter");
                 return true;

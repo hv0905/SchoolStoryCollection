@@ -72,7 +72,6 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
     }
 
     private void refreshUnit() {
-        //ArrayList<LearningUnitInfo> info =  LearningUnitStorageFile.getDefault().getUnitsOrNew(_currentSubject);
         List<LearningUnitInfo> info = null;
         try {
             info = DbManager.getHelper(this).getLearningUnitInfos().queryForEq("subjectId",_currentSubject.getId());

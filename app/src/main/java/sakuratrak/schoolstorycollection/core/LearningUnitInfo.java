@@ -20,6 +20,7 @@ public class LearningUnitInfo implements Serializable {
     @DatabaseField
     private String name;
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @ForeignCollectionField(eager = true)
     private ForeignCollection<QuestionInfo> questions;
 
