@@ -3,13 +3,16 @@ package sakuratrak.schoolstorycollection.core;
 
 import android.support.annotation.Nullable;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 @DatabaseTable(tableName = "QuestionInfo")
 public final class QuestionInfo implements Serializable {
@@ -25,8 +28,11 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(canBeNull = false)
     private int subjectId;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<Integer> exerciseLogIds;
+//    @DatabaseField(dataType = DataType.SERIALIZABLE)
+//    private ArrayList<Integer> exerciseLogIds;
+
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<ExerciseLog> exerciseLogs;
 
     @DatabaseField(canBeNull = false)
     private int typeId;
@@ -41,8 +47,10 @@ public final class QuestionInfo implements Serializable {
     private Answer answer;
 
 
-    @DatabaseField
-    private int unitId;
+//    @DatabaseField
+//    private int unitId;
+    @DatabaseField(foreign = true)
+    private LearningUnitInfo unit;
 
     public String getTitle() {
         return title;
@@ -94,21 +102,12 @@ public final class QuestionInfo implements Serializable {
     }
 
     @Nullable
-    public LearningUnitInfo getUnit(DbManager dbSource) {
-        try {
-            return dbSource.getLearningUnitInfos().queryForId(unitId);
-        } catch (SQLException e) {
-            return null;
-        }
-        //TODO
+    public LearningUnitInfo getUnit() {
+        return unit;
     }
 
-    public ArrayList<Integer> getExerciseLogIds() {
-        return exerciseLogIds;
-    }
-
-    public void setExerciseLogIds(ArrayList<Integer> exerciseLogIds) {
-        this.exerciseLogIds = exerciseLogIds;
+    public Collection<ExerciseLog> getExerciseLogs() {
+        return exerciseLogs;
     }
 
     public QuestionInfo(){

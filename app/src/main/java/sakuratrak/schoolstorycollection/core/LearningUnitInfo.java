@@ -1,11 +1,12 @@
 package sakuratrak.schoolstorycollection.core;
 
-import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 
 
 @DatabaseTable(tableName = "LearningUnitInfo")
@@ -19,8 +20,8 @@ public class LearningUnitInfo implements Serializable {
     @DatabaseField
     private String name;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<ExerciseLog> exerciseLogs;
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<QuestionInfo> questions;
 
     @DatabaseField(canBeNull = false)
     private int subjectId;
@@ -41,19 +42,12 @@ public class LearningUnitInfo implements Serializable {
         this.name = name;
     }
 
-    public ArrayList<ExerciseLog> getExerciseLogs() {
-        return exerciseLogs;
-    }
 
-    public void setExerciseLogs(ArrayList<ExerciseLog> exerciseLogs) {
-        this.exerciseLogs = exerciseLogs;
-    }
-
-    public LearningSubject getSubject(){
+    public LearningSubject getSubject() {
         return LearningSubject.id2Obj(subjectId);
     }
 
-    public void setSubject(LearningSubject value){
+    public void setSubject(LearningSubject value) {
         subjectId = value.getId();
     }
 
@@ -61,30 +55,40 @@ public class LearningUnitInfo implements Serializable {
 
     }
 
-    public LearningUnitInfo(String name, ArrayList<ExerciseLog> exerciseLogs,LearningSubject subject) {
-        this.name = name;
-        this.exerciseLogs = exerciseLogs;
-        setSubject(subject);
-    }
-
-    public LearningUnitInfo(String name,LearningSubject subject) {
+    public LearningUnitInfo(String name, LearningSubject subject) {
         this.name = name;
         setSubject(subject);
-        exerciseLogs = new ArrayList<>();
     }
 
     public int computeCorrectRatio() {
-        if (exerciseLogs.size() == 0) {
+        if (questions == null || questions.size() == 0) {
             return 100;
         }
         int sum = 0;
-        for (ExerciseLog item : exerciseLogs) {
-            sum += item.correctRatio;
+        int count =0;
+        for (QuestionInfo item : questions) {
+            Collection<ExerciseLog> logs = item.getExerciseLogs();
+            if(logs == null) continue;
+            for (ExerciseLog log : logs) {
+                sum += log.getCorrectRatio();
+            }
+            count += logs.size();
         }
-        return sum / exerciseLogs.size();
+        return sum / count;
     }
 
     public boolean getIfNeedMoreQuiz() {
-        return exerciseLogs.size() < NEED_MORE_MAX;
+        return getExerciseLogCount() < NEED_MORE_MAX;
+    }
+
+    public int getExerciseLogCount(){
+        if(questions == null || questions.size() == 0) return 0;
+        int count = 0;
+        for (QuestionInfo item:questions) {
+            Collection<ExerciseLog> logs = item.getExerciseLogs();
+            if(logs == null) continue;
+            count += logs.size();
+        }
+        return count;
     }
 }

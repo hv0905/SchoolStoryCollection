@@ -203,10 +203,6 @@ public class MainActivity extends AppCompatActivity {
                             new AlertDialog.Builder(MainActivity.this).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
                         }
-                        //ArrayList<LearningUnitInfo> list = LearningUnitStorageFile.getDefault().getUnitsOrNew(getCurrentSubject());
-                        //list.add(new LearningUnitInfo(et.getText().toString().trim()));
-                        //LearningUnitStorageFile.getDefault().setUnits(getCurrentSubject(), list);
-                        //refreshUnit();
                         try {
                             DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(),getCurrentSubject()));
                         } catch (SQLException e) {
@@ -214,11 +210,6 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         refreshUnit();
-//                        try {
-//                            LearningUnitStorageFile.getDefault().saveToInternalStorage(MainActivity.this);
-//                        } catch (IOException io) {
-//                            notifyUnitSaveError(v);
-//                        }
 
                     })
                     .setPositiveButton("取消", null);
@@ -301,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.getName(), item.getExerciseLogs().size(), item.computeCorrectRatio(), item.getExerciseLogs().size(), 50, item.getIfNeedMoreQuiz());
+            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -393,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         DbManager.ReleaseHelper();
+        super.onDestroy();
     }
 }
