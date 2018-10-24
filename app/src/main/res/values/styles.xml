@@ -27,4 +27,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="StartTheme" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/welcome_background</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

@@ -33,11 +33,7 @@
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SettingsActivity"
@@ -59,7 +55,17 @@
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".NewQuestionActivity"></activity>
+        <activity android:name=".NewQuestionActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/StartTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
