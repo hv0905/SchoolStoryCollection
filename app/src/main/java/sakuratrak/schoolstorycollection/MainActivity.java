@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         _tempBtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
             switch (which) {
                 case 0: {
-                    if (!PermissionAdmin.get(this, Manifest.permission.CAMERA)) {
+                    if (!PermissionAdmin.get(this, Manifest.permission.CAMERA,1)) {
                         Snackbar.make(v, "Story酱被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
                         return;
                     }
@@ -174,15 +175,14 @@ public class MainActivity extends AppCompatActivity {
 
         _unitManageBtn.setOnClickListener(v -> {
             //选择科目
-            CommonAlerts.AskSubjectType(MainActivity.this, (dialog, which) -> {
-                LearningSubject sub = LearningSubject.id2Obj(which);
-                Intent in = new Intent(MainActivity.this, LearningUnitChoosingActivity.class);
-                in.putExtra("subject", sub);
-                startActivity(in);
-            }, null);
-//            Intent intent = new Intent(this,SettingsActivity.class);
-//            startActivity(intent);
+//            CommonAlerts.AskSubjectType(MainActivity.this, (dialog, which) -> {
+//                LearningSubject sub = LearningSubject.id2Obj(which);
+//                Intent in = new Intent(MainActivity.this, LearningUnitChoosingActivity.class);
+//                in.putExtra("subject", sub);
+//                startActivity(in);
+//            }, null);
 
+            startActivity(new Intent(this,NewQuestionActivity.class));
         });
 
 
@@ -197,10 +197,10 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         try {
-                            DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(),getCurrentSubject()));
+                            DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), getCurrentSubject()));
                             DbManager.releaseHelper();
                         } catch (SQLException e) {
-                            Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(_navigation, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
                         }
                         refreshUnit();
@@ -211,9 +211,7 @@ public class MainActivity extends AppCompatActivity {
             ab.show();
         });
 
-        _aboutBtn.setOnClickListener(v -> {
-            startActivityForResult(new Intent(this,AboutActivity.class),0);
-        });
+        _aboutBtn.setOnClickListener(v -> startActivityForResult(new Intent(this, AboutActivity.class), 0));
 
 
         //endregion
@@ -227,11 +225,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<QuestionItemAdapter.QuestionItemInfo> strs = new ArrayList<>();
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1", new Date().toString(), "test unit", null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2", new Date().toString(), "test unit", null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3", new Date().toString(), "test unit", null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4", new Date().toString(), "test unit", null));
-        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5", new Date().toString(), "test unit", null));
 
         QuestionItemAdapter adapter = new QuestionItemAdapter(strs);
         _itemList.setAdapter(adapter);
@@ -253,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case IntentResults.REQUEST_IMAGE_GET:
                 if (resultCode != RESULT_OK) return;
+                //noinspection ConstantConditions
                 Uri currentUri = data.getData();
                 if (currentUri == null) return;
                 Intent intent1 = new Intent(this, IMGEditActivity.class);
@@ -275,18 +274,18 @@ public class MainActivity extends AppCompatActivity {
     //载入单元与统计列表
     private void refreshUnit() {
         ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
-        List<LearningUnitInfo> luis = null;
+        List<LearningUnitInfo> luis;
         try {
-            luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId",getCurrentSubject().getId());
+            luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId", getCurrentSubject().getId());
             DbManager.releaseHelper();
         } catch (SQLException e) {
             e.printStackTrace();
-            Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+            Snackbar.make(_navigation, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
-        if(luis.size() == 0){
+        if (luis.size() == 0) {
             _unitEmptyNotice.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         for (LearningUnitInfo item : luis) {
@@ -312,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 DbManager.getHelper(this).getLearningUnitInfos().delete(info);
                 DbManager.releaseHelper();
             } catch (SQLException e) {
-                Snackbar.make(_navigation,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                Snackbar.make(_navigation, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             }
             refreshUnit();
         });
@@ -371,5 +370,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         DbManager.releaseHelper();
         super.onDestroy();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

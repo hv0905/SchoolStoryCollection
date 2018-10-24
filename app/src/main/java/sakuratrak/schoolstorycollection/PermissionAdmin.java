@@ -9,9 +9,10 @@ import android.support.v4.content.ContextCompat;
 public class PermissionAdmin {
 
 
-    public static boolean get(Activity context, String permission){
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(context, new String[]{permission}, 321);
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    public static boolean get(Activity context, String permission, int code) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(context, new String[]{permission}, code);
+            return false;
+        } else return true;
     }
 }

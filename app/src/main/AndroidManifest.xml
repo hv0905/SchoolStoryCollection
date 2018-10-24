@@ -58,8 +58,8 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".NewQuestionActivity"></activity>
     </application>
 
 </manifest>
