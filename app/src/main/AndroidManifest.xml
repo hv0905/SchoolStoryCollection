@@ -32,6 +32,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
@@ -45,17 +46,15 @@
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".NewQuestionActivity" />
+        <activity android:name=".NewQuestionActivity"
+            android:label="@string/editQuestion"
+            />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/StartTheme"

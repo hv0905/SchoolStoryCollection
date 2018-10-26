@@ -100,6 +100,13 @@
     <string name="questionName">题目名称</string>
     <string name="questionFrom">题目来源</string>
     <string name="unit">单元</string>
+    <string name="emptyUnit">(无单元)</string>
+    <string name="unitName">单元名称:</string>
+    <string name="finish">完成</string>
+    <string name="createUnit">创建单元</string>
+    <string name="plsInputUnitName">请输入单元名称</string>
+    <string name="error">错误</string>
+    <string name="editQuestion">修改错题</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

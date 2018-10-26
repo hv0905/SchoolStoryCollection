@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import me.kareluo.imaging.IMGEditActivity;
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(in);
 //            }, null);
 
-            startActivity(new Intent(this,NewQuestionActivity.class));
+            startActivityForResult(new Intent(this,NewQuestionActivity.class).putExtra(NewQuestionActivity.EXTRA_SUBJECT,LearningSubject.CHINESE),0);
         });
 
 
@@ -368,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        System.out.println("MainActivity Destroyed!!!");
         DbManager.releaseHelper();
         super.onDestroy();
     }

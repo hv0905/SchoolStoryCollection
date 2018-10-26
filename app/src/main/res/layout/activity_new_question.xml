@@ -63,6 +63,7 @@
             style="@style/textValue"
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
+            android:text="@string/emptyUnit"
             />
 
 
