@@ -87,7 +87,7 @@ public abstract class IMGStickerView extends ViewGroup implements IMGSticker, Vi
 
         mRemoveView = new ImageView(context);
         mRemoveView.setScaleType(ImageView.ScaleType.FIT_XY);
-        mRemoveView.setImageResource(R.mipmap.image_ic_delete);
+        mRemoveView.setImageResource(R.drawable.ic_delete_white_24dp);
         addView(mRemoveView, getAnchorLayoutParams());
         mRemoveView.setOnClickListener(this);
 

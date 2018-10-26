@@ -47,15 +47,15 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
         Bitmap bitmap = getBitmap();
         if (bitmap != null) {
             setContentView(R.layout.image_edit_activity);
             initViews();
             mImgView.setImageBitmap(bitmap);
         } else finish();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     private void initViews() {
