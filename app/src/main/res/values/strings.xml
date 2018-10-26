@@ -107,6 +107,9 @@
     <string name="plsInputUnitName">请输入单元名称</string>
     <string name="error">错误</string>
     <string name="editQuestion">修改错题</string>
+    <string name="questionImg">题目图片</string>
+    <string name="addImg">添加图片</string>
+    <string name="clearImg">清空图片</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

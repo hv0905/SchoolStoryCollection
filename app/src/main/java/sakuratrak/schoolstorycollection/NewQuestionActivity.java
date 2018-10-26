@@ -35,6 +35,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_question);
         _currentSubject = (LearningSubject)getIntent().getSerializableExtra(EXTRA_SUBJECT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         _unitSelectLayout = findViewById(R.id.unitSelectLayout);
         _unitText = findViewById(R.id.textUnit);
 

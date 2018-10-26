@@ -51,6 +51,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         _listMain = findViewById(R.id.listMain);
         _unitEmptyNotice = findViewById(R.id.unitEmptyNotice);
