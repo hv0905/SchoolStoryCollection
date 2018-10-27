@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplyChoiceAnswer"
+        style="@style/textValue"
+        android:layout_margin="8dp"
+        />
+
+    <android.support.design.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="false"
+        >
+
+        <android.support.design.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@string/answerA"
+            android:textAlignment="center" />
+
+        <android.support.design.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@string/answerB"
+            android:textAlignment="center" />
+
+        <android.support.design.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@string/answerC"
+            android:textAlignment="center" />
+
+        <android.support.design.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@string/answerD"
+            android:textAlignment="center" />
+
+    </android.support.design.chip.ChipGroup>
+
+</LinearLayout>

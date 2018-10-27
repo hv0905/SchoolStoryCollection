@@ -110,6 +110,14 @@
     <string name="questionImg">题目图片</string>
     <string name="addImg">添加图片</string>
     <string name="clearImg">清空图片</string>
+    <string name="multiplyChoiceAnswer">多选题答案</string>
+    <string name="singleChoiceAnswer">单选题答案</string>
+    <string name="answerA">A</string>
+    <string name="answerB">B</string>
+    <string name="answerC">C</string>
+    <string name="answerD">D</string>
+    <string name="fillAnswer">填空题答案</string>
+    <string name="fillAnswerTip">多个均为正确的答案可用 ; 或 ； 分割.\n请不要留有多余的空格以免影响自动校对的识别</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

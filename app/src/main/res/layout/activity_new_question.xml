@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".NewQuestionActivity"
     android:orientation="vertical"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     >
     <ScrollView
         android:layout_width="match_parent"
@@ -73,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/textValue"
-                    android:layout_marginStart="28dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/emptyUnit"
                     />
@@ -88,8 +90,10 @@
                 android:drawableStart="@drawable/ic_image_black_24dp"
                 />
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                >
                 <android.support.design.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,10 +109,26 @@
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-
-            </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="答案"
+                style="@style/textTitle"
+                android:drawableLeft="@drawable/ic_key_black_24dp"
+                />
+            <FrameLayout
+                android:id="@+id/answerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="解析"
+                style="@style/textTitle"
+                android:drawableLeft="@drawable/ic_insert_comment_black_24dp"
+                />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

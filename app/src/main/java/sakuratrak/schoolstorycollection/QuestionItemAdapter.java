@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapter.Holder> {
 
-    private ArrayList<QuestionItemInfo> _mDataSet;
+    private ArrayList<QuestionItemDataContext> _mDataSet;
 
     @NonNull
     @Override
@@ -28,7 +28,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        QuestionItemInfo current =  _mDataSet.get(position);
+        QuestionItemDataContext current =  _mDataSet.get(position);
         holder.title.setText(current.title);
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
@@ -39,7 +39,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         return _mDataSet.size();
     }
 
-    public QuestionItemAdapter(ArrayList<QuestionItemInfo> mDataSet) {
+    public QuestionItemAdapter(ArrayList<QuestionItemDataContext> mDataSet) {
         _mDataSet = mDataSet;
     }
 
@@ -62,7 +62,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
     }
 
 
-    public static class QuestionItemInfo {
+    public static class QuestionItemDataContext {
         public String title;
         public String authorTime;
         public String unitInfo;
@@ -70,7 +70,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
 
-        public QuestionItemInfo(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+        public QuestionItemDataContext(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -79,14 +79,14 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
             this.quizClicked = quizClicked;
         }
 
-        public QuestionItemInfo(String title, String authorTime, String unitInfo, Uri imgUri) {
+        public QuestionItemDataContext(String title, String authorTime, String unitInfo, Uri imgUri) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
         }
 
-        public QuestionItemInfo() {
+        public QuestionItemDataContext() {
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {
-    private ArrayList<UnitDisplayInfo> _mDataSet;
+    private ArrayList<UnitDisplayDataContext> _mDataSet;
 
     @NonNull
     @Override
@@ -24,7 +24,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     @Override
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
-        UnitDisplayInfo udi = _mDataSet.get(i);
+        UnitDisplayDataContext udi = _mDataSet.get(i);
         viewHolder._valTitle.setText(udi.Title);
         viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
         viewHolder._valCurrectRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuizCorrectRatio));
@@ -49,7 +49,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         return _mDataSet.size();
     }
 
-    public UnitDisplayAdapter(ArrayList<UnitDisplayInfo> mDataSet){
+    public UnitDisplayAdapter(ArrayList<UnitDisplayDataContext> mDataSet){
         _mDataSet = mDataSet;
     }
 
@@ -86,7 +86,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     }
 
 
-    public static class UnitDisplayInfo{
+    public static class UnitDisplayDataContext {
         public View.OnClickListener ResetClicked;
         public View.OnClickListener RmClicked;
         public int QuizCount;
@@ -96,7 +96,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         public boolean requireMoreRecord = false;
         public String Title;
 
-        public UnitDisplayInfo(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
+        public UnitDisplayDataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
             QuizCount = quizCount;
             QuizCorrectRatio = quizCorrectRatio;
             QuestionCount = questionCount;
@@ -105,7 +105,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             Title = title;
         }
 
-        public UnitDisplayInfo(View.OnClickListener resetClicked, View.OnClickListener rmClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
+        public UnitDisplayDataContext(View.OnClickListener resetClicked, View.OnClickListener rmClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
             ResetClicked = resetClicked;
             RmClicked = rmClicked;
             QuizCount = quizCount;
@@ -116,7 +116,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             Title = title;
         }
 
-        public UnitDisplayInfo(){
+        public UnitDisplayDataContext(){
 
         }
     }

@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.sql.SQLException;
@@ -27,6 +29,8 @@ public class NewQuestionActivity extends AppCompatActivity {
     //region views
     private View _unitSelectLayout;
     private TextView _unitText;
+    private FrameLayout _answerContainer;
+    private View _answerContent;
     //endregion
 
     @Override
@@ -38,6 +42,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         _unitSelectLayout = findViewById(R.id.unitSelectLayout);
         _unitText = findViewById(R.id.textUnit);
+        _answerContainer = findViewById(R.id.answerContainer);
 
         _unitSelectLayout.setOnClickListener(v -> {
             Intent intent = new Intent(this,LearningUnitChoosingActivity.class);
@@ -45,6 +50,8 @@ public class NewQuestionActivity extends AppCompatActivity {
             intent.putExtra(LearningUnitChoosingActivity.EXTRA_SHOW_NONE,true);
             startActivityForResult(intent,INTENT_UNIT_CHOOSE);
         });
+
+        _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_single_choice,_answerContainer);
     }
 
     @Override
@@ -71,6 +78,7 @@ public class NewQuestionActivity extends AppCompatActivity {
         switch (requestCode){
             case INTENT_UNIT_CHOOSE:
                 if(resultCode == RESULT_OK){
+                    assert data != null;
                     if(data.getBooleanExtra(LearningUnitChoosingActivity.RESULT_SELECTED,false)) {
                         try {
                             _unit = DbManager.getHelper(this).getLearningUnitInfos().queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID,0));

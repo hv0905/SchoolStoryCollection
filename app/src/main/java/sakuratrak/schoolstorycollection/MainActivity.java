@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -224,12 +223,12 @@ public class MainActivity extends AppCompatActivity {
         refreshUnit();
 
 
-        ArrayList<QuestionItemAdapter.QuestionItemInfo> strs = new ArrayList<>();
-//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world1", new Date().toString(), "test unit", null));
-//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world2", new Date().toString(), "test unit", null));
-//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world3", new Date().toString(), "test unit", null));
-//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world4", new Date().toString(), "test unit", null));
-//        strs.add(new QuestionItemAdapter.QuestionItemInfo("hello world5", new Date().toString(), "test unit", null));
+        ArrayList<QuestionItemAdapter.QuestionItemDataContext> strs = new ArrayList<>();
+//        strs.add(new QuestionItemAdapter.QuestionItemDataContext("hello world1", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemDataContext("hello world2", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemDataContext("hello world3", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemDataContext("hello world4", new Date().toString(), "test unit", null));
+//        strs.add(new QuestionItemAdapter.QuestionItemDataContext("hello world5", new Date().toString(), "test unit", null));
 
         QuestionItemAdapter adapter = new QuestionItemAdapter(strs);
         _itemList.setAdapter(adapter);
@@ -273,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
 
     //载入单元与统计列表
     private void refreshUnit() {
-        ArrayList<UnitDisplayAdapter.UnitDisplayInfo> udi = new ArrayList<>();
+        ArrayList<UnitDisplayAdapter.UnitDisplayDataContext> udi = new ArrayList<>();
         List<LearningUnitInfo> luis;
         try {
             luis = (DbManager.getHelper(this)).getLearningUnitInfos().queryForEq("subjectId", getCurrentSubject().getId());
@@ -289,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayInfo udiItem = new UnitDisplayAdapter.UnitDisplayInfo(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
+            UnitDisplayAdapter.UnitDisplayDataContext udiItem = new UnitDisplayAdapter.UnitDisplayDataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -303,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
     }
 
-    private void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
+    private void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayDataContext udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udi.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
@@ -318,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
         ad.show();
     }
 
-    private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayInfo udi, LearningUnitInfo info) {
+    private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayDataContext udi, LearningUnitInfo info) {
         AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity.this);
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udi.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
