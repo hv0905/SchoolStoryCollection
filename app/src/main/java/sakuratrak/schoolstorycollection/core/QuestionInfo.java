@@ -45,6 +45,28 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
 
+    public String getQuestionAdditionInfo() {
+        return questionAdditionInfo;
+    }
+
+    public void setQuestionAdditionInfo(String questionAdditionInfo) {
+        this.questionAdditionInfo = questionAdditionInfo;
+    }
+
+    public String getAnalysisAdditionInfo() {
+        return analysisAdditionInfo;
+    }
+
+    public void setAnalysisAdditionInfo(String analysisAdditionInfo) {
+        this.analysisAdditionInfo = analysisAdditionInfo;
+    }
+
+    @DatabaseField()
+    private String questionAdditionInfo;
+
+    @DatabaseField()
+    private String analysisAdditionInfo;
+
 
 //    @DatabaseField
 //    private int unitId;
@@ -95,7 +117,7 @@ public final class QuestionInfo implements Serializable {
         return QuestionType.id2Obj(typeId);
     }
 
-    public void setType(QuestionType value){
+    private void setType(QuestionType value){
         typeId = value.getId();
 
     }

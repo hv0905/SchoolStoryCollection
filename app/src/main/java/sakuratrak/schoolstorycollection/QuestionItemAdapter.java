@@ -63,12 +63,12 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
 
     public static class QuestionItemDataContext {
-        public String title;
-        public String authorTime;
-        public String unitInfo;
-        public Uri imgUri;
-        public View.OnClickListener detailClicked;
-        public View.OnClickListener quizClicked;
+        protected String title;
+        protected String authorTime;
+        protected String unitInfo;
+        protected Uri imgUri;
+        protected View.OnClickListener detailClicked;
+        protected View.OnClickListener quizClicked;
 
         public QuestionItemDataContext(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
             this.title = title;

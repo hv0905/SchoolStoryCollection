@@ -130,12 +130,11 @@ public class MainActivity extends AppCompatActivity {
 
         _addItemBtn.setOnClickListener(v -> {
             //navigate to add activity
-            //Snackbar.make(v,"Add button clicked!!!",2000).show();
             CommonAlerts.AskQuestionType(MainActivity.this, (dialogInterface, i) -> {
-                dialogInterface.dismiss();
-                final QuestionType type = QuestionType.id2Obj(i);
-                //System.out.println(type.toString());
-
+                Intent intent = new Intent(this,NewQuestionActivity.class);
+                intent.putExtra(NewQuestionActivity.EXTRA_QUESTION_TYPE_ID,i);
+                intent.putExtra(NewQuestionActivity.EXTRA_SUBJECT,getCurrentSubject());
+                startActivity(intent);
             }, null);
         });
 
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             switch (which) {
                 case 0: {
                     if (!PermissionAdmin.get(this, Manifest.permission.CAMERA,1)) {
-                        Snackbar.make(v, "Story酱被玩坏了...异常:相机使用权限申请出错", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, R.string.cameraPermissionError, Snackbar.LENGTH_LONG).show();
                         return;
                     }
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -154,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                         _cameraCurrentFile = privateFile;
                         startActivityForResult(intent, IntentResults.REQUEST_IMAGE_CAMERA);
                     } catch (IOException e) {
-                        Snackbar.make(v, "Story酱被玩坏了...异常:IOException在创建图像文件时抛出", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(v, R.string.cameraIoExpt, Snackbar.LENGTH_LONG).show();
                     }
                     break;
                 }
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(in);
 //            }, null);
 
-            startActivityForResult(new Intent(this,NewQuestionActivity.class).putExtra(NewQuestionActivity.EXTRA_SUBJECT,LearningSubject.CHINESE),0);
+
         });
 
 
@@ -263,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //从顶部组合框中获取目前选中的科目
-    public LearningSubject getCurrentSubject() {
+    @NonNull
+    private LearningSubject getCurrentSubject() {
         if (_subjectSpinner == null) {
             return LearningSubject.CHINESE;
         }

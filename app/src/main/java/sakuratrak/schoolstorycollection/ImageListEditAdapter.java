@@ -41,15 +41,15 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter {
         View _root;
         ImageView _image;
 
-        public Holder(@NonNull View rootView) {
+        protected Holder(@NonNull View rootView) {
             super(rootView);
             _root = rootView;
             _image = rootView.findViewById(R.id.image);
         }
     }
 
-    public static final class ImageListEditDataContext {
-        public View.OnClickListener imageClicked;
-        public Uri imgSrc;
+    protected static final class ImageListEditDataContext {
+        protected View.OnClickListener imageClicked;
+        protected Uri imgSrc;
     }
 }

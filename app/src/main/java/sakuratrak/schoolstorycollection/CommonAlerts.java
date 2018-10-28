@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 public final class CommonAlerts {
+    @SuppressWarnings("UnusedReturnValue")
     public static AlertDialog AskQuestionType(Context context, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
         return new AlertDialog.Builder(context).setTitle(R.string.ChoseQuestionType).setIcon(R.drawable.ic_layers_black_24dp)
                 .setItems(R.array.question_type, okListener).setNegativeButton(R.string.Cancel, cancelListener).show();

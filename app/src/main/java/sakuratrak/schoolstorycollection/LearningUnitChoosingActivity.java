@@ -1,6 +1,5 @@
 package sakuratrak.schoolstorycollection;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,13 +29,13 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
     public static final String RESULT_SELECTED = "selected";
     public static final String RESULT_UNIT_ID = "unitId";
 
-    public LearningSubject _currentSubject = LearningSubject.OTHER;
-    public boolean _showNone;
+    private LearningSubject _currentSubject = LearningSubject.OTHER;
+    private boolean _showNone;
 
     //region views
-    ListView _listMain;
-    LinearLayout _unitEmptyNotice;
-    List<LearningUnitInfo> _info;
+    private ListView _listMain;
+    private LinearLayout _unitEmptyNotice;
+    private List<LearningUnitInfo> _info;
     //endregion
 
 

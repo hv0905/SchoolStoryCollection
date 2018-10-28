@@ -22,6 +22,10 @@ public class ExerciseLog implements Serializable {
 
     //region simple getter and setter
 
+
+    public ExerciseLog() {
+    }
+
     public int getId() {
         return id;
     }

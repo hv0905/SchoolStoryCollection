@@ -118,6 +118,13 @@
     <string name="answerD">D</string>
     <string name="fillAnswer">填空题答案</string>
     <string name="fillAnswerTip">多个均为正确的答案可用 ; 或 ； 分割.\n请不要留有多余的空格以免影响自动校对的识别</string>
+    <string name="questionAdditionInfo">题目补充信息</string>
+    <string name="analysisAdditionData">解析补充信息</string>
+    <string name="answer">答案</string>
+    <string name="analysis">解析</string>
+    <string name="cameraPermissionError">Story酱被玩坏了...异常:相机使用权限申请出错</string>
+    <string name="cameraIoExpt">Story酱被玩坏了...异常:IOException在创建图像文件时抛出</string>
+    <string name="mdUsage">支持使用MarkDown来萌化你的文本~</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @DatabaseTable(tableName = "LearningUnitInfo")
 public class LearningUnitInfo implements Serializable {
-    public static final int NEED_MORE_MAX = 5;
+    private static final int NEED_MORE_MAX = 5;
 
 
     @DatabaseField(generatedId = true)
@@ -48,7 +48,7 @@ public class LearningUnitInfo implements Serializable {
         return LearningSubject.id2Obj(subjectId);
     }
 
-    public void setSubject(LearningSubject value) {
+    private void setSubject(LearningSubject value) {
         subjectId = value.getId();
     }
 
