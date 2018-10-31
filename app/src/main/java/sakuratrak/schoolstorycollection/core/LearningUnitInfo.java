@@ -1,12 +1,15 @@
 package sakuratrak.schoolstorycollection.core;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 
 @DatabaseTable(tableName = "LearningUnitInfo")
@@ -91,5 +94,29 @@ public class LearningUnitInfo implements Serializable {
             count += logs.size();
         }
         return count;
+    }
+
+
+    public static class LearningUnitInfoDaoHelper {
+
+        private final Dao<LearningUnitInfo,Integer> _base;
+
+        public LearningUnitInfoDaoHelper(Dao<LearningUnitInfo, Integer> base) {
+            this._base = base;
+        }
+
+        public LearningUnitInfoDaoHelper(DbManager mgr) {
+            _base = mgr.getLearningUnitInfos();
+        }
+
+        public List<LearningUnitInfo> findBySubject(LearningSubject subject) throws SQLException {
+            return _base.queryForEq("subjectId",subject.getId());
+        }
+
+
+
+
+
+
     }
 }
