@@ -3,15 +3,20 @@ package sakuratrak.schoolstorycollection.core;
 
 import android.support.annotation.Nullable;
 
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @DatabaseTable(tableName = "QuestionInfo")
 public final class QuestionInfo implements Serializable {
@@ -141,6 +146,32 @@ public final class QuestionInfo implements Serializable {
         setType(type);
     }
 
-    
+    /*Common usage of QuestionInfo Table*/
+    public static class QuestionInfoDaoManager{
+        private final Dao<QuestionInfo,Integer> _base;
+
+        public QuestionInfoDaoManager(Dao<QuestionInfo, Integer> base) {
+            this._base = base;
+        }
+
+        public QuestionInfoDaoManager(DbManager mgr){
+            _base= mgr.getQuestionInfos();
+        }
+
+
+        public List<QuestionInfo> FindAllWithSubject(LearningSubject subject) throws SQLException {
+            return _base.queryForEq("subjectId",subject.getId());
+        }
+
+        public List<QuestionInfo> FindAllWithUnit(LearningUnitInfo... units) throws SQLException {
+            ArrayList<QuestionInfo> infos = new ArrayList<>();
+
+            for (LearningUnitInfo item: units) {
+                infos.addAll(_base.queryForEq("unit",item));
+            }
+            return infos;
+        }
+
+    }
 
 }

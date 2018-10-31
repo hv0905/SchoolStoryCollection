@@ -13,17 +13,25 @@
         android:layout_margin="8dp"
         />
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="答案"
-        android:inputType="text"
-        />
+        android:layout_margin="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:hint="@string/answer"
+        >
+        <android.support.design.widget.TextInputEditText
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </android.support.design.widget.TextInputLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fillAnswerTip"
-
+        android:layout_marginLeft="8dp"
         />
 
 </LinearLayout>

@@ -17,6 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="textHeadTitle" parent="textTitle">
+        <item name="android:layout_marginTop">@dimen/ui_margin_ularge</item>
+        <item name="android:layout_marginLeft">@dimen/ui_margin_mid</item>
+        <item name="android:layout_marginBottom">@dimen/ui_margin_mid</item>
+    </style>
+
     <style name="textTitle" parent="textNormal">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
