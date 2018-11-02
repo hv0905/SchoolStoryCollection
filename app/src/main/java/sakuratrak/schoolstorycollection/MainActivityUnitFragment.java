@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class MainActivityUnitFragment extends Fragment {
     public View _unitEmptyNotice;
     public RecyclerView _unitList;
     public FloatingActionButton _addUnitBtn;
+    public MainActivity _backupParent;
     //endregion
 
 
@@ -49,6 +51,7 @@ public class MainActivityUnitFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        System.out.println("Creating Fragment. . . . . .");
         _root =  (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_unit, container, false);
         _unitList = _root.findViewById(R.id.unitList);
         _unitEmptyNotice = _root.findViewById(R.id.unitEmptyNotice);
@@ -78,15 +81,19 @@ public class MainActivityUnitFragment extends Fragment {
             ab.show();          
         });
 
+        _unitList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
+
+        refreshUnit();
 
         return _root;
     }
 
     public void refreshUnit(){
+        if(!this.isAdded()) return;
         ArrayList<UnitDisplayAdapter.UnitDisplayDataContext> udi = new ArrayList<>();
         List<LearningUnitInfo> luis;
         try {
-            luis = (DbManager.getHelper(getActivity())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
+            luis = (DbManager.getHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
             DbManager.releaseHelper();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,7 +142,9 @@ public class MainActivityUnitFragment extends Fragment {
     }
 
     private MainActivity getParent(){
-        return (MainActivity) getActivity();
+        if(getActivity() == null){
+            return _backupParent;
+        }return (MainActivity) getActivity();
     }
 }
 

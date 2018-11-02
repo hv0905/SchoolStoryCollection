@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 public class MainActivityQuizFragment extends Fragment {
 
 
+    public View _root;
+
     public MainActivityQuizFragment() {
         // Required empty public constructor
     }
@@ -19,7 +21,9 @@ public class MainActivityQuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_activity_quiz, container, false);
+        _root =  inflater.inflate(R.layout.fragment_main_activity_quiz, container, false);
+        return _root;
+
     }
 
 }

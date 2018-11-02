@@ -58,38 +58,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainContainerHandler"
+        app:layout_constraintTop_toBottomOf="@+id/pager"
         app:menu="@menu/navigation" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/mainContainerHandler"
-        android:layout_width="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-
-        android:layout_height="0px">
-    <include
-        layout="@layout/layout_main_workbook"
-        android:id="@+id/workbookLayout"
-        android:visibility="visible"/>
-
-    <include layout="@layout/layout_main_quiz"
-        android:id="@+id/quizLayout"
-        android:visibility="invisible"/>
-
-    <include layout="@layout/layout_main_unit"
-        android:id="@+id/unitLayout"
-        android:visibility="invisible"/>
-
-    <include layout="@layout/layout_main_settings"
-        android:id="@+id/settingLayout"
-        android:visibility="invisible"/>
-
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/pager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"/>-->
-
-    </android.support.constraint.ConstraintLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+            />
 
 </android.support.constraint.ConstraintLayout>
