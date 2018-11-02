@@ -12,11 +12,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +40,6 @@ import me.kareluo.imaging.IMGEditActivity;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
-import sakuratrak.schoolstorycollection.core.QuestionType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private Button _tempBtn;
     private Toolbar _toolbar;
     private LinearLayout _unitEmptyNotice;
+    private ViewPager _pager;
 
     private MenuItem _filterMenu;
     //endregion
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         //endregion
 
         //region get UI elements
+        //_pager = findViewById(R.id.pager);
         _mTextMessage = findViewById(R.id.message);
         _navigation = findViewById(R.id.bottomNav);
         _addItemBtn = findViewById(R.id.addItemBtn);
@@ -236,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     //Intent接收事件
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -263,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
     //从顶部组合框中获取目前选中的科目
     @NonNull
-    private LearningSubject getCurrentSubject() {
+    public LearningSubject getCurrentSubject() {
         if (_subjectSpinner == null) {
             return LearningSubject.CHINESE;
         }
