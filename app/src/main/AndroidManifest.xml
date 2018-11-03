@@ -53,12 +53,12 @@
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".NewQuestionActivity"
+        <activity android:name=".QuestionEditActivity"
             android:label="@string/editQuestion"
             />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/StartTheme"
+            android:theme="@style/SplashTheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

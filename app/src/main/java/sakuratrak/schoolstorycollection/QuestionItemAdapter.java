@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapter.Holder> {
 
-    private ArrayList<QuestionItemDataContext> _mDataSet;
+    private ArrayList<QuestionItemDataContext> _dataContext;
 
     @NonNull
     @Override
@@ -28,7 +28,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        QuestionItemDataContext current =  _mDataSet.get(position);
+        QuestionItemDataContext current =  _dataContext.get(position);
         holder.title.setText(current.title);
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
@@ -36,11 +36,11 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
     @Override
     public int getItemCount() {
-        return _mDataSet.size();
+        return _dataContext.size();
     }
 
     public QuestionItemAdapter(ArrayList<QuestionItemDataContext> mDataSet) {
-        _mDataSet = mDataSet;
+        _dataContext = mDataSet;
     }
 
 

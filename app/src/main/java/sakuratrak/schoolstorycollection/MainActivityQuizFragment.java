@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MainActivityQuizFragment extends Fragment {
+public final class MainActivityQuizFragment extends Fragment {
 
 
     public View _root;

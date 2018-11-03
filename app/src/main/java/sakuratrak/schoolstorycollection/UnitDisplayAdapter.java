@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {
-    private ArrayList<UnitDisplayDataContext> _mDataSet;
+    private ArrayList<UnitDisplayDataContext> _dataContext;
 
     @NonNull
     @Override
@@ -24,7 +24,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     @Override
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
-        UnitDisplayDataContext udi = _mDataSet.get(i);
+        UnitDisplayDataContext udi = _dataContext.get(i);
         viewHolder._valTitle.setText(udi.Title);
         viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
         viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuizCorrectRatio));
@@ -46,11 +46,11 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     @Override
     public int getItemCount() {
-        return _mDataSet.size();
+        return _dataContext.size();
     }
 
     public UnitDisplayAdapter(ArrayList<UnitDisplayDataContext> mDataSet){
-        _mDataSet = mDataSet;
+        _dataContext = mDataSet;
     }
 
     public static final class Holder extends RecyclerView.ViewHolder

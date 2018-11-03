@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int PAGES_COUNT = 4;
+    public static final int PAGES_COUNT = 4;
 
     public MainActivityWorkBookFragment mainActivityWorkBookFragment;
 

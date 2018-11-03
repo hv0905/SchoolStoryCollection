@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewQuestionActivity"
+    tools:context=".QuestionEditActivity"
     android:orientation="vertical"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
@@ -83,6 +83,7 @@
                 android:text="@string/questionImg" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/questionImgRecycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/ui_margin_mid" />

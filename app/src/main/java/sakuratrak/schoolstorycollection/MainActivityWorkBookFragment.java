@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MainActivityWorkBookFragment extends Fragment {
+public final class MainActivityWorkBookFragment extends Fragment {
 
     private ConstraintLayout _root;
     private RecyclerView _itemList;
@@ -38,9 +38,9 @@ public class MainActivityWorkBookFragment extends Fragment {
         _addItemBtn.setOnClickListener(v -> {
             //navigate to add activity
             CommonAlerts.AskQuestionType(getParent(), (dialogInterface, i) -> {
-                Intent intent = new Intent(getParent(),NewQuestionActivity.class);
-                intent.putExtra(NewQuestionActivity.EXTRA_QUESTION_TYPE_ID,i);
-                intent.putExtra(NewQuestionActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
+                Intent intent = new Intent(getParent(),QuestionEditActivity.class);
+                intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
+                intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
                 startActivity(intent);
             }, null);
         });

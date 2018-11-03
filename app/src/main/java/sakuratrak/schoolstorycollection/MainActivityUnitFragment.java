@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,10 @@ import java.util.List;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
+import static android.support.constraint.Constraints.TAG;
 
-public class MainActivityUnitFragment extends Fragment {
+
+public final class MainActivityUnitFragment extends Fragment {
 
     private Runnable _notifyUnitRefresh;
 
@@ -51,7 +54,7 @@ public class MainActivityUnitFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        System.out.println("Creating Fragment. . . . . .");
+        Log.d(TAG, "onCreateView: unit fragment");
         _root =  (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_unit, container, false);
         _unitList = _root.findViewById(R.id.unitList);
         _unitEmptyNotice = _root.findViewById(R.id.unitEmptyNotice);
@@ -113,8 +116,9 @@ public class MainActivityUnitFragment extends Fragment {
         }
         UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
         _unitList.setAdapter(uda);
-
-
+        if(_notifyUnitRefresh != null){
+            _notifyUnitRefresh.run();
+        }
     }
 
     private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayDataContext udiItem, LearningUnitInfo item) {
@@ -145,6 +149,12 @@ public class MainActivityUnitFragment extends Fragment {
         if(getActivity() == null){
             return _backupParent;
         }return (MainActivity) getActivity();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: UnitFragment");
     }
 }
 

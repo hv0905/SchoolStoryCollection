@@ -110,13 +110,6 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
             Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
-        if (_info.size() == 0) {
-            //empty
-            _unitEmptyNotice.setVisibility(View.VISIBLE);
-            return;
-        } else {
-            _unitEmptyNotice.setVisibility(View.INVISIBLE);
-        }
         ArrayList<String> display = new ArrayList<>();
         if (_showNone) {
             display.add(getString(R.string.emptyUnit));
@@ -125,6 +118,12 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
             display.add(item.getName());
         }
         _listMain.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, display));
+        if (_info.size() == 0) {
+            //empty
+            _unitEmptyNotice.setVisibility(View.VISIBLE);
+        } else {
+            _unitEmptyNotice.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

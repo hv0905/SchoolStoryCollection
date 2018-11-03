@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class MainActivitySettingsFragment extends Fragment {
+public final class MainActivitySettingsFragment extends Fragment {
 
     public View _root;
     public MaterialButton _about;
