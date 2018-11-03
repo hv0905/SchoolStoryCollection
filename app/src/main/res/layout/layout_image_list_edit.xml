@@ -20,6 +20,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:src="@drawable/ic_add_box_black_24dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/test_bg"
         tools:ignore="ContentDescription" />
 </android.support.design.card.MaterialCardView>

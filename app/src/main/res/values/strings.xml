@@ -126,6 +126,8 @@
     <string name="cameraIoExpt">Story酱被玩坏了...异常:IOException在创建图像文件时抛出</string>
     <string name="mdUsage">支持使用MarkDown来萌化你的文本~</string>
     <string name="notice_permission_camera">请允许Story酱使用相机权限喵</string>
+    <string name="errPermissionDenied">权限申请失败</string>
+    <string name="setCameraPermission">请到设置允许本应用使用相机权限</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>
