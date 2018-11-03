@@ -1,6 +1,7 @@
 package sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import sakuratrak.schoolstorycollection.core.QuestionInfo;
@@ -130,6 +132,26 @@ public class QuestionEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         _questionImgRecycle.onActivityResult(requestCode, resultCode, data);
         _analysisImgRecycle.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_UNIT_CHOOSE:
+                if (resultCode == RESULT_OK) {
+                    assert data != null;
+                    if (data.getBooleanExtra(LearningUnitChoosingActivity.RESULT_SELECTED, false)) {
+                        try {
+                            _unit = DbManager.getHelper(this).getLearningUnitInfos().queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID, 0));
+                            _unitText.setText(_unit.getName());
+                        }catch (java.sql.SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        _unit = null;
+                        _unitText.setText(R.string.emptyUnit);
+                    }
+                }
+                break;
+        }
+
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
