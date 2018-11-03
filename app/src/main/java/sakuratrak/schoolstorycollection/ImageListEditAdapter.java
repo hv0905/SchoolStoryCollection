@@ -17,7 +17,6 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
     private ArrayList<ImageListEditDataContext> _dataContext;
     private boolean _showAddButton;
     private View.OnClickListener _addButtonClicked;
-    private Context _context;
 
 
     public View.OnClickListener getAddButtonClicked() {
@@ -56,8 +55,7 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
         return _dataContext.size();
     }
 
-    public ImageListEditAdapter(Context context,ArrayList<ImageListEditDataContext> dataContext, boolean showAddButton) {
-        _context = context;
+    public ImageListEditAdapter(ArrayList<ImageListEditDataContext> dataContext, boolean showAddButton) {
         _dataContext = dataContext;
         _showAddButton = showAddButton;
     }
