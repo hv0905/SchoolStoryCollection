@@ -114,8 +114,13 @@ public final class MainActivityUnitFragment extends Fragment {
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
         }
-        UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
-        _unitList.setAdapter(uda);
+        if(_unitList.getAdapter() == null){
+            UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
+            _unitList.setAdapter(uda);
+        }else{
+            ((UnitDisplayAdapter)_unitList.getAdapter()).setDataContext(udi);
+        }
+
         if(_notifyUnitRefresh != null){
             _notifyUnitRefresh.run();
         }

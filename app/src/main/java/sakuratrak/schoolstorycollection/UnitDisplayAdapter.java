@@ -53,6 +53,15 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         _dataContext = mDataSet;
     }
 
+    public ArrayList<UnitDisplayDataContext> getDataContext() {
+        return _dataContext;
+    }
+
+    public void setDataContext(ArrayList<UnitDisplayDataContext> _dataContext) {
+        this._dataContext = _dataContext;
+        notifyDataSetChanged();
+    }
+
     public static final class Holder extends RecyclerView.ViewHolder
     {
         private View _root;

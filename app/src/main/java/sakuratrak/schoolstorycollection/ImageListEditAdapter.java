@@ -17,7 +17,6 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
     private ArrayList<ImageListEditDataContext> _dataContext;
     private boolean _showAddButton;
     private View.OnClickListener _addButtonClicked;
-    private int _addButtonHeight;
     private Context _context;
 
 
@@ -39,12 +38,13 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
         if(i >= _dataContext.size()) { //add button
             ViewGroup.LayoutParams layoutParams = viewHolder._root.getLayoutParams();
-            layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, _context.getResources().getDisplayMetrics());
             viewHolder._root.setLayoutParams(layoutParams);
             viewHolder._image.setImageResource(R.drawable.ic_add_gray_24dp);
+            viewHolder._image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             viewHolder._root.setOnClickListener(_addButtonClicked);
         }else { //image
             viewHolder._image.setImageURI(_dataContext.get(i).imgSrc);
+            viewHolder._image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             viewHolder._root.setOnClickListener(_dataContext.get(i).imageClicked);
         }
     }
@@ -60,6 +60,24 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
         _context = context;
         _dataContext = dataContext;
         _showAddButton = showAddButton;
+    }
+
+    public ArrayList<ImageListEditDataContext> get_dataContext() {
+        return _dataContext;
+    }
+
+    public void set_dataContext(ArrayList<ImageListEditDataContext> _dataContext) {
+        this._dataContext = _dataContext;
+        notifyDataSetChanged();
+    }
+
+    public boolean isShowAddButton() {
+        return _showAddButton;
+    }
+
+    public void setShowAddButton(boolean _showAddButton) {
+        this._showAddButton = _showAddButton;
+        notifyDataSetChanged();
     }
 
     public static final class Holder extends RecyclerView.ViewHolder {

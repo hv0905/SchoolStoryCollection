@@ -1,15 +1,12 @@
 package sakuratrak.schoolstorycollection.core;
 
-
 import android.support.annotation.Nullable;
 
-import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
-import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
@@ -42,7 +39,7 @@ public final class QuestionInfo implements Serializable {
     private int typeId;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> mainImage;
+    private ArrayList<String> questionImage;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private ArrayList<String> analysisImage;
@@ -86,12 +83,12 @@ public final class QuestionInfo implements Serializable {
         this.title = title;
     }
 
-    public ArrayList<String> getMainImage() {
-        return mainImage;
+    public ArrayList<String> getQuestionImage() {
+        return questionImage;
     }
 
-    public void setMainImage(ArrayList<String> mainImage) {
-        this.mainImage = mainImage;
+    public void setQuestionImage(ArrayList<String> questionImage) {
+        this.questionImage = questionImage;
     }
 
     public ArrayList<String> getAnalysisImage() {
@@ -138,6 +135,13 @@ public final class QuestionInfo implements Serializable {
 
     public QuestionInfo(){
 
+    }
+
+    public static QuestionInfo create(){
+        QuestionInfo info = new QuestionInfo();
+        info.setAnalysisImage(new ArrayList<>());
+        info.setQuestionImage(new ArrayList<>());
+        return info;
     }
 
     public QuestionInfo(String title,LearningSubject subject,QuestionType type){

@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuestionEditActivity"
-    android:orientation="vertical"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    >
+    android:orientation="vertical"
+    tools:context=".QuestionEditActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,17 +81,26 @@
                 android:drawableStart="@drawable/ic_image_black_24dp"
                 android:text="@string/questionImg" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/questionImgRecycle"
+            <!--https://stackoverflow.com/questions/27475178/how-do-i-make-wrap-content-work-on-a-recyclerview-->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ui_margin_mid" />
+                android:layout_margin="@dimen/ui_margin_mid">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/questionImgRecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ui_margin_mid"
+                android:layout_marginStart="@dimen/ui_margin_mid"
+                android:layout_marginTop="@dimen/ui_margin_ularge"
+                android:layout_marginEnd="@dimen/ui_margin_mid"
+                android:layout_marginBottom="@dimen/ui_margin_mid"
                 android:hint="@string/questionAdditionInfo">
 
                 <android.support.design.widget.TextInputEditText
@@ -135,6 +143,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
             </android.support.design.widget.TextInputLayout>
 
             <TextView

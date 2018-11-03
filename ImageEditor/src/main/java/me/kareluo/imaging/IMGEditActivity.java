@@ -30,7 +30,7 @@ public class IMGEditActivity extends IMGEditBaseActivity {
 
     public static final String EXTRA_IMAGE_URI = "IMAGE_URI";
 
-    private static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
+    public static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
 
     @Override
     public Bitmap getBitmap() {
