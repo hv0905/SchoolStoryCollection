@@ -59,30 +59,28 @@ public class ImageSelectView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListEditAdapter(new ArrayList<>(),true);
-        _mainAdapter.setAddButtonClicked(v -> {
-            CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
-                //todo choose photo
-                switch (which) {
-                    case 0: {
-                        if (!PermissionAdmin.get(getActivity(), Manifest.permission.CAMERA, _codeCamera)) {
-                            return;
-                        }
-                        takePhoto(_codeCamera);
-                        break;
+        _mainAdapter.setAddButtonClicked(v -> CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
+            //todo choose photo
+            switch (which) {
+                case 0: {
+                    if (!PermissionAdmin.get(getActivity(), Manifest.permission.CAMERA, _codeCamera)) {
+                        return;
                     }
-                    case 1: {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("image/*");
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                            getActivity().startActivityForResult(intent, _codeGet);
-                        }
-                        break;
-                    }
+                    takePhoto(_codeCamera);
+                    break;
                 }
-            }, null).show();
-        });
+                case 1: {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                    if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                        getActivity().startActivityForResult(intent, _codeGet);
+                    }
+                    break;
+                }
+            }
+        }, null).show());
         setAdapter(_mainAdapter);
     }
 
@@ -99,6 +97,7 @@ public class ImageSelectView extends RecyclerView {
         }else if(requestCode == _codeGet){
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(getContext(), IMGEditActivity.class);
+                assert data != null;
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, data.getData());
                 _currentTargetPhoto = new File(getContext().getExternalFilesDir("images"), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
@@ -122,12 +121,28 @@ public class ImageSelectView extends RecyclerView {
     private void refresh() {
         ArrayList<ImageListEditAdapter.ImageListEditDataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
-        for (String path : _images) {
+        for (int i = 0; i < _images.size(); i++) {
+            String path = _images.get(i);
             ImageListEditAdapter.ImageListEditDataContext item = new ImageListEditAdapter.ImageListEditDataContext();
             item.imgSrc = Uri.fromFile(new File(getContext().getExternalFilesDir("images"), path));
+            final int finalI = i;
+            item.imageClicked = v -> showImageOptionMenu(finalI);
             dataContext.add(item);
         }
         _mainAdapter.set_dataContext(dataContext);
+    }
+
+    private void showImageOptionMenu(int index){
+        new AlertDialog.Builder(getContext()).setItems(R.array.imageOptionMenu, (dialog, which) -> {
+            switch (which){
+                case 0:
+                    //noinspection ResultOfMethodCallIgnored
+                    new File(getContext().getExternalFilesDir("images"),_images.get(index)).delete();
+                    _images.remove(index);
+                    refresh();
+                    break;
+            }
+        }).setPositiveButton(R.string.cancel,null).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

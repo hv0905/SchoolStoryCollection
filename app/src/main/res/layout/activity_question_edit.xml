@@ -129,9 +129,15 @@
                 android:drawableStart="@drawable/ic_insert_comment_black_24dp"
                 android:text="@string/analysis" />
 
-            <android.support.v7.widget.RecyclerView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <sakuratrak.schoolstorycollection.ImageSelectView
+                    android:id="@+id/analysisImgRecycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

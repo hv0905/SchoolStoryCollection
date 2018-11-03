@@ -148,6 +148,9 @@
     </string-array>
     <string-array name="photoProvidePath">
         <item>拍照</item>
-        <item>选择照片…</item>
+        <item>选择照片</item>
+    </string-array>
+    <string-array name="imageOptionMenu">
+        <item>删除照片</item>
     </string-array>
 </resources>

@@ -51,6 +51,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     private FrameLayout _answerContainer;
     private View _answerContent;
     private ImageSelectView _questionImgRecycle;
+    private ImageSelectView _analysisImgRecycle;
     //endregion
 
     private ImageListEditAdapter _questionImgAdapter;
@@ -70,10 +71,14 @@ public class QuestionEditActivity extends AppCompatActivity {
         _unitText = findViewById(R.id.textUnit);
         _answerContainer = findViewById(R.id.answerContainer);
         _questionImgRecycle = findViewById(R.id.questionImgRecycle);
+        _analysisImgRecycle = findViewById(R.id.analysisImgRecycle);
 
 
         _questionImgRecycle.setNestedScrollingEnabled(false);
-        _questionImgRecycle.setCodes(REQUEST_IMAGE_CAMERA_QUESTION,REQUEST_IMAGE_GET_QUESTION,REQUEST_IMAGE_EDIT_QUESTION);
+        _questionImgRecycle.setCodes(REQUEST_IMAGE_CAMERA_QUESTION, REQUEST_IMAGE_GET_QUESTION, REQUEST_IMAGE_EDIT_QUESTION);
+
+        _analysisImgRecycle.setNestedScrollingEnabled(false);
+        _analysisImgRecycle.setCodes(REQUEST_IMAGE_CAMERA_ANALYSIS, REQUEST_IMAGE_GET_ANALYSIS, REQUEST_IMAGE_EDIT_ANALYSIS);
 
 
         _unitSelectLayout.setOnClickListener(v -> {
@@ -123,7 +128,8 @@ public class QuestionEditActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        _questionImgRecycle.onActivityResult(requestCode,resultCode,data);
+        _questionImgRecycle.onActivityResult(requestCode, resultCode, data);
+        _analysisImgRecycle.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -132,6 +138,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         _questionImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        _analysisImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 }
