@@ -43,6 +43,13 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         _dataContext = mDataSet;
     }
 
+    public ArrayList<QuestionItemDataContext> get_dataContext() {
+        return _dataContext;
+    }
+
+    public void set_dataContext(ArrayList<QuestionItemDataContext> _dataContext) {
+        this._dataContext = _dataContext;
+    }
 
     public static class Holder extends RecyclerView.ViewHolder {
         private View _root;
@@ -63,8 +70,8 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
 
     public static class QuestionItemDataContext {
-        protected String title;
-        protected String authorTime;
+        public String title;
+        public String authorTime;
         protected String unitInfo;
         protected Uri imgUri;
         protected View.OnClickListener detailClicked;
@@ -88,5 +95,9 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
         public QuestionItemDataContext() {
         }
+
+
     }
+
+
 }

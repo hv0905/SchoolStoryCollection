@@ -13,12 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 public final class MainActivityWorkBookFragment extends Fragment {
 
     private ConstraintLayout _root;
     private RecyclerView _itemList;
     private FloatingActionButton _addItemBtn;
     private Runnable _notifyToUpdate;
+    private QuestionItemAdapter _mainAdapter;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -46,7 +49,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
         });
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
-
+        _mainAdapter = new QuestionItemAdapter(new ArrayList<>());
+        _itemList.setAdapter(_mainAdapter);
+        refreshList();
         return _root;
     }
 
@@ -55,6 +60,13 @@ public final class MainActivityWorkBookFragment extends Fragment {
     }
 
     public void refreshList() {
-
+        ArrayList<QuestionItemAdapter.QuestionItemDataContext>  context = _mainAdapter.get_dataContext();
+        context.clear();
+        for (int i = 0;i<5;i++){
+            QuestionItemAdapter.QuestionItemDataContext tmp = new QuestionItemAdapter.QuestionItemDataContext();
+            tmp.title = String.valueOf(i) + "hello world";
+            context.add(tmp);
+        }
+        _mainAdapter.set_dataContext(context);
     }
 }

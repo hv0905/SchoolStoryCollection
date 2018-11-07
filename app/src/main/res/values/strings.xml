@@ -128,6 +128,7 @@
     <string name="notice_permission_camera">请允许Story酱使用相机权限喵</string>
     <string name="errPermissionDenied">权限申请失败</string>
     <string name="setCameraPermission">请到设置允许本应用使用相机权限</string>
+    <string name="answerQuestionAnswer">解答题答案</string>
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>

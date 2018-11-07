@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                tools:text="hello world" />
+                android:text="hello world" />
 
             <TextView
                 android:id="@+id/valUnit"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_book_black_24dp"
                 android:gravity="center|start"
-                tools:text="somewhere"
+                android:text="somewhere"
                 android:textColor="@color/black" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_edit_black_24dp"
                 android:gravity="center|start"
-                tools:text="sometime"
+                android:text="sometime"
                 android:textColor="@color/black" />
 
             <LinearLayout
