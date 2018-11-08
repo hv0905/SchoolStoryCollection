@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/ok" android:icon="@drawable/ic_done_white_24dp" android:title="@string/image_done" app:showAsAction="always|withText"/>
+    <item android:id="@+id/ok" android:icon="@drawable/ic_done_white_24dp" android:title="@string/save" app:showAsAction="always|withText"/>
 </menu>

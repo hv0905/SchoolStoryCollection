@@ -101,10 +101,10 @@ public class QuestionEditActivity extends AppCompatActivity {
                 _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_fill, _answerContainer);
                 break;
             case BLANK:
-                _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_single_choice, _answerContainer);
+                _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_answer, _answerContainer);
                 break;
             case ANSWER:
-                _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_single_choice, _answerContainer);
+                _answerContent = LayoutInflater.from(this).inflate(R.layout.element_answer_define_answer, _answerContainer);
                 break;
         }
     }
@@ -119,11 +119,12 @@ public class QuestionEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ok:
-                //todo ok...
+
                 finish();
                 return true;
             case android.R.id.home:
                 finish();
+                return true;
         }
         return false;
     }
@@ -146,6 +147,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                     } else {
                         _unit = null;
                         _unitText.setText(R.string.emptyUnit);
+                        
                     }
                 }
                 break;

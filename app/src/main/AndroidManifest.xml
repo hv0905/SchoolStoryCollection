@@ -12,14 +12,14 @@
         android:required="true" />
 
     <application
-        tools:replace="label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/AppNameCn"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:replace="label">
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.files"
@@ -34,12 +34,7 @@
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".QuestionDetailActivity"
             android:label="@string/title_activity_question_detail"
@@ -47,25 +42,27 @@
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".QuestionEditActivity"
-            android:label="@string/editQuestion"
-            />
+        <activity
+            android:name=".QuestionEditActivity"
+            android:label="@string/editQuestion" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
-            >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingActivity"
+            android:label="@string/settings"
+            android:configChanges="orientation"
+            />
     </application>
 
 </manifest>

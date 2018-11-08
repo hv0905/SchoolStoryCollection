@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="通知">
+        <SwitchPreference
+            android:key="showDailyTip"
+            android:summary="每天提醒你复习巩固错题~"
+            android:title="显示每天做题通知" />
+        <!--suppress AndroidElementNotAllowed -->
+        <sakuratrak.schoolstorycollection.TimePreference
+            android:key="notifyTime"
+            android:summary="%s"
+            android:title="每天做题时间" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="存储">
+        <ListPreference
+            android:defaultValue="public"
+            android:dialogTitle="作出选择"
+            android:entries="@array/settings_workbookStorageLoc"
+            android:entryValues="@array/settings_workbookStorageLoc_val"
+            android:key="list_preference"
+            android:summary="%s"
+            android:title="错题本存储位置" />
+        <Preference
+            android:summary="清空缩略图缓存不会影响到你的错题信息,但会减缓下次载入错题的速度"
+            android:title="清空缩略图缓存" />
+        <PreferenceScreen
+            android:key="dangerZone"
+            android:summary="千万别手滑!"
+            android:title="危险操作区"
+            android:persistent="false"
+            >
+            <Preference
+                android:summary="重置所有统计信息"
+                android:title="将删除所以小测记录"
+                />
+            <Preference
+                android:summary="壮士一去兮,就回不来了..."
+                android:title="永久删除所有错题和单元" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+</PreferenceScreen>

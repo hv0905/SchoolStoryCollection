@@ -27,7 +27,9 @@
             android:contentDescription="@string/questionPreview"
             android:focusable="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/test_bg" />
+            android:src="@drawable/test_bg"
+            android:foreground="@drawable/ic_white_ripple"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

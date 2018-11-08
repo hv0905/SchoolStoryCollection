@@ -25,7 +25,7 @@ import java.util.UUID;
 
 import me.kareluo.imaging.IMGEditActivity;
 
-/* Provide a imageSelectView base on RecycleView
+/** Provide a imageSelectView base on RecycleView
 * You need to invoke onActivityResult, onRequestPermissionResult in your activity 's event.
 * */
 public class ImageSelectView extends RecyclerView {
@@ -145,6 +145,7 @@ public class ImageSelectView extends RecyclerView {
         }).setPositiveButton(R.string.cancel,null).show();
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == _codeCamera){
@@ -171,7 +172,7 @@ public class ImageSelectView extends RecyclerView {
         getActivity().startActivityForResult(intent, requestCode);
     }
 
-    public void setCodes(int code0, int code1,int code2){
+    public void setCodes(int code0, int code1,int code2) {
         _codeCamera = code0;
         _codeGet = code1;
         _codeEdit = code2;
