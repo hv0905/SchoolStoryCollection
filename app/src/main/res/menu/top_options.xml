@@ -5,4 +5,5 @@
     <item app:showAsAction="always" android:id="@+id/subjectSpinner"
         app:actionViewClass="android.widget.Spinner"
         android:title="@string/subject" />
+    <item android:title="@string/settings" android:icon="@drawable/ic_settings_white_24dp" app:showAsAction="ifRoom" android:id="@+id/settingBtn"/>
 </menu>

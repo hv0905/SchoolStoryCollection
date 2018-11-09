@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static final int PAGES_COUNT = 4;
+    public static final int PAGES_COUNT = 3;
 
     public MainActivityWorkBookFragment mainActivityWorkBookFragment;
 
@@ -14,7 +14,6 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
     public MainActivityUnitFragment unit;
 
-    public MainActivitySettingsFragment mainActivitySettingsFragment;
 
 
     public MainActivityPagerAdapter(FragmentManager fm) {
@@ -22,7 +21,6 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
         mainActivityWorkBookFragment = new MainActivityWorkBookFragment();
         mainActivityQuizFragment = new MainActivityQuizFragment();
         unit = new MainActivityUnitFragment();
-        mainActivitySettingsFragment = new MainActivitySettingsFragment();
     }
 
     @Override
@@ -40,8 +38,8 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
                 return mainActivityQuizFragment;
             case 2:
                 return unit;
-            case 3:
-                return mainActivitySettingsFragment;
+            //case 3:
+                //return mainActivitySettingsFragment;
             default:
                 return null;
         }

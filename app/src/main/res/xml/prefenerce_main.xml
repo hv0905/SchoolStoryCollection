@@ -62,11 +62,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="aboutPage"
-        android:title="关于"
+        android:title="@string/about"
         >
         <Preference
             android:title="@string/AppNameCn"
             android:summary="@string/AppVersionCn"
+            android:key="easterEgg"
             />
         <Preference
             android:title="@string/Author"
@@ -79,7 +80,7 @@
         <Preference
             android:key="showDetailAbout"
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="显示详细关于信息"
+            android:title="@string/showDetailedAbout"
             >
             <intent android:targetClass="sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="sakuratrak.schoolstorycollection"/>
         </Preference>

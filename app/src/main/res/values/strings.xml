@@ -1,4 +1,8 @@
 <resources>
+    <string name="AppBranch">master</string>
+    <string name="AppNameCn">错题本Story</string>
+    <string name="AppAuthor">Saber0905 in SakuraTrak studio</string>
+
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
     <string name="title_settings">设定</string>
@@ -9,7 +13,6 @@
     <string name="ChoseSubject">选择科目</string>
     <string name="title_activity_learning_unit_choice">选择单元</string>
     <string name="Cancel">取消</string>
-    <string name="AppNameCn">错题本Story</string>
     <string name="unitCompute">单元与统计</string>
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
@@ -63,8 +66,8 @@
     <string name="analysisAdditionData">解析补充信息</string>
     <string name="answer">答案</string>
     <string name="analysis">解析</string>
-    <string name="cameraPermissionError">Story酱被玩坏了...异常:相机使用权限申请出错</string>
-    <string name="cameraIoExpt">Story酱被玩坏了...异常:IOException在创建图像文件时抛出</string>
+    <string name="cameraPermissionError">Story酱被玩坏了…异常:相机使用权限申请出错</string>
+    <string name="cameraIoExpt">Story酱被玩坏了…异常:IOException在创建图像文件时抛出</string>
     <string name="mdUsage">支持使用MarkDown来萌化你的文本~</string>
     <string name="notice_permission_camera">请允许Story酱使用相机权限喵</string>
     <string name="errPermissionDenied">权限申请失败</string>
@@ -85,17 +88,17 @@
     <string name="setval_exportWorkBook">到.sscworkbook文件</string>
     <string name="setval_clearBmCache">清空缩略图缓存不会影响到你的错题信息,但会减缓下次载入错题的速度</string>
     <string name="settit_clearBmCache">清空缩略图缓存</string>
-    <string name="setval_dangerZone">千万别手滑! 这些设置主要用于给作者测试时用的,你还是别点进来了吧..</string>
+    <string name="setval_dangerZone">千万别手滑!\n这些设置主要用于给作者测试时用的,你还是别点进来了吧..</string>
     <string name="settit_dangerZone">危险操作区</string>
     <string name="settit_clearStatInfo">重置所有统计信息</string>
     <string name="setval_clearStatInfo">将删除所有小测记录(包括已归档的错题的记录),重置单元统计信息,你的错题不会受到影响</string>
-    <string name="setval_clearAll">将删除所有错题和单元,包括已归档的错题和单元 壮士一去兮,就回不来了...</string>
+    <string name="setval_clearAll">将删除所有错题和单元,包括已归档的错题和单元\n壮士一去兮,就回不来了…</string>
     <string name="settit_clearAll">永久删除所有错题和单元</string>
     <string name="AppVersionCn">版本:1.0.0 发布于18.11.9</string>
     <string name="Author">作者</string>
-    <string name="AppAuthor">Saber0905 in SakuraTrak studio</string>
     <string name="branch">分支</string>
-    <string name="AppBranch">master</string>
+    <string name="showDetailedAbout">显示详细关于信息</string>
+
     <string-array name="learning_subjects">
         <item>语文</item>
         <item>数学</item>
@@ -123,7 +126,7 @@
     </string-array>
     <string-array name="settings_workbookStorageLoc">
         <item>外部(建议)</item>
-        <item>内部(应用卸载时将全部清除,可别说我没提醒你哦)</item>
+        <item>内部(应用卸载时错题本将全部清除,可别说我没提醒你哦)</item>
     </string-array>
     <string-array name="settings_workbookStorageLoc_val">
         <item>public</item>

@@ -7,6 +7,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class SettingActivity extends AppCompatActivity {
 
     public static class MainSettingFragment extends PreferenceFragmentCompat
     {
+        public int easterEggClickTime = 0;
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
@@ -37,6 +39,16 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public boolean onPreferenceTreeClick(Preference preference) {
             Log.d("setting", "onPreferenceTreeClick: " + preference.getKey() + preference.getTitle());
+            if(preference.getKey() != null) {
+                switch (preference.getKey()) {
+                    case "easterEgg":
+                        easterEggClickTime++;
+                        if (easterEggClickTime >= 6) {
+                            Toast.makeText(getContext(), "无论前方如何,请不要后悔与我的相遇\n      -- 古河渚", Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                }
+            }
             return super.onPreferenceTreeClick(preference);
         }
 

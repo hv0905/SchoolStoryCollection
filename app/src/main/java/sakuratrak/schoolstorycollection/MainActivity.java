@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         _navigation.setSelectedItemId(R.id.navigation_unit);
                         break;
-                    case 3:
-                        _navigation.setSelectedItemId(R.id.navigation_settings);
-                        break;
+//                    case 3:
+//                        _navigation.setSelectedItemId(R.id.navigation_settings);
+//                        break;
                 }
             }
 
@@ -107,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_unit:
                             _pager.setCurrentItem(2);
                         return true;
-                    case R.id.navigation_settings:
-                            _pager.setCurrentItem(3);
-                        _subjectSpinner.setVisibility(View.INVISIBLE);
-                        return true;
+                  //  case R.id.navigation_settings:
+                  //          _pager.setCurrentItem(3);
+                   //     _subjectSpinner.setVisibility(View.INVISIBLE);
+                  //      return true;
                 }
                 return false;
         });
@@ -230,6 +230,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.filter:
                 FilterDialog fd = new FilterDialog();
                 fd.show(getSupportFragmentManager(), "filter");
+                return true;
+            case R.id.settingBtn:
+                startActivity(new Intent(this,SettingActivity.class));
                 return true;
         }
         return false;
