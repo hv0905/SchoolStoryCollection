@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.ViewSwitcher;
@@ -17,7 +19,7 @@ import me.kareluo.imaging.view.IMGView;
  * Created by felix on 2017/12/5 下午3:08.
  */
 
-abstract class IMGEditBaseActivity extends Activity implements View.OnClickListener,
+abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnClickListener,
         IMGTextEditDialog.Callback, RadioGroup.OnCheckedChangeListener,
         DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
 
@@ -52,11 +54,47 @@ abstract class IMGEditBaseActivity extends Activity implements View.OnClickListe
             initViews();
             mImgView.setImageBitmap(bitmap);
         } else finish();
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+
     }
+
+//    /**
+//     * Hide system NavigationBar and StatusBar
+//     */
+//    public void hideNavigationBar()
+//    {
+//        final View decorView = getWindow().getDecorView();
+//        decorView.setOnSystemUiVisibilityChangeListener (new View.OnSystemUiVisibilityChangeListener() {
+//            @Override
+//            public void onSystemUiVisibilityChange(int visibility) {
+//                Log.i("LOG","Menu Shown is this"+ visibility);
+//                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+//
+//            }
+//        });
+//    }
+
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus)
+//        {
+//            getWindow().getDecorView().setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+//            );
+//        }
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        hideNavigationBar();
+//        super.onResume();
+//    }
 
     private void initViews() {
         mImgView = findViewById(R.id.image_canvas);
