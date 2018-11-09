@@ -2,41 +2,86 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="通知">
         <SwitchPreference
+            android:icon="@drawable/ic_notifications_black_24dp"
             android:key="showDailyTip"
-            android:summary="每天提醒你复习巩固错题~"
-            android:title="显示每天做题通知" />
+            android:summary="@string/setval_dailyQuiz"
+            android:title="@string/settit_dailyQuiz" />
         <!--suppress AndroidElementNotAllowed -->
         <sakuratrak.schoolstorycollection.TimePreference
+            android:icon="@drawable/ic_access_alarm_black_24dp"
             android:key="notifyTime"
             android:summary="%s"
-            android:title="每天做题时间" />
+            android:title="@string/settit_dailyQuizTime" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="存储">
+    <PreferenceCategory android:title="@string/storage">
         <ListPreference
+            android:icon="@drawable/ic_save_black_24dp"
             android:defaultValue="public"
-            android:dialogTitle="作出选择"
+            android:dialogTitle="@string/settit_workbookSaveLoc"
             android:entries="@array/settings_workbookStorageLoc"
             android:entryValues="@array/settings_workbookStorageLoc_val"
-            android:key="list_preference"
+            android:key="internalWorkbookLoc"
             android:summary="%s"
-            android:title="错题本存储位置" />
+            android:title="@string/settit_workbookSaveLoc" />
         <Preference
-            android:summary="清空缩略图缓存不会影响到你的错题信息,但会减缓下次载入错题的速度"
-            android:title="清空缩略图缓存" />
+            android:icon="@drawable/ic_file_download_black_24dp"
+            android:key="importWorkBook"
+            android:title="@string/settit_importWorkbook"
+            android:summary="@string/setval_importWorkbook"
+            />
+        <Preference
+            android:icon="@drawable/ic_file_upload_black_24dp"
+            android:key="exportWorkBook"
+            android:title="@string/settit_exportWorkbook"
+            android:summary="@string/setval_exportWorkBook"
+            />
+        <Preference
+            android:icon="@drawable/ic_delete_black_24dp"
+            android:summary="@string/setval_clearBmCache"
+            android:title="@string/settit_clearBmCache" />
         <PreferenceScreen
+            android:icon="@drawable/ic_warning_black_24dp"
             android:key="dangerZone"
-            android:summary="千万别手滑!"
-            android:title="危险操作区"
+            android:summary="@string/setval_dangerZone"
+            android:title="@string/settit_dangerZone"
             android:persistent="false"
             >
             <Preference
-                android:summary="重置所有统计信息"
-                android:title="将删除所以小测记录"
+                android:icon="@drawable/ic_delete_black_24dp"
+                android:key="clearStatInfo"
+                android:title="@string/settit_clearStatInfo"
+                android:summary="@string/setval_clearStatInfo"
                 />
             <Preference
-                android:summary="壮士一去兮,就回不来了..."
-                android:title="永久删除所有错题和单元" />
+                android:icon="@drawable/ic_delete_black_24dp"
+                android:key="clearAll"
+                android:summary="@string/setval_clearAll"
+                android:title="@string/settit_clearAll" />
         </PreferenceScreen>
 
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="aboutPage"
+        android:title="关于"
+        >
+        <Preference
+            android:title="@string/AppNameCn"
+            android:summary="@string/AppVersionCn"
+            />
+        <Preference
+            android:title="@string/Author"
+            android:summary="@string/AppAuthor"
+            />
+        <Preference
+            android:title="@string/branch"
+            android:summary="@string/AppBranch"
+            />
+        <Preference
+            android:key="showDetailAbout"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="显示详细关于信息"
+            >
+            <intent android:targetClass="sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="sakuratrak.schoolstorycollection"/>
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -1,14 +1,12 @@
 package sakuratrak.schoolstorycollection;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
-
-import java.util.Stack;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -22,7 +20,7 @@ public class SettingActivity extends AppCompatActivity {
         fragment = new MainSettingFragment();
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
     }
-    
+
     public static class MainSettingFragment extends PreferenceFragmentCompat
     {
 
@@ -74,6 +72,7 @@ public class SettingActivity extends AppCompatActivity {
             Bundle args = new Bundle();
             args.putString("rootKey", preferenceScreen.getKey());
             applicationPreferencesFragment.setArguments(args);
+            //noinspection ConstantConditions
             getFragmentManager()
                     .beginTransaction()
                     .replace(getId(), applicationPreferencesFragment)

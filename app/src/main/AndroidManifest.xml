@@ -62,6 +62,7 @@
         <activity android:name=".SettingActivity"
             android:label="@string/settings"
             android:configChanges="orientation"
+            android:parentActivityName=".MainActivity"
             />
     </application>
 
