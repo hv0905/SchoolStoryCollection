@@ -5,8 +5,6 @@
 
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
-    <string name="title_settings">设定</string>
-    <string name="title_activity_settings">应用设定</string>
 
     <string name="title_activity_question_detail">错题详情</string>
     <string name="ChoseQuestionType">选择题目类型</string>
@@ -52,8 +50,6 @@
     <string name="error">错误</string>
     <string name="editQuestion">修改错题</string>
     <string name="questionImg">题目图片</string>
-    <string name="addImg">添加图片</string>
-    <string name="clearImg">清空图片</string>
     <string name="multiplyChoiceAnswer">多选题答案</string>
     <string name="singleChoiceAnswer">单选题答案</string>
     <string name="answerA">A</string>
@@ -66,16 +62,12 @@
     <string name="analysisAdditionData">解析补充信息</string>
     <string name="answer">答案</string>
     <string name="analysis">解析</string>
-    <string name="cameraPermissionError">Story酱被玩坏了…异常:相机使用权限申请出错</string>
-    <string name="cameraIoExpt">Story酱被玩坏了…异常:IOException在创建图像文件时抛出</string>
     <string name="mdUsage">支持使用MarkDown来萌化你的文本~</string>
     <string name="notice_permission_camera">请允许Story酱使用相机权限喵</string>
     <string name="errPermissionDenied">权限申请失败</string>
     <string name="setCameraPermission">请到设置允许本应用使用相机权限</string>
     <string name="answerQuestionAnswer">解答题答案</string>
     <string name="save">保存</string>
-    <string name="Preference">偏好设定</string>
-    <string name="settingListSelectedValueDefault">%s</string>
     <string name="settings">设定</string>
     <string name="settit_dailyQuiz">显示每天做题通知</string>
     <string name="setval_dailyQuiz">每天提醒你复习巩固错题~</string>
@@ -98,6 +90,9 @@
     <string name="Author">作者</string>
     <string name="branch">分支</string>
     <string name="showDetailedAbout">显示详细关于信息</string>
+    <string name="question">错题</string>
+    <string name="submit">确定</string>
+    <string name="reset">重置</string>
 
     <string-array name="learning_subjects">
         <item>语文</item>

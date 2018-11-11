@@ -1,9 +1,9 @@
 package sakuratrak.schoolstorycollection;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.preference.DialogPreference;
-import android.support.v7.preference.ListPreference;
 import android.util.AttributeSet;
 
 public class TimePreference extends DialogPreference
@@ -37,6 +37,7 @@ public class TimePreference extends DialogPreference
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public static String timeToString(int h, int m)
     {
         return String.format("%02d", h) + ":" + String.format("%02d", m);

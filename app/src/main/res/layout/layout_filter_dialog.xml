@@ -16,17 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="筛选器"
+            android:text="@string/filter"
             android:textSize="30sp"
             android:layout_margin="8dp"
-            android:drawableLeft="@drawable/ic_filter_list_black_24dp"
+            android:drawableStart="@drawable/ic_filter_list_black_24dp"
             />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="错题:"
+            android:text="@string/question"
             android:textSize="20sp"
             android:textColor="@color/black"
 
@@ -38,21 +38,18 @@
 
 
             <RadioButton
-                android:id="@+id/radioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/showNormalQuestion" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/showPassedQuestion" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -75,14 +72,12 @@
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/radioButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="所有单元" />
 
             <RadioButton
-                android:id="@+id/radioButton5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -91,7 +86,6 @@
         </RadioGroup>
 
         <Spinner
-            android:id="@+id/unitSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </Spinner>
@@ -108,7 +102,6 @@
             />
 
         <EditText
-            android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -118,20 +111,20 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             >
 
             <android.support.design.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="确定"
+                android:text="@string/submit"
                 android:layout_margin="4dp"
                 />
 
             <android.support.design.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="还原"
+                android:text="@string/reset"
                 android:layout_margin="4dp"
                 />
 

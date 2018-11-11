@@ -26,9 +26,10 @@ import java.util.UUID;
 import me.kareluo.imaging.IMGEditActivity;
 import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
-/** Provide a imageSelectView base on RecycleView
-* You need to invoke onActivityResult, onRequestPermissionResult in your activity 's event.
-* */
+/**
+ * Provide a imageSelectView base on RecycleView
+ * You need to invoke onActivityResult, onRequestPermissionResult in your activity 's event.
+ */
 public class ImageSelectView extends RecyclerView {
 
     public ArrayList<String> _images;
@@ -38,7 +39,6 @@ public class ImageSelectView extends RecyclerView {
     private int _codeEdit = 2;
     private File _currentTempCameraPhoto;
     private File _currentTargetPhoto;
-
 
 
     public ImageSelectView(@NonNull Context context) {
@@ -56,10 +56,10 @@ public class ImageSelectView extends RecyclerView {
         init();
     }
 
-    private void init(){
+    public void init() {
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         _images = new ArrayList<>();
-        _mainAdapter = new ImageListEditAdapter(new ArrayList<>(),true);
+        _mainAdapter = new ImageListEditAdapter(new ArrayList<>(), true);
         _mainAdapter.setAddButtonClicked(v -> CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
             //todo choose photo
             switch (which) {
@@ -86,7 +86,7 @@ public class ImageSelectView extends RecyclerView {
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == _codeCamera){
+        if (requestCode == _codeCamera) {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(getContext(), IMGEditActivity.class);
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_currentTempCameraPhoto));
@@ -95,7 +95,7 @@ public class ImageSelectView extends RecyclerView {
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
-        }else if(requestCode == _codeGet){
+        } else if (requestCode == _codeGet) {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(getContext(), IMGEditActivity.class);
                 assert data != null;
@@ -105,7 +105,7 @@ public class ImageSelectView extends RecyclerView {
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
-        }else if(requestCode == _codeEdit){
+        } else if (requestCode == _codeEdit) {
             if (resultCode == Activity.RESULT_OK) {
                 if (_currentTempCameraPhoto != null) {
                     //noinspection ResultOfMethodCallIgnored
@@ -133,28 +133,28 @@ public class ImageSelectView extends RecyclerView {
         _mainAdapter.set_dataContext(dataContext);
     }
 
-    private void showImageOptionMenu(int index){
+    private void showImageOptionMenu(int index) {
         new AlertDialog.Builder(getContext()).setItems(R.array.imageOptionMenu, (dialog, which) -> {
-            switch (which){
+            switch (which) {
                 case 0:
                     //noinspection ResultOfMethodCallIgnored
-                    new File(AppSettingsMaster.getWorkBookImageDir(getActivity()),_images.get(index)).delete();
+                    new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), _images.get(index)).delete();
                     _images.remove(index);
                     refresh();
                     break;
             }
-        }).setPositiveButton(R.string.cancel,null).show();
+        }).setPositiveButton(R.string.cancel, null).show();
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == _codeCamera){
+        if (requestCode == _codeCamera) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //continue
                 takePhoto(requestCode);
             } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                if (((AppCompatActivity)getContext()).shouldShowRequestPermissionRationale(permissions[0])) {
+                if (((AppCompatActivity) getContext()).shouldShowRequestPermissionRationale(permissions[0])) {
                     Toast.makeText(getContext(), R.string.notice_permission_camera, Toast.LENGTH_LONG).show();
                 } else {
                     //go to settings
@@ -173,7 +173,7 @@ public class ImageSelectView extends RecyclerView {
         getActivity().startActivityForResult(intent, requestCode);
     }
 
-    public void setCodes(int code0, int code1,int code2) {
+    public void setCodes(int code0, int code1, int code2) {
         _codeCamera = code0;
         _codeGet = code1;
         _codeEdit = code2;
@@ -203,7 +203,7 @@ public class ImageSelectView extends RecyclerView {
         this._codeEdit = _codeEdit;
     }
 
-    private AppCompatActivity getActivity(){
-        return (AppCompatActivity)getContext();
+    private AppCompatActivity getActivity() {
+        return (AppCompatActivity) getContext();
     }
 }

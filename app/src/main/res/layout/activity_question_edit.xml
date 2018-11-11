@@ -29,7 +29,6 @@
                 android:hint="@string/questionName">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_label_black_24dp"
@@ -45,7 +44,6 @@
                 android:hint="@string/questionFrom">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/inputAuthor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_file_text_black_24dp"
@@ -154,7 +152,7 @@
 
             <TextView
                 style="@style/textNotice"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:text="@string/mdUsage" />
 
         </LinearLayout>

@@ -17,7 +17,6 @@ public final class AppSettingsMaster {
         if(_settings == null) refreshSetting(context);
         if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
             File databases = new File(AppMaster.getPublicWorkbookDir(),AppMaster.DIR_DATABASES);
-            if(!databases.exists()) databases.mkdir();
             return new File(databases,AppMaster.FILE_WORKBOOK_DB);
         }else{
             //internal

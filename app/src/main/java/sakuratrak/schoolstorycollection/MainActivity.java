@@ -83,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         _navigation.setSelectedItemId(R.id.navigation_unit);
                         break;
-//                    case 3:
-//                        _navigation.setSelectedItemId(R.id.navigation_settings);
-//                        break;
                 }
             }
 
@@ -108,45 +105,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_unit:
                             _pager.setCurrentItem(2);
                         return true;
-                  //  case R.id.navigation_settings:
-                  //          _pager.setCurrentItem(3);
-                   //     _subjectSpinner.setVisibility(View.INVISIBLE);
-                  //      return true;
                 }
                 return false;
         });
-
-//        _tempBtn.setOnClickListener(v -> CommonAlerts.AskPhoto(this, (dialog, which) -> {
-//            switch (which) {
-//                case 0: {
-//                    if (!PermissionAdmin.get(this, Manifest.permission.CAMERA,1)) {
-//                        Snackbar.make(v, R.string.cameraPermissionError, Snackbar.LENGTH_LONG).show();
-//                        return;
-//                    }
-//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                    try {
-//                        File privateFile = AndroidHelper.createLocalImageFile(this);
-//                        Uri fileUri = FileProvider.getUriForFile(MainActivity.this, MainActivity.this.getApplicationContext().getPackageName() + ".files", privateFile);
-//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-//                        _cameraCurrentFile = privateFile;
-//                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_CAMERA);
-//                    } catch (IOException e) {
-//                        Snackbar.make(v, R.string.cameraIoExpt, Snackbar.LENGTH_LONG).show();
-//                    }
-//                    break;
-//                }
-//                case 1: {
-//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                    intent.setType("image/*");
-//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-//                    if (intent.resolveActivity(getPackageManager()) != null) {
-//                        startActivityForResult(intent, IntentResults.REQUEST_IMAGE_GET);
-//                    }
-//                    break;
-//                }
-//            }
-//        }, null));
 
         //endregion
 
@@ -243,8 +204,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 }

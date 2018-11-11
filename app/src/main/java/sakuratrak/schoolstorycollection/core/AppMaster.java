@@ -14,6 +14,7 @@ public class AppMaster {
 
     public static final String FILE_WORKBOOK_DB = "workbook.db";
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File getPublicWorkbookDir() {
         File root = Environment.getExternalStorageDirectory();
         File dir = new File(root, APP_STORAGE_DIR_ROOT);
