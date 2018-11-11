@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import me.kareluo.imaging.IMGEditActivity;
+import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 /** Provide a imageSelectView base on RecycleView
 * You need to invoke onActivityResult, onRequestPermissionResult in your activity 's event.
@@ -89,7 +90,7 @@ public class ImageSelectView extends RecyclerView {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent(getContext(), IMGEditActivity.class);
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_currentTempCameraPhoto));
-                _currentTargetPhoto = new File(getContext().getExternalFilesDir("images"), UUID.randomUUID().toString() + ".jpg");
+                _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
@@ -99,7 +100,7 @@ public class ImageSelectView extends RecyclerView {
                 Intent intent = new Intent(getContext(), IMGEditActivity.class);
                 assert data != null;
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, data.getData());
-                _currentTargetPhoto = new File(getContext().getExternalFilesDir("images"), UUID.randomUUID().toString() + ".jpg");
+                _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
@@ -124,7 +125,7 @@ public class ImageSelectView extends RecyclerView {
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
             ImageListEditAdapter.ImageListEditDataContext item = new ImageListEditAdapter.ImageListEditDataContext();
-            item.imgSrc = Uri.fromFile(new File(getContext().getExternalFilesDir("images"), path));
+            item.imgSrc = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), path));
             final int finalI = i;
             item.imageClicked = v -> showImageOptionMenu(finalI);
             dataContext.add(item);
@@ -137,7 +138,7 @@ public class ImageSelectView extends RecyclerView {
             switch (which){
                 case 0:
                     //noinspection ResultOfMethodCallIgnored
-                    new File(getContext().getExternalFilesDir("images"),_images.get(index)).delete();
+                    new File(AppSettingsMaster.getWorkBookImageDir(getActivity()),_images.get(index)).delete();
                     _images.remove(index);
                     refresh();
                     break;

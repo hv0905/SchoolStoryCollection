@@ -3,12 +3,14 @@ package sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public final class MainActivityQuizFragment extends Fragment {
 
+    public static final String TAG = "MainWindow_Quiz";
 
     public View _root;
 

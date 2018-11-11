@@ -1,7 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
-import android.database.SQLException;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -139,7 +138,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                     assert data != null;
                     if (data.getBooleanExtra(LearningUnitChoosingActivity.RESULT_SELECTED, false)) {
                         try {
-                            _unit = DbManager.getHelper(this).getLearningUnitInfos().queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID, 0));
+                            _unit = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID, 0));
                             _unitText.setText(_unit.getName());
                         }catch (java.sql.SQLException e) {
                             e.printStackTrace();

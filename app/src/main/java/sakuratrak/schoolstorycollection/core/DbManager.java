@@ -1,14 +1,17 @@
 package sakuratrak.schoolstorycollection.core;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.io.File;
 import java.sql.SQLException;
 
 public final class DbManager extends OrmLiteSqliteOpenHelper {
@@ -58,7 +61,11 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
     }
 
     public DbManager(Context context){
-        super(context,DATABASE_NAME,null,2);
+        super(context,context.getDatabasePath(DATABASE_NAME).getAbsolutePath(),null,2);
+    }
+
+    public DbManager(Context context,String databaseName){
+        super(context,databaseName,null,2);
     }
 
     public DbManager(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
@@ -91,17 +98,53 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
     }
 
 
-    public static DbManager getHelper(Context context){
+    public static DbManager getDefaultHelper(Context context){
         if(currentHelper == null){
-            currentHelper = OpenHelperManager.getHelper(context,DbManager.class);
+           File db = AppSettingsMaster.getWorkbookDb(context);
+            //currentHelper = OpenHelperManager.getHelper(new CustomDatabaseContextWrapper(context,null,null,db),DbManager.class);
+            currentHelper = new DbManager(context,db.getAbsolutePath());
         }
         return (DbManager) currentHelper;
     }
 
-    public static void releaseHelper(){
+    public static DbManager getHelperWithPath(Context context,File path){
+        return new DbManager(context,path.getAbsolutePath());
+    }
+
+    public static void releaseCurrentHelper(){
         if(currentHelper != null){
-            OpenHelperManager.releaseHelper();
+            currentHelper.close();
+            //OpenHelperManager.releaseHelper();
                 currentHelper = null;
+        }
+    }
+
+    private static class CustomDatabaseContextWrapper extends ContextWrapper{
+
+        public File _path;
+        public String _name;
+        public File _fullPath;
+
+
+        public CustomDatabaseContextWrapper(Context base) {
+            super(base);
+        }
+
+        public CustomDatabaseContextWrapper(@NonNull Context base, @Nullable File path,@Nullable String name,@Nullable File fullPath){
+            super(base);
+            _path = path;
+            _name = name;
+            _fullPath = fullPath;
+        }
+
+        @Override
+        public File getDatabasePath(String name) {
+            if(_fullPath != null) return _fullPath;
+            if(_path == null){
+                return super.getDatabasePath(_name == null? name : _name);
+            }else{
+                return new File(_path,_name == null ? name : _name);
+            }
         }
     }
 

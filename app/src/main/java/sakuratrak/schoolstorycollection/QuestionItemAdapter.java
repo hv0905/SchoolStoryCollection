@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapter.Holder> {
 
-    private ArrayList<QuestionItemDataContext> _dataContext;
+    private ArrayList<DataContext> _dataContext;
 
     @NonNull
     @Override
@@ -28,7 +28,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        QuestionItemDataContext current =  _dataContext.get(position);
+        DataContext current =  _dataContext.get(position);
         holder.title.setText(current.title);
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
@@ -39,15 +39,15 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         return _dataContext.size();
     }
 
-    public QuestionItemAdapter(ArrayList<QuestionItemDataContext> mDataSet) {
+    public QuestionItemAdapter(ArrayList<DataContext> mDataSet) {
         _dataContext = mDataSet;
     }
 
-    public ArrayList<QuestionItemDataContext> get_dataContext() {
+    public ArrayList<DataContext> get_dataContext() {
         return _dataContext;
     }
 
-    public void set_dataContext(ArrayList<QuestionItemDataContext> _dataContext) {
+    public void set_dataContext(ArrayList<DataContext> _dataContext) {
         this._dataContext = _dataContext;
     }
 
@@ -69,7 +69,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
     }
 
 
-    public static class QuestionItemDataContext {
+    public static class DataContext {
         public String title;
         public String authorTime;
         protected String unitInfo;
@@ -77,7 +77,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         protected View.OnClickListener detailClicked;
         protected View.OnClickListener quizClicked;
 
-        public QuestionItemDataContext(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -86,14 +86,14 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
             this.quizClicked = quizClicked;
         }
 
-        public QuestionItemDataContext(String title, String authorTime, String unitInfo, Uri imgUri) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
         }
 
-        public QuestionItemDataContext() {
+        public DataContext() {
         }
 
 

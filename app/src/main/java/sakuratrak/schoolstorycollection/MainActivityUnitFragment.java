@@ -71,8 +71,8 @@ public final class MainActivityUnitFragment extends Fragment {
                             return;
                         }
                         try {
-                            DbManager.getHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), getParent().getCurrentSubject()));
-                            DbManager.releaseHelper();
+                            DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), getParent().getCurrentSubject()));
+                            DbManager.releaseCurrentHelper();
                         } catch (SQLException e) {
                             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
@@ -93,11 +93,11 @@ public final class MainActivityUnitFragment extends Fragment {
 
     public void refreshUnit(){
         if(!this.isAdded()) return;
-        ArrayList<UnitDisplayAdapter.UnitDisplayDataContext> udi = new ArrayList<>();
+        ArrayList<UnitDisplayAdapter.DataContext> udi = new ArrayList<>();
         List<LearningUnitInfo> luis;
         try {
-            luis = (DbManager.getHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
-            DbManager.releaseHelper();
+            luis = (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
+            DbManager.releaseCurrentHelper();
         } catch (SQLException e) {
             e.printStackTrace();
             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
@@ -109,7 +109,7 @@ public final class MainActivityUnitFragment extends Fragment {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.UnitDisplayDataContext udiItem = new UnitDisplayAdapter.UnitDisplayDataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
+            UnitDisplayAdapter.DataContext udiItem = new UnitDisplayAdapter.DataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);
@@ -126,7 +126,7 @@ public final class MainActivityUnitFragment extends Fragment {
         }
     }
 
-    private void notifyResetUnit(View v, UnitDisplayAdapter.UnitDisplayDataContext udiItem, LearningUnitInfo item) {
+    private void notifyResetUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udiItem.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
@@ -135,13 +135,13 @@ public final class MainActivityUnitFragment extends Fragment {
         ad.show();
     }
 
-    private void notifyRmUnit(View v, UnitDisplayAdapter.UnitDisplayDataContext udiItem, LearningUnitInfo item) {
+    private void notifyRmUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udiItem.Title));
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
             try {
-                DbManager.getHelper(getParent()).getLearningUnitInfos().delete(item);
-                DbManager.releaseHelper();
+                DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().delete(item);
+                DbManager.releaseCurrentHelper();
             } catch (SQLException e) {
                 Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             }

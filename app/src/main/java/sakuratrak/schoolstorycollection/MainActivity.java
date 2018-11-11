@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     //region fields
     private File _cameraCurrentFile;
+    private final String TAG = "MainActivity";
     //endregion
 
     //endregion
@@ -151,12 +152,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         //region init recycler
-
-
         //endregion
 
     }
-
 
     //Intent接收事件
     @Override
@@ -241,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         System.out.println("MainActivity Destroyed!!!");
-        DbManager.releaseHelper();
+        DbManager.releaseCurrentHelper();
         super.onDestroy();
     }
 

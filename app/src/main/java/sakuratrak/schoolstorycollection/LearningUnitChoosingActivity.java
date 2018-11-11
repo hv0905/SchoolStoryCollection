@@ -67,8 +67,8 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                             return;
                         }
                         try {
-                            DbManager.getHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), _currentSubject));
-                            DbManager.releaseHelper();
+                            DbManager.getDefaultHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), _currentSubject));
+                            DbManager.releaseCurrentHelper();
                         } catch (SQLException e) {
                             Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
@@ -104,8 +104,8 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
     private void refreshUnit() {
 
         try {
-            _info = DbManager.getHelper(this).getLearningUnitInfos().queryForEq("subjectId", _currentSubject.getId());
-            DbManager.releaseHelper();
+            _info = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForEq("subjectId", _currentSubject.getId());
+            DbManager.releaseCurrentHelper();
         } catch (SQLException e) {
             Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
