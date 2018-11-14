@@ -20,6 +20,7 @@
         >
 
         <android.support.design.chip.Chip
+            android:id="@+id/a"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
             android:textAlignment="center" />
 
         <android.support.design.chip.Chip
+            android:id="@+id/b"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
@@ -34,6 +36,7 @@
             android:textAlignment="center" />
 
         <android.support.design.chip.Chip
+            android:id="@+id/c"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
             android:layout_height="wrap_content"
@@ -41,6 +44,7 @@
             android:textAlignment="center" />
 
         <android.support.design.chip.Chip
+            android:id="@+id/d"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
             android:layout_height="wrap_content"

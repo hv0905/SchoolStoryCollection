@@ -26,6 +26,7 @@ public class QuestionEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_SUBJECT = "subject";
     public static final String EXTRA_QUESTION_TYPE_ID = "question_type_id";
+    public static final String EXTRA_CONTEXT = "context";
 
     private static final int REQUEST_UNIT_CHOOSE = 200;
     private static final int REQUEST_IMAGE_CAMERA_QUESTION = 201;
@@ -44,6 +45,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     private File _currentTempCameraPhoto;
     private File _currentTargetPhoto;
     private QuestionInfo _context;
+    private boolean _isEdit = false;
 
     //region views
     private View _root;
@@ -64,6 +66,13 @@ public class QuestionEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question_edit);
         _currentSubject = (LearningSubject) getIntent().getSerializableExtra(EXTRA_SUBJECT);
         _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
+        _isEdit = getIntent().hasExtra(EXTRA_CONTEXT);
+        if(_isEdit){
+            //edit
+            _context = (QuestionInfo) getIntent().getSerializableExtra(EXTRA_CONTEXT);
+        }else{
+            //new
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
@@ -118,7 +127,6 @@ public class QuestionEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ok:
-
                 finish();
                 return true;
             case android.R.id.home:

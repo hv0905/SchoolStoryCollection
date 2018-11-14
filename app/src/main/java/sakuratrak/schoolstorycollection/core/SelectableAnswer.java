@@ -1,5 +1,7 @@
 package sakuratrak.schoolstorycollection.core;
 
+import android.app.Activity;
+
 public class SelectableAnswer extends Answer {
 
     public boolean A;
