@@ -5,6 +5,7 @@ android:layout_height="match_parent"
 android:orientation="vertical">
 
 <TextView
+    android:id="@+id/noticeText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/answerQuestionAnswer"
@@ -15,6 +16,7 @@ android:orientation="vertical">
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <sakuratrak.schoolstorycollection.ImageSelectView
+        android:id="@+id/answerImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

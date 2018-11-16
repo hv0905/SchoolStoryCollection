@@ -8,8 +8,8 @@ import java.util.Map;
 
 public final class AppSettingsMaster {
 
-    public static final String SETTINGS_INTERNAL_WORKBOOK_LOC = "internalWorkbookLoc";
-    public static final String SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC = "public";
+    private static final String SETTINGS_INTERNAL_WORKBOOK_LOC = "internalWorkbookLoc";
+    private static final String SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC = "public";
 
     public static Map<String,?> _settings;
 

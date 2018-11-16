@@ -32,8 +32,8 @@ import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
  */
 public class ImageSelectView extends RecyclerView {
 
-    public ArrayList<String> _images;
-    public ImageListEditAdapter _mainAdapter;
+    private ArrayList<String> _images;
+    private ImageListEditAdapter _mainAdapter;
     private int _codeCamera = 0;
     private int _codeGet = 1;
     private int _codeEdit = 2;
@@ -119,7 +119,7 @@ public class ImageSelectView extends RecyclerView {
         }
     }
 
-    private void refresh() {
+    public void refresh() {
         ArrayList<ImageListEditAdapter.ImageListEditDataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
         for (int i = 0; i < _images.size(); i++) {
@@ -205,5 +205,14 @@ public class ImageSelectView extends RecyclerView {
 
     private AppCompatActivity getActivity() {
         return (AppCompatActivity) getContext();
+    }
+
+    public ArrayList<String> getImages() {
+        return _images;
+    }
+
+    public void setImages(ArrayList<String> _images) {
+        this._images = _images;
+        refresh();
     }
 }

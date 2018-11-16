@@ -63,19 +63,13 @@ public final class SingleSelectCreateView extends AnswerUiCreatorView {
     public void setAnswer(Answer value) {
         if(value instanceof SelectableAnswer){
             SelectableAnswer sv = (SelectableAnswer) value;
-            if(sv.A){
-                a.setChecked(true);
-            }else if(sv.B){
-                b.setChecked(true);
-            }else if(sv.C){
-                c.setChecked(true);
-            }else if(sv.D){
-                d.setChecked(true);
-            }
+            a.setChecked(sv.A);
+            b.setChecked(sv.B);
+            c.setChecked(sv.C);
+            d.setChecked(sv.D);
         }else{
-            throw new IllegalArgumentException("Answer type is not correct.");
+            throw new IllegalArgumentException("value");
         }
-
     }
 
     @Override
