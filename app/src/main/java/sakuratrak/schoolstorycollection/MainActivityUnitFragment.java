@@ -72,7 +72,6 @@ public final class MainActivityUnitFragment extends Fragment {
                         }
                         try {
                             DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), getParent().getCurrentSubject()));
-                            DbManager.releaseCurrentHelper();
                         } catch (SQLException e) {
                             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
@@ -97,7 +96,6 @@ public final class MainActivityUnitFragment extends Fragment {
         List<LearningUnitInfo> luis;
         try {
             luis = (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
-            DbManager.releaseCurrentHelper();
         } catch (SQLException e) {
             e.printStackTrace();
             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
@@ -141,7 +139,6 @@ public final class MainActivityUnitFragment extends Fragment {
         ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
             try {
                 DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().delete(item);
-                DbManager.releaseCurrentHelper();
             } catch (SQLException e) {
                 Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             }

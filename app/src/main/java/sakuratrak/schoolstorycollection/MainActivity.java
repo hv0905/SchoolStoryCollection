@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         //设置工具栏
         setSupportActionBar(_toolbar);
 
+        //open database
+        DbManager.getDefaultHelper(this);
+
         //region Events
 
         _pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载

@@ -78,6 +78,7 @@ public class LearningUnitInfo implements Serializable {
             }
             count += logs.size();
         }
+        if(count == 0) return 100;
         return sum / count;
     }
 

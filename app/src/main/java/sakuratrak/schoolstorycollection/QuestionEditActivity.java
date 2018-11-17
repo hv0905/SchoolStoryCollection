@@ -192,7 +192,6 @@ public class QuestionEditActivity extends AppCompatActivity {
                     Snackbar.make(_editTitle, R.string.sqlExp,Snackbar.LENGTH_LONG).show();
                     return true;
                 }
-                DbManager.releaseCurrentHelper();
                 finish();
                 return true;
             case android.R.id.home:

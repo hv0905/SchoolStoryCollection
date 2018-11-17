@@ -68,7 +68,6 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                         }
                         try {
                             DbManager.getDefaultHelper(this).getLearningUnitInfos().create(new LearningUnitInfo(et.getText().toString().trim(), _currentSubject));
-                            DbManager.releaseCurrentHelper();
                         } catch (SQLException e) {
                             Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
@@ -105,7 +104,6 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
         try {
             _info = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForEq("subjectId", _currentSubject.getId());
-            DbManager.releaseCurrentHelper();
         } catch (SQLException e) {
             Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
