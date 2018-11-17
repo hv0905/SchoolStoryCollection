@@ -42,7 +42,7 @@
     <string name="questionName">题目名称</string>
     <string name="questionFrom">题目来源</string>
     <string name="unit">单元</string>
-    <string name="emptyUnit">(无单元)</string>
+    <string name="emptyUnit">(未指定)</string>
     <string name="unitName">单元名称:</string>
     <string name="finish">完成</string>
     <string name="createUnit">创建单元</string>

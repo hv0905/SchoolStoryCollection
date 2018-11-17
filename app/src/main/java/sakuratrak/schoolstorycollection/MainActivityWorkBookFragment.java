@@ -11,12 +11,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +26,19 @@ import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.QuestionInfo;
 
+import static android.app.Activity.RESULT_OK;
+
 public final class MainActivityWorkBookFragment extends Fragment {
+
+    public static final String TAG = "workbookFragment";
 
     private ConstraintLayout _root;
     private RecyclerView _itemList;
     private FloatingActionButton _addItemBtn;
     private Runnable _notifyToUpdate;
     private QuestionItemAdapter _mainAdapter;
+
+    private int resultAddQuestion = MainActivity.RESULT_ADD_QUESTION;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -53,7 +61,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 Intent intent = new Intent(getParent(),QuestionEditActivity.class);
                 intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
                 intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
-                startActivity(intent);
+                getActivity().startActivityForResult(intent,resultAddQuestion);
             }, null);
         });
 
@@ -69,6 +77,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     }
 
     public void refreshList() {
+        Log.d(TAG, "refreshList: go");
         ArrayList<QuestionItemAdapter.DataContext>  context = _mainAdapter.get_dataContext();
         context.clear();
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
@@ -77,18 +86,25 @@ public final class MainActivityWorkBookFragment extends Fragment {
             infos = mgr.FindAllWithSubject(getParent().getCurrentSubject());
         } catch (SQLException e) {
             e.printStackTrace();
-            Snackbar.make(_root, R.string.sqlExp,Snackbar.LENGTH_LONG).show();
             return;
         }
 
         for(QuestionInfo info : infos){
             QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext();
             item.title = info.getTitle();
-            item.unitInfo = info.getUnit().getName();
-            item.authorTime = "sometime";
+            item.unitInfo = info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit);
+            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd");
+            item.authorTime = format.format(info.getAuthorTime());
             item.imgUri = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getContext()),info.getQuestionImage().get(0)));
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);
+    }
+
+    public void myOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == resultAddQuestion){
+            if(resultCode == RESULT_OK)
+                refreshList();
+        }
     }
 }

@@ -32,6 +32,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         holder.title.setText(current.title);
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
+        holder.previewImg.setImageURI(current.imgUri);
     }
 
     @Override

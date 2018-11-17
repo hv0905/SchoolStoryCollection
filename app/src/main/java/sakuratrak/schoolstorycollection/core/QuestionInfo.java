@@ -10,6 +10,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,8 +51,11 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true,foreignAutoRefresh = true)
     private LearningUnitInfo unit;
+
+    @DatabaseField
+    private Date authorTime;
 
     //region getter and setter
 
@@ -134,6 +138,14 @@ public final class QuestionInfo implements Serializable {
 
     public Collection<ExerciseLog> getExerciseLogs() {
         return exerciseLogs;
+    }
+
+    public Date getAuthorTime() {
+        return authorTime;
+    }
+
+    public void setAuthorTime(Date authorTime) {
+        this.authorTime = authorTime;
     }
 
     //endregion

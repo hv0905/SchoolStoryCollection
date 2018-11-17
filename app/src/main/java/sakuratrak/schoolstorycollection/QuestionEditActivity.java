@@ -16,8 +16,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.io.File;
 import java.sql.SQLException;
+import java.util.Date;
 
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
@@ -157,6 +157,7 @@ public class QuestionEditActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -185,6 +186,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                     if (_isEdit) {
                         DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);//更新
                     } else {
+                        _context.setAuthorTime(new Date());
                         DbManager.getDefaultHelper(this).getQuestionInfos().create(_context);
                     }
                 }catch (SQLException sql){
@@ -192,9 +194,11 @@ public class QuestionEditActivity extends AppCompatActivity {
                     Snackbar.make(_editTitle, R.string.sqlExp,Snackbar.LENGTH_LONG).show();
                     return true;
                 }
+                setResult(RESULT_OK);
                 finish();
                 return true;
             case android.R.id.home:
+                setResult(RESULT_CANCELED);
                 finish();
                 return true;
         }

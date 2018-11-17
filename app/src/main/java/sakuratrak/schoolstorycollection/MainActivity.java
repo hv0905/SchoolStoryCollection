@@ -1,7 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +19,12 @@ import android.widget.Spinner;
 
 import java.io.File;
 
-import me.kareluo.imaging.IMGEditActivity;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.LearningSubject;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int RESULT_ADD_QUESTION = 1000;
 
     private MainActivityPagerAdapter _pageContext;
 
@@ -124,25 +125,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case IntentResults.REQUEST_IMAGE_CAMERA:
-                if (resultCode != RESULT_OK) return;
-                Intent intent = new Intent(this, IMGEditActivity.class);
-                intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_cameraCurrentFile));
-                startActivityForResult(intent, IntentResults.REQUEST_IMAGE_EDIT);
-                break;
-            case IntentResults.REQUEST_IMAGE_GET:
-                if (resultCode != RESULT_OK) return;
-                //noinspection ConstantConditions
-                Uri currentUri = data.getData();
-                if (currentUri == null) return;
-                Intent intent1 = new Intent(this, IMGEditActivity.class);
-                intent1.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, currentUri);
-                startActivityForResult(intent1, IntentResults.REQUEST_IMAGE_EDIT);
-                break;
-            case IntentResults.REQUEST_IMAGE_EDIT:
-                break;
-        }
+        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+        _pageContext.mainActivityWorkBookFragment.myOnActivityResult(requestCode, resultCode, data);
+
     }
 
     //从顶部组合框中获取目前选中的科目
