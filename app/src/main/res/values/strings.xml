@@ -93,6 +93,7 @@
     <string name="question">错题</string>
     <string name="submit">确定</string>
     <string name="reset">重置</string>
+    <string name="feedback">问题与建议反馈</string>
 
     <string-array name="learning_subjects">
         <item>语文</item>
