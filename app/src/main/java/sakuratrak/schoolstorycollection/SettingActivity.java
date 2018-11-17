@@ -1,5 +1,7 @@
 package sakuratrak.schoolstorycollection;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +49,14 @@ public class SettingActivity extends AppCompatActivity {
                             Toast.makeText(getContext(), "无论前方如何,请不要后悔与我的相遇\n      -- 古河渚", Toast.LENGTH_LONG).show();
                         }
                         break;
+                    case "feedback":
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setData(Uri.parse("mailto:"));
+                        intent.putExtra(Intent.EXTRA_EMAIL,"mchxfeedback@126.com");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "School Story Collection反馈");
+                        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
                 }
             }
             return super.onPreferenceTreeClick(preference);

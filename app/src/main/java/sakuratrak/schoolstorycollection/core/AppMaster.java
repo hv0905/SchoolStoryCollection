@@ -1,5 +1,6 @@
 package sakuratrak.schoolstorycollection.core;
 
+import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
@@ -41,5 +42,14 @@ public class AppMaster {
             databases.mkdir();
         }
         return dir;
+    }
+
+    public static File getLocalThumbCacheDir(Context context){
+        File cacheRoot = context.getCacheDir();
+        File imgPreviewCache = new File(cacheRoot,"img-thumbs");
+        if(!imgPreviewCache.isDirectory()){
+            imgPreviewCache.mkdir();
+        }
+        return imgPreviewCache;
     }
 }

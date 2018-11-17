@@ -1,13 +1,13 @@
 package sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import sakuratrak.schoolstorycollection.core.AppMaster;
 import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.QuestionInfo;
@@ -95,7 +97,19 @@ public final class MainActivityWorkBookFragment extends Fragment {
             item.unitInfo = info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit);
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd");
             item.authorTime = format.format(info.getAuthorTime());
-            item.imgUri = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getContext()),info.getQuestionImage().get(0)));
+            String imgId = info.getQuestionImage().get(0);
+            File previewImgFile = new File(AppMaster.getLocalThumbCacheDir(getContext()),imgId);
+            if(!previewImgFile.exists()){
+                //create preview img file
+                File fullSizeImg = new File(AppSettingsMaster.getWorkBookImageDir(getContext()),imgId);
+                Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg,500);
+                try {
+                    AndroidHelper.saveBitmap2File(previewImgFile,thump,Bitmap.CompressFormat.JPEG,90);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            item.imgUri = Uri.fromFile(previewImgFile);
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);

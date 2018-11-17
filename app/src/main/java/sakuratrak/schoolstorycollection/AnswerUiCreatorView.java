@@ -2,11 +2,12 @@ package sakuratrak.schoolstorycollection;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import sakuratrak.schoolstorycollection.core.Answer;
 
-public abstract class AnswerUiCreatorView extends LinearLayout {
+public abstract class AnswerUiCreatorView extends FrameLayout {
 
     protected OnUpdateEventHandler _onUpdate;
 

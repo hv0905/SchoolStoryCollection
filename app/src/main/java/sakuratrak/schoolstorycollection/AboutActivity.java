@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.zzhoujay.markdown.MarkDown;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private TextView _mainView;
+    private WebView _mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,17 @@ public class AboutActivity extends AppCompatActivity {
 //        _mainView.addStyleSheet(new Github());
 //        _mainView.loadMarkdownFromAsset("about.md");
 
-        _mainView.post(() -> {
-            try {
-                Spanned spanned = MarkDown.fromMarkdown(getAssets().open("about.md"), (Html.ImageGetter) source -> null, _mainView);
-                _mainView.setText(spanned);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//        _mainView.post(() -> {
+//            try {
+//                Spanned spanned = MarkDown.fromMarkdown(getAssets().open("about.md"), (Html.ImageGetter) source -> null, _mainView);
+//                _mainView.setText(spanned);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        });
 
-        });
+        _mainView.loadUrl("file:///android_asset/aboutwww/about.html");
 
     }
 }

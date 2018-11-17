@@ -80,9 +80,13 @@
         <Preference
             android:key="showDetailAbout"
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="@string/showDetailedAbout"
-            >
+            android:title="@string/showDetailedAbout">
             <intent android:targetClass="sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="sakuratrak.schoolstorycollection"/>
         </Preference>
+
+        <Preference
+            android:key="feedback"
+            android:title="@string/feedback"
+            android:icon="@drawable/ic_mail_black_24dp" />
     </PreferenceCategory>
 </PreferenceScreen>
