@@ -29,6 +29,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/test_bg"
             android:foreground="@drawable/ic_white_ripple"
+            android:transitionName="topImage"
             />
 
         <LinearLayout
@@ -70,6 +71,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.button.MaterialButton
+                    android:id="@+id/btnQuiz"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,6 +79,7 @@
                     android:text="@string/test" />
 
                 <android.support.design.button.MaterialButton
+                    android:id="@+id/btnDetail"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

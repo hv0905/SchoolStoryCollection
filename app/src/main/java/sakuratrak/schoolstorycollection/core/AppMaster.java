@@ -1,10 +1,13 @@
 package sakuratrak.schoolstorycollection.core;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import java.io.File;
 import java.io.IOException;
+
+import sakuratrak.schoolstorycollection.AndroidHelper;
 
 public class AppMaster {
 
@@ -51,5 +54,20 @@ public class AppMaster {
             imgPreviewCache.mkdir();
         }
         return imgPreviewCache;
+    }
+
+    public static File getThumbFile(Context context,String imgId){
+        File previewImgFile = new File(AppMaster.getLocalThumbCacheDir(context),imgId);
+        if(!previewImgFile.exists()){
+            //create preview img file
+            File fullSizeImg = new File(AppSettingsMaster.getWorkBookImageDir(context),imgId);
+            Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg,500);
+            try {
+                AndroidHelper.saveBitmap2File(previewImgFile,thump,Bitmap.CompressFormat.JPEG,90);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return previewImgFile;
     }
 }

@@ -148,6 +148,10 @@ public final class QuestionInfo implements Serializable {
         this.authorTime = authorTime;
     }
 
+    public int getId() {
+        return id;
+    }
+
     //endregion
 
     public QuestionInfo(){

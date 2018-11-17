@@ -1,5 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -98,18 +99,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd");
             item.authorTime = format.format(info.getAuthorTime());
             String imgId = info.getQuestionImage().get(0);
-            File previewImgFile = new File(AppMaster.getLocalThumbCacheDir(getContext()),imgId);
-            if(!previewImgFile.exists()){
-                //create preview img file
-                File fullSizeImg = new File(AppSettingsMaster.getWorkBookImageDir(getContext()),imgId);
-                Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg,500);
-                try {
-                    AndroidHelper.saveBitmap2File(previewImgFile,thump,Bitmap.CompressFormat.JPEG,90);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            item.imgUri = Uri.fromFile(previewImgFile);
+            item.imgUri = Uri.fromFile(AppMaster.getThumbFile(getContext(),imgId));
+            item.detailClicked = v -> goDetail(info.getId(),v);
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);
@@ -120,5 +111,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
             if(resultCode == RESULT_OK)
                 refreshList();
         }
+    }
+
+    private void goDetail(int id,View sharedView){
+        Intent intent = new Intent(getActivity(),QuestionDetailActivity.class);
+        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,id);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),sharedView,"topImage");
+        getActivity().startActivity(intent,options.toBundle());
     }
 }
