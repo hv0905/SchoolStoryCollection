@@ -15,7 +15,7 @@ public final class AppSettingsMaster {
 
     public static File getWorkbookDb(Context context){
         if(_settings == null) refreshSetting(context);
-        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
+        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC) == null || _settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
             File databases = new File(AppMaster.getPublicWorkbookDir(),AppMaster.DIR_DATABASES);
             return new File(databases,AppMaster.FILE_WORKBOOK_DB);
         }else{
@@ -26,7 +26,7 @@ public final class AppSettingsMaster {
 
     public static File getWorkBookImageDir(Context context){
         if(_settings == null) refreshSetting(context);
-        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)){
+        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC) == null || _settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)){
             return new File(AppMaster.getPublicWorkbookDir(),AppMaster.DIR_IMAGES);
         }else{
             //internal

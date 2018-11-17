@@ -2,6 +2,8 @@ package sakuratrak.schoolstorycollection;
 
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
@@ -36,6 +38,22 @@ public final class TextAnswerCreateView extends AnswerUiCreatorView {
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_fill,this);
         _answerText = findViewById(R.id.answerText);
+        _answerText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                toggleOnUpdate();
+            }
+        });
     }
 
     @Override
@@ -55,6 +73,6 @@ public final class TextAnswerCreateView extends AnswerUiCreatorView {
 
     @Override
     public boolean hasAnswer() {
-        return _answerText.getText().toString().trim().isEmpty();
+        return !_answerText.getText().toString().trim().isEmpty();
     }
 }

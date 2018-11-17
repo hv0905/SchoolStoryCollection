@@ -39,6 +39,7 @@ public class ImageSelectView extends RecyclerView {
     private int _codeEdit = 2;
     private File _currentTempCameraPhoto;
     private File _currentTargetPhoto;
+    private OnClickListener _onItemToggle;
 
 
     public ImageSelectView(@NonNull Context context) {
@@ -114,6 +115,7 @@ public class ImageSelectView extends RecyclerView {
                 }
                 _images.add(_currentTargetPhoto.getName());
                 _currentTargetPhoto = null;
+                onItemToggle();
                 refresh();
             }
         }
@@ -140,6 +142,7 @@ public class ImageSelectView extends RecyclerView {
                     //noinspection ResultOfMethodCallIgnored
                     new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), _images.get(index)).delete();
                     _images.remove(index);
+                    onItemToggle();
                     refresh();
                     break;
             }
@@ -214,5 +217,18 @@ public class ImageSelectView extends RecyclerView {
     public void setImages(ArrayList<String> _images) {
         this._images = _images;
         refresh();
+    }
+
+    private void onItemToggle(){
+        if(_onItemToggle != null)
+            _onItemToggle.onClick(this);
+    }
+
+    public OnClickListener getOnItemToggleListener() {
+        return _onItemToggle;
+    }
+
+    public void setOnItemToggleListener(OnClickListener _onItemToggle) {
+        this._onItemToggle = _onItemToggle;
     }
 }

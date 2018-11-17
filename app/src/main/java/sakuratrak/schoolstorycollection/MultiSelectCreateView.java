@@ -40,11 +40,18 @@ public final class MultiSelectCreateView extends AnswerUiCreatorView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_single_choice, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_multiply_choice, this);
         a = findViewById(R.id.a);
         b = findViewById(R.id.b);
         c = findViewById(R.id.c);
         d = findViewById(R.id.d);
+
+        OnClickListener listener = v -> toggleOnUpdate();
+
+        a.setOnClickListener(listener);
+        b.setOnClickListener(listener);
+        c.setOnClickListener(listener);
+        d.setOnClickListener(listener);
     }
 
     @Override

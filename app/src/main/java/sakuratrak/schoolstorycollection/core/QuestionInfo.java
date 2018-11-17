@@ -24,13 +24,16 @@ public final class QuestionInfo implements Serializable {
     private String title;
 
     @DatabaseField
-    private String detail;
+    private String source;
+
+    @DatabaseField(dataType = DataType.LONG_STRING)
+    private String analysisDetail;
+
+    @DatabaseField(dataType = DataType.LONG_STRING)
+    private String questionDetail;
 
     @DatabaseField(canBeNull = false)
     private int subjectId;
-
-//    @DatabaseField(dataType = DataType.SERIALIZABLE)
-//    private ArrayList<Integer> exerciseLogIds;
 
     @ForeignCollectionField(eager = true)
     private ForeignCollection<ExerciseLog> exerciseLogs;
@@ -47,33 +50,10 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
 
-    public String getQuestionAdditionInfo() {
-        return questionAdditionInfo;
-    }
-
-    public void setQuestionAdditionInfo(String questionAdditionInfo) {
-        this.questionAdditionInfo = questionAdditionInfo;
-    }
-
-    public String getAnalysisAdditionInfo() {
-        return analysisAdditionInfo;
-    }
-
-    public void setAnalysisAdditionInfo(String analysisAdditionInfo) {
-        this.analysisAdditionInfo = analysisAdditionInfo;
-    }
-
-    @DatabaseField()
-    private String questionAdditionInfo;
-
-    @DatabaseField()
-    private String analysisAdditionInfo;
-
-
-//    @DatabaseField
-//    private int unitId;
     @DatabaseField(foreign = true)
     private LearningUnitInfo unit;
+
+    //region getter and setter
 
     public String getTitle() {
         return title;
@@ -121,7 +101,30 @@ public final class QuestionInfo implements Serializable {
 
     private void setType(QuestionType value){
         typeId = value.getId();
+    }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getAnalysisDetail() {
+        return analysisDetail;
+    }
+
+    public void setAnalysisDetail(String analysisDetail) {
+        this.analysisDetail = analysisDetail;
+    }
+
+    public String getQuestionDetail() {
+        return questionDetail;
+    }
+
+    public void setQuestionDetail(String questionDetail) {
+        this.questionDetail = questionDetail;
     }
 
     @Nullable
@@ -133,24 +136,29 @@ public final class QuestionInfo implements Serializable {
         return exerciseLogs;
     }
 
+    //endregion
+
     public QuestionInfo(){
 
     }
 
-    public static QuestionInfo create(){
+    public static QuestionInfo createEmpty(){
         QuestionInfo info = new QuestionInfo();
         info.setAnalysisImage(new ArrayList<>());
         info.setQuestionImage(new ArrayList<>());
         return info;
     }
 
-    public QuestionInfo(String title,LearningSubject subject,QuestionType type){
-        this.title = title;
+    public QuestionInfo(LearningSubject subject,QuestionType type){
         subjectId = subject.getId();
         setType(type);
     }
 
-    /*Common usage of QuestionInfo Table*/
+    public void setUnit(LearningUnitInfo unit) {
+        this.unit = unit;
+    }
+
+    /** Common usage of QuestionInfo Table*/
     public static class QuestionInfoDaoManager{
         private final Dao<QuestionInfo,Integer> _base;
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import sakuratrak.schoolstorycollection.core.Answer;
@@ -44,6 +45,8 @@ public final class AnswerAnswerCreateView extends AnswerUiCreatorView {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_answer, this);
         _noticeText = findViewById(R.id.noticeText);
         _answerImage = findViewById(R.id.answerImage);
+
+        _answerImage.setOnItemToggleListener(v -> toggleOnUpdate());
     }
 
     @Nullable
@@ -70,6 +73,10 @@ public final class AnswerAnswerCreateView extends AnswerUiCreatorView {
 
     public void setNoticeText(CharSequence text){
         _noticeText.setText(text);
+    }
+
+    public void setNoticeText(int resId){
+        _noticeText.setText(resId);
     }
 
     /**using this method to link native method for ImageSelectView.

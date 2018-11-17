@@ -62,11 +62,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     public void refreshList() {
         ArrayList<QuestionItemAdapter.DataContext>  context = _mainAdapter.get_dataContext();
         context.clear();
-        for (int i = 0;i<5;i++){
-            QuestionItemAdapter.DataContext tmp = new QuestionItemAdapter.DataContext();
-            tmp.title = String.valueOf(i) + "hello world";
-            context.add(tmp);
-        }
+        
         _mainAdapter.set_dataContext(context);
     }
 }

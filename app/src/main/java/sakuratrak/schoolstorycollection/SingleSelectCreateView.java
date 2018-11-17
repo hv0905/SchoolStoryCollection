@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.chip.Chip;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import sakuratrak.schoolstorycollection.core.Answer;
 import sakuratrak.schoolstorycollection.core.SelectableAnswer;
@@ -45,6 +46,14 @@ public final class SingleSelectCreateView extends AnswerUiCreatorView {
         b = findViewById(R.id.b);
         c = findViewById(R.id.c);
         d = findViewById(R.id.d);
+
+        OnClickListener listener = v -> toggleOnUpdate();
+
+        a.setOnClickListener(listener);
+        b.setOnClickListener(listener);
+        c.setOnClickListener(listener);
+        d.setOnClickListener(listener);
+
     }
 
     @Override
