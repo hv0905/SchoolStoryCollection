@@ -83,28 +83,10 @@ public class QuestionEditActivity extends AppCompatActivity {
         }
 
         //set answer content
-        switch (_questionType) {
-            case SINGLE_CHOICE:
-                _answerContent = new SingleSelectCreateView(this);
-                break;
-            case MULTIPLY_CHOICE:
-                _answerContent = new MultiSelectCreateView(this);
-                break;
-            case TYPEABLE_BLANK:
-                _answerContent = new TextAnswerCreateView(this);
-                break;
-            case BLANK:
-                AnswerAnswerCreateView answerAnswerCreateView1 = new AnswerAnswerCreateView(this);
-                answerAnswerCreateView1.setNoticeText(R.string.fillAnswer);
-                answerAnswerCreateView1.getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
-                _answerContent = answerAnswerCreateView1;
-                break;
-            case ANSWER:
-                AnswerAnswerCreateView answerAnswerCreateView2 = new AnswerAnswerCreateView(this);
-                answerAnswerCreateView2.setNoticeText(R.string.answerQuestionAnswer);
-                answerAnswerCreateView2.getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
-                _answerContent = answerAnswerCreateView2;
-                break;
+        _answerContent = _questionType.getCreatorView(this);
+
+        if(_answerContent instanceof ImageAnswerCreateView){
+            ((ImageAnswerCreateView)_answerContent).getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
         }
 
 
@@ -209,8 +191,8 @@ public class QuestionEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         _questionImgRecycle.onActivityResult(requestCode, resultCode, data);
         _analysisImgRecycle.onActivityResult(requestCode, resultCode, data);
-        if (_answerContent instanceof AnswerAnswerCreateView) {
-            ((AnswerAnswerCreateView) _answerContent).getAnswerImage().onActivityResult(requestCode, resultCode, data);
+        if (_answerContent instanceof ImageAnswerCreateView) {
+            ((ImageAnswerCreateView) _answerContent).getAnswerImage().onActivityResult(requestCode, resultCode, data);
         }
         switch (requestCode) {
             case REQUEST_UNIT_CHOOSE:
@@ -242,8 +224,8 @@ public class QuestionEditActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         _questionImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
         _analysisImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (_answerContent instanceof AnswerAnswerCreateView) {
-            ((AnswerAnswerCreateView) _answerContent).getAnswerImage().onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (_answerContent instanceof ImageAnswerCreateView) {
+            ((ImageAnswerCreateView) _answerContent).getAnswerImage().onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

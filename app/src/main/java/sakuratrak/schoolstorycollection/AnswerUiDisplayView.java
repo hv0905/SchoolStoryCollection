@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import sakuratrak.schoolstorycollection.core.Answer;
+
 public abstract class AnswerUiDisplayView extends FrameLayout {
     public AnswerUiDisplayView(@NonNull Context context) {
         super(context);
@@ -23,5 +25,5 @@ public abstract class AnswerUiDisplayView extends FrameLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public abstract void setAnswer();
+    public abstract void setAnswer(Answer answer);
 }

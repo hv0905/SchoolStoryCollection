@@ -10,7 +10,7 @@ import android.widget.TextView;
 import sakuratrak.schoolstorycollection.core.Answer;
 import sakuratrak.schoolstorycollection.core.ImageAnswer;
 
-public final class AnswerAnswerCreateView extends AnswerUiCreatorView {
+public final class ImageAnswerCreateView extends AnswerUiCreatorView {
 
     //region elements
     TextView _noticeText;
@@ -18,24 +18,24 @@ public final class AnswerAnswerCreateView extends AnswerUiCreatorView {
     //endregion
 
 
-    public AnswerAnswerCreateView(Context context) {
+    public ImageAnswerCreateView(Context context) {
         super(context);
         init();
     }
 
-    public AnswerAnswerCreateView(Context context, AttributeSet attrs) {
+    public ImageAnswerCreateView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
 
     }
 
-    public AnswerAnswerCreateView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ImageAnswerCreateView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
 
     }
 
-    public AnswerAnswerCreateView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ImageAnswerCreateView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
 

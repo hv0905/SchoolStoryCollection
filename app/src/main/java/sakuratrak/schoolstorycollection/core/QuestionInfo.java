@@ -19,6 +19,8 @@ import java.util.List;
 @DatabaseTable(tableName = "QuestionInfo")
 public final class QuestionInfo implements Serializable {
 
+    //region fields
+
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField()
@@ -56,6 +58,8 @@ public final class QuestionInfo implements Serializable {
 
     @DatabaseField
     private Date authorTime;
+
+    //endregion
 
     //region getter and setter
 
@@ -152,6 +156,10 @@ public final class QuestionInfo implements Serializable {
         return id;
     }
 
+    public void setUnit(LearningUnitInfo unit) {
+        this.unit = unit;
+    }
+
     //endregion
 
     public QuestionInfo(){
@@ -168,10 +176,6 @@ public final class QuestionInfo implements Serializable {
     public QuestionInfo(LearningSubject subject,QuestionType type){
         subjectId = subject.getId();
         setType(type);
-    }
-
-    public void setUnit(LearningUnitInfo unit) {
-        this.unit = unit;
     }
 
     /** Common usage of QuestionInfo Table*/
