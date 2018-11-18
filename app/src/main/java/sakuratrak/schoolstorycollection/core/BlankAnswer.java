@@ -14,4 +14,9 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
     public String toString() {
         return answer;
     }
+
+    @Override
+    public float checkAnswer() {
+        return super.checkAnswer();
+    }
 }

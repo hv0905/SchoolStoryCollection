@@ -26,4 +26,6 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
         return (A ? "A" : "") +(B ? "B" : "") +(C ? "C" : "") +(D ? "D" : "");
     }
 
+
+
 }

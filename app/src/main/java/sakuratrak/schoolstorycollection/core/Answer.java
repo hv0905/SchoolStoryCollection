@@ -10,4 +10,8 @@ public abstract class Answer implements Serializable {
         public abstract String toString();
     }
 
+    public float checkAnswer(){
+        throw new UnsupportedOperationException();
+    }
+
 }
