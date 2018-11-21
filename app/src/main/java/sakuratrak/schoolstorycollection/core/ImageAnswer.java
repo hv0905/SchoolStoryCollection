@@ -9,7 +9,6 @@ public final class ImageAnswer extends Answer {
     }
 
     public ImageAnswer(ArrayList<String> image) {
-
         Image = image;
     }
 }

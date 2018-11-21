@@ -16,7 +16,23 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
     }
 
     @Override
-    public float checkAnswer() {
-        return super.checkAnswer();
+    public float checkAnswer(PlainTextAnswer userAnswer) {
+        if(!(userAnswer instanceof BlankAnswer)){
+            throw new IllegalArgumentException("userAnswer");
+        }
+        String[] answerList = getAnswerList();
+        for (String item : answerList) {
+            if(item.equals(((BlankAnswer) userAnswer).answer)) return 1;
+        }
+        return 0;
+    }
+
+    public String[] getAnswerList(){
+        String tmp = answer.replace('；',';');
+        String[] answers = tmp.split(";");
+        for (int i = 0;i<answers.length;i++){
+            answers[i] = answers[i].trim();
+        }
+        return answers;
     }
 }

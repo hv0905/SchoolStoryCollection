@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
+import sakuratrak.schoolstorycollection.core.Answer;
+
 public final class SelectDisplayView extends AnswerUiDisplayView {
     public SelectDisplayView(@NonNull Context context) {
         super(context);
@@ -29,12 +31,12 @@ public final class SelectDisplayView extends AnswerUiDisplayView {
         init();
     }
 
-    private void init() {
+    @Override
+    public void setAnswer(Answer answer) {
 
     }
 
-    @Override
-    public void setAnswer() {
+    private void init() {
 
     }
 }

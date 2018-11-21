@@ -38,7 +38,7 @@
         <activity
             android:name=".QuestionDetailActivity"
             android:label="@string/title_activity_question_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Explode" />
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
