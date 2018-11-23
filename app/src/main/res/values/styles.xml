@@ -22,6 +22,13 @@
         <item name="android:windowExitTransition">@transition/explode</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.Explode.ShareElements" parent="AppTheme.NoActionBar.Explode">
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

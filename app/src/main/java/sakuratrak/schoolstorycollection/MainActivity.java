@@ -17,9 +17,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import java.io.File;
 
@@ -241,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshSubject(LearningSubject subject){
+        if(_currentSubject == subject) return;
         _currentSubject = subject;
         _pageContext.unit.refreshUnit();
     }

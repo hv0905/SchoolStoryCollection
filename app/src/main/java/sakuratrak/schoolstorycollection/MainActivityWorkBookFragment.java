@@ -1,5 +1,6 @@
 package sakuratrak.schoolstorycollection;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import sakuratrak.schoolstorycollection.core.AppMaster;
 import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
@@ -96,7 +99,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext();
             item.title = info.getTitle();
             item.unitInfo = info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit);
-            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd");
+            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
             item.authorTime = format.format(info.getAuthorTime());
             String imgId = info.getQuestionImage().get(0);
             item.imgUri = Uri.fromFile(AppMaster.getThumbFile(getContext(),imgId));

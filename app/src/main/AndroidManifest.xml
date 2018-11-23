@@ -34,11 +34,12 @@
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".QuestionDetailActivity"
             android:label="@string/title_activity_question_detail"
-            android:theme="@style/AppTheme.NoActionBar.Explode" />
+            android:theme="@style/AppTheme.NoActionBar.Explode.ShareElements" />
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
