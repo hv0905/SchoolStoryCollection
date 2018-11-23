@@ -2,8 +2,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/filter" android:title="@string/filter" android:icon="@drawable/ic_filter_list_white_24dp" app:showAsAction="ifRoom" />
-    <item app:showAsAction="always" android:id="@+id/subjectSpinner"
-        app:actionViewClass="android.widget.Spinner"
-        android:title="@string/subject" />
-    <item android:title="@string/settings" android:icon="@drawable/ic_settings_white_24dp" app:showAsAction="ifRoom" android:id="@+id/settingBtn"/>
 </menu>

@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,18 +31,21 @@ public class MainActivity extends AppCompatActivity {
     public static final int RESULT_ADD_QUESTION = 1000;
 
     private MainActivityPagerAdapter _pageContext;
+    private LearningSubject _currentSubject = LearningSubject.CHINESE;
 
     //region ui_control
-    private Spinner _subjectSpinner;
+    private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
     private Toolbar _toolbar;
     private ViewPager _pager;
     private MenuItem _filterMenu;
+    private NavigationView _navigationView;
     //endregion
 
     //region fields
     private File _cameraCurrentFile;
     private final String TAG = "MainActivity";
+    private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
     //endregion
@@ -55,10 +62,75 @@ public class MainActivity extends AppCompatActivity {
         _pager = findViewById(R.id.pager);
         _navigation = findViewById(R.id.bottomNav);
         _toolbar = findViewById(R.id.toolbar);
+        _drawer = findViewById(R.id.drawer);
+        _navigationView = findViewById(R.id.navigationView);
         //endregion
 
         //设置工具栏
         setSupportActionBar(_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setTitle(R.string.chinese);
+
+        //设置Drawer
+        _drawerToggle = new ActionBarDrawerToggle(this,_drawer,_toolbar,R.string.subject,R.string.subject){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        _drawer.addDrawerListener(_drawerToggle);
+
+        _navigationView.setNavigationItemSelectedListener(menuItem -> {
+            _drawer.closeDrawer(Gravity.START);
+            if(menuItem.getItemId() == R.id.nav_menu_settings){
+                //settings...
+                Intent intent = new Intent(this,SettingActivity.class);
+                startActivity(intent);
+                return true;
+            }else{
+                getSupportActionBar().setTitle(menuItem.getTitle());
+                menuItem.setChecked(true);
+                switch (menuItem.getItemId()){
+                    case R.id.nav_menu_chinese:
+                        refreshSubject(LearningSubject.CHINESE);
+                        break;
+                    case R.id.nav_menu_math:
+                        refreshSubject(LearningSubject.MATH);
+                        break;
+                    case R.id.nav_menu_english:
+                        refreshSubject(LearningSubject.ENGLISH);
+                        break;
+                    case R.id.nav_menu_physics:
+                        refreshSubject(LearningSubject.PHYSICS);
+                        break;
+                    case R.id.nav_menu_chemistry:
+                        refreshSubject(LearningSubject.HISTORY);
+                        break;
+                    case R.id.nav_menu_biologic:
+                        refreshSubject(LearningSubject.GEO);
+                        break;
+                    case R.id.nav_menu_politics:
+                        refreshSubject(LearningSubject.POLITICS);
+                        break;
+                    case R.id.nav_menu_history:
+                        refreshSubject(LearningSubject.CHEMISTRY);
+                        break;
+                    case R.id.nav_menu_geo:
+                        refreshSubject(LearningSubject.GEO);
+                        break;
+                }
+            }
+            return false;
+        });
+
 
         //open database
         DbManager.getDefaultHelper(this);
@@ -96,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         _navigation.setOnNavigationItemSelectedListener(item -> {
-                _subjectSpinner.setVisibility(View.VISIBLE);
                 _filterMenu.setVisible(false);
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
@@ -133,10 +204,7 @@ public class MainActivity extends AppCompatActivity {
     //从顶部组合框中获取目前选中的科目
     @NonNull
     public LearningSubject getCurrentSubject() {
-        if (_subjectSpinner == null) {
-            return LearningSubject.CHINESE;
-        }
-        return LearningSubject.id2Obj(_subjectSpinner.getSelectedItemPosition());
+        return _currentSubject;
     }
 
 
@@ -147,39 +215,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_options, menu);
-        _subjectSpinner = (Spinner) menu.findItem(R.id.subjectSpinner).getActionView();
         _filterMenu = menu.findItem(R.id.filter);
-        _subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //load unit
-                _pageContext.unit.refreshUnit();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                //ignored
-
-            }
-        });
-
-        //set spinner adapter
-        ArrayAdapter<CharSequence> subjectDropdown = ArrayAdapter.createFromResource(this, R.array.learning_subjects, R.layout.layout_spinner_item);
-        subjectDropdown.setDropDownViewResource(R.layout.layout_spinner_dropdown);
-        _subjectSpinner.setAdapter(subjectDropdown);
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (_drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.filter:
                 FilterDialog fd = new FilterDialog();
                 fd.show(getSupportFragmentManager(), "filter");
-                return true;
-            case R.id.settingBtn:
-                startActivity(new Intent(this,SettingActivity.class));
                 return true;
         }
         return false;
@@ -190,6 +238,11 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("MainActivity Destroyed!!!");
         DbManager.releaseCurrentHelper();
         super.onDestroy();
+    }
+
+    public void refreshSubject(LearningSubject subject){
+        _currentSubject = subject;
+        _pageContext.unit.refreshUnit();
     }
 
 }

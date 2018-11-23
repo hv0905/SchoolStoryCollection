@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu_chinese"
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/chinese" />
+        <item
+            android:id="@+id/nav_menu_math"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/math" />
+        <item
+            android:id="@+id/nav_menu_english"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/english" />
+        <item
+            android:id="@+id/nav_menu_physics"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/physics" />
+        <item
+            android:id="@+id/nav_menu_chemistry"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/chemistry" />
+        <item
+            android:id="@+id/nav_menu_biologic"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/biologic" />
+        <item
+            android:id="@+id/nav_menu_history"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/history" />
+        <item
+            android:id="@+id/nav_menu_politics"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/politics" />
+        <item
+            android:id="@+id/nav_menu_geo"
+
+            android:checkable="true"
+            android:icon="@drawable/ic_book_black_24dp"
+            android:title="@string/geo" />
+    </group>
+
+    <group>
+        <item
+            android:id="@+id/nav_menu_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/settings" />
+    </group>
+</menu>

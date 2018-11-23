@@ -94,6 +94,15 @@
     <string name="submit">确定</string>
     <string name="reset">重置</string>
     <string name="feedback">问题与建议反馈</string>
+    <string name="chinese">语文</string>
+    <string name="math">数学</string>
+    <string name="english">英语</string>
+    <string name="physics">物理</string>
+    <string name="chemistry">化学</string>
+    <string name="biologic">生物</string>
+    <string name="history">历史</string>
+    <string name="politics">政治</string>
+    <string name="geo">地理</string>
 
     <string-array name="learning_subjects">
         <item>语文</item>
