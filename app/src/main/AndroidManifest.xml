@@ -38,8 +38,8 @@
             />
         <activity
             android:name=".QuestionDetailActivity"
-            android:label="@string/title_activity_question_detail"
-            android:theme="@style/AppTheme.NoActionBar.Explode.ShareElements" />
+            android:theme="@style/AppTheme.NoActionBar.Explode"
+            />
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"

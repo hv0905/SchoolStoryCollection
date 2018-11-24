@@ -59,6 +59,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
 
     public void set_dataContext(ArrayList<DataContext> _dataContext) {
         this._dataContext = _dataContext;
+        notifyDataSetChanged();
     }
 
     public final static class Holder extends RecyclerView.ViewHolder {

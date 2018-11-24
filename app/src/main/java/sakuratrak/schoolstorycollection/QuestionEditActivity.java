@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class QuestionEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_SUBJECT = "subject";
     public static final String EXTRA_QUESTION_TYPE_ID = "question_type_id";
-    public static final String EXTRA_CONTEXT = "context";
+    public static final String EXTRA_CONTEXT_ID = "context";
     public static final String TAG = "QuestionEditActivity";
 
     private static final int REQUEST_UNIT_CHOOSE = 200;
@@ -70,10 +71,15 @@ public class QuestionEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question_edit);
         _currentSubject = (LearningSubject) getIntent().getSerializableExtra(EXTRA_SUBJECT);
         _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
-        _isEdit = getIntent().hasExtra(EXTRA_CONTEXT);
+        _isEdit = getIntent().hasExtra(EXTRA_CONTEXT_ID);
         if (_isEdit) {
             //edit
-            _context = (QuestionInfo) getIntent().getSerializableExtra(EXTRA_CONTEXT);
+            try {
+                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID,0));
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.sqlExp,Toast.LENGTH_LONG).show();
+            }
         } else {
             //new
         }

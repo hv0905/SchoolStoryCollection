@@ -29,6 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:transitionName="topImage"
+                android:contentDescription="@string/questionPreview"
+                android:foreground="#44000000"
                 />
 
             <android.support.v7.widget.Toolbar
@@ -51,6 +53,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_key_white_24dp"
+        android:contentDescription="@string/showAnswer"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

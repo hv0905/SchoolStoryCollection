@@ -43,6 +43,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItemBtn;
     private Runnable _notifyToUpdate;
     private QuestionItemAdapter _mainAdapter;
+    private View _workbookEmptyNotice;
 
     private int resultAddQuestion = MainActivity.RESULT_ADD_QUESTION;
 
@@ -58,8 +59,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_workbook,container,false);
+
         _itemList = _root.findViewById(R.id.itemList);
         _addItemBtn = _root.findViewById(R.id.addItemBtn);
+        _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
         _addItemBtn.setOnClickListener(v -> {
             //navigate to add activity
@@ -107,6 +110,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);
+        if(context.size() == 0){
+            _workbookEmptyNotice.setVisibility(View.VISIBLE);
+        }else{
+            _workbookEmptyNotice.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     public void myOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

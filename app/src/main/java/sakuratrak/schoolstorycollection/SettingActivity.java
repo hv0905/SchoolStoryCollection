@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -50,12 +51,18 @@ public class SettingActivity extends AppCompatActivity {
                         }
                         break;
                     case "feedback":
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setData(Uri.parse("mailto:"));
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:mchxfeedback@126.com"));
                         intent.putExtra(Intent.EXTRA_EMAIL,"mchxfeedback@126.com");
                         intent.putExtra(Intent.EXTRA_SUBJECT, "School Story Collection反馈");
                         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intent);
+                        }else{
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage("未检测到邮件应用\n请手动发送邮件到mchxfeedback@126.com")
+                                    .setTitle(R.string.feedback)
+                                    .setIcon(R.drawable.ic_info_black_24dp)
+                                    .show();
                         }
                 }
             }

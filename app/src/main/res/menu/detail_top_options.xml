@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/showAnswerMenu"
+        android:title="@string/showAnswer" app:showAsAction="always" android:icon="@drawable/ic_key_white_24dp"/>
+    <item
+        android:id="@+id/shareMenu"
+        android:title="@string/share" app:showAsAction="always" android:icon="@drawable/ic_share_white_24dp"/>
+    <item
+        android:id="@+id/editMenu"
+        android:title="@string/edit" app:showAsAction="always" android:icon="@drawable/ic_edit_white_24dp"/>
+</menu>
