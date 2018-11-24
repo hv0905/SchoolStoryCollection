@@ -69,18 +69,21 @@ public class QuestionEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_edit);
-        _currentSubject = (LearningSubject) getIntent().getSerializableExtra(EXTRA_SUBJECT);
-        _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
+
         _isEdit = getIntent().hasExtra(EXTRA_CONTEXT_ID);
         if (_isEdit) {
             //edit
             try {
                 _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID,0));
+                _questionType = _context.getType();
+                _currentSubject = _context.getSubject();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Toast.makeText(this, R.string.sqlExp,Toast.LENGTH_LONG).show();
             }
         } else {
+            _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
+            _currentSubject = (LearningSubject) getIntent().getSerializableExtra(EXTRA_SUBJECT);
             //new
         }
         if (getSupportActionBar() != null) {

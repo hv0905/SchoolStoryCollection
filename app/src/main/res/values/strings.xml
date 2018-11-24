@@ -108,6 +108,7 @@
     <string name="share">分享</string>
     <string name="edit">编辑</string>
     <string name="workbookEmptyUi">开始记录错题吧~</string>
+    <string name="stat">统计</string>
 
     <string-array name="learning_subjects">
         <item>语文</item>
