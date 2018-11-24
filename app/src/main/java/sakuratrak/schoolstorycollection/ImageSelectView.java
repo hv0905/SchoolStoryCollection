@@ -33,7 +33,7 @@ import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 public class ImageSelectView extends RecyclerView {
 
     private ArrayList<String> _images;
-    private ImageListEditAdapter _mainAdapter;
+    private ImageListAdapter _mainAdapter;
     private int _codeCamera = 0;
     private int _codeGet = 1;
     private int _codeEdit = 2;
@@ -60,7 +60,7 @@ public class ImageSelectView extends RecyclerView {
     public void init() {
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         _images = new ArrayList<>();
-        _mainAdapter = new ImageListEditAdapter(new ArrayList<>(), true);
+        _mainAdapter = new ImageListAdapter(new ArrayList<>(), true);
         _mainAdapter.setAddButtonClicked(v -> CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
             //todo choose photo
             switch (which) {
@@ -122,11 +122,11 @@ public class ImageSelectView extends RecyclerView {
     }
 
     public void refresh() {
-        ArrayList<ImageListEditAdapter.ImageListEditDataContext> dataContext = _mainAdapter.get_dataContext();
+        ArrayList<ImageListAdapter.DataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
-            ImageListEditAdapter.ImageListEditDataContext item = new ImageListEditAdapter.ImageListEditDataContext();
+            ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
             item.imgSrc = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), path));
             final int finalI = i;
             item.imageClicked = v -> showImageOptionMenu(finalI);

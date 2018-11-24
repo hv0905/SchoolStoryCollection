@@ -4,22 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
     app:cardCornerRadius="5dp"
     app:cardPreventCornerOverlap="false"
-    tools:context=".ImageListEditAdapter"
+    tools:context=".ImageListAdapter"
     >
 
     <ImageView
         android:id="@+id/image"
-        android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:maxHeight="300dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/test_bg"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/test_bg" />
 </android.support.design.card.MaterialCardView>

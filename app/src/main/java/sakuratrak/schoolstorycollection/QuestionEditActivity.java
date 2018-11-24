@@ -133,6 +133,9 @@ public class QuestionEditActivity extends AppCompatActivity {
             _editQuestionInfo.setText(_context.getQuestionDetail());
             _editAnalysisInfo.setText(_context.getAnalysisDetail());
             _answerContent.setAnswer(_context.getAnswer());
+            _questionImgRecycle.setImages(_context.getQuestionImage());
+            _analysisImgRecycle.setImages(_context.getAnalysisImage());
+            _unit = _context.getUnit();
 
         }
 

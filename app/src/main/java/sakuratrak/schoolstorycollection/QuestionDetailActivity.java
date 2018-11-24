@@ -143,6 +143,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
             case R.id
                     .shareMenu:
+                //todo share
                 return true;
 
         }
@@ -161,7 +162,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
             _answerZone.animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-
                 }
 
                 @Override

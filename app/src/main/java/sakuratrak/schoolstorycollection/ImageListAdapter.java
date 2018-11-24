@@ -3,6 +3,8 @@ package sakuratrak.schoolstorycollection;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,12 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEditAdapter.Holder> {
+public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Holder> {
 
-    private ArrayList<ImageListEditDataContext> _dataContext;
+    private ArrayList<DataContext> _dataContext;
     private boolean _showAddButton;
     private View.OnClickListener _addButtonClicked;
+    private DisplayMetrics _dp;
 
 
     public View.OnClickListener getAddButtonClicked() {
@@ -28,20 +31,21 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        _dp = viewGroup.getResources().getDisplayMetrics();
         return new Holder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_image_list_edit, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
         if(i >= _dataContext.size()) { //add button
-            ViewGroup.LayoutParams layoutParams = viewHolder._root.getLayoutParams();
-            viewHolder._root.setLayoutParams(layoutParams);
+            viewHolder._image.getLayoutParams().height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100,_dp);
             viewHolder._image.setImageResource(R.drawable.ic_add_gray_24dp);
             viewHolder._image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             viewHolder._root.setOnClickListener(_addButtonClicked);
         }else { //image
             viewHolder._image.setImageURI(_dataContext.get(i).imgSrc);
             viewHolder._image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            viewHolder._image.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             viewHolder._root.setOnClickListener(_dataContext.get(i).imageClicked);
         }
     }
@@ -53,16 +57,16 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
         return _dataContext.size();
     }
 
-    public ImageListEditAdapter(ArrayList<ImageListEditDataContext> dataContext, boolean showAddButton) {
+    public ImageListAdapter(ArrayList<DataContext> dataContext, boolean showAddButton) {
         _dataContext = dataContext;
         _showAddButton = showAddButton;
     }
 
-    public ArrayList<ImageListEditDataContext> get_dataContext() {
+    public ArrayList<DataContext> get_dataContext() {
         return _dataContext;
     }
 
-    public void set_dataContext(ArrayList<ImageListEditDataContext> _dataContext) {
+    public void set_dataContext(ArrayList<DataContext> _dataContext) {
         this._dataContext = _dataContext;
         notifyDataSetChanged();
     }
@@ -88,7 +92,7 @@ public final class ImageListEditAdapter extends RecyclerView.Adapter<ImageListEd
         }
     }
 
-    public static final class ImageListEditDataContext {
+    public static final class DataContext {
         public View.OnClickListener imageClicked;
         public Uri imgSrc;
     }
