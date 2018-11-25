@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private QuestionItemAdapter _mainAdapter;
     private View _workbookEmptyNotice;
 
-    private int resultAddQuestion = MainActivity.RESULT_ADD_QUESTION;
+    private static final int REQUEST_DETAIL =  1001;
+    private static final int REQUEST_ADD_QUESTION = 1000;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -70,7 +72,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 Intent intent = new Intent(getParent(),QuestionEditActivity.class);
                 intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
                 intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
-                getActivity().startActivityForResult(intent,resultAddQuestion);
+                startActivityForResult(intent,REQUEST_ADD_QUESTION);
             }, null);
         });
 
@@ -118,17 +120,30 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     }
 
-    public void myOnActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == resultAddQuestion){
-            if(resultCode == RESULT_OK)
-                refreshList();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode){
+            case REQUEST_ADD_QUESTION:
+                if(resultCode == RESULT_OK)
+                    refreshList();
+                break;
+            case REQUEST_DETAIL:
+                switch (resultCode){
+                    case QuestionDetailActivity.RESULT_DELETED:
+                        Snackbar.make(_root,"已删除",Snackbar.LENGTH_LONG).show();
+                    case QuestionDetailActivity.RESULT_EDITED:
+                        refreshList();
+                        break;
+                }
+                break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void goDetail(int id,View sharedView){
+    private void goDetail(int id, View sharedView){
         Intent intent = new Intent(getActivity(),QuestionDetailActivity.class);
         intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,id);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),sharedView,"topImage");
-        getActivity().startActivity(intent,options.toBundle());
+        startActivityForResult(intent,REQUEST_DETAIL,options.toBundle());
     }
 }

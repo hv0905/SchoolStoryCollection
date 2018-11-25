@@ -39,7 +39,7 @@ public final class PlainTextAnswerDisplayView extends AnswerUiDisplayView {
 
     void init(){
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_text,this);
-        _root = findViewById(R.id.root);
+        _root = findViewById(R.id.imgs);
     }
 
     @Override

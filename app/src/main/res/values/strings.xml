@@ -109,6 +109,8 @@
     <string name="edit">编辑</string>
     <string name="workbookEmptyUi">开始记录错题吧~</string>
     <string name="stat">统计</string>
+    <string name="hide">归档</string>
+    <string name="delete">删除</string>
 
     <string-array name="learning_subjects">
         <item>语文</item>

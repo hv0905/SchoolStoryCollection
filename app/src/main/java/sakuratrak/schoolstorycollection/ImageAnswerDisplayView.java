@@ -7,8 +7,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import sakuratrak.schoolstorycollection.core.Answer;
+import sakuratrak.schoolstorycollection.core.ImageAnswer;
 
 public final class ImageAnswerDisplayView extends AnswerUiDisplayView {
+
+    ImageDisplayView _root;
+
     public ImageAnswerDisplayView(@NonNull Context context) {
         super(context);
         init();
@@ -33,11 +37,14 @@ public final class ImageAnswerDisplayView extends AnswerUiDisplayView {
     }
 
     void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_image,this);
+       LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_image,this);
+       _root = findViewById(R.id.imgs);
     }
 
     @Override
     public void setAnswer(Answer answer) {
-
+        if(answer instanceof ImageAnswer){
+            _root.setImages(((ImageAnswer) answer).Image);
+        }else throw new IllegalArgumentException("value");
     }
 }

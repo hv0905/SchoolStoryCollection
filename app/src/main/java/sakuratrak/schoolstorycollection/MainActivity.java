@@ -25,8 +25,6 @@ import sakuratrak.schoolstorycollection.core.LearningSubject;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int RESULT_ADD_QUESTION = 1000;
-
     private MainActivityPagerAdapter _pageContext;
     private LearningSubject _currentSubject = LearningSubject.CHINESE;
 
@@ -194,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
-        _pageContext.mainActivityWorkBookFragment.myOnActivityResult(requestCode, resultCode, data);
 
     }
 

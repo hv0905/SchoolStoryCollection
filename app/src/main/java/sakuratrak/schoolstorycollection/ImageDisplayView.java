@@ -68,8 +68,8 @@ public final class ImageDisplayView extends RecyclerView {
                 .setImageInfoList(getInfoList())
                 .setShowDownButton(true)
                 .setLoadStrategy(ImagePreview.LoadStrategy.AlwaysOrigin)
-                .setFolderName("BigImageViewDownload")
-                .setScaleLevel(1, 3, 8)
+                .setFolderName("DCIM/SchoolStoryCollection")
+                .setScaleLevel(1, 5, 16)
                 .setZoomTransitionDuration(300)
                 .setEnableDragClose(true)// 是否启用上拉/下拉关闭。默认不启用
                 .start();
@@ -85,6 +85,15 @@ public final class ImageDisplayView extends RecyclerView {
             result.add(dst);
         }
         return result;
+    }
+
+    public void setImages(ArrayList<String> _images) {
+        this._images = _images;
+        refresh();
+    }
+
+    public ArrayList<String> getImages() {
+        return _images;
     }
 
     public Activity getActivity(){

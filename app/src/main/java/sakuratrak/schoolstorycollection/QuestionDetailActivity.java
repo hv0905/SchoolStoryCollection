@@ -4,9 +4,12 @@ import android.animation.Animator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
@@ -32,7 +35,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
     public static final String EXTRA_QUESTION_ID = "questionId";
     public static final String TAG = "QuestionDetail";
 
+    public static final int RESULT_EDITED = 200;
+    public static final int RESULT_DELETED = 201;
+
+    private static final int REQUEST_EDIT = 100;
+
     private QuestionInfo _context;
+
+    private boolean _edited = false;
 
     //region uiElements
 
@@ -46,6 +56,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
     AnswerUiDisplayView _answerContent;
     FloatingActionButton _showAnswerButton;
     LinearLayout _answerZone;
+    ImageDisplayView _questionImgDisplay;
+    ImageDisplayView _analysisImgDisplay;
 
     MenuItem _showAnswerMenu;
 
@@ -56,18 +68,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
 
-
-        if (getIntent().hasExtra(EXTRA_QUESTION_ID)) {
-            try {
-                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
-            }
-
-        } else finish();
-
-
         _appBar = findViewById(R.id.app_bar);
         _toolbar = findViewById(R.id.toolbar);
         _toolbarLayout = findViewById(R.id.toolbarLayout);
@@ -77,6 +77,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _answerContainer = findViewById(R.id.answerContainer);
         _showAnswerButton = findViewById(R.id.showAnswerButton);
         _answerZone = findViewById(R.id.answerZone);
+        _questionImgDisplay = findViewById(R.id.questionImgDisplay);
+        _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
 
 
         setSupportActionBar(_toolbar);
@@ -85,15 +87,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         _appBar.addOnOffsetChangedListener((appBarLayout, i) -> {
-            if (Math.abs(i)-appBarLayout.getTotalScrollRange() == 0)
-            {
-                if(_showAnswerMenu != null){
+            if (Math.abs(i) - appBarLayout.getTotalScrollRange() == 0) {
+                if (_showAnswerMenu != null) {
                     _showAnswerMenu.setVisible(true);
                 }
-            }
-            else
-            {
-                if(_showAnswerMenu != null){
+            } else {
+                if (_showAnswerMenu != null) {
                     _showAnswerMenu.setVisible(false);
                 }
             }
@@ -102,15 +101,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _showAnswerButton.setOnClickListener(v -> toggleAnswer());
 
         //load context
-        getSupportActionBar().setTitle(_context.getTitle());
-        _imageTop.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
-
-        _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
-        _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
-
-        _answerContent = _context.getType().getDisplayView(this);
-        _answerContent.setAnswer(_context.getAnswer());
-        _answerContainer.addView(_answerContent);
+        refresh();
 
     }
 
@@ -145,19 +136,40 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     .shareMenu:
                 //todo share
                 return true;
+            case R.id
+                    .hide:
+                return true;
+
+            case R.id.delete:
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setTitle("删除确认").setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
+                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                            try {
+                                DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
+                            } catch (SQLException e) {
+                                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG);
+                                e.printStackTrace();
+                                return;
+                            }
+                            setResult(RESULT_DELETED);
+                            finish();
+                        })
+                        .setNegativeButton(R.string.cancel, null).show();
+                return true;
 
         }
         return false;
     }
 
-    public void gotoEdit(){
-        Intent intent = new Intent(this,QuestionEditActivity.class);
-        intent.putExtra(QuestionEditActivity.EXTRA_CONTEXT_ID,_context.getId());
-        startActivity(intent);
+    public void gotoEdit() {
+        Intent intent = new Intent(this, QuestionEditActivity.class);
+        intent.putExtra(QuestionEditActivity.EXTRA_CONTEXT_ID, _context.getId());
+        startActivityForResult(intent, REQUEST_EDIT);
     }
 
-    public void toggleAnswer(){
-        if(_answerZone.getVisibility() == View.VISIBLE){
+    public void toggleAnswer() {
+        if (_answerZone.getVisibility() == View.VISIBLE) {
             //hide
             _answerZone.animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
                 @Override
@@ -179,7 +191,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
                 }
             });
-        }else{
+        } else {
             //show
             _answerZone.setAlpha(0);
             _answerZone.setVisibility(View.VISIBLE);
@@ -187,5 +199,52 @@ public class QuestionDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_EDIT:
+                if (resultCode == RESULT_OK) {
+                    Snackbar.make(_toolbarLayout, "更改已保存", Snackbar.LENGTH_LONG).show();
+                    _edited = true;
+                    refresh();
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    private void refresh() {
+
+        if (getIntent().hasExtra(EXTRA_QUESTION_ID)) {
+            try {
+                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
+            }
+
+        } else finish();
+
+        getSupportActionBar().setTitle(_context.getTitle());
+        _toolbar.setTitle(_context.getTitle());
+        _toolbarLayout.setTitle(_context.getTitle());
+
+        _imageTop.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
+
+        _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
+        _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
+
+        _answerContent = _context.getType().getDisplayView(this);
+        _answerContent.setAnswer(_context.getAnswer());
+        _answerContainer.addView(_answerContent);
+
+        _questionImgDisplay.setImages(_context.getQuestionImage());
+        _analysisImgDisplay.setImages(_context.getAnalysisImage());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (_edited)
+            setResult(RESULT_EDITED);
+        super.onBackPressed();
+    }
 }

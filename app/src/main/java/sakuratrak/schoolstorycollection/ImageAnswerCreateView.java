@@ -68,7 +68,7 @@ public final class ImageAnswerCreateView extends AnswerUiCreatorView {
 
     @Override
     public boolean hasAnswer() {
-        return _answerImage.getImages().size() == 0;
+        return _answerImage.getImages().size() != 0;
     }
 
     public void setNoticeText(CharSequence text){
