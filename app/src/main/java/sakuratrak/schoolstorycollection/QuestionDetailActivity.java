@@ -24,10 +24,13 @@ import android.widget.Toast;
 
 import com.zzhoujay.markdown.MarkDown;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import sakuratrak.schoolstorycollection.core.AppMaster;
+import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import sakuratrak.schoolstorycollection.core.DbManager;
+import sakuratrak.schoolstorycollection.core.ImageAnswer;
 import sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 public class QuestionDetailActivity extends AppCompatActivity {
@@ -49,7 +52,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
     AppBarLayout _appBar;
     Toolbar _toolbar;
     CollapsingToolbarLayout _toolbarLayout;
-    ImageView _imageTop;
+    ImageView _imageTopContent;
+    FrameLayout _imageTopBorder;
     TextView _questionText;
     TextView _analysisText;
     FrameLayout _answerContainer;
@@ -71,7 +75,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _appBar = findViewById(R.id.app_bar);
         _toolbar = findViewById(R.id.toolbar);
         _toolbarLayout = findViewById(R.id.toolbarLayout);
-        _imageTop = findViewById(R.id.imageTop);
+        _imageTopBorder = findViewById(R.id.imageTopBorder);
+        _imageTopContent = findViewById(R.id.imageTopContent);
         _questionText = findViewById(R.id.questionText);
         _analysisText = findViewById(R.id.analysisText);
         _answerContainer = findViewById(R.id.answerContainer);
@@ -146,6 +151,27 @@ public class QuestionDetailActivity extends AppCompatActivity {
                         .setTitle("删除确认").setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
                         .setPositiveButton(R.string.confirm, (dialog, which) -> {
                             try {
+                                //delete all images
+                                for(String item_ : _context.getQuestionImage()){
+                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
+                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
+                                    if(raw.exists())raw.delete();
+                                    if(tmb.exists()) tmb.delete();
+                                }
+                                for(String item_ : _context.getAnalysisImage()){
+                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
+                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
+                                    if(raw.exists())raw.delete();
+                                    if(tmb.exists()) tmb.delete();
+                                }
+                                if(_context.getAnswer() instanceof ImageAnswer){
+                                    for(String item_ : ((ImageAnswer) _context.getAnswer()).Image){
+                                        File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
+                                        File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
+                                        if(raw.exists())raw.delete();
+                                        if(tmb.exists()) tmb.delete();
+                                    }
+                                }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
                             } catch (SQLException e) {
                                 Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG);
@@ -228,7 +254,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbar.setTitle(_context.getTitle());
         _toolbarLayout.setTitle(_context.getTitle());
 
-        _imageTop.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
+        _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
 
         _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
         _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));

@@ -108,6 +108,7 @@ public final class MainActivityUnitFragment extends Fragment {
         }
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.DataContext udiItem = new UnitDisplayAdapter.DataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
+            udiItem.QuestionCount = item.getQuestions().size();
             udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
             udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
             udi.add(udiItem);

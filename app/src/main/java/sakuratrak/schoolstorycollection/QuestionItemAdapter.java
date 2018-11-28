@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_questionlistdisplay, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_question, parent, false);
         return new Holder(v);
     }
 
@@ -33,13 +34,13 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         holder.title.setText(current.title);
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
-        holder.previewImg.setImageURI(current.imgUri);
+        holder.previewImgContent.setImageURI(current.imgUri);
         View.OnClickListener listener = v -> {
-            if(current.detailClicked != null){
-                current.detailClicked.onClick(holder.previewImg);
+            if(current.detailClicked != null) {
+                current.detailClicked.onClick(holder.previewImgBorder);
             }
         };
-        holder.previewImg.setOnClickListener(listener);
+        holder.previewImgBorder.setOnClickListener(listener);
         holder.btnDetail.setOnClickListener(listener);
         holder.btnQuiz.setOnClickListener(current.quizClicked);
     }
@@ -65,7 +66,8 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
     public final static class Holder extends RecyclerView.ViewHolder {
         private View _root;
         public TextView title;
-        public ImageView previewImg;
+        public ImageView previewImgContent;
+        public FrameLayout previewImgBorder;
         public TextView valAuthorTime;
         public TextView valUnit;
         public MaterialButton btnQuiz;
@@ -75,13 +77,13 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public Holder(View rootView) {
             super(rootView);
             _root = rootView;
-            previewImg = _root.findViewById(R.id.previewImg);
+            previewImgContent = _root.findViewById(R.id.previewImgContent);
+            previewImgBorder = _root.findViewById(R.id.previewImgBorder);
             title = _root.findViewById(R.id.title);
             valAuthorTime = _root.findViewById(R.id.valAuthorTime);
             valUnit = _root.findViewById(R.id.valUnit);
             btnQuiz = _root.findViewById(R.id.btnQuiz);
             btnDetail = _root.findViewById(R.id.btnDetail);
-
         }
     }
 

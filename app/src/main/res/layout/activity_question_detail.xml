@@ -23,15 +23,21 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
-            <ImageView
-                android:id="@+id/imageTop"
-                android:scaleType="centerCrop"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/imageTopBorder"
                 android:transitionName="topImage"
-                android:contentDescription="@string/questionPreview"
-                android:foreground="#44000000"
-                />
+                android:foreground="#44000000">
+                <ImageView
+                    android:id="@+id/imageTopContent"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/questionPreview"
+                    />
+            </FrameLayout>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

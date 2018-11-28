@@ -18,7 +18,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_unitlistdisplay,parent,false));
+        return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_unit,parent,false));
 
     }
 

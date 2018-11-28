@@ -96,6 +96,13 @@ public class LearningUnitInfo implements Serializable {
         return count;
     }
 
+    public ForeignCollection<QuestionInfo> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ForeignCollection<QuestionInfo> questions) {
+        this.questions = questions;
+    }
 
     public static class LearningUnitInfoDaoHelper {
 
@@ -112,7 +119,6 @@ public class LearningUnitInfo implements Serializable {
         public List<LearningUnitInfo> findBySubject(LearningSubject subject) throws SQLException {
             return _base.queryForEq("subjectId",subject.getId());
         }
-
 
 
 
