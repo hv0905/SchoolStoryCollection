@@ -1,29 +1,43 @@
-package sakuratrakschoolstorycollection;
+package sakuratrak.schoolstorycollection;
 
-public class SelectableQuizAswerUi extends QuizAnswerUi {
+import android.content.Context;
+import android.util.AttributeSet;
 
-    public AnswerUiCreatorView(Context context) {
+import sakuratrak.schoolstorycollection.core.Answer;
+
+public class SelectableQuizAnswerUi extends QuizAnswerUi {
+
+    public SelectableQuizAnswerUi(Context context) {
         super(context);
         init();
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs) {
+    public SelectableQuizAnswerUi(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SelectableQuizAnswerUi(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SelectableQuizAnswerUi(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
+    @Override
+    public void setAnswer(Answer answer) {
+
+    }
+
+    @Override
+    public Answer getAnswer() {
+        return null;
+    }
+
     public void init(){
-        LayoutInflacter.from(getContext()).inflate();
     }
 
 }

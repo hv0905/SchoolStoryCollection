@@ -8,7 +8,7 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
     public static final int PAGES_COUNT = 3;
 
-    public MainActivityWorkBookFragment mainActivityWorkBookFragment;
+    public MainActivityWorkBookFragment workBook;
 
     public MainActivityQuizFragment mainActivityQuizFragment;
 
@@ -18,7 +18,7 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
     public MainActivityPagerAdapter(FragmentManager fm) {
         super(fm);
-        mainActivityWorkBookFragment = new MainActivityWorkBookFragment();
+        workBook = new MainActivityWorkBookFragment();
         mainActivityQuizFragment = new MainActivityQuizFragment();
         unit = new MainActivityUnitFragment();
     }
@@ -33,7 +33,7 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (i) {
             case 0:
-                return mainActivityWorkBookFragment;
+                return workBook;
             case 1:
                 return mainActivityQuizFragment;
             case 2:

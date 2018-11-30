@@ -7,26 +7,26 @@ import android.widget.LinearLayout;
 
 import sakuratrak.schoolstorycollection.core.Answer;
 
-public class QuizAnswerUi extends FrameLayout {
+public abstract class QuizAnswerUi extends FrameLayout {
 
     public static final int ANSWER_COMPLETED = 0;
     public static final int ANSWER_SKIPPED = 1;
 
     public AnswerReportListener onAnswerReport;
 
-    public AnswerUiCreatorView(Context context) {
+    public QuizAnswerUi(Context context) {
         super(context);
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs) {
+    public QuizAnswerUi(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public QuizAnswerUi(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public AnswerUiCreatorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public QuizAnswerUi(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

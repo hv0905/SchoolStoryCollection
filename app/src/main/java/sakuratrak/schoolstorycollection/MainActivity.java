@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.nav_menu_chinese,
             R.id.nav_menu_math,
             R.id.nav_menu_english,
-            R.id.nav_menu_phystic,
+            R.id.nav_menu_physics,
             R.id.nav_menu_chemistry,
             R.id.nav_menu_biologic,
             R.id.nav_menu_politics,
@@ -136,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
 //                }
 
                 for(int subject = 0; subject < 9 ; subject++){
-                    if(menuItem.getItemId() == SUBJECT_MENU_IDS[i]){
-                        refreshSubject(LearningSubject.id2Obj(i));
+                    if(menuItem.getItemId() == SUBJECT_MENU_IDS[subject]){
+                        refreshSubject(LearningSubject.id2Obj(subject));
                         break;
                     }
                 }
@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         if(_currentSubject == subject) return;
         _currentSubject = subject;
         _pageContext.unit.refreshUnit();
+        _pageContext.workBook.refreshList();
     }
 
 }
