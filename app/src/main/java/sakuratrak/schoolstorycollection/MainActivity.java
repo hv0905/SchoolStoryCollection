@@ -28,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityPagerAdapter _pageContext;
     private LearningSubject _currentSubject = LearningSubject.CHINESE;
 
+    private static final int[] SUBJECT_MENU_IDS = new int[] {
+            R.id.nav_menu_chinese,
+            R.id.nav_menu_math,
+            R.id.nav_menu_english,
+            R.id.nav_menu_phystic,
+            R.id.nav_menu_chemistry,
+            R.id.nav_menu_biologic,
+            R.id.nav_menu_politics,
+            R.id.nav_menu_history,
+            R.id.nav_menu_geo
+    };
+
     //region ui_control
     private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
@@ -93,34 +105,41 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 getSupportActionBar().setTitle(menuItem.getTitle());
                 menuItem.setChecked(true);
-                switch (menuItem.getItemId()){
-                    case R.id.nav_menu_chinese:
-                        refreshSubject(LearningSubject.CHINESE);
+//                switch (menuItem.getItemId()){
+//                    case R.id.nav_menu_chinese:
+//                        refreshSubject(LearningSubject.CHINESE);
+//                        break;
+//                    case R.id.nav_menu_math:
+//                        refreshSubject(LearningSubject.MATH);
+//                        break;
+//                    case R.id.nav_menu_english:
+//                        refreshSubject(LearningSubject.ENGLISH);
+//                        break;
+//                    case R.id.nav_menu_physics:
+//                        refreshSubject(LearningSubject.PHYSICS);
+//                        break;
+//                    case R.id.nav_menu_chemistry:
+//                        refreshSubject(LearningSubject.HISTORY);
+//                        break;
+//                    case R.id.nav_menu_biologic:
+//                        refreshSubject(LearningSubject.GEO);
+//                        break;
+//                    case R.id.nav_menu_politics:
+//                        refreshSubject(LearningSubject.POLITICS);
+//                        break;
+//                    case R.id.nav_menu_history:
+//                        refreshSubject(LearningSubject.CHEMISTRY);
+//                        break;
+//                    case R.id.nav_menu_geo:
+//                        refreshSubject(LearningSubject.GEO);
+//                        break;
+//                }
+
+                for(int subject = 0; subject < 9 ; subject++){
+                    if(menuItem.getItemId() == SUBJECT_MENU_IDS[i]){
+                        refreshSubject(LearningSubject.id2Obj(i));
                         break;
-                    case R.id.nav_menu_math:
-                        refreshSubject(LearningSubject.MATH);
-                        break;
-                    case R.id.nav_menu_english:
-                        refreshSubject(LearningSubject.ENGLISH);
-                        break;
-                    case R.id.nav_menu_physics:
-                        refreshSubject(LearningSubject.PHYSICS);
-                        break;
-                    case R.id.nav_menu_chemistry:
-                        refreshSubject(LearningSubject.HISTORY);
-                        break;
-                    case R.id.nav_menu_biologic:
-                        refreshSubject(LearningSubject.GEO);
-                        break;
-                    case R.id.nav_menu_politics:
-                        refreshSubject(LearningSubject.POLITICS);
-                        break;
-                    case R.id.nav_menu_history:
-                        refreshSubject(LearningSubject.CHEMISTRY);
-                        break;
-                    case R.id.nav_menu_geo:
-                        refreshSubject(LearningSubject.GEO);
-                        break;
+                    }
                 }
             }
             return false;
@@ -159,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int i) {
+
             }
         });
 

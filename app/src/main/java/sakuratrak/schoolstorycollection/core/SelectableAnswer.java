@@ -56,7 +56,7 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
         return count;
     }
 
-    public boolean[] getAnswerArray(){
+    public boolean[] getAnswerArray( ){
         return new boolean[]{A,B,C,D};
     }
 
