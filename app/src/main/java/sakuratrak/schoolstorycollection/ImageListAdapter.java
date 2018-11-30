@@ -32,7 +32,7 @@ public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapte
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         _dp = viewGroup.getResources().getDisplayMetrics();
-        return new Holder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_image_list_edit, viewGroup, false));
+        return new Holder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_image_list, viewGroup, false));
     }
 
     @Override

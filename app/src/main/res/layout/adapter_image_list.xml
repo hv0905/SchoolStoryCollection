@@ -13,15 +13,19 @@
     app:cardPreventCornerOverlap="false"
     tools:context=".ImageListAdapter"
     >
-
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:maxHeight="300dp"
-        android:scaleType="centerCrop"
-        tools:ignore="ContentDescription"
-        tools:src="@drawable/test_bg" />
+        android:foreground="@drawable/ripple_white"
+        >
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="300dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/test_bg" />
+    </FrameLayout>
 </android.support.design.card.MaterialCardView>

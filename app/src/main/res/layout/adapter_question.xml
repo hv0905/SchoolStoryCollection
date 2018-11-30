@@ -22,7 +22,7 @@
             android:layout_height="160dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="@drawable/ic_white_ripple"
+            android:foreground="@drawable/ripple_white"
             android:transitionName="topImage">
 
             <ImageView
