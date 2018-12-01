@@ -12,15 +12,13 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
     public MainActivityQuizFragment mainActivityQuizFragment;
 
-    public MainActivityUnitFragment unit;
-
-
+    public MainActivityStatFragment stat;
 
     public MainActivityPagerAdapter(FragmentManager fm) {
         super(fm);
         workBook = new MainActivityWorkBookFragment();
         mainActivityQuizFragment = new MainActivityQuizFragment();
-        unit = new MainActivityUnitFragment();
+        stat = new MainActivityStatFragment();
     }
 
     @Override
@@ -37,9 +35,7 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return mainActivityQuizFragment;
             case 2:
-                return unit;
-            //case 3:
-                //return mainActivitySettingsFragment;
+                return stat;
             default:
                 return null;
         }

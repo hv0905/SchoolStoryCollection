@@ -25,7 +25,7 @@ import sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import static android.support.constraint.Constraints.TAG;
 
 
-public final class MainActivityUnitFragment extends Fragment {
+public final class StatFragmentUnitFragment extends Fragment {
 
     private Runnable _notifyUnitRefresh;
 
@@ -45,7 +45,7 @@ public final class MainActivityUnitFragment extends Fragment {
         this._notifyUnitRefresh = _notifyUnitRefresh;
     }
 
-    public MainActivityUnitFragment() {
+    public StatFragmentUnitFragment() {
     }
 
 
@@ -53,8 +53,8 @@ public final class MainActivityUnitFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(TAG, "onCreateView: unit fragment");
-        _root =  (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_unit, container, false);
+        Log.d(TAG, "onCreateView: stat fragment");
+        _root =  (ConstraintLayout) inflater.inflate(R.layout.fragment_stat_fragment_unit, container, false);
         _unitList = _root.findViewById(R.id.unitList);
         _unitEmptyNotice = _root.findViewById(R.id.unitEmptyNotice);
         _addUnitBtn = _root.findViewById(R.id.addUnitBtn);
