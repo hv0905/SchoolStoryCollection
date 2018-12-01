@@ -34,7 +34,6 @@ public final class MainActivityUnitFragment extends Fragment {
     public View _unitEmptyNotice;
     public RecyclerView _unitList;
     public FloatingActionButton _addUnitBtn;
-    public MainActivity _backupParent;
     //endregion
 
 
@@ -149,9 +148,7 @@ public final class MainActivityUnitFragment extends Fragment {
     }
 
     private MainActivity getParent(){
-        if(getActivity() == null){
-            return _backupParent;
-        }return (MainActivity) getActivity();
+        return (MainActivity) getActivity();
     }
 
     @Override

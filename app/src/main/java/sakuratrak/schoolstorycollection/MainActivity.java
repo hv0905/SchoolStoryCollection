@@ -105,35 +105,6 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 getSupportActionBar().setTitle(menuItem.getTitle());
                 menuItem.setChecked(true);
-//                switch (menuItem.getItemId()){
-//                    case R.id.nav_menu_chinese:
-//                        refreshSubject(LearningSubject.CHINESE);
-//                        break;
-//                    case R.id.nav_menu_math:
-//                        refreshSubject(LearningSubject.MATH);
-//                        break;
-//                    case R.id.nav_menu_english:
-//                        refreshSubject(LearningSubject.ENGLISH);
-//                        break;
-//                    case R.id.nav_menu_physics:
-//                        refreshSubject(LearningSubject.PHYSICS);
-//                        break;
-//                    case R.id.nav_menu_chemistry:
-//                        refreshSubject(LearningSubject.HISTORY);
-//                        break;
-//                    case R.id.nav_menu_biologic:
-//                        refreshSubject(LearningSubject.GEO);
-//                        break;
-//                    case R.id.nav_menu_politics:
-//                        refreshSubject(LearningSubject.POLITICS);
-//                        break;
-//                    case R.id.nav_menu_history:
-//                        refreshSubject(LearningSubject.CHEMISTRY);
-//                        break;
-//                    case R.id.nav_menu_geo:
-//                        refreshSubject(LearningSubject.GEO);
-//                        break;
-//                }
 
                 for(int subject = 0; subject < 9 ; subject++){
                     if(menuItem.getItemId() == SUBJECT_MENU_IDS[subject]){
@@ -153,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
         _pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载
         _pageContext = new MainActivityPagerAdapter(getSupportFragmentManager());
-        _pageContext.unit._backupParent = this;
         _pager.setAdapter(_pageContext);
 
         _pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

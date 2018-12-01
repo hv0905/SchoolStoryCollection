@@ -145,4 +145,5 @@
         <item>public</item>
         <item>internal</item>
     </string-array>
+    <string name="title_activity_unit_info">UnitInfoActivity</string>
 </resources>

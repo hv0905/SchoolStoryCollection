@@ -34,12 +34,10 @@
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".QuestionDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar.Explode"
-            />
+            android:theme="@style/AppTheme.NoActionBar.Explode" />
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
@@ -60,11 +58,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingActivity"
-            android:label="@string/settings"
+        <activity
+            android:name=".SettingActivity"
             android:configChanges="orientation"
-            android:parentActivityName=".MainActivity"
-            />
+            android:label="@string/settings"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".UnitInfoActivity"
+            android:label="@string/title_activity_unit_info"></activity>
     </application>
 
 </manifest>
