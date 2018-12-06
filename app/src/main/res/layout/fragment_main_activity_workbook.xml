@@ -19,18 +19,6 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/addItemBtn"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="24dp"-->
-    <!--android:layout_marginEnd="24dp"-->
-    <!--android:clickable="true"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:srcCompat="@drawable/ic_add_white_24dp"-->
-    <!--android:focusable="true" />-->
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/addItemBtn"
         android:layout_width="wrap_content"
