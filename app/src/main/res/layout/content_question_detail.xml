@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/ui_margin_mid"
             >
-            <sakuratrak.schoolstorycollection.ImageDisplayView
+            <net.sakuratrak.schoolstorycollection.ImageDisplayView
                 android:id="@+id/questionImgDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -76,7 +76,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <sakuratrak.schoolstorycollection.ImageDisplayView
+                <net.sakuratrak.schoolstorycollection.ImageDisplayView
                     android:id="@+id/analysisImgDisplay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

@@ -3,5 +3,5 @@
     <external-path name="external" path="." />
     <external-path
         name="common"
-        path="Android/data/sakuratrak.schoolstorycollection/files"/>
+        path="Android/data/net.sakuratrak.schoolstorycollection/files"/>
 </paths>

@@ -7,7 +7,7 @@
             android:summary="@string/setval_dailyQuiz"
             android:title="@string/settit_dailyQuiz" />
         <!--suppress AndroidElementNotAllowed -->
-        <sakuratrak.schoolstorycollection.TimePreference
+        <net.sakuratrak.schoolstorycollection.TimePreference
             android:icon="@drawable/ic_access_alarm_black_24dp"
             android:key="notifyTime"
             android:summary="%s"
@@ -81,7 +81,7 @@
             android:key="showDetailAbout"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/showDetailedAbout">
-            <intent android:targetClass="sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="sakuratrak.schoolstorycollection"/>
+            <intent android:targetClass="net.sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="net.sakuratrak.schoolstorycollection"/>
         </Preference>
 
         <Preference
