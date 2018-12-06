@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         //region Events
 
-        //_pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载
+        _pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载
         _pageContext = new MainActivityPagerAdapter(getSupportFragmentManager());
         _pager.setAdapter(_pageContext);
 

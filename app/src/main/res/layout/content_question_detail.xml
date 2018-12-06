@@ -90,19 +90,44 @@
                 android:textColor="@color/black"
                 android:textIsSelectable="true"
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stat"
+                style="@style/textTitle"
+                android:drawableStart="@drawable/bar_graph"
+                />
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/stat"
             style="@style/textTitle"
-            android:drawableStart="@drawable/bar_graph"
+            android:text="信息"
+            android:drawableStart="@drawable/ic_info_black_24dp"
             />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textMidTitle"
+                android:text="创建日期"
+                android:drawableLeft="@drawable/ic_edit_black_24dp"
+                />
+            <TextView
+                android:id="@+id/valCreateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textValue"
+                app:layout_constraintRight_toRightOf="parent"
 
-
-
-
+                />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 

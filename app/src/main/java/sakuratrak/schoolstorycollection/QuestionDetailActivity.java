@@ -26,6 +26,8 @@ import com.zzhoujay.markdown.MarkDown;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import sakuratrak.schoolstorycollection.core.AppMaster;
 import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
@@ -62,6 +64,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     LinearLayout _answerZone;
     ImageDisplayView _questionImgDisplay;
     ImageDisplayView _analysisImgDisplay;
+    TextView _valCreateTime;
 
     MenuItem _showAnswerMenu;
 
@@ -84,6 +87,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _answerZone = findViewById(R.id.answerZone);
         _questionImgDisplay = findViewById(R.id.questionImgDisplay);
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
+        _valCreateTime = findViewById(R.id.valCreateTime);
 
 
         setSupportActionBar(_toolbar);
@@ -258,6 +262,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
         _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
+
+
+        SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US);
+        _valCreateTime.setText( format.format(_context.getAuthorTime()));
 
         _answerContent = _context.getType().getDisplayView(this);
         _answerContent.setAnswer(_context.getAnswer());

@@ -146,4 +146,9 @@
         <item>internal</item>
     </string-array>
     <string name="title_activity_unit_info">UnitInfoActivity</string>
+    <string name="multiChoiceQuestion">多选题</string>
+    <string name="singleChoiceQuestion">单选题</string>
+    <string name="fillQuestion">填空题</string>
+    <string name="editableFillQuestion">可输入的填空题</string>
+    <string name="answerQuestion">解答题</string>
 </resources>

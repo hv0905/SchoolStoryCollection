@@ -49,6 +49,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="textMidTitle" parent="textTitle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="textNormal">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

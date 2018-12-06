@@ -1,27 +1,25 @@
 package sakuratrak.schoolstorycollection;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.File;
-import java.io.IOException;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,9 +27,9 @@ import java.util.List;
 import java.util.Locale;
 
 import sakuratrak.schoolstorycollection.core.AppMaster;
-import sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import sakuratrak.schoolstorycollection.core.DbManager;
 import sakuratrak.schoolstorycollection.core.QuestionInfo;
+import sakuratrak.schoolstorycollection.core.QuestionType;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,12 +39,18 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     private ConstraintLayout _root;
     private RecyclerView _itemList;
-    private FloatingActionButton _addItemBtn;
+    private FloatingActionMenu _addItemBtn;
     private Runnable _notifyToUpdate;
     private QuestionItemAdapter _mainAdapter;
     private View _workbookEmptyNotice;
 
-    private static final int REQUEST_DETAIL =  1001;
+    private FloatingActionButton _addItem_singleChoice;
+    private FloatingActionButton _addItem_multiChoice;
+    private FloatingActionButton _addItem_editableFill;
+    private FloatingActionButton _addItem_fill;
+    private FloatingActionButton _addItem_answer;
+
+    private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
 
     public Runnable getNotifyToUpdate() {
@@ -60,21 +64,38 @@ public final class MainActivityWorkBookFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_workbook,container,false);
+        _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_workbook, container, false);
 
         _itemList = _root.findViewById(R.id.itemList);
         _addItemBtn = _root.findViewById(R.id.addItemBtn);
+
+        _addItem_singleChoice = _root.findViewById(R.id.addItem_singleChoice);
+        _addItem_multiChoice = _root.findViewById(R.id.addItem_multiChoice);
+        _addItem_editableFill = _root.findViewById(R.id.addItem_editableFill);
+        _addItem_fill = _root.findViewById(R.id.addItem_fill);
+        _addItem_answer = _root.findViewById(R.id.addItem_answer);
+
         _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
-        _addItemBtn.setOnClickListener(v -> {
-            //navigate to add activity
-            CommonAlerts.AskQuestionType(getParent(), (dialogInterface, i) -> {
-                Intent intent = new Intent(getParent(),QuestionEditActivity.class);
-                intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
-                intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
-                startActivityForResult(intent,REQUEST_ADD_QUESTION);
-            }, null);
-        });
+//        _addItemBtn.setOnClickListener(v -> {
+//            //navigate to add activity
+//            CommonAlerts.AskQuestionType(getParent(), (dialogInterface, i) -> {
+//                Intent intent = new Intent(getParent(),QuestionEditActivity.class);
+//                intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
+//                intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
+//                startActivityForResult(intent,REQUEST_ADD_QUESTION);
+//            }, null);
+//        });
+
+        _addItem_singleChoice.setOnClickListener(v -> onAddItem(QuestionType.SINGLE_CHOICE));
+
+        _addItem_multiChoice.setOnClickListener(v -> onAddItem(QuestionType.MULTIPLY_CHOICE));
+
+        _addItem_editableFill.setOnClickListener(v -> onAddItem(QuestionType.TYPEABLE_BLANK));
+
+        _addItem_fill.setOnClickListener(v -> onAddItem(QuestionType.BLANK));
+
+        _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
         _mainAdapter = new QuestionItemAdapter(new ArrayList<>());
@@ -89,7 +110,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     public void refreshList() {
         Log.d(TAG, "refreshList: go");
-        ArrayList<QuestionItemAdapter.DataContext>  context = _mainAdapter.get_dataContext();
+        ArrayList<QuestionItemAdapter.DataContext> context = _mainAdapter.get_dataContext();
         context.clear();
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         List<QuestionInfo> infos;
@@ -100,21 +121,21 @@ public final class MainActivityWorkBookFragment extends Fragment {
             return;
         }
 
-        for(QuestionInfo info : infos){
+        for (QuestionInfo info : infos) {
             QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext();
             item.title = info.getTitle();
             item.unitInfo = info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit);
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
             item.authorTime = format.format(info.getAuthorTime());
             String imgId = info.getQuestionImage().get(0);
-            item.imgUri = Uri.fromFile(AppMaster.getThumbFile(getContext(),imgId));
-            item.detailClicked = v -> goDetail(info.getId(),v);
+            item.imgUri = Uri.fromFile(AppMaster.getThumbFile(getContext(), imgId));
+            item.detailClicked = v -> goDetail(info.getId(), v);
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);
-        if(context.size() == 0){
+        if (context.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
         }
 
@@ -122,15 +143,15 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_ADD_QUESTION:
-                if(resultCode == RESULT_OK)
+                if (resultCode == RESULT_OK)
                     refreshList();
                 break;
             case REQUEST_DETAIL:
-                switch (resultCode){
+                switch (resultCode) {
                     case QuestionDetailActivity.RESULT_DELETED:
-                        Snackbar.make(_root,"已删除",Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(_root, "已删除", Snackbar.LENGTH_LONG).show();
                     case QuestionDetailActivity.RESULT_EDITED:
                         refreshList();
                         break;
@@ -140,10 +161,30 @@ public final class MainActivityWorkBookFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void goDetail(int id, View sharedView){
-        Intent intent = new Intent(getActivity(),QuestionDetailActivity.class);
-        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,id);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(),sharedView,"topImage");
-        startActivityForResult(intent,REQUEST_DETAIL,options.toBundle());
+    private void goDetail(int id, View sharedView) {
+        Intent intent = new Intent(getActivity(), QuestionDetailActivity.class);
+        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, id);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, "topImage");
+        startActivityForResult(intent, REQUEST_DETAIL, options.toBundle());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d(TAG, "onDetach: ");
+        super.onDetach();
+    }
+
+    void onAddItem(QuestionType type) {
+        Intent intent = new Intent(getParent(), QuestionEditActivity.class);
+        intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID, type.getId());
+        intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT, getParent().getCurrentSubject());
+        startActivityForResult(intent, REQUEST_ADD_QUESTION);
+        _addItemBtn.close(false);
     }
 }

@@ -45,5 +45,10 @@ public final class MainActivityStatFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(!isAdded()) return;
+        _adapter.main.userVisibleChangeEventHandler(isVisibleToUser);
+    }
 }
