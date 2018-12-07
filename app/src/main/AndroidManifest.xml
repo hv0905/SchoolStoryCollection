@@ -65,7 +65,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UnitInfoActivity"
-            android:label="@string/title_activity_unit_info"></activity>
+            android:label="@string/title_activity_unit_info" />
     </application>
 
 </manifest>

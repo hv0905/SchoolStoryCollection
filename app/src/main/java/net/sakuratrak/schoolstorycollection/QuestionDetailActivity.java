@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     ImageDisplayView _questionImgDisplay;
     ImageDisplayView _analysisImgDisplay;
     TextView _valCreateTime;
+    RatingBar _valDifficulty;
 
     MenuItem _showAnswerMenu;
 
@@ -88,6 +90,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _questionImgDisplay = findViewById(R.id.questionImgDisplay);
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
         _valCreateTime = findViewById(R.id.valCreateTime);
+        _valDifficulty = findViewById(R.id.valDifficulty);
 
 
         setSupportActionBar(_toolbar);
@@ -257,6 +260,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(_context.getTitle());
         _toolbar.setTitle(_context.getTitle());
         _toolbarLayout.setTitle(_context.getTitle());
+        _valDifficulty.setRating(_context.getDifficulty() / 2f);
 
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
 

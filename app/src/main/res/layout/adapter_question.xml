@@ -40,14 +40,27 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="vertical">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hello world"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="hello world"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:isIndicator="true"
+        />
+</android.support.constraint.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/valUnit"

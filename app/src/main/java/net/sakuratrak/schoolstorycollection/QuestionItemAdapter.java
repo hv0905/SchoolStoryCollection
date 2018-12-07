@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         holder.valAuthorTime.setText(current.authorTime);
         holder.valUnit.setText(current.unitInfo);
         holder.previewImgContent.setImageURI(current.imgUri);
+        holder.valDifficulty.setRating(current.difficulty);
         View.OnClickListener listener = v -> {
             if(current.detailClicked != null) {
                 current.detailClicked.onClick(holder.previewImgBorder);
@@ -72,6 +74,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public TextView valUnit;
         public MaterialButton btnQuiz;
         public MaterialButton btnDetail;
+        public RatingBar valDifficulty;
         
 
         public Holder(View rootView) {
@@ -84,6 +87,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
             valUnit = _root.findViewById(R.id.valUnit);
             btnQuiz = _root.findViewById(R.id.btnQuiz);
             btnDetail = _root.findViewById(R.id.btnDetail);
+            valDifficulty = _root.findViewById(R.id.difficulty);
         }
     }
 
@@ -93,23 +97,26 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public String authorTime;
         public String unitInfo;
         public Uri imgUri;
+        public float difficulty;
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
             this.detailClicked = detailClicked;
             this.quizClicked = quizClicked;
+            this.difficulty = difficulty;
         }
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
+            this.difficulty = difficulty;
         }
 
         public DataContext() {

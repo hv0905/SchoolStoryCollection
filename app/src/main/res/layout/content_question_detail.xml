@@ -116,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/textMidTitle"
-                android:text="创建日期"
-                android:drawableLeft="@drawable/ic_edit_black_24dp"
+                android:text="@string/CreateTime"
+                android:drawableStart="@drawable/ic_edit_black_24dp"
                 />
             <TextView
                 android:id="@+id/valCreateTime"
@@ -126,6 +126,31 @@
                 style="@style/textValue"
                 app:layout_constraintRight_toRightOf="parent"
 
+                />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            >
+
+            <TextView
+                style="@style/textMidTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:drawableStart="@drawable/ic_star_half_black_24dp"
+                android:text="@string/difficulty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/valDifficulty"
+                android:isIndicator="true"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintRight_toRightOf="parent"
                 />
         </android.support.constraint.ConstraintLayout>
 

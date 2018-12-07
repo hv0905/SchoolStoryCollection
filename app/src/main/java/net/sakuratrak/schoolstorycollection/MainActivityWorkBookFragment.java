@@ -122,14 +122,15 @@ public final class MainActivityWorkBookFragment extends Fragment {
         }
 
         for (QuestionInfo info : infos) {
-            QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext();
-            item.title = info.getTitle();
-            item.unitInfo = info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit);
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
-            item.authorTime = format.format(info.getAuthorTime());
-            String imgId = info.getQuestionImage().get(0);
-            item.imgUri = Uri.fromFile(AppMaster.getThumbFile(getContext(), imgId));
-            item.detailClicked = v -> goDetail(info.getId(), v);
+
+            QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext(info.getTitle(),
+                    format.format(info.getAuthorTime()),info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
+                    Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
+                    info.getDifficulty() / 2f,
+                    v -> goDetail(info.getId(),v),
+                    null);
+
             context.add(item);
         }
         _mainAdapter.set_dataContext(context);

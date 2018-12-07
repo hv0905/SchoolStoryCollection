@@ -23,7 +23,7 @@ public final class QuestionInfo implements Serializable {
 
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField()
+    @DatabaseField
     private String title;
 
     @DatabaseField
@@ -58,6 +58,9 @@ public final class QuestionInfo implements Serializable {
 
     @DatabaseField
     private Date authorTime;
+
+    @DatabaseField
+    private int difficulty;
 
     //endregion
 
@@ -158,6 +161,14 @@ public final class QuestionInfo implements Serializable {
 
     public void setUnit(LearningUnitInfo unit) {
         this.unit = unit;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     //endregion

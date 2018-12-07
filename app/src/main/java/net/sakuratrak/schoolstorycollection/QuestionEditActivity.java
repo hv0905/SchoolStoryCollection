@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     private ImageSelectView _questionImgRecycle;
     private ImageSelectView _analysisImgRecycle;
     private MenuItem _okButton;
+    private RatingBar _difficultyEdit;
     //endregion
 
     @Override
@@ -108,6 +110,7 @@ public class QuestionEditActivity extends AppCompatActivity {
         _answerContainer = findViewById(R.id.answerContainer);
         _questionImgRecycle = findViewById(R.id.questionImgRecycle);
         _analysisImgRecycle = findViewById(R.id.analysisImgRecycle);
+        _difficultyEdit = findViewById(R.id.difficultyEdit);
 
         _answerContainer.addView(_answerContent);
 
@@ -136,7 +139,10 @@ public class QuestionEditActivity extends AppCompatActivity {
             _questionImgRecycle.setImages(_context.getQuestionImage());
             _analysisImgRecycle.setImages(_context.getAnalysisImage());
             _unit = _context.getUnit();
+            _difficultyEdit.setRating(_context.getDifficulty() / 2f);
 
+        }else{
+            _difficultyEdit.setRating(2.5f);
         }
 
         _analysisImgRecycle.setOnItemToggleListener(v -> checkState());
@@ -174,6 +180,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                 _context.setQuestionImage(_questionImgRecycle.getImages());
                 _context.setAnalysisImage(_analysisImgRecycle.getImages());
                 _context.setAnswer(_answerContent.getAnswer());
+                _context.setDifficulty((int) (_difficultyEdit.getRating() * 2));
 
                 //todo update the database
                 try {
