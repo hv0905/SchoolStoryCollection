@@ -153,4 +153,8 @@
     <string name="answerQuestion">解答题</string>
     <string name="difficulty">难度</string>
     <string name="CreateTime">创建时间</string>
+    <string name="StatAddQuestionNotify">加入些错题再来看吧~</string>
+    <string name="StatUnitPie">错题的单元分布</string>
+    <string name="StatDifficultyPie">错题的难度分布</string>
+    <string name="like">喜欢</string>
 </resources>

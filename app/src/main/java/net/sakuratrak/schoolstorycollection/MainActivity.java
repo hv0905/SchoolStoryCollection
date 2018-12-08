@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 
-import javax.security.auth.Subject;
-
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityPagerAdapter _pageContext;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
-    private ArrayList<SubjectUpdateEventHandler> _onSubjectUpdate;
+    private ArrayList<RequireRefreshEventHandler> _onSubjectUpdate;
 
     //endregion
 
@@ -235,28 +233,31 @@ public class MainActivity extends AppCompatActivity {
         _currentSubject = subject;
 //        _pageContext.stat._adapter.unit.refreshUnit();
 //        _pageContext.workBook.refreshList();
-        for (SubjectUpdateEventHandler item :
-                _onSubjectUpdate) {
-            item.update(_currentSubject);
-
-        }
+        requireRefresh();
     }
 
-    public void addSubjectUpdateEvent(SubjectUpdateEventHandler handler){
+    public void addSubjectUpdateEvent(RequireRefreshEventHandler handler){
         if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
         _onSubjectUpdate.add(handler);
     }
 
-    public void removeSubjectUpdateEvent(SubjectUpdateEventHandler handler){
+    public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler){
         if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
         _onSubjectUpdate.remove(handler);
+    }
+
+    public void requireRefresh(){
+        for (RequireRefreshEventHandler item :
+                _onSubjectUpdate) {
+            item.update();
+        }
     }
 
 
 
     @FunctionalInterface
-    public interface SubjectUpdateEventHandler {
-        void update(LearningSubject subject);
+    public interface RequireRefreshEventHandler {
+        void update();
     }
 
 }

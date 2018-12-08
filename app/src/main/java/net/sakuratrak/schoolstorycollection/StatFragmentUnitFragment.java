@@ -76,7 +76,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
                         }
-                        refreshUnit();
+                        getParent().requireRefresh();
                     })
                     .setNegativeButton("取消", null);
 
@@ -85,7 +85,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
 
-        getParent().addSubjectUpdateEvent(subject -> refreshUnit());
+        getParent().addSubjectUpdateEvent(this::refreshUnit);
 
         refreshUnit();
 
@@ -145,7 +145,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             } catch (SQLException e) {
                 Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             }
-            refreshUnit();
+            getParent().requireRefresh();
         });
         ad.show();
     }

@@ -78,16 +78,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
-//        _addItemBtn.setOnClickListener(v -> {
-//            //navigate to add activity
-//            CommonAlerts.AskQuestionType(getParent(), (dialogInterface, i) -> {
-//                Intent intent = new Intent(getParent(),QuestionEditActivity.class);
-//                intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID,i);
-//                intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT,getParent().getCurrentSubject());
-//                startActivityForResult(intent,REQUEST_ADD_QUESTION);
-//            }, null);
-//        });
-
         _addItem_singleChoice.setOnClickListener(v -> onAddItem(QuestionType.SINGLE_CHOICE));
 
         _addItem_multiChoice.setOnClickListener(v -> onAddItem(QuestionType.MULTIPLY_CHOICE));
@@ -101,7 +91,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
         _mainAdapter = new QuestionItemAdapter(new ArrayList<>());
         _itemList.setAdapter(_mainAdapter);
-        getParent().addSubjectUpdateEvent(subject -> refreshList());
+        getParent().addSubjectUpdateEvent(this::refreshList);
         refreshList();
         return _root;
     }
@@ -130,6 +120,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     format.format(info.getAuthorTime()),info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
                     info.getDifficulty() / 2f,
+                    info.isFavourite(),
                     v -> goDetail(info.getId(),v),
                     null);
 
@@ -149,14 +140,14 @@ public final class MainActivityWorkBookFragment extends Fragment {
         switch (requestCode) {
             case REQUEST_ADD_QUESTION:
                 if (resultCode == RESULT_OK)
-                    refreshList();
+                    getParent().requireRefresh();
                 break;
             case REQUEST_DETAIL:
                 switch (resultCode) {
                     case QuestionDetailActivity.RESULT_DELETED:
                         Snackbar.make(_root, "已删除", Snackbar.LENGTH_LONG).show();
                     case QuestionDetailActivity.RESULT_EDITED:
-                        refreshList();
+                        getParent().requireRefresh();
                         break;
                 }
                 break;

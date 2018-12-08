@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/showAnswerMenu"
-        android:title="@string/showAnswer" app:showAsAction="always" android:icon="@drawable/ic_key_white_24dp"/>
+        android:title="@string/showAnswer"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_key_white_24dp"/>
     <item
-        android:id="@+id/shareMenu"
-        android:title="@string/share" app:showAsAction="always" android:icon="@drawable/ic_share_white_24dp"/>
+        android:id="@+id/favourite"
+        android:title="@string/like"
+        app:showAsAction="always"
+        android:checkable="true"
+        android:checked="true"
+        android:icon="@drawable/ic_favorite_border_white_24dp"
+        />
+
     <item
         android:id="@+id/editMenu"
-        android:title="@string/edit" app:showAsAction="always" android:icon="@drawable/ic_edit_white_24dp"/>
+        android:title="@string/edit"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_edit_white_24dp"
+        tools:ignore="AlwaysShowAction" />
+    <item
+        android:id="@+id/shareMenu"
+        android:title="@string/share"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_share_black_24dp"
+        />
     <item
         android:id="@+id/hide"
         android:title="@string/hide"
-        android:icon="@drawable/bar_graph"
+        android:icon="@drawable/ic_move_to_inbox_black_24dp"
         />
     <item
         android:id="@+id/delete"

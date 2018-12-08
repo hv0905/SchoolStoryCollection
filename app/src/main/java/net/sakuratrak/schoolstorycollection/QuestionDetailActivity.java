@@ -1,6 +1,7 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,8 +13,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +73,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     RatingBar _valDifficulty;
 
     MenuItem _showAnswerMenu;
+    MenuItem _favouriteMenu;
 
     //endregion
 
@@ -128,10 +132,21 @@ public class QuestionDetailActivity extends AppCompatActivity {
         textView.setText(spanned);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         _toolbar.inflateMenu(R.menu.detail_top_options);
         _showAnswerMenu = _toolbar.getMenu().findItem(R.id.showAnswerMenu);
+        _favouriteMenu = _toolbar.getMenu().findItem(R.id.favourite);
+        if(_toolbar.getMenu() instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            //noinspection RestrictedApi
+            m.setOptionalIconsVisible(true);
+        }
+
+        _favouriteMenu.setChecked(_context.isFavourite());
+        _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+
         return true;
     }
 
@@ -156,6 +171,26 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 return true;
             case R.id
                     .hide:
+                return true;
+            case R.id.favourite:
+                Log.d(TAG, "onOptionsItemSelected: " + item.isChecked());
+                item.setChecked(!item.isChecked());
+                item.setIcon(item.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+                _context.setFavourite(item.isChecked());
+                try {
+                    DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
+                    _edited = true;
+                } catch (SQLException e) {
+                    Snackbar.make(_toolbarLayout,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+                Snackbar.make(_toolbarLayout,String.format("已%s喜欢",item.isChecked() ? "": "取消"),Snackbar.LENGTH_LONG).show();
+
+//                if(item.isChecked()){
+//
+//                }else{
+//
+//                }
                 return true;
 
             case R.id.delete:
@@ -279,10 +314,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         _answerContent = _context.getType().getDisplayView(this);
         _answerContent.setAnswer(_context.getAnswer());
+        _answerContainer.removeAllViews();
         _answerContainer.addView(_answerContent);
 
         _questionImgDisplay.setImages(_context.getQuestionImage());
         _analysisImgDisplay.setImages(_context.getAnalysisImage());
+
+        if(_favouriteMenu != null){
+            _favouriteMenu.setChecked(_context.isFavourite());
+            _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+        }
     }
 
     @Override

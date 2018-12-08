@@ -64,6 +64,9 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField
     private int difficulty;
 
+    @DatabaseField
+    private boolean favourite;
+
     //endregion
 
     //region getter and setter
@@ -171,6 +174,14 @@ public final class QuestionInfo implements Serializable {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
     }
 
     //endregion

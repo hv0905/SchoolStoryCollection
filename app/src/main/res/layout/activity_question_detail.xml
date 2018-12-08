@@ -26,7 +26,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
                 android:id="@+id/imageTopBorder"
                 android:transitionName="topImage"
                 android:foreground="#44000000">

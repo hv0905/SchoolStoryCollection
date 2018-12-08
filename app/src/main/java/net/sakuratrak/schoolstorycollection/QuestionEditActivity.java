@@ -148,12 +148,14 @@ public class QuestionEditActivity extends AppCompatActivity {
         _analysisImgRecycle.setOnItemToggleListener(v -> checkState());
         _questionImgRecycle.setOnItemToggleListener(v -> checkState());
         _answerContent.setOnUpdateEventHandler(sender -> checkState());
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_activity_menu, menu);
         _okButton = menu.findItem(R.id.ok);
+        checkState();
         return true;
     }
 

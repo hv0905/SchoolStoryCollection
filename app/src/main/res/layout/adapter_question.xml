@@ -47,7 +47,6 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hello world"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -55,10 +54,19 @@
         android:id="@+id/difficulty"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/favourite"
         style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:layout_marginRight="@dimen/ui_margin_mid"
         android:isIndicator="true"
         />
+
+    <ImageView
+        android:id="@+id/favourite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_favorite_border_black_24dp"
+        android:contentDescription="@string/like" />
 </android.support.constraint.ConstraintLayout>
 
 
@@ -69,7 +77,6 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_book_black_24dp"
                 android:gravity="center|start"
-                android:text="somewhere"
                 android:textColor="@color/black" />
 
             <TextView
@@ -79,7 +86,6 @@
                 android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_edit_black_24dp"
                 android:gravity="center|start"
-                android:text="sometime"
                 android:textColor="@color/black" />
 
             <LinearLayout

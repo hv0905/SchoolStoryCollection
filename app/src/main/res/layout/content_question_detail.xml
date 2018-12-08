@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stat"
                 style="@style/textTitle"
-                android:drawableStart="@drawable/bar_graph"
+                android:drawableStart="@drawable/ic_bar_graph_black_24dp"
                 />
         </LinearLayout>
 

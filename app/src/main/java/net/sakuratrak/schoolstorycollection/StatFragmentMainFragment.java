@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -52,14 +51,14 @@ public final class StatFragmentMainFragment extends Fragment {
         _questionPie = _root.findViewById(R.id.questionPie);
         _difficultyPie = _root.findViewById(R.id.difficultyPie);
 
-        _questionPie.setCenterText("错题的单元分布");
-        _questionPie.setNoDataText("加入些错题再来看吧~");
+        _questionPie.setCenterText(getString(R.string.StatUnitPie));
+        _questionPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
         applyAppearanceForPie(_questionPie);
 
 
 
-        _difficultyPie.setCenterText("错题的难度分布");
-        _difficultyPie.setNoDataText("加入些错题再来看吧~");
+        _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
+        _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
         applyAppearanceForPie(_difficultyPie);
 
         _questionPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -75,7 +74,7 @@ public final class StatFragmentMainFragment extends Fragment {
             }
         });
 
-        getParent().addSubjectUpdateEvent(subject -> {
+        getParent().addSubjectUpdateEvent(()-> {
             refreshPies();
             if (isVisible()) {
                 animateIn();
@@ -102,8 +101,6 @@ public final class StatFragmentMainFragment extends Fragment {
             PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(R.string.unit));
             applyAppearanceForDataSet(questionPieDataSet);
             PieData questionPieData = new PieData(questionPieDataSet);
-            questionPieData.setValueFormatter(new PercentFormatter());
-
             _questionPie.setData(questionPieData);
 
 
@@ -184,6 +181,7 @@ public final class StatFragmentMainFragment extends Fragment {
     }
 
     void applyAppearanceForPie(PieChart pie){
+        pie.setRotationEnabled(false);
         pie.setCenterTextSize(16);
         pie.setCenterTextColor(getResources().getColor(R.color.colorAccent));
         pie.getLegend().setEnabled(false);

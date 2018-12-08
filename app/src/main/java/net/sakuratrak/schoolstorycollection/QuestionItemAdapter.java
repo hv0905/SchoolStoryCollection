@@ -37,6 +37,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         holder.valUnit.setText(current.unitInfo);
         holder.previewImgContent.setImageURI(current.imgUri);
         holder.valDifficulty.setRating(current.difficulty);
+        holder.valFavourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
         View.OnClickListener listener = v -> {
             if(current.detailClicked != null) {
                 current.detailClicked.onClick(holder.previewImgBorder);
@@ -75,6 +76,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public MaterialButton btnQuiz;
         public MaterialButton btnDetail;
         public RatingBar valDifficulty;
+        public ImageView valFavourite;
         
 
         public Holder(View rootView) {
@@ -88,6 +90,7 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
             btnQuiz = _root.findViewById(R.id.btnQuiz);
             btnDetail = _root.findViewById(R.id.btnDetail);
             valDifficulty = _root.findViewById(R.id.difficulty);
+            valFavourite = _root.findViewById(R.id.favourite);
         }
     }
 
@@ -98,10 +101,11 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public String unitInfo;
         public Uri imgUri;
         public float difficulty;
+        public boolean favourite;
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty,boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -109,14 +113,16 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
             this.detailClicked = detailClicked;
             this.quizClicked = quizClicked;
             this.difficulty = difficulty;
+            this.favourite = favourite;
         }
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri,float difficulty,boolean favourite) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
             this.difficulty = difficulty;
+            this.favourite = favourite;
         }
 
         public DataContext() {
