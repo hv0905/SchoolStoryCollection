@@ -2,6 +2,7 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -91,6 +92,11 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
         _valCreateTime = findViewById(R.id.valCreateTime);
         _valDifficulty = findViewById(R.id.valDifficulty);
+
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
 
         setSupportActionBar(_toolbar);
