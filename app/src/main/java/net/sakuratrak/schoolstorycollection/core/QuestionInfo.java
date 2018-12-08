@@ -19,6 +19,8 @@ import java.util.List;
 @DatabaseTable(tableName = "QuestionInfo")
 public final class QuestionInfo implements Serializable {
 
+    public static final int DIFFICULTY_MAX = 10;
+
     //region fields
 
     @DatabaseField(generatedId = true)
