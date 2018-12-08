@@ -19,16 +19,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
+
+import javax.security.auth.Subject;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityPagerAdapter _pageContext;
     private LearningSubject _currentSubject = LearningSubject.CHINESE;
 
-    private static final int[] SUBJECT_MENU_IDS = new int[] {
+    private static final int[] SUBJECT_MENU_IDS = new int[]{
             R.id.nav_menu_chinese,
             R.id.nav_menu_math,
             R.id.nav_menu_english,
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
+
+    private ArrayList<SubjectUpdateEventHandler> _onSubjectUpdate;
 
     //endregion
 
@@ -81,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.chinese);
 
         //设置Drawer
-        _drawerToggle = new ActionBarDrawerToggle(this,_drawer,_toolbar,R.string.subject,R.string.subject){
+        _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -97,17 +102,17 @@ public class MainActivity extends AppCompatActivity {
 
         _navigationView.setNavigationItemSelectedListener(menuItem -> {
             _drawer.closeDrawer(Gravity.START);
-            if(menuItem.getItemId() == R.id.nav_menu_settings){
+            if (menuItem.getItemId() == R.id.nav_menu_settings) {
                 //settings...
-                Intent intent = new Intent(this,SettingActivity.class);
+                Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
                 return true;
-            }else{
+            } else {
                 getSupportActionBar().setTitle(menuItem.getTitle());
                 menuItem.setChecked(true);
 
-                for(int subject = 0; subject < 9 ; subject++){
-                    if(menuItem.getItemId() == SUBJECT_MENU_IDS[subject]){
+                for (int subject = 0; subject < 9; subject++) {
+                    if (menuItem.getItemId() == SUBJECT_MENU_IDS[subject]) {
                         refreshSubject(LearningSubject.id2Obj(subject));
                         break;
                     }
@@ -153,20 +158,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         _navigation.setOnNavigationItemSelectedListener(item -> {
+            if (_filterMenu != null)
                 _filterMenu.setVisible(false);
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                            _pager.setCurrentItem(0);
-                        _filterMenu.setVisible(true);
-                        return true;
-                    case R.id.navigation_dashboard:
-                            _pager.setCurrentItem(1);
-                        return true;
-                    case R.id.navigation_unit:
-                            _pager.setCurrentItem(2);
-                        return true;
-                }
-                return false;
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    _pager.setCurrentItem(0);
+                    _filterMenu.setVisible(true);
+                    return true;
+                case R.id.navigation_dashboard:
+                    _pager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_unit:
+                    _pager.setCurrentItem(2);
+                    return true;
+            }
+            return false;
         });
 
         //endregion
@@ -224,11 +230,33 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void refreshSubject(LearningSubject subject){
-        if(_currentSubject == subject) return;
+    public void refreshSubject(LearningSubject subject) {
+        if (_currentSubject == subject) return;
         _currentSubject = subject;
-        _pageContext.stat._adapter.unit.refreshUnit();
-        _pageContext.workBook.refreshList();
+//        _pageContext.stat._adapter.unit.refreshUnit();
+//        _pageContext.workBook.refreshList();
+        for (SubjectUpdateEventHandler item :
+                _onSubjectUpdate) {
+            item.update(_currentSubject);
+
+        }
+    }
+
+    public void addSubjectUpdateEvent(SubjectUpdateEventHandler handler){
+        if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
+        _onSubjectUpdate.add(handler);
+    }
+
+    public void removeSubjectUpdateEvent(SubjectUpdateEventHandler handler){
+        if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
+        _onSubjectUpdate.remove(handler);
+    }
+
+
+
+    @FunctionalInterface
+    public interface SubjectUpdateEventHandler {
+        void update(LearningSubject subject);
     }
 
 }

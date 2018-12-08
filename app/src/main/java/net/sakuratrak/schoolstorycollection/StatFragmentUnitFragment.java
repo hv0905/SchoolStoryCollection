@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
 import static android.support.constraint.Constraints.TAG;
@@ -64,7 +65,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             et.setSingleLine();
             AlertDialog.Builder ab = new AlertDialog.Builder(getParent()).setIcon(R.drawable.ic_book_black_24dp).setTitle("创建单元")
                     .setMessage("单元名称:")
-                    .setView(et).setNegativeButton("完成", (dialog, which) -> {
+                    .setView(et).setPositiveButton("完成", (dialog, which) -> {
                         if (et.getText().toString().trim().isEmpty()) {
                             new AlertDialog.Builder(getParent()).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
@@ -77,12 +78,14 @@ public final class StatFragmentUnitFragment extends Fragment {
                         }
                         refreshUnit();
                     })
-                    .setPositiveButton("取消", null);
+                    .setNegativeButton("取消", null);
 
             ab.show();          
         });
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
+
+        getParent().addSubjectUpdateEvent(subject -> refreshUnit());
 
         refreshUnit();
 
@@ -127,7 +130,7 @@ public final class StatFragmentUnitFragment extends Fragment {
     private void notifyResetUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
         ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udiItem.Title));
-        ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
+        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
 
         });
         ad.show();
@@ -136,7 +139,7 @@ public final class StatFragmentUnitFragment extends Fragment {
     private void notifyRmUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
         ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udiItem.Title));
-        ad.setPositiveButton(R.string.cancel, null).setNegativeButton(R.string.confirm, (dialog, which) -> {
+        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
             try {
                 DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().delete(item);
             } catch (SQLException e) {

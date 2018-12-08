@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
@@ -100,6 +101,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
         _mainAdapter = new QuestionItemAdapter(new ArrayList<>());
         _itemList.setAdapter(_mainAdapter);
+        getParent().addSubjectUpdateEvent(subject -> refreshList());
         refreshList();
         return _root;
     }
