@@ -56,7 +56,7 @@
         android:layout_height="30dp"
         app:layout_constraintRight_toLeftOf="@id/favourite"
         style="@style/Widget.MaterialRatingBar.RatingBar"
-        android:layout_marginRight="@dimen/ui_margin_mid"
+        android:layout_marginEnd="@dimen/ui_margin_mid"
         android:isIndicator="true"
         />
 

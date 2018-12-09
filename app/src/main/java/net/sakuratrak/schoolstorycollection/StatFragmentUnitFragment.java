@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
-import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
 import static android.support.constraint.Constraints.TAG;
@@ -111,8 +110,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         for (LearningUnitInfo item : luis) {
             UnitDisplayAdapter.DataContext udiItem = new UnitDisplayAdapter.DataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
             udiItem.QuestionCount = item.getQuestions().size();
-            udiItem.RmClicked = v -> notifyRmUnit(v, udiItem, item);
-            udiItem.ResetClicked = v -> notifyResetUnit(v, udiItem, item);
+            udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udi.add(udiItem);
         }
         if(_unitList.getAdapter() == null){
@@ -127,27 +125,9 @@ public final class StatFragmentUnitFragment extends Fragment {
         }
     }
 
-    private void notifyResetUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
-        AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
-        ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), udiItem.Title));
-        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-
-        });
-        ad.show();
-    }
-
-    private void notifyRmUnit(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
-        AlertDialog.Builder ad = new AlertDialog.Builder(getParent());
-        ad.setTitle(R.string.confirmRm_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmRm_msg), udiItem.Title));
-        ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-            try {
-                DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().delete(item);
-            } catch (SQLException e) {
-                Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
-            }
-            getParent().requireRefresh();
-        });
-        ad.show();
+    private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
+        UnitDetailDialog udi = new UnitDetailDialog(item);
+        udi.show(getChildFragmentManager(),"UnitDetailDialog");
     }
 
     private MainActivity getParent(){

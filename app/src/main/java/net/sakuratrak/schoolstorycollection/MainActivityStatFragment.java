@@ -35,12 +35,6 @@ public final class MainActivityStatFragment extends Fragment {
         return _pager;
     }
 
-    @Override
-    public void onStart() {
-
-        super.onStart();
-    }
-
     public MainActivityStatFragment(){
 
     }

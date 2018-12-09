@@ -1,6 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.widget.ScrollView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -53,13 +51,13 @@ public final class StatFragmentMainFragment extends Fragment {
 
         _questionPie.setCenterText(getString(R.string.StatUnitPie));
         _questionPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
-        applyAppearanceForPie(_questionPie);
+        UiHelper.applyAppearanceForPie(getActivity(),_questionPie);
 
 
 
         _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
         _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
-        applyAppearanceForPie(_difficultyPie);
+        UiHelper.applyAppearanceForPie(getActivity(),_difficultyPie);
 
         _questionPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -99,7 +97,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 questionPieEntry.add(new PieEntry(size, item.getName()));
             }
             PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(R.string.unit));
-            applyAppearanceForDataSet(questionPieDataSet);
+            UiHelper.applyAppearanceForDataSet(getParent(),questionPieDataSet);
             PieData questionPieData = new PieData(questionPieDataSet);
             _questionPie.setData(questionPieData);
 
@@ -114,15 +112,15 @@ public final class StatFragmentMainFragment extends Fragment {
                 difficultyCounts[item.getDifficulty() - 1]++;
             }
 
-            ArrayList<PieEntry> difficyltyPieEntry = new ArrayList<>();
+            ArrayList<PieEntry> difficultyPieEntry = new ArrayList<>();
 
             for (int i = 0; i < difficultyCounts.length; i++) {
                 if (difficultyCounts[i] == 0) continue;
-                difficyltyPieEntry.add(new PieEntry(difficultyCounts[i], String.format("%.1f★", (i + 1) / 2f)));
+                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format("%.1f★", (i + 1) / 2f)));
             }
 
-            PieDataSet difficultyPieDataSet = new PieDataSet(difficyltyPieEntry, getString(R.string.difficulty));
-            applyAppearanceForDataSet(difficultyPieDataSet);
+            PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
+            UiHelper.applyAppearanceForDataSet(getParent(),difficultyPieDataSet);
 
             _difficultyPie.setData(new PieData(difficultyPieDataSet));
 
@@ -157,36 +155,5 @@ public final class StatFragmentMainFragment extends Fragment {
         _difficultyPie.animateY(1000, Easing.EaseInOutQuad);
     }
 
-    void applyAppearanceForDataSet(PieDataSet dataSet) {
-        dataSet.setValueTextColor(Color.BLACK);
-        dataSet.setColors(
-                getResources().getColor(R.color.flat1),
-                getResources().getColor(R.color.flat2),
-                getResources().getColor(R.color.flat3),
-                getResources().getColor(R.color.flat4),
-                getResources().getColor(R.color.flat5),
-                getResources().getColor(R.color.flat6),
-                getResources().getColor(R.color.flat7),
-                getResources().getColor(R.color.flat8)
-                );
-        //dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        dataSet.setValueLinePart1OffsetPercentage(80f);//数据连接线距图形片内部边界的距离，为百分数
-        dataSet.setValueLinePart1Length(0.3f);
-        dataSet.setValueLinePart2Length(0.4f);
-        dataSet.setValueLineColor(Color.BLACK);//设置连接线的颜色
-        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        dataSet.setSliceSpace(3f);//设置饼块之间的间隔
-        dataSet.setSelectionShift(5f);//设置饼块选中时偏离饼图中心的距离
 
-    }
-
-    void applyAppearanceForPie(PieChart pie){
-        pie.setRotationEnabled(false);
-        pie.setCenterTextSize(16);
-        pie.setCenterTextColor(getResources().getColor(R.color.colorAccent));
-        pie.getLegend().setEnabled(false);
-        Description dsc = new Description();
-        dsc.setText("");
-        pie.setDescription(dsc);
-    }
 }

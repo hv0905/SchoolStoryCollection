@@ -6,7 +6,6 @@
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
 
-    <string name="title_activity_question_detail">错题详情</string>
     <string name="ChoseQuestionType">选择题目类型</string>
     <string name="ChoseSubject">选择科目</string>
     <string name="title_activity_learning_unit_choice">选择单元</string>
@@ -159,4 +158,5 @@
     <string name="like">喜欢</string>
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="info">信息</string>
+    <string name="close">关闭</string>
 </resources>

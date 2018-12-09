@@ -49,7 +49,7 @@ public abstract class QuizAnswerUi extends FrameLayout {
     }
 
     public interface AnswerReportListener {
-        public void done(QuizAnswerUi sender,int status);
+        void done(QuizAnswerUi sender, int status);
     }
 
 

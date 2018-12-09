@@ -3,6 +3,7 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="ui_margin_mid">8dp</dimen>
+    <dimen name="ui_margin_large">16dp</dimen>
     <dimen name="ui_margin_floatAction">24dp</dimen>
     <dimen name="ui_margin_ularge">32dp</dimen>
 </resources>

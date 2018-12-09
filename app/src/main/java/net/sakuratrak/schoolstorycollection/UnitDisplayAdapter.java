@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,8 +30,9 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
         viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuizCorrectRatio));
         viewHolder._correctRatioBar.setProgress(udi.QuizCorrectRatio);
-        viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
-        viewHolder._resetBtn.setOnClickListener(udi.ResetClicked);
+        //viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
+        //viewHolder._detailBtn.setOnClickListener(udi.DetailClicked);
+        viewHolder._frame.setOnClickListener(udi.DetailClicked);
         viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
         viewHolder._valQuestionCount.setText(String.valueOf(udi.QuestionCount));
         viewHolder._valQuestionRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuestionRatio));
@@ -65,9 +67,10 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     public static final class Holder extends RecyclerView.ViewHolder
     {
         private View _root;
+
         private TextView _valTitle;
-        private MaterialButton _resetBtn;
-        private MaterialButton _rmBtn;
+        //private MaterialButton _detailBtn;
+        //private MaterialButton _rmBtn;
         private TextView _valCorrectRatio;
         private ProgressBar _correctRatioBar;
         private TextView _valQuizCount;
@@ -75,14 +78,15 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         private TextView _valQuestionCount;
         private TextView _valQuestionRatio;
         private ProgressBar _questionRatioBar;
+        private FrameLayout _frame;
 
 
         private Holder(View rootView){
             super(rootView);
             _root = rootView;
             _valTitle = _root.findViewById(R.id.valTitle);
-            _resetBtn = _root.findViewById(R.id.resetBtn);
-            _rmBtn = _root.findViewById(R.id.rmBtn);
+            //_detailBtn = _root.findViewById(R.id.resetBtn);
+            //_rmBtn = _root.findViewById(R.id.rmBtn);
             _valCorrectRatio = _root.findViewById(R.id.valCorrectRatio);
             _correctRatioBar = _root.findViewById(R.id.correctRatioBar);
             _valQuizCount = _root.findViewById(R.id.valQuizCount);
@@ -90,14 +94,15 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             _valQuestionCount = _root.findViewById(R.id.valQuestionCount);
             _valQuestionRatio = _root.findViewById(R.id.valQuestionRatio);
             _questionRatioBar = _root.findViewById(R.id.questionRatioBar);
+            _frame = _root.findViewById(R.id.frame);
         }
 
     }
 
 
     public static class DataContext {
-        public View.OnClickListener ResetClicked;
-        public View.OnClickListener RmClicked;
+        public View.OnClickListener DetailClicked;
+        //public View.OnClickListener RmClicked;
         protected int QuizCount;
         protected int QuizCorrectRatio;
         protected int QuestionCount;
@@ -114,9 +119,9 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             Title = title;
         }
 
-        public DataContext(View.OnClickListener resetClicked, View.OnClickListener rmClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
-            ResetClicked = resetClicked;
-            RmClicked = rmClicked;
+        public DataContext(View.OnClickListener detailClicked,int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
+            DetailClicked = detailClicked;
+            //RmClicked = rmClicked;
             QuizCount = quizCount;
             QuizCorrectRatio = quizCorrectRatio;
             QuestionCount = questionCount;

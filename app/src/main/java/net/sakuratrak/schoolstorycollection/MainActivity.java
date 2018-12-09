@@ -85,10 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
         //设置Drawer
         _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
 
             @Override
             public void onDrawerClosed(View drawerView) {
