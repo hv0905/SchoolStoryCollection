@@ -20,17 +20,16 @@ import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import net.sakuratrak.schoolstorycollection.core.AppMaster;
+import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionType;
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import net.sakuratrak.schoolstorycollection.core.AppMaster;
-import net.sakuratrak.schoolstorycollection.core.DbManager;
-import net.sakuratrak.schoolstorycollection.core.LearningSubject;
-import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
-import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -179,6 +178,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
         intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID, type.getId());
         intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT, getParent().getCurrentSubject());
         startActivityForResult(intent, REQUEST_ADD_QUESTION);
-        _addItemBtn.close(false);
+        _addItemBtn.close(true);
     }
 }

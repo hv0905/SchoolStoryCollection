@@ -157,4 +157,6 @@
     <string name="StatUnitPie">错题的单元分布</string>
     <string name="StatDifficultyPie">错题的难度分布</string>
     <string name="like">喜欢</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+    <string name="info">信息</string>
 </resources>

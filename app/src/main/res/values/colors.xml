@@ -15,5 +15,6 @@
     <color name="flat6">#2980b9</color>
     <color name="flat7">#f1c40f</color>
     <color name="flat8">#e67e22</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

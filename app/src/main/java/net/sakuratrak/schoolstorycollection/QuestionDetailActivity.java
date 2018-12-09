@@ -29,16 +29,16 @@ import android.widget.Toast;
 
 import com.zzhoujay.markdown.MarkDown;
 
-import java.io.File;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class QuestionDetailActivity extends AppCompatActivity {
 
@@ -71,6 +71,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     ImageDisplayView _analysisImgDisplay;
     TextView _valCreateTime;
     RatingBar _valDifficulty;
+    TextView _valUnit;
 
     MenuItem _showAnswerMenu;
     MenuItem _favouriteMenu;
@@ -79,6 +80,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
 
@@ -96,12 +103,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
         _valCreateTime = findViewById(R.id.valCreateTime);
         _valDifficulty = findViewById(R.id.valDifficulty);
-
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-
+        _valUnit = findViewById(R.id.valUnit);
 
         setSupportActionBar(_toolbar);
 
@@ -150,6 +152,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -222,7 +225,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                                 }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
                             } catch (SQLException e) {
-                                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG);
+                                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
                                 e.printStackTrace();
                                 return;
                             }
@@ -302,6 +305,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbar.setTitle(_context.getTitle());
         _toolbarLayout.setTitle(_context.getTitle());
         _valDifficulty.setRating(_context.getDifficulty() / 2f);
+        _valCreateTime.setText(new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US).format(_context.getAuthorTime()));
+        _valUnit.setText(_context.getUnit() == null ? getText(R.string.emptyUnit) : _context.getUnit().getName());
 
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
 
@@ -309,8 +314,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
 
 
-        SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US);
-        _valCreateTime.setText( format.format(_context.getAuthorTime()));
 
         _answerContent = _context.getType().getDisplayView(this);
         _answerContent.setAnswer(_context.getAnswer());
