@@ -48,6 +48,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".QuestionEditActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/editQuestion" />
         <activity
             android:name=".SplashActivity"
@@ -63,9 +64,6 @@
             android:configChanges="orientation"
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".UnitInfoActivity"
-            android:label="@string/title_activity_unit_info" />
         <activity
             android:name=".QuizActivity"
             android:label="@string/title_activity_quiz" />

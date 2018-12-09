@@ -3,7 +3,6 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
-    private ArrayList<RequireRefreshEventHandler> _onSubjectUpdate;
+    private ArrayList<RequireRefreshEventHandler> _rerquireRefreshEvent;
 
     //endregion
 
@@ -81,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        getSupportActionBar().setTitle(R.string.chinese);
+
+        refreshSubject(LearningSubject.CHINESE);
 
         //设置Drawer
         _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
@@ -102,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else {
-                getSupportActionBar().setTitle(menuItem.getTitle());
                 menuItem.setChecked(true);
-
                 for (int subject = 0; subject < 9; subject++) {
                     if (menuItem.getItemId() == SUBJECT_MENU_IDS[subject]) {
                         refreshSubject(LearningSubject.id2Obj(subject));
@@ -177,14 +174,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Intent接收事件
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode);
-
-    }
-
     //从顶部组合框中获取目前选中的科目
     @NonNull
     public LearningSubject getCurrentSubject() {
@@ -225,26 +214,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshSubject(LearningSubject subject) {
-        if (_currentSubject == subject) return;
         _currentSubject = subject;
-//        _pageContext.stat._adapter.unit.refreshUnit();
-//        _pageContext.workBook.refreshList();
+        //set toolbar color
+        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        getWindow().setStatusBarColor(uiColor);
+        _toolbar.setBackgroundColor(uiColor);
+        getSupportActionBar().setTitle(getResources().getStringArray(R.array.learning_subjects)[subject.getId()]);
         requireRefresh();
     }
 
     public void addSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
-        _onSubjectUpdate.add(handler);
+        if(_rerquireRefreshEvent == null) _rerquireRefreshEvent = new ArrayList<>();
+        _rerquireRefreshEvent.add(handler);
     }
 
     public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_onSubjectUpdate == null) _onSubjectUpdate = new ArrayList<>();
-        _onSubjectUpdate.remove(handler);
+        if(_rerquireRefreshEvent == null) _rerquireRefreshEvent = new ArrayList<>();
+        _rerquireRefreshEvent.remove(handler);
     }
 
     public void requireRefresh(){
+        if(_rerquireRefreshEvent == null) return;
         for (RequireRefreshEventHandler item :
-                _onSubjectUpdate) {
+                _rerquireRefreshEvent) {
             item.update();
         }
     }

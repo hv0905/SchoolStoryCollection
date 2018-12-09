@@ -5,8 +5,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_main">
+    android:orientation="vertical">
 
     <include layout="@layout/element_unit_empty"/>
 

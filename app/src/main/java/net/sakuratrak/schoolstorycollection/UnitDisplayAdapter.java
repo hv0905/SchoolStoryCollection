@@ -30,8 +30,6 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
         viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH,"%d%%",udi.QuizCorrectRatio));
         viewHolder._correctRatioBar.setProgress(udi.QuizCorrectRatio);
-        //viewHolder._rmBtn.setOnClickListener(udi.RmClicked);
-        //viewHolder._detailBtn.setOnClickListener(udi.DetailClicked);
         viewHolder._frame.setOnClickListener(udi.DetailClicked);
         viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
         viewHolder._valQuestionCount.setText(String.valueOf(udi.QuestionCount));
@@ -69,8 +67,6 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         private View _root;
 
         private TextView _valTitle;
-        //private MaterialButton _detailBtn;
-        //private MaterialButton _rmBtn;
         private TextView _valCorrectRatio;
         private ProgressBar _correctRatioBar;
         private TextView _valQuizCount;
@@ -85,8 +81,6 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             super(rootView);
             _root = rootView;
             _valTitle = _root.findViewById(R.id.valTitle);
-            //_detailBtn = _root.findViewById(R.id.resetBtn);
-            //_rmBtn = _root.findViewById(R.id.rmBtn);
             _valCorrectRatio = _root.findViewById(R.id.valCorrectRatio);
             _correctRatioBar = _root.findViewById(R.id.correctRatioBar);
             _valQuizCount = _root.findViewById(R.id.valQuizCount);
@@ -121,7 +115,6 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
         public DataContext(View.OnClickListener detailClicked,int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
             DetailClicked = detailClicked;
-            //RmClicked = rmClicked;
             QuizCount = quizCount;
             QuizCorrectRatio = quizCorrectRatio;
             QuestionCount = questionCount;

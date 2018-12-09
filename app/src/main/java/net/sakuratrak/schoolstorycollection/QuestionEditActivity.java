@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,6 +66,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     private ImageSelectView _analysisImgRecycle;
     private MenuItem _okButton;
     private RatingBar _difficultyEdit;
+    private Toolbar _toolbar;
     //endregion
 
     @Override
@@ -88,10 +90,7 @@ public class QuestionEditActivity extends AppCompatActivity {
             _currentSubject = (LearningSubject) getIntent().getSerializableExtra(EXTRA_SUBJECT);
             //new
         }
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
-        }
+
 
         //set answer content
         _answerContent = _questionType.getCreatorView(this);
@@ -100,7 +99,7 @@ public class QuestionEditActivity extends AppCompatActivity {
             ((ImageAnswerCreateView)_answerContent).getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
         }
 
-
+        //region get views
         _editTitle = findViewById(R.id.editTitle);
         _editSource = findViewById(R.id.editSource);
         _editAnalysisInfo = findViewById(R.id.editAnalysisInfo);
@@ -111,6 +110,21 @@ public class QuestionEditActivity extends AppCompatActivity {
         _questionImgRecycle = findViewById(R.id.questionImgRecycle);
         _analysisImgRecycle = findViewById(R.id.analysisImgRecycle);
         _difficultyEdit = findViewById(R.id.difficultyEdit);
+        _toolbar = findViewById(R.id.toolbar);
+        //endregion
+
+        //region toolbar configure
+        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        getWindow().setStatusBarColor(uiColor);
+        _toolbar.setBackgroundColor(uiColor);
+        setSupportActionBar(_toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        }
+        //endregion
+
 
         _answerContainer.addView(_answerContent);
 

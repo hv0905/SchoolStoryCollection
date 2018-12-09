@@ -8,18 +8,10 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieDataSet;
 
 public final class UiHelper {
+
     public static void applyAppearanceForDataSet(Context context, PieDataSet dataSet) {
         dataSet.setValueTextColor(Color.BLACK);
-        dataSet.setColors(
-                context.getResources().getColor(R.color.flat1),
-                context.getResources().getColor(R.color.flat2),
-                context.getResources().getColor(R.color.flat3),
-                context.getResources().getColor(R.color.flat4),
-                context.getResources().getColor(R.color.flat5),
-                context.getResources().getColor(R.color.flat6),
-                context.getResources().getColor(R.color.flat7),
-                context.getResources().getColor(R.color.flat8)
-        );
+        dataSet.setColors(getFlatUiColors(context));
         dataSet.setValueLinePart1OffsetPercentage(80f);//数据连接线距图形片内部边界的距离，为百分数
         dataSet.setValueLinePart1Length(0.3f);
         dataSet.setValueLinePart2Length(0.4f);
@@ -38,5 +30,44 @@ public final class UiHelper {
         Description dsc = new Description();
         dsc.setText("");
         pie.setDescription(dsc);
+    }
+
+    public static int getFlatUiColor(Context context,int id){
+
+        switch (id){
+            case 0:
+                return context.getResources().getColor(R.color.flat1);
+            case 1:
+                return context.getResources().getColor(R.color.flat2);
+            case 2:
+                return context.getResources().getColor(R.color.flat3);
+            case 3:
+                return context.getResources().getColor(R.color.flat4);
+            case 4:
+                return context.getResources().getColor(R.color.flat5);
+            case 5:
+                return context.getResources().getColor(R.color.flat6);
+            case 6:
+                return context.getResources().getColor(R.color.flat7);
+            case 7:
+                return context.getResources().getColor(R.color.flat8);
+            case 8:
+                return context.getResources().getColor(R.color.flat9);
+                default:
+                    throw new IllegalArgumentException("id");
+        }
+    }
+
+    public static int[] getFlatUiColors(Context context){
+        return new int[] {
+                context.getResources().getColor(R.color.flat1),
+                context.getResources().getColor(R.color.flat2),
+                context.getResources().getColor(R.color.flat3),
+                context.getResources().getColor(R.color.flat4),
+                context.getResources().getColor(R.color.flat5),
+                context.getResources().getColor(R.color.flat6),
+                context.getResources().getColor(R.color.flat7),
+                context.getResources().getColor(R.color.flat8),
+                context.getResources().getColor(R.color.flat9)};
     }
 }

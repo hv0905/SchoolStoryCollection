@@ -303,6 +303,9 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(_context.getTitle());
         _toolbar.setTitle(_context.getTitle());
+        int uiColor = UiHelper.getFlatUiColor(this,_context.getSubject().getId());
+        _toolbarLayout.setContentScrimColor(uiColor);
+        _toolbarLayout.setStatusBarScrimColor(uiColor);
         _toolbarLayout.setTitle(_context.getTitle());
         _valDifficulty.setRating(_context.getDifficulty() / 2f);
         _valCreateTime.setText(new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US).format(_context.getAuthorTime()));

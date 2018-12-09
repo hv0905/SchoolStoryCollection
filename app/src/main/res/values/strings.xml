@@ -14,7 +14,7 @@
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>
-    <string name="correctRatio">正确率</string>
+    <string name="correctRatio">小测正确率</string>
     <string name="quizTime">小测次数</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
