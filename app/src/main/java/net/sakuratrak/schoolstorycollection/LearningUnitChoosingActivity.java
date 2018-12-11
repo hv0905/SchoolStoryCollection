@@ -29,7 +29,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
     public static final String RESULT_SELECTED = "selected";
     public static final String RESULT_UNIT_ID = "unitId";
 
-    private LearningSubject _currentSubject = LearningSubject.OTHER;
+    private LearningSubject _currentSubject;
     private boolean _showNone;
 
     //region views
@@ -46,7 +46,13 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         _showNone = getIntent().getBooleanExtra(EXTRA_SHOW_NONE, false);
         setContentView(R.layout.activity_learning_unit_manage);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        getWindow().setStatusBarColor(uiColor);
+        toolbar.setBackgroundColor(uiColor);
+
         setSupportActionBar(toolbar);
+
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);

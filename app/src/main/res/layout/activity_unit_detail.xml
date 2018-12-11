@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UnitDetailActivity">
+
+    <include layout="@layout/para_appbar"/>
+
+    <ScrollView
+        android:id="@+id/scrollMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/ui_margin_large"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_info_black_24dp"
+                    android:text="@string/info" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        style="@style/textMidTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_file_text_black_24dp"
+                        android:text="@string/questionCount" />
+
+                    <TextView
+                        android:id="@+id/valQuestionCount"
+                        style="@style/textValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintRight_toRightOf="parent"
+
+                        />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp">
+
+                    <TextView
+                        style="@style/textMidTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_done_all_black_24dp"
+                        android:text="@string/correctRatio" />
+
+                    <TextView
+                        android:id="@+id/valCorrectRatio"
+                        style="@style/textValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintRight_toRightOf="parent"
+
+                        />
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    style="@style/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_bar_graph_black_24dp"
+                    android:text="@string/stat" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/difficultyPie"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/quizBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+
+            </LinearLayout>
+
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/resetBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ui_margin_mid"
+                android:layout_marginRight="@dimen/ui_margin_mid"
+                android:text="@string/reset_info"
+                app:icon="@drawable/ic_repeat_black_24dp" />
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/rmBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ui_margin_mid"
+                android:layout_marginRight="@dimen/ui_margin_mid"
+                android:text="@string/rm_unit"
+                app:backgroundTint="@color/danger"
+                app:icon="@drawable/ic_delete_black_24dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

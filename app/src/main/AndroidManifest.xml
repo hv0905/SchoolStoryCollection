@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:ignore="GoogleAppIndexingWarning"
         tools:replace="label">
         <provider
             android:name=".GenericFileProvider"
@@ -48,8 +48,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".QuestionEditActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/editQuestion" />
+            android:label="@string/editQuestion"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -67,6 +67,9 @@
         <activity
             android:name=".QuizActivity"
             android:label="@string/title_activity_quiz" />
+        <activity
+            android:name=".UnitDetailActivity"
+            android:label="@string/title_activity_unit_detail"></activity>
     </application>
 
 </manifest>

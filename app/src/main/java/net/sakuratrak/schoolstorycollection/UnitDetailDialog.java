@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
@@ -27,6 +28,7 @@ public final class UnitDetailDialog extends BottomSheetDialogFragment {
     MaterialButton _closeBtn;
     MaterialButton _resetBtn;
     MaterialButton _rmBtn;
+    ScrollView _scrollMain;
 
     //public boolean _edited = false;
 
@@ -49,7 +51,7 @@ public final class UnitDetailDialog extends BottomSheetDialogFragment {
         _closeBtn = _root.findViewById(R.id.closeBtn);
         _resetBtn = _root.findViewById(R.id.resetBtn);
         _rmBtn = _root.findViewById(R.id.rmBtn);
-
+        _scrollMain = _root.findViewById(R.id.scrollMain);
 
         _closeBtn.setOnClickListener(v -> dismiss());
 

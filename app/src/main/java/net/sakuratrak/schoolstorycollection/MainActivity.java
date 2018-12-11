@@ -1,6 +1,7 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;

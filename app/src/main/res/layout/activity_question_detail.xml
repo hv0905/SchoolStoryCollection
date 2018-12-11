@@ -11,9 +11,9 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:background="@color/transparent"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
+        <!--        android:background="@color/transparent"-->
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbarLayout"
@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="@color/transparent"
             app:toolbarId="@+id/toolbar">
 
             <FrameLayout
@@ -29,8 +28,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/imageTopBorder"
                 android:fitsSystemWindows="true"
-                android:transitionName="topImage"
                 android:foreground="#44000000">
+                <!--android:transitionName="topImage"-->
                 <ImageView
                     android:id="@+id/imageTopContent"
                     android:scaleType="centerCrop"

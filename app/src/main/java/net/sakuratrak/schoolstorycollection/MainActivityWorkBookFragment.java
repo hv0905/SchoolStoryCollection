@@ -157,7 +157,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private void goDetail(int id, View sharedView) {
         Intent intent = new Intent(getActivity(), QuestionDetailActivity.class);
         intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, id);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, "topImage");
+        //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, "topImage");
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
         startActivityForResult(intent, REQUEST_DETAIL, options.toBundle());
     }
 

@@ -159,4 +159,5 @@
     <string name="title_activity_quiz">QuizActivity</string>
     <string name="info">信息</string>
     <string name="close">关闭</string>
+    <string name="title_activity_unit_detail">UnitDetailActivity</string>
 </resources>
