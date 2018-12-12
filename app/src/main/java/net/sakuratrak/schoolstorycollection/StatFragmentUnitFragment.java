@@ -1,5 +1,8 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -35,6 +38,8 @@ public final class StatFragmentUnitFragment extends Fragment {
     public RecyclerView _unitList;
     public FloatingActionButton _addUnitBtn;
     //endregion
+
+    public static final int REQUEST_DETAIL = 100;
 
 
     public Runnable getNotifyUnitRefresh() {
@@ -126,8 +131,12 @@ public final class StatFragmentUnitFragment extends Fragment {
     }
 
     private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
-        UnitDetailDialog udi = new UnitDetailDialog(item);
-        udi.show(getChildFragmentManager(),"UnitDetailDialog");
+        Intent intent = new Intent(getActivity(),UnitDetailActivity.class);
+        intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID,item.getId());
+        startActivityForResult(intent,REQUEST_DETAIL);
+
+//        UnitDetailDialog udi = new UnitDetailDialog(item);
+//        udi.show(getChildFragmentManager(),"UnitDetailDialog");
     }
 
     private MainActivity getParent(){
@@ -138,6 +147,20 @@ public final class StatFragmentUnitFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: UnitFragment");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case REQUEST_DETAIL:
+                switch (resultCode){
+                    case UnitDetailActivity.RESULT_DELTED:
+                        Snackbar.make(_root,R.string.deleted,Snackbar.LENGTH_LONG).show();
+                    case UnitDetailActivity.RESULT_CHANGED:
+                        getParent().requireRefresh();
+                }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 
