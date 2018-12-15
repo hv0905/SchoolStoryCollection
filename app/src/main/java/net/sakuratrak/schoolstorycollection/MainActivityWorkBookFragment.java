@@ -50,6 +50,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItem_fill;
     private FloatingActionButton _addItem_answer;
 
+    private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
 
@@ -120,8 +121,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
-                    v -> goDetail(info.getId(),v),
-                    null);
+                    v -> goDetail(info,v),
+                    v -> goQuiz(info));
 
             context.add(item);
         }
@@ -154,12 +155,19 @@ public final class MainActivityWorkBookFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void goDetail(int id, View sharedView) {
+    private void goDetail(QuestionInfo info, View sharedView) {
         Intent intent = new Intent(getActivity(), QuestionDetailActivity.class);
-        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, id);
+        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, info.getId());
         //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, "topImage");
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
         startActivityForResult(intent, REQUEST_DETAIL, options.toBundle());
+    }
+
+    private void goQuiz(QuestionInfo info){
+        Intent intent = new Intent(getActivity(),QuizActivity.class);
+        intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_SOLO);
+        intent.putExtra(QuizActivity.EXTRA_QUESTION_ID,info.getId());
+        startActivityForResult(intent,REQUEST_QUIZ);
     }
 
     @Override

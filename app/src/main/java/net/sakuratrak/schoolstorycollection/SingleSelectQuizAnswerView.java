@@ -12,7 +12,7 @@ import android.widget.Button;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
 
-public class SelectableQuizAnswerView extends CheckableQuizAnswerView {
+public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
 
     ViewGroup _root;
     Chip _a;
@@ -21,22 +21,22 @@ public class SelectableQuizAnswerView extends CheckableQuizAnswerView {
     Chip _d;
     FloatingActionButton _confirm;
 
-    public SelectableQuizAnswerView(Context context) {
+    public SingleSelectQuizAnswerView(Context context) {
         super(context);
         init();
     }
 
-    public SelectableQuizAnswerView(Context context, AttributeSet attrs) {
+    public SingleSelectQuizAnswerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public SelectableQuizAnswerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SingleSelectQuizAnswerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    public SelectableQuizAnswerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SingleSelectQuizAnswerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }

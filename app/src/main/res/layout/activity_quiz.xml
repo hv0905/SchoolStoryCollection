@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/questionId"
+                    android:id="@+id/questionCounter"
                     style="@style/textValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,16 +48,17 @@
                     android:layout_marginLeft="8dp"
                     android:text="dfdsfdsdfsfdsfds"
                     android:textColor="@color/white"
-                    app:layout_constraintLeft_toRightOf="@id/questionId" />
+                    app:layout_constraintLeft_toRightOf="@id/questionCounter" />
 
                 <TextView
+                    android:id="@+id/textQuestionType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="选择题"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/questionId"
+                    app:layout_constraintLeft_toRightOf="@id/questionCounter"
                     app:layout_constraintTop_toBottomOf="@id/questionName" />
 
             </android.support.constraint.ConstraintLayout>
@@ -84,14 +85,24 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textQuestionInfo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="aaa"
                     android:textColor="@color/black" />
 
-                <net.sakuratrak.schoolstorycollection.ImageDisplayView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content">
+
+                    <net.sakuratrak.schoolstorycollection.ImageDisplayView
+                        android:id="@+id/questionImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+
 
             </LinearLayout>
         </ScrollView>

@@ -54,6 +54,8 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
                 toggleOnUpdate();
             }
         });
+
+        toggleOnUpdate();
     }
 
     @Override

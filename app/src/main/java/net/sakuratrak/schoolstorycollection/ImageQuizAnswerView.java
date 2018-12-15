@@ -35,6 +35,7 @@ public final class ImageQuizAnswerView extends QuizAnswerView {
 
     void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_image,this);
+        _confirmBtn = findViewById(R.id.confirmBtn);
         _confirmBtn.setOnClickListener(v -> onAnswerReport(ANSWER_COMPLETED));
     }
 }
