@@ -66,8 +66,10 @@
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".QuizActivity"
-            android:label="@string/title_activity_quiz" />
+            android:label=""
+            />
         <activity
             android:theme="@style/AppTheme.NoActionBar"
             android:name=".UnitDetailActivity"

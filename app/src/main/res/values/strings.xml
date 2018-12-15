@@ -161,4 +161,6 @@
     <string name="close">关闭</string>
     <string name="title_activity_unit_detail">UnitDetailActivity</string>
     <string name="deleted">已删除</string>
+    <string name="skip">跳过</string>
+    <string name="viewAnswer">查看答案</string>
 </resources>

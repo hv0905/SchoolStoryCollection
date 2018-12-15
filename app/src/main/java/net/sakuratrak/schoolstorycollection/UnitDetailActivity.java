@@ -56,11 +56,15 @@ public class UnitDetailActivity extends AppCompatActivity {
         _resetBtn = findViewById(R.id.resetBtn);
         _scrollMain = findViewById(R.id.scrollMain);
         _valQuestionCount = findViewById(R.id.valQuestionCount);
-        _valCorrectRatio = findViewById(R.id.valQuestionRatio);
+        _valCorrectRatio = findViewById(R.id.valCorrectRatio);
         _difficultyPie = findViewById(R.id.difficultyPie);
         _toolbar = findViewById(R.id.toolbar);
 
         UiHelper.applyAppearanceForPie(this,_difficultyPie);
+
+        int uiColor = UiHelper.getFlatUiColor(this,_context.getSubject().getId());
+        _toolbar.setBackgroundColor(uiColor);
+        getWindow().setStatusBarColor(uiColor);
 
         setSupportActionBar(_toolbar);
 
