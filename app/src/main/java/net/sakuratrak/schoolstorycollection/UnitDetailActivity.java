@@ -106,8 +106,8 @@ public class UnitDetailActivity extends AppCompatActivity {
 
     void refresh(){
         getSupportActionBar().setTitle(_context.getName());
-        _valQuestionCount.setText(_context.getQuestions().size());
-        _valCorrectRatio.setText(_context.computeCorrectRatio());
+        _valQuestionCount.setText(String.valueOf(_context.getQuestions().size()));
+        _valCorrectRatio.setText(String.format("%d%%", _context.computeCorrectRatio()));
     }
 
     @Override

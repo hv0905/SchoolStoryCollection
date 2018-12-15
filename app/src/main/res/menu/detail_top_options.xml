@@ -25,17 +25,19 @@
     <item
         android:id="@+id/shareMenu"
         android:title="@string/share"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:icon="@drawable/ic_share_black_24dp"
         />
     <item
         android:id="@+id/hide"
         android:title="@string/hide"
         android:icon="@drawable/ic_move_to_inbox_black_24dp"
+        app:showAsAction="never"
         />
     <item
         android:id="@+id/delete"
         android:title="@string/delete"
         android:icon="@drawable/ic_delete_black_24dp"
+        app:showAsAction="never"
         />
 </menu>

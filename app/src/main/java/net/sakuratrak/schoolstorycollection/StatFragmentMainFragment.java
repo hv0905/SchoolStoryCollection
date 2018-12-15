@@ -97,7 +97,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 questionPieEntry.add(new PieEntry(size, item.getName()));
             }
             PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(R.string.unit));
-            UiHelper.applyAppearanceForDataSet(getParent(),questionPieDataSet);
+            UiHelper.applyAppearanceForPieDataSet(getParent(),questionPieDataSet);
             PieData questionPieData = new PieData(questionPieDataSet);
             _questionPie.setData(questionPieData);
 
@@ -120,7 +120,7 @@ public final class StatFragmentMainFragment extends Fragment {
             }
 
             PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
-            UiHelper.applyAppearanceForDataSet(getParent(),difficultyPieDataSet);
+            UiHelper.applyAppearanceForPieDataSet(getParent(),difficultyPieDataSet);
 
             _difficultyPie.setData(new PieData(difficultyPieDataSet));
 

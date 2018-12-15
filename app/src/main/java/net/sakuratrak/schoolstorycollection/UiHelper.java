@@ -3,13 +3,14 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieDataSet;
 
 public final class UiHelper {
 
-    public static void applyAppearanceForDataSet(Context context, PieDataSet dataSet) {
+    public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet) {
         dataSet.setValueTextColor(Color.BLACK);
         dataSet.setColors(getFlatUiColors(context));
         dataSet.setValueLinePart1OffsetPercentage(80f);//数据连接线距图形片内部边界的距离，为百分数
@@ -30,6 +31,10 @@ public final class UiHelper {
         Description dsc = new Description();
         dsc.setText("");
         pie.setDescription(dsc);
+    }
+
+    public static void applyAppearanceForBar(Context context, BarChart bar){
+
     }
 
     public static int getFlatUiColor(Context context,int id){
