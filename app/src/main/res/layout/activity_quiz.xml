@@ -35,7 +35,6 @@
                     style="@style/textValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
                     android:textColor="@color/white"
                     android:textSize="45sp" />
 
@@ -44,8 +43,7 @@
                     style="@style/textTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="dfdsfdsdfsfdsfds"
+                    android:layout_marginStart="8dp"
                     android:textColor="@color/white"
                     app:layout_constraintLeft_toRightOf="@id/questionCounter" />
 
@@ -53,8 +51,7 @@
                     android:id="@+id/textQuestionType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="选择题"
+                    android:layout_marginStart="8dp"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/questionCounter"
