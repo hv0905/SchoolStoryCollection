@@ -6,6 +6,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import me.kareluo.imaging.core.IMGMode;
 import me.kareluo.imaging.core.IMGText;
 import me.kareluo.imaging.core.file.IMGAssetFileDecoder;
@@ -13,10 +17,6 @@ import me.kareluo.imaging.core.file.IMGContentDecoder;
 import me.kareluo.imaging.core.file.IMGDecoder;
 import me.kareluo.imaging.core.file.IMGFileDecoder;
 import me.kareluo.imaging.core.util.IMGUtils;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by felix on 2017/11/14 下午2:26.
@@ -32,6 +32,8 @@ public class IMGEditActivity extends IMGEditBaseActivity {
 
     public static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
 
+    public static final String EXTRA_ADD_CONTRAST = "add_contrast";
+
     @Override
     public Bitmap getBitmap() {
         Intent intent = getIntent();
@@ -39,7 +41,7 @@ public class IMGEditActivity extends IMGEditBaseActivity {
             return null;
         }
 
-       Uri uri = intent.getParcelableExtra(EXTRA_IMAGE_URI);
+        Uri uri = intent.getParcelableExtra(EXTRA_IMAGE_URI);
         if (uri == null) {
             return null;
         }
@@ -56,10 +58,9 @@ public class IMGEditActivity extends IMGEditBaseActivity {
                     decoder = new IMGFileDecoder(uri);
                     break;
                 case "content":
-                    decoder = new IMGContentDecoder(uri,getContentResolver());
+                    decoder = new IMGContentDecoder(uri, getContentResolver());
             }
         }
-
 
 
         if (decoder == null) {
@@ -89,9 +90,15 @@ public class IMGEditActivity extends IMGEditBaseActivity {
             return null;
         }
 
-
+        float contrast = getIntent().getFloatExtra(EXTRA_ADD_CONTRAST, 1f);
+        if (contrast != 1f) {
+            Bitmap old = bitmap;
+            bitmap =  Imaging.changeBitmapContrastBrightness(bitmap, contrast, 0);
+            old.recycle();
+        }
         return bitmap;
     }
+
 
     @Override
     public void onText(IMGText text) {

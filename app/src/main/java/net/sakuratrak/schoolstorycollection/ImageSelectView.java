@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 import me.kareluo.imaging.IMGEditActivity;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+import net.sakuratrak.schoolstorycollection.core.Imaging;
 
 /**
  * Provide a imageSelectView base on RecycleView
@@ -40,7 +42,7 @@ public class ImageSelectView extends RecyclerView {
     private File _currentTempCameraPhoto;
     private File _currentTargetPhoto;
     private OnClickListener _onItemToggle;
-
+    private float _addContrast = 1.8f;
 
     public ImageSelectView(@NonNull Context context) {
         super(context);
@@ -93,6 +95,7 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_currentTempCameraPhoto));
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
+                intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
@@ -103,6 +106,7 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, data.getData());
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
+                intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
@@ -230,5 +234,15 @@ public class ImageSelectView extends RecyclerView {
 
     public void setOnItemToggleListener(OnClickListener _onItemToggle) {
         this._onItemToggle = _onItemToggle;
+    }
+
+
+    public float get_addContrast() {
+        return _addContrast;
+    }
+
+    /** disable:change to 1*/
+    public void set_addContrast(float _addContrast) {
+        this._addContrast = _addContrast;
     }
 }
