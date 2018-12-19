@@ -1,12 +1,14 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
     public static final String EXTRA_QUESTION_ID = "id";
 
+    public static final String TAG = "QuizActivity";
+
     Toolbar _toolbar;
     TextView _questionCounter;
     TextView _questionName;
@@ -33,6 +37,8 @@ public class QuizActivity extends AppCompatActivity {
     ImageDisplayView _questionImg;
     FrameLayout _answerContainer;
     QuizAnswerView _answerContent;
+    FrameLayout _answerFullFrame;
+    BottomSheetBehavior<FrameLayout> _behavior;
 
 
     int _counter = 0;
@@ -53,6 +59,8 @@ public class QuizActivity extends AppCompatActivity {
         _textQuestionInfo = findViewById(R.id.textQuestionInfo);
         _questionImg = findViewById(R.id.questionImg);
         _answerContainer = findViewById(R.id.answerContainer);
+        _answerFullFrame = findViewById(R.id.answerFullFrame);
+        _behavior = BottomSheetBehavior.from(_answerFullFrame);
 
         setSupportActionBar(_toolbar);
 
@@ -98,7 +106,6 @@ public class QuizActivity extends AppCompatActivity {
         _toolbar.setBackgroundColor(uiColor);
         _answerContainer.setBackgroundColor(uiColor);
 
-
         _questionName.setText(_currentContext.getTitle());
         _questionCounter.setText(String.valueOf(++_counter));
         _textQuestionType.setText(_currentContext.getType().getTitleId());
@@ -109,6 +116,14 @@ public class QuizActivity extends AppCompatActivity {
         _questionImg.setImages(_currentContext.getQuestionImage());
 
         _answerContent = _currentContext.getType().getQuizAnswerView(this);
+        _answerContent.setOnAnswerReport((sender, status) -> {
+            Log.d(TAG, "setupQuestion: ok!!!");
+            _behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        });
+        FrameLayout.LayoutParams ctLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        int dp = (int) getResources().getDimension(R.dimen.ui_margin_mid);
+        ctLp.setMargins(dp,dp,dp,dp);
+        _answerContent.setLayoutParams(ctLp);
         _answerContainer.removeAllViews();
         _answerContainer.addView(_answerContent);
 
