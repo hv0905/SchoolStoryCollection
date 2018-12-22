@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="4dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginEnd="4dp"
-    android:layout_marginBottom="2dp"
-    app:cardCornerRadius="5dp"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_uSmall"
+    android:layout_marginEnd="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_uSmall"
+    app:cardCornerRadius="@dimen/cardCorner"
     app:cardPreventCornerOverlap="false">
 
     <LinearLayout

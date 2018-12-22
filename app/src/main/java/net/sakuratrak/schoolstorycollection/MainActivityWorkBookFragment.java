@@ -24,6 +24,7 @@ import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
+import net.sakuratrak.schoolstorycollection.core.ReadOnlyList;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionMenu _addItemBtn;
     private Runnable _notifyToUpdate;
     private QuestionItemAdapter _mainAdapter;
+    private int _questionCount;
+    private List<QuestionInfo> _contexts;
     private View _workbookEmptyNotice;
+    private DataContextList _defaultList = this.new DataContextList();
 
     private FloatingActionButton _addItem_singleChoice;
     private FloatingActionButton _addItem_multiChoice;
@@ -89,9 +93,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
-        _mainAdapter = new QuestionItemAdapter(new ArrayList<>());
-        _itemList.setAdapter(_mainAdapter);
         getParent().addSubjectUpdateEvent(this::refreshList);
+        setDisplayMode(false);
         refreshList();
         return _root;
     }
@@ -102,32 +105,17 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     public void refreshList() {
         Log.d(TAG, "refreshList: go");
-        ArrayList<QuestionItemAdapter.DataContext> context = _mainAdapter.get_dataContext();
-        context.clear();
+
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         List<QuestionInfo> infos;
         try {
-            infos = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+            _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
         } catch (SQLException e) {
             e.printStackTrace();
             return;
         }
-
-        for (QuestionInfo info : infos) {
-            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
-
-            QuestionItemAdapter.DataContext item = new QuestionItemAdapter.DataContext(info.getTitle(),
-                    format.format(info.getAuthorTime()),info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
-                    Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
-                    info.getDifficulty() / 2f,
-                    info.isFavourite(),
-                    v -> goDetail(info,v),
-                    v -> goQuiz(info));
-
-            context.add(item);
-        }
-        _mainAdapter.set_dataContext(context);
-        if (context.size() == 0) {
+        _mainAdapter.notifyDataSetChanged();
+        if (_contexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
         } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
@@ -189,4 +177,36 @@ public final class MainActivityWorkBookFragment extends Fragment {
         startActivityForResult(intent, REQUEST_ADD_QUESTION);
         _addItemBtn.close(true);
     }
+
+    void setDisplayMode(boolean second){
+        if(second){
+            _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(_defaultList);
+        }else{
+            _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
+        }
+        _itemList.setAdapter(_mainAdapter);
+    }
+
+    public class DataContextList extends ReadOnlyList<QuestionItemAdapter.DataContext> {
+        @Override
+        public int size() {
+            return _contexts.size();
+        }
+
+        @Override
+        public QuestionItemAdapter.DataContext get(int index) {
+            Log.d(TAG, "get: query:"+index);
+            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
+
+            QuestionInfo info = _contexts.get(index);
+                return new QuestionItemAdapter.DataContext(info.getTitle(),
+                    format.format(info.getAuthorTime()),info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
+                    Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
+                    info.getDifficulty() / 2f,
+                    info.isFavourite(),
+                    v -> goDetail(info,v),
+                    v -> goQuiz(info));
+        }
+    }
+
 }

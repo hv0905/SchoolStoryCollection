@@ -1,7 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -47,16 +46,18 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar _toolbar;
     private ViewPager _pager;
     private MenuItem _filterMenu;
+    private MenuItem _displayModeToggle;
     private NavigationView _navigationView;
     //endregion
 
     //region fields
+    private boolean _isSecondDisplayMode = false;
     private File _cameraCurrentFile;
     private final String TAG = "MainActivity";
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
-    private ArrayList<RequireRefreshEventHandler> _rerquireRefreshEvent;
+    private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
 
     //endregion
 
@@ -81,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-
-        refreshSubject(LearningSubject.id2Obj(AppSettingsMaster.getStartupSubjectId(this)));
+        int startId = AppSettingsMaster.getStartupSubjectId(this);
+        refreshSubject(LearningSubject.id2Obj(startId));
+        _navigationView.setCheckedItem(SUBJECT_MENU_IDS[startId]);
 
         //设置Drawer
         _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
@@ -153,10 +155,12 @@ public class MainActivity extends AppCompatActivity {
         _navigation.setOnNavigationItemSelectedListener(item -> {
             if (_filterMenu != null)
                 _filterMenu.setVisible(false);
+            _displayModeToggle.setVisible(false);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     _pager.setCurrentItem(0);
                     _filterMenu.setVisible(true);
+                    _displayModeToggle.setVisible(true);
                     return true;
                 case R.id.navigation_dashboard:
                     _pager.setCurrentItem(1);
@@ -191,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_options, menu);
         _filterMenu = menu.findItem(R.id.filter);
+        _displayModeToggle = menu.findItem(R.id.displayModeToggle);
         return true;
     }
 
@@ -203,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.filter:
                 FilterDialog fd = new FilterDialog();
                 fd.show(getSupportFragmentManager(), "filter");
+                return true;
+            case R.id.displayModeToggle:
+                _isSecondDisplayMode = !_isSecondDisplayMode;
+                _displayModeToggle.setIcon(_isSecondDisplayMode ? R.drawable.ic_view_list_white_24dp:R.drawable.ic_dashboard_white_24dp);
+                _pageContext.workBook.setDisplayMode(_isSecondDisplayMode);
                 return true;
         }
         return false;
@@ -227,19 +237,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_rerquireRefreshEvent == null) _rerquireRefreshEvent = new ArrayList<>();
-        _rerquireRefreshEvent.add(handler);
+        if(_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
+        _requireRefreshEvent.add(handler);
     }
 
     public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_rerquireRefreshEvent == null) _rerquireRefreshEvent = new ArrayList<>();
-        _rerquireRefreshEvent.remove(handler);
+        if(_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
+        _requireRefreshEvent.remove(handler);
     }
 
     public void requireRefresh(){
-        if(_rerquireRefreshEvent == null) return;
+        if(_requireRefreshEvent == null) return;
         for (RequireRefreshEventHandler item :
-                _rerquireRefreshEvent) {
+                _requireRefreshEvent) {
             item.update();
         }
     }
