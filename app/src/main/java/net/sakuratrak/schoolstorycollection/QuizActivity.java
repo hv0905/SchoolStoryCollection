@@ -37,7 +37,6 @@ public class QuizActivity extends AppCompatActivity {
     ImageDisplayView _questionImg;
     FrameLayout _answerContainer;
     QuizAnswerView _answerContent;
-    FrameLayout _answerFullFrame;
     BottomSheetBehavior<FrameLayout> _behavior;
 
 
@@ -59,8 +58,6 @@ public class QuizActivity extends AppCompatActivity {
         _textQuestionInfo = findViewById(R.id.textQuestionInfo);
         _questionImg = findViewById(R.id.questionImg);
         _answerContainer = findViewById(R.id.answerContainer);
-        _answerFullFrame = findViewById(R.id.answerFullFrame);
-        _behavior = BottomSheetBehavior.from(_answerFullFrame);
 
         setSupportActionBar(_toolbar);
 
@@ -118,7 +115,6 @@ public class QuizActivity extends AppCompatActivity {
         _answerContent = _currentContext.getType().getQuizAnswerView(this);
         _answerContent.setOnAnswerReport((sender, status) -> {
             Log.d(TAG, "setupQuestion: ok!!!");
-            _behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         });
         FrameLayout.LayoutParams ctLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         int dp = (int) getResources().getDimension(R.dimen.ui_margin_mid);

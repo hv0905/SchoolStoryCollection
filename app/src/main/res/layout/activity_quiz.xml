@@ -116,20 +116,6 @@
 
 
         </android.support.constraint.ConstraintLayout>
-        <FrameLayout
-            android:id="@+id/answerFullFrame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/bottom_sheet_behavior"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="0dp"
-            android:background="@color/white"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="800dp"
-                />
-        </FrameLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 
