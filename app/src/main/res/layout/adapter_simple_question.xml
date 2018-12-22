@@ -4,69 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/cardCorner"
     android:layout_marginStart="@dimen/margin_small"
     android:layout_marginTop="@dimen/margin_uSmall"
     android:layout_marginEnd="@dimen/margin_small"
     android:layout_marginBottom="@dimen/margin_uSmall"
-    app:cardPreventCornerOverlap="false"
-    >
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/rootView"
-            android:layout_width="match_parent"
+    app:cardCornerRadius="@dimen/cardCorner"
+    app:cardPreventCornerOverlap="false">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/previewImg"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:contentDescription="@string/questionPreview"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/test_bg" />
+
+        <TextView
+            android:id="@+id/textTitle"
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            >
+            android:layout_marginStart="@dimen/ui_margin_mid"
+            app:layout_constraintBottom_toTopOf="@+id/difficulty"
+            app:layout_constraintLeft_toRightOf="@id/previewImg"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="231323123" />
 
-            <ImageView
-                android:id="@+id/previewImg"
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:contentDescription="@string/questionPreview"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/test_bg" />
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/difficulty"
+            style="@style/Widget.MaterialRatingBar.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
 
-            <TextView
-                android:id="@+id/textTitle"
-                style="@style/textTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ui_margin_mid"
-                app:layout_constraintBottom_toTopOf="@+id/difficulty"
-                app:layout_constraintLeft_toRightOf="@id/previewImg"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="231323123" />
+            android:isIndicator="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/previewImg"
+            app:layout_constraintTop_toBottomOf="@id/textTitle" />
 
-            <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/difficulty"
-                style="@style/Widget.MaterialRatingBar.RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-
-                android:isIndicator="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/previewImg"
-                app:layout_constraintTop_toBottomOf="@id/textTitle" />
-
-            <ImageView
-                android:id="@+id/favourite"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/like"
-                android:src="@drawable/ic_favorite_border_black_24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+        <ImageView
+            android:id="@+id/favourite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/like"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTitle" />
 
 
-        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.design.card.MaterialCardView>

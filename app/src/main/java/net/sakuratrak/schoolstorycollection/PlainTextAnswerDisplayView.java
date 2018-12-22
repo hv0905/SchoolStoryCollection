@@ -37,14 +37,14 @@ public final class PlainTextAnswerDisplayView extends AnswerUiDisplayView {
         init();
     }
 
-    void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_text,this);
+    void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_text, this);
         _root = findViewById(R.id.imgs);
     }
 
     @Override
     public void setAnswer(Answer value) {
-        if(value instanceof Answer.PlainTextAnswer)
+        if (value instanceof Answer.PlainTextAnswer)
             _root.setText(value.toString());
         else throw new IllegalArgumentException("value");
     }

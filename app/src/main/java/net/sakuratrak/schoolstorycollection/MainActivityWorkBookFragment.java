@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,7 +29,6 @@ import net.sakuratrak.schoolstorycollection.core.ReadOnlyList;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -151,11 +151,24 @@ public final class MainActivityWorkBookFragment extends Fragment {
         startActivityForResult(intent, REQUEST_DETAIL, options.toBundle());
     }
 
-    private void goQuiz(QuestionInfo info){
-        Intent intent = new Intent(getActivity(),QuizActivity.class);
-        intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_SOLO);
-        intent.putExtra(QuizActivity.EXTRA_QUESTION_ID,info.getId());
-        startActivityForResult(intent,REQUEST_QUIZ);
+    private void goQuiz(QuestionInfo info) {
+        Intent intent = new Intent(getActivity(), QuizActivity.class);
+        intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_SOLO);
+        intent.putExtra(QuizActivity.EXTRA_QUESTION_ID, info.getId());
+        startActivityForResult(intent, REQUEST_QUIZ);
+    }
+
+    private void showOptionMenu(QuestionInfo info){
+        AlertDialog builder = new AlertDialog.Builder(getContext()).setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
+            switch (which){
+                case 0:
+                    goDetail(info,null);
+                    break;
+                case 1:
+                    goQuiz(info);
+                    break;
+            }
+        }).setNegativeButton(R.string.cancel,null).show();
     }
 
     @Override
@@ -178,10 +191,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItemBtn.close(true);
     }
 
-    void setDisplayMode(boolean second){
-        if(second){
+    void setDisplayMode(boolean second) {
+        if (second) {
             _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(_defaultList);
-        }else{
+        } else {
             _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
         }
         _itemList.setAdapter(_mainAdapter);
@@ -195,17 +208,21 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         @Override
         public QuestionItemAdapter.DataContext get(int index) {
-            Log.d(TAG, "get: query:"+index);
+            Log.d(TAG, "get: query:" + index);
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
 
             QuestionInfo info = _contexts.get(index);
-                return new QuestionItemAdapter.DataContext(info.getTitle(),
-                    format.format(info.getAuthorTime()),info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
-                    Uri.fromFile(AppMaster.getThumbFile(getContext(),info.getQuestionImage().get(0))),
+            return new QuestionItemAdapter.DataContext(info.getTitle(),
+                    format.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
+                    Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage().get(0))),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
-                    v -> goDetail(info,v),
-                    v -> goQuiz(info));
+                    v -> goDetail(info, v),
+                    v -> goQuiz(info),
+                    v -> {
+                showOptionMenu(info);
+                return true;
+            });
         }
     }
 

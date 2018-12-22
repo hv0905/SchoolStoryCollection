@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
-                _displayModeToggle.setIcon(_isSecondDisplayMode ? R.drawable.ic_view_list_white_24dp:R.drawable.ic_dashboard_white_24dp);
+                _displayModeToggle.setIcon(_isSecondDisplayMode ? R.drawable.ic_view_list_white_24dp : R.drawable.ic_dashboard_white_24dp);
                 _pageContext.workBook.setDisplayMode(_isSecondDisplayMode);
                 return true;
         }
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         System.out.println("MainActivity Destroyed!!!");
-        AppSettingsMaster.setStartupSubjectId(this,_currentSubject.getId());
+        AppSettingsMaster.setStartupSubjectId(this, _currentSubject.getId());
         DbManager.releaseCurrentHelper();
         super.onDestroy();
     }
@@ -229,31 +229,30 @@ public class MainActivity extends AppCompatActivity {
     public void refreshSubject(LearningSubject subject) {
         _currentSubject = subject;
         //set toolbar color
-        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
         getWindow().setStatusBarColor(uiColor);
         _toolbar.setBackgroundColor(uiColor);
         getSupportActionBar().setTitle(getResources().getStringArray(R.array.learning_subjects)[subject.getId()]);
         requireRefresh();
     }
 
-    public void addSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
+    public void addSubjectUpdateEvent(RequireRefreshEventHandler handler) {
+        if (_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
         _requireRefreshEvent.add(handler);
     }
 
-    public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler){
-        if(_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
+    public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler) {
+        if (_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
         _requireRefreshEvent.remove(handler);
     }
 
-    public void requireRefresh(){
-        if(_requireRefreshEvent == null) return;
+    public void requireRefresh() {
+        if (_requireRefreshEvent == null) return;
         for (RequireRefreshEventHandler item :
                 _requireRefreshEvent) {
             item.update();
         }
     }
-
 
 
     @FunctionalInterface

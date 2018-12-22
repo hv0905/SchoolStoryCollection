@@ -24,6 +24,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
     public abstract List<DataContext> get_dataContext();
+
     public abstract void set_dataContext(List<DataContext> _dataContext);
 
 
@@ -36,8 +37,9 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public boolean favourite;
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
+        public View.OnLongClickListener showMenuClicked;
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -46,6 +48,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.quizClicked = quizClicked;
             this.difficulty = difficulty;
             this.favourite = favourite;
+            this.showMenuClicked = showMenuClicked;
         }
 
         public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite) {
@@ -90,6 +93,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
                 }
             };
             holder.previewImgBorder.setOnClickListener(listener);
+            holder.previewImgBorder.setOnLongClickListener(current.showMenuClicked);
             holder.btnDetail.setOnClickListener(listener);
             holder.btnQuiz.setOnClickListener(current.quizClicked);
         }
@@ -163,6 +167,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._previewImg.setImageURI(data.imgUri);
             holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             holder._rootView.setOnClickListener(data.detailClicked);
+            holder._rootView.setOnLongClickListener(data.showMenuClicked);
         }
 
         @Override
