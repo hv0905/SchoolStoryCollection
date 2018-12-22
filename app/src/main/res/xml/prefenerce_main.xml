@@ -13,6 +13,16 @@
             android:summary="%s"
             android:title="@string/settit_dailyQuizTime" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/adv"
+        >
+        <SwitchPreference
+            android:icon="@drawable/ic_image_black_24dp"
+            android:title="优化图片"
+            android:summary="在错题本添加图片时自动优化图片(提高对比度)方便阅读"
+            android:key="optimizeImage"
+            android:defaultValue="true" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/storage">
         <ListPreference
             android:icon="@drawable/ic_save_black_24dp"

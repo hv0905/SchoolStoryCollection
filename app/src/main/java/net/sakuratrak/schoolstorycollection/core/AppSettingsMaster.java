@@ -10,12 +10,14 @@ public final class AppSettingsMaster {
 
     private static final String SETTINGS_INTERNAL_WORKBOOK_LOC = "internalWorkbookLoc";
     private static final String SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC = "public";
+    private static final String SETTINGS_OPTIMIZE_IMAGE = "optimizeImage";
+    private static final String SETTINGS_STARTUP_SUBJECT_ID = "startupSubjectId";
 
     public static Map<String,?> _settings;
 
     public static File getWorkbookDb(Context context){
-        if(_settings == null) refreshSetting(context);
-        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC) == null || _settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
+        String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC,null);
+        if(set == null || set.equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
             File databases = new File(AppMaster.getPublicWorkbookDir(),AppMaster.DIR_DATABASES);
             return new File(databases,AppMaster.FILE_WORKBOOK_DB);
         }else{
@@ -25,8 +27,8 @@ public final class AppSettingsMaster {
     }
 
     public static File getWorkBookImageDir(Context context){
-        if(_settings == null) refreshSetting(context);
-        if(_settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC) == null || _settings.get(SETTINGS_INTERNAL_WORKBOOK_LOC).equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)){
+        String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC,null);
+        if(set == null || set.equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)){
             return new File(AppMaster.getPublicWorkbookDir(),AppMaster.DIR_IMAGES);
         }else{
             //internal
@@ -34,9 +36,16 @@ public final class AppSettingsMaster {
         }
     }
 
-    public static void refreshSetting(Context context){
-        _settings = PreferenceManager.getDefaultSharedPreferences(context).getAll();
+    public static boolean getIfOptimizeImage(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_OPTIMIZE_IMAGE,false);
     }
 
+    public static int getStartupSubjectId(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt(SETTINGS_STARTUP_SUBJECT_ID,0);
+    }
+
+    public static void setStartupSubjectId(Context context,int id){
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(SETTINGS_STARTUP_SUBJECT_ID,id).apply();
+    }
 
 }

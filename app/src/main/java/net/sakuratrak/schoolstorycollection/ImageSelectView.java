@@ -95,7 +95,8 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_currentTempCameraPhoto));
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
-                intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
+                if(AppSettingsMaster.getIfOptimizeImage(getContext()))
+                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
@@ -106,7 +107,8 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, data.getData());
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
-                intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
+                if(AppSettingsMaster.getIfOptimizeImage(getContext()))
+                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 

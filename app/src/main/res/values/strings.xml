@@ -163,4 +163,5 @@
     <string name="deleted">已删除</string>
     <string name="skip">跳过</string>
     <string name="viewAnswer">查看答案</string>
+    <string name="adv">高级</string>
 </resources>

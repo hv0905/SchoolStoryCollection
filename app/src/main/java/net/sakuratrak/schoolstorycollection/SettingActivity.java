@@ -12,9 +12,12 @@ import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+
 public class SettingActivity extends AppCompatActivity {
 
     public MainSettingFragment fragment;
+    public static final String TAG = "SettingActivity";
 
 
     @Override
@@ -23,6 +26,11 @@ public class SettingActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_setting);
         fragment = new MainSettingFragment();
         getSupportFragmentManager().beginTransaction().replace(android.R.id.content,fragment).commit();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public static class MainSettingFragment extends PreferenceFragmentCompat

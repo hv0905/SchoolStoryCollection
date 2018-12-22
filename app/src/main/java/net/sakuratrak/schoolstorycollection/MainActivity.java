@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
-        refreshSubject(LearningSubject.CHINESE);
+        refreshSubject(LearningSubject.id2Obj(AppSettingsMaster.getStartupSubjectId(this)));
 
         //设置Drawer
         _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
@@ -210,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         System.out.println("MainActivity Destroyed!!!");
+        AppSettingsMaster.setStartupSubjectId(this,_currentSubject.getId());
         DbManager.releaseCurrentHelper();
         super.onDestroy();
     }

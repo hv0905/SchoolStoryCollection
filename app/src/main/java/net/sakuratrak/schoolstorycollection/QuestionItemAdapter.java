@@ -158,6 +158,8 @@ public class QuestionItemAdapter extends RecyclerView.Adapter<QuestionItemAdapte
         public SimpleAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List<DataContext> objects) {
             super(context, resource, textViewResourceId, objects);
         }
+
+
         
         
         
