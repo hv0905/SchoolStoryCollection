@@ -165,4 +165,6 @@
     <string name="viewAnswer">查看答案</string>
     <string name="adv">高级</string>
     <string name="displayMode">显示模式</string>
+    <string name="optimizeImage">优化图片</string>
+    <string name="optimizeImageDetail">在错题本添加图片时自动优化图片(提高对比度)方便阅读</string>
 </resources>

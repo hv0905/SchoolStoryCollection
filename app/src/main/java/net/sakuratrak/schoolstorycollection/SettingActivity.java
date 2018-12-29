@@ -30,6 +30,8 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        //使用最新的设定更新定时提醒订阅
+        AlarmReceiver.setupAlarm(this,false);
         super.onStop();
     }
 

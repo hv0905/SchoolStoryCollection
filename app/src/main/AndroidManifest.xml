@@ -66,14 +66,28 @@
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".QuizActivity"
             android:label=""
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".UnitDetailActivity"
-            android:label="@string/title_activity_unit_detail" />
+            android:label="@string/title_activity_unit_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <!-- 系统启动完成后会调用-->
+                <action android:name="android.intent.action.BOOT_COMPLETED">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

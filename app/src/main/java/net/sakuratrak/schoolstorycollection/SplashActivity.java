@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+
 public class SplashActivity extends AppCompatActivity {
 
     public static final int PERMISSION_EXTERNAL_STORAGE = 0;
@@ -58,6 +60,10 @@ public class SplashActivity extends AppCompatActivity {
 
     public void loadApp(){
         new Handler().postDelayed(() -> {
+            //注册错题通知
+            if(AppSettingsMaster.getIfShowAlarm(this)){
+                AlarmReceiver.setupAlarm(this,false);
+            }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
