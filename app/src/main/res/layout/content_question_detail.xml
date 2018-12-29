@@ -43,12 +43,16 @@
         </RelativeLayout>
 
 
-        <LinearLayout
+
+        <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/answerZone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            app:ael_expanded="false"
+            app:ael_duration="500"
+            app:ael_interpolator="bounce"
+            app:ael_orientation="vertical"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +99,7 @@
                 style="@style/textTitle"
                 android:drawableStart="@drawable/ic_bar_graph_black_24dp"
                 />
-        </LinearLayout>
+        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
         <TextView
             android:layout_width="match_parent"

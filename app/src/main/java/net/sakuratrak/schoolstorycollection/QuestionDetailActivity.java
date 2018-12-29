@@ -27,6 +27,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.zzhoujay.markdown.MarkDown;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
@@ -66,7 +67,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     FrameLayout _answerContainer;
     AnswerUiDisplayView _answerContent;
     FloatingActionButton _showAnswerButton;
-    LinearLayout _answerZone;
+    ExpandableLinearLayout _answerZone;
     ImageDisplayView _questionImgDisplay;
     ImageDisplayView _analysisImgDisplay;
     TextView _valCreateTime;
@@ -140,14 +141,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbar.inflateMenu(R.menu.detail_top_options);
         _showAnswerMenu = _toolbar.getMenu().findItem(R.id.showAnswerMenu);
         _favouriteMenu = _toolbar.getMenu().findItem(R.id.favourite);
-        if(_toolbar.getMenu() instanceof MenuBuilder){
+        if (_toolbar.getMenu() instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             //noinspection RestrictedApi
             m.setOptionalIconsVisible(true);
         }
 
         _favouriteMenu.setChecked(_context.isFavourite());
-        _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+        _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
 
         return true;
     }
@@ -178,16 +179,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
             case R.id.favourite:
                 Log.d(TAG, "onOptionsItemSelected: " + item.isChecked());
                 item.setChecked(!item.isChecked());
-                item.setIcon(item.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+                item.setIcon(item.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
                 _context.setFavourite(item.isChecked());
                 try {
                     DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
                     _edited = true;
                 } catch (SQLException e) {
-                    Snackbar.make(_toolbarLayout,R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_toolbarLayout, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
-                Snackbar.make(_toolbarLayout,String.format("已%s喜欢",item.isChecked() ? "": "取消"),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(_toolbarLayout, String.format("已%s喜欢", item.isChecked() ? "" : "取消"), Snackbar.LENGTH_LONG).show();
 
 //                if(item.isChecked()){
 //
@@ -203,24 +204,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.confirm, (dialog, which) -> {
                             try {
                                 //delete all images
-                                for(String item_ : _context.getQuestionImage()){
-                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
-                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
-                                    if(raw.exists())raw.delete();
-                                    if(tmb.exists()) tmb.delete();
+                                for (String item_ : _context.getQuestionImage()) {
+                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
+                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
+                                    if (raw.exists()) raw.delete();
+                                    if (tmb.exists()) tmb.delete();
                                 }
-                                for(String item_ : _context.getAnalysisImage()){
-                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
-                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
-                                    if(raw.exists())raw.delete();
-                                    if(tmb.exists()) tmb.delete();
+                                for (String item_ : _context.getAnalysisImage()) {
+                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
+                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
+                                    if (raw.exists()) raw.delete();
+                                    if (tmb.exists()) tmb.delete();
                                 }
-                                if(_context.getAnswer() instanceof ImageAnswer){
-                                    for(String item_ : ((ImageAnswer) _context.getAnswer()).Image){
-                                        File raw = new File(AppSettingsMaster.getWorkBookImageDir(this),item_);
-                                        File tmb = new File(AppMaster.getLocalThumbCacheDir(this),item_);
-                                        if(raw.exists())raw.delete();
-                                        if(tmb.exists()) tmb.delete();
+                                if (_context.getAnswer() instanceof ImageAnswer) {
+                                    for (String item_ : ((ImageAnswer) _context.getAnswer()).Image) {
+                                        File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
+                                        File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
+                                        if (raw.exists()) raw.delete();
+                                        if (tmb.exists()) tmb.delete();
                                     }
                                 }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
@@ -246,34 +247,39 @@ public class QuestionDetailActivity extends AppCompatActivity {
     }
 
     public void toggleAnswer() {
-        if (_answerZone.getVisibility() == View.VISIBLE) {
-            //hide
-            _answerZone.animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    _answerZone.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-        } else {
+        _answerZone.toggle();
+//        if (_answerZone.isExpanded()) {
+//        if (_answerZone.getVisibility() == View.VISIBLE) {
+//            //hide
+//            _answerZone.animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
+//                @Override
+//                public void onAnimationStart(Animator animation) {
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    _answerZone.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onAnimationCancel(Animator animation) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animator animation) {
+//
+//                }
+//            });
+//            _answerZone.collapse();
+//        } else {
             //show
-            _answerZone.setAlpha(0);
-            _answerZone.setVisibility(View.VISIBLE);
-            _answerZone.animate().setDuration(200).alpha(1).setListener(null);
-        }
+//            _answerZone.setAlpha(0);
+//            _answerZone.setVisibility(View.VISIBLE);
+//            _answerZone.animate().setDuration(200).alpha(1).setListener(null);
+//            _answerZone.expand();
+        //}
+
     }
 
     @Override
@@ -303,7 +309,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(_context.getTitle());
         _toolbar.setTitle(_context.getTitle());
-        int uiColor = UiHelper.getFlatUiColor(this,_context.getSubject().getId());
+        int uiColor = UiHelper.getFlatUiColor(this, _context.getSubject().getId());
         _toolbarLayout.setContentScrimColor(uiColor);
         _toolbarLayout.setStatusBarScrimColor(uiColor);
         _toolbarLayout.setTitle(_context.getTitle());
@@ -317,7 +323,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
 
 
-
         _answerContent = _context.getType().getDisplayView(this);
         _answerContent.setAnswer(_context.getAnswer());
         _answerContainer.removeAllViews();
@@ -326,10 +331,11 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _questionImgDisplay.setImages(_context.getQuestionImage());
         _analysisImgDisplay.setImages(_context.getAnalysisImage());
 
-        if(_favouriteMenu != null){
+        if (_favouriteMenu != null) {
             _favouriteMenu.setChecked(_context.isFavourite());
-            _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp: R.drawable.ic_favorite_border_white_24dp);
+            _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
         }
+        _answerZone.initLayout();
     }
 
     @Override

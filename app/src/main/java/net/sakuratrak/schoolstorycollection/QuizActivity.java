@@ -37,7 +37,6 @@ public class QuizActivity extends AppCompatActivity {
     ImageDisplayView _questionImg;
     FrameLayout _answerContainer;
     QuizAnswerView _answerContent;
-    BottomSheetBehavior<FrameLayout> _behavior;
 
 
     int _counter = 0;

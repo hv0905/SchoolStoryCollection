@@ -155,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
         _navigation.setOnNavigationItemSelectedListener(item -> {
             if (_filterMenu != null)
                 _filterMenu.setVisible(false);
-            _displayModeToggle.setVisible(false);
+            if(_displayModeToggle != null)
+                _displayModeToggle.setVisible(false);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     _pager.setCurrentItem(0);
