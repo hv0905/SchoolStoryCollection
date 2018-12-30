@@ -93,7 +93,9 @@
                 <net.sakuratrak.schoolstorycollection.ImageSelectView
                     android:id="@+id/questionImgRecycle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    />
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -153,7 +155,9 @@
                 <net.sakuratrak.schoolstorycollection.ImageSelectView
                     android:id="@+id/analysisImgRecycle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    />
             </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout

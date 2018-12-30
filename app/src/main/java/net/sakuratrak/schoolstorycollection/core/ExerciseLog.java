@@ -24,6 +24,19 @@ public class ExerciseLog implements Serializable {
 
 
     public ExerciseLog() {
+        this.happenedTime = new Date();
+    }
+
+    public ExerciseLog(int correctRatio, Date happenedTime, QuestionInfo question) {
+        this.correctRatio = correctRatio;
+        this.happenedTime = happenedTime;
+        this.question = question;
+    }
+
+    public ExerciseLog(int correctRatio, QuestionInfo question) {
+        this.correctRatio = correctRatio;
+        this.question = question;
+        this.happenedTime = new Date();
     }
 
     public int getId() {

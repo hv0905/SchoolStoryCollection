@@ -171,4 +171,13 @@
     <string name="mark_nicejob">还行啦</string>
     <string name="mark_justans">只有答案分</string>
     <string name="mark_zero">完全不会</string>
+    <string name="noticeMarkAnswer">批改下你的答案吧~</string>
+    <string name="exitQuizDialogAskTitle">退出小测?</string>
+    <string name="exitQuizDialogAskState0">还在做题中,真的要放弃喵?</string>
+    <string name="exitQuizDialogAskState1">还没完成批改,真的要退出喵?</string>
+    <string name="exitQuiz">退出小测</string>
+    <string name="nextQuestion">下一题</string>
+    <string name="allRight">完全正确  </string>
+    <string name="halfRight">部分正确  </string>
+    <string name="noneRight">完全错误  </string>
 </resources>

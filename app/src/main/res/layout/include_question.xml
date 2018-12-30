@@ -19,6 +19,8 @@
         <net.sakuratrak.schoolstorycollection.ImageDisplayView
             android:id="@+id/questionImgDisplay"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            />
     </RelativeLayout>
 </LinearLayout>

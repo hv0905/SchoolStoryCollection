@@ -18,7 +18,9 @@ android:orientation="vertical">
     <net.sakuratrak.schoolstorycollection.ImageSelectView
         android:id="@+id/answerImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        />
 </RelativeLayout>
 
 </LinearLayout>

@@ -8,54 +8,81 @@
     tools:background="@color/flat6"
     >
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/noticeBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/allRight"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_white_128dp"
-            android:tint="@color/white"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="完全正确"
-            style="@style/textWindowTitle"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/ui_margin_mid"
-            />
-    </LinearLayout>
+
+            <TextView
+                android:id="@+id/allRightContent"
+                style="@style/textWindowTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/ui_margin_mid"
+                android:gravity="center|start"
+                android:drawableStart="@drawable/ic_done_white_128dp"
+                android:text="@string/allRight"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/halfRightContent"
+                style="@style/textWindowTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/ui_margin_mid"
+                android:text="@string/halfRight"
+                android:drawableStart="@drawable/ic_baseline_half_check_64px"
+                android:gravity="center|start"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/noneRightContent"
+                style="@style/textWindowTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/ui_margin_mid"
+                android:drawableStart="@drawable/ic_close_white_64dp"
+                android:gravity="center|start"
+                android:text="@string/noneRight"
+                android:textColor="@color/white"
+                />
+
+    </FrameLayout>
+
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/materialButton"
+        android:id="@+id/quitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="退出小测"
+        android:text="@string/exitQuiz"
         app:icon="@drawable/ic_close_white_24dp"
-        app:layout_constraintTop_toBottomOf="@id/allRight"
-        app:layout_constraintEnd_toStartOf="@+id/materialButton2"
+        app:layout_constraintTop_toBottomOf="@id/noticeBar"
+        app:layout_constraintEnd_toStartOf="@+id/nextBtn"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/materialButton2"
+        android:id="@+id/nextBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="下一题"
+        android:text="@string/nextQuestion"
         android:background="@color/flat5"
         app:icon="@drawable/ic_navigate_next_white_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/materialButton"
-        app:layout_constraintTop_toBottomOf="@id/allRight"/>
+        app:layout_constraintStart_toEndOf="@+id/quitBtn"
+        app:layout_constraintTop_toBottomOf="@id/noticeBar"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,11 +1,11 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import com.zzhoujay.markdown.MarkDown;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
@@ -54,6 +55,7 @@ public class QuizActivity extends AppCompatActivity {
     TextView _analysisText;
     FrameLayout _answerContainer;
     ImageDisplayView _analysisImgDisplay;
+    QuizCheckView _checkView;
 
     boolean _autoNext;
 
@@ -64,6 +66,7 @@ public class QuizActivity extends AppCompatActivity {
     int _state;
 
     QuestionInfo _currentContext;
+    private QuizMarkView _markView;
 
 
     @Override
@@ -161,26 +164,52 @@ public class QuizActivity extends AppCompatActivity {
             float score = ((Answer.PlainTextAnswer) _currentContext.getAnswer()).checkAnswer(userAnswer);
             //提交记录
             Log.d(TAG, "checkAnswer: score:" + score);
-            postRecord(score);
+            postRecord((int) (score * 100));
             _state = STATE_POST_CHECKING;
             if (_autoNext && score >= 1f) {
                 loadNext();
             } else {
                 setupAnswer();
-                //todo 更新ui
+                _answerWorkZone.animate().alpha(0).setDuration(200).start();
+                _answerWorkZone.postDelayed(() -> {
+                    _answerWorkZone.removeAllViews();
+                    _checkView = new QuizCheckView(this);
+                    _checkView.setNoticeContain(score == 0 ? QuizCheckView.NOTICE_NONE_RIGHT:(score == 1 ? QuizCheckView.NOTICE_ALL_RIGHT : QuizCheckView.NOTICE_HALF_RIGHT));
+                    _checkView.setOnNextBtnClickListener(v -> loadNext());
+                    _checkView.setOnQuitBtnClickListener(v -> onBackPressed());
+                    _answerWorkZone.addView(_checkView);
+                    _answerWorkZone.animate().alpha(1).setDuration(200).start();
+                },200);
             }
         } else {
             setupAnswer();
             _state = STATE_CHECKING;
-            _answerWorkZone.removeAllViews();
-            LayoutInflater.from(this).inflate(R.layout.element_quiz_mark, _answerWorkZone);
-            //todo 要显示答案,然后让用户评分
+            _answerWorkZone.animate().alpha(0).setDuration(200).start();
+            _answerWorkZone.postDelayed(() -> {
+                _answerWorkZone.removeAllViews();
+                _markView = new QuizMarkView(this);
+                _markView.setOnConfirmListener(v -> {
+                    postRecord(_markView.getScore());
+                    _state = STATE_POST_CHECKING;
+                    loadNext();
+                });
+                _answerWorkZone.addView(_markView);
+                _answerWorkZone.animate().alpha(1).setDuration(200).start();
+            },200);
+
+
         }
     }
 
     //增加一条做题记录
-    public void postRecord(float score) {
-        //todo
+    public void postRecord(int score) {
+        new Thread(() -> {
+            try {
+                DbManager.getDefaultHelper(this).getExerciseLogs().create(new ExerciseLog(score,_currentContext));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public void setupAnswer() {
@@ -196,11 +225,39 @@ public class QuizActivity extends AppCompatActivity {
         _answerViewZone.initLayout();
 
 
-        _answerViewZone.postDelayed(() -> _answerViewZone.expand(), 100);
-        _questionScroll.postDelayed(() -> _questionScroll.smoothScrollTo(0, _questionHolder.getMeasuredHeight()), 600);
+        _answerViewZone.postDelayed(() -> _answerViewZone.expand(), 150);
+        _questionScroll.postDelayed(() -> _questionScroll.smoothScrollTo(0, _questionHolder.getMeasuredHeight()), 650);
     }
 
     public void loadNext() {
         //todo 直接下一题
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (_state){
+            case STATE_ANSWERING:
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setTitle(R.string.exitQuizDialogAskTitle)
+                        .setMessage(R.string.exitQuizDialogAskState0)
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
+                        .setPositiveButton(R.string.cancel,null)
+                        .show();
+                break;
+            case STATE_CHECKING:
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setTitle(R.string.exitQuizDialogAskTitle)
+                        .setMessage(R.string.exitQuizDialogAskState1)
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
+                        .setPositiveButton(R.string.cancel,null)
+                        .show();
+                break;
+            case STATE_POST_CHECKING:
+                //可以直接退出
+                super.onBackPressed();
+                break;
+        }
     }
 }
