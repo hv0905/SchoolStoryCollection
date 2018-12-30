@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
@@ -61,10 +62,12 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
                 updateEmptyStatus();
             }
         });
+
+        _confirmBtn.setOnClickListener(v -> onAnswerReport(ANSWER_COMPLETED));
     }
 
     @Override
-    public Answer getAnswer() {
+    public Answer.PlainTextAnswer getAnswer() {
         if(hasAnswer()) return new BlankAnswer(_editAnswer.getText().toString());
         return null;
     }

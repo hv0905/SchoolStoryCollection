@@ -10,12 +10,13 @@ import java.util.Map;
 
 public final class AppSettingsMaster {
 
-    private static final String SETTINGS_INTERNAL_WORKBOOK_LOC = "internalWorkbookLoc";
-    private static final String SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC = "public";
-    private static final String SETTINGS_OPTIMIZE_IMAGE = "optimizeImage";
-    private static final String SETTINGS_STARTUP_SUBJECT_ID = "startupSubjectId";
-    private static final String SETTINGS_ALARM_TIME = "alarmTime";
-    private static final String SETTINGS_SHOW_ALARM = "showAlarm";
+    public static final String SETTINGS_INTERNAL_WORKBOOK_LOC = "internalWorkbookLoc";
+    public static final String SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC = "public";
+    public static final String SETTINGS_OPTIMIZE_IMAGE = "optimizeImage";
+    public static final String SETTINGS_STARTUP_SUBJECT_ID = "startupSubjectId";
+    public static final String SETTINGS_ALARM_TIME = "alarmTime";
+    public static final String SETTINGS_SHOW_ALARM = "showAlarm";
+    public static final String SETTINGS_QUIZ_AUTO_NEXT = "quiz_AutoNext";
 
     public static File getWorkbookDb(Context context){
         String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC,null);
@@ -62,6 +63,10 @@ public final class AppSettingsMaster {
 
     public static boolean getIfShowAlarm(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_SHOW_ALARM,false);
+    }
+
+    public static boolean getIfQuizAutoNext(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_QUIZ_AUTO_NEXT,false);
     }
 
 }

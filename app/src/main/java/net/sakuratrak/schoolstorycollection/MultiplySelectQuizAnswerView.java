@@ -74,7 +74,7 @@ public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     @Nullable
-    public Answer getAnswer() {
+    public Answer.PlainTextAnswer getAnswer() {
         if(!hasAnswer()) return null;
         SelectableAnswer sa = new SelectableAnswer();
         sa.A = _a.isChecked();

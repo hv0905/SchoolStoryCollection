@@ -16,7 +16,6 @@
         android:layout_marginStart="8dp"
         android:max="100"
         android:progress="3"
-        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/quickChips"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,22 +36,22 @@
         <android.support.design.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="全对!" />
+            android:text="@string/mark_allright" />
 
         <android.support.design.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="还行啦" />
+            android:text="@string/mark_nicejob" />
 
         <android.support.design.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="只有答案分" />
+            android:text="@string/mark_justans" />
 
         <android.support.design.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="完全不会" />
+            android:text="@string/mark_zero" />
     </android.support.design.chip.ChipGroup>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/doneButton"

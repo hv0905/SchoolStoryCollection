@@ -71,43 +71,39 @@
             app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
             <ScrollView
+                android:id="@+id/questionScroll"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/answerWorkZone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/answerContainer"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                tools:layout_editor_absoluteX="0dp">
+                app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textQuestionInfo"
+                    <include layout="@layout/include_question"/>
+
+                    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                        android:id="@+id/answerViewZone"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/black"
-                        tools:text="hello world" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:ael_duration="500"
+                        app:ael_expanded="false"
+                        app:ael_interpolator="bounce"
+                        app:ael_orientation="vertical">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        <include layout="@layout/include_answer_and_analysis" />
 
-                        <net.sakuratrak.schoolstorycollection.ImageDisplayView
-                            android:id="@+id/questionImg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-
+                    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
                 </LinearLayout>
             </ScrollView>
 
             <FrameLayout
-                android:id="@+id/answerContainer"
+                android:id="@+id/answerWorkZone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -248,38 +246,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     public void toggleAnswer() {
         _answerZone.toggle();
-//        if (_answerZone.isExpanded()) {
-//        if (_answerZone.getVisibility() == View.VISIBLE) {
-//            //hide
-//            _answerZone.animate().setDuration(200).alpha(0).setListener(new Animator.AnimatorListener() {
-//                @Override
-//                public void onAnimationStart(Animator animation) {
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    _answerZone.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onAnimationCancel(Animator animation) {
-//
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animator animation) {
-//
-//                }
-//            });
-//            _answerZone.collapse();
-//        } else {
-            //show
-//            _answerZone.setAlpha(0);
-//            _answerZone.setVisibility(View.VISIBLE);
-//            _answerZone.animate().setDuration(200).alpha(1).setListener(null);
-//            _answerZone.expand();
-        //}
-
     }
 
     @Override
@@ -297,15 +263,18 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     private void refresh() {
 
-        if (getIntent().hasExtra(EXTRA_QUESTION_ID)) {
-            try {
-                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
-            }
+        if (!getIntent().hasExtra(EXTRA_QUESTION_ID)) {
+            finish();
+            return;
+        }
 
-        } else finish();
+        try {
+            _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
+            return;
+        }
 
         getSupportActionBar().setTitle(_context.getTitle());
         _toolbar.setTitle(_context.getTitle());

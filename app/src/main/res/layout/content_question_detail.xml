@@ -16,33 +16,15 @@
         android:layout_marginRight="@dimen/ui_margin_mid"
         android:layout_marginBottom="@dimen/ui_margin_ularge"
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/textTitle"
-            android:text="@string/topic"
-            android:drawableStart="@drawable/ic_help_black_24dp"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--style="@style/textTitle"-->
+            <!--android:text="@string/topic"-->
+            <!--android:drawableStart="@drawable/ic_help_black_24dp"-->
+            <!--/>-->
 
-        <TextView
-            android:id="@+id/questionText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textIsSelectable="true" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ui_margin_mid"
-            >
-            <net.sakuratrak.schoolstorycollection.ImageDisplayView
-                android:id="@+id/questionImgDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-
-
+        <include layout="@layout/include_question"/>
 
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/answerZone"
@@ -54,43 +36,7 @@
             app:ael_interpolator="bounce"
             app:ael_orientation="vertical"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/textTitle"
-                android:text="@string/answer"
-                android:drawableStart="@drawable/ic_key_black_24dp"
-                />
-
-            <FrameLayout
-                android:id="@+id/answerContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ui_margin_mid"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/textTitle"
-                android:text="@string/analysis"
-                android:drawableStart="@drawable/ic_insert_comment_black_24dp"
-                />
-
-            <TextView
-                android:id="@+id/analysisText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textIsSelectable="true" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <net.sakuratrak.schoolstorycollection.ImageDisplayView
-                    android:id="@+id/analysisImgDisplay"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
+            <include layout="@layout/include_answer_and_analysis"/>
 
             <TextView
                 android:layout_width="wrap_content"

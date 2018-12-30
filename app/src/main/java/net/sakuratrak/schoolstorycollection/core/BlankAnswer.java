@@ -22,7 +22,7 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
         }
         String[] answerList = getAnswerList();
         for (String item : answerList) {
-            if(item.equals(((BlankAnswer) userAnswer).answer)) return 1;
+            if(item.equals(((BlankAnswer) userAnswer).answer.trim())) return 1;
         }
         return 0;
     }

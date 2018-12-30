@@ -167,4 +167,8 @@
     <string name="displayMode">显示模式</string>
     <string name="optimizeImage">优化图片</string>
     <string name="optimizeImageDetail">在错题本添加图片时自动优化图片(提高对比度)方便阅读</string>
+    <string name="mark_allright">全对!</string>
+    <string name="mark_nicejob">还行啦</string>
+    <string name="mark_justans">只有答案分</string>
+    <string name="mark_zero">完全不会</string>
 </resources>

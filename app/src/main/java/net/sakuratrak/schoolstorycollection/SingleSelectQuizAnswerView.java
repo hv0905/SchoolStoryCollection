@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
@@ -75,7 +74,7 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     @Nullable
-    public Answer getAnswer() {
+    public Answer.PlainTextAnswer getAnswer() {
         if(!hasAnswer()) return null;
         SelectableAnswer sa = new SelectableAnswer();
         sa.A = _a.isChecked();

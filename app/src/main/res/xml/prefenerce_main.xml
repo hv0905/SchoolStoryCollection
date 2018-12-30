@@ -17,6 +17,17 @@
             android:title="@string/settit_dailyQuizTime" />
     </PreferenceCategory>
     <PreferenceCategory
+        android:title="小测">
+
+        <CheckBoxPreference
+            android:title="自动进入下一题"
+            android:summary="如果题目回答正确,将直接进入下一题,不会显示解析"
+            android:key="quiz_AutoNext"
+            android:icon="@drawable/ic_skip_next_black_24dp"
+            />
+
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/adv"
         >
         <SwitchPreference
