@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="@color/flat6"
+    tools:context=".QuizCheckView"
     >
 
     <FrameLayout
@@ -67,7 +68,8 @@
         app:icon="@drawable/ic_close_white_24dp"
         app:layout_constraintTop_toBottomOf="@id/noticeBar"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <android.support.design.button.MaterialButton
         android:id="@+id/nextBtn"

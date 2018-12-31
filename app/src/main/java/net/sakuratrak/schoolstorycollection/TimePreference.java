@@ -54,6 +54,7 @@ public class TimePreference extends DialogPreference
         return a.getString(index);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue)
     {

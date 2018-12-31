@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single" android:id="@+id/subjects">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_menu_chinese"
             android:checkable="true"
@@ -57,7 +57,7 @@
             android:title="@string/geo" />
     </group>
 
-    <group android:id="@+id/configures">
+    <group>
         <item
             android:id="@+id/nav_menu_settings"
             android:icon="@drawable/ic_settings_white_24dp"

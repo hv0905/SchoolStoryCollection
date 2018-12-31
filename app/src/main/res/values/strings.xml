@@ -102,7 +102,6 @@
     <string name="history">历史</string>
     <string name="politics">政治</string>
     <string name="geo">地理</string>
-    <string name="topic">题目</string>
     <string name="showAnswer">显示答案</string>
     <string name="share">分享</string>
     <string name="edit">编辑</string>
@@ -144,7 +143,6 @@
         <item>public</item>
         <item>internal</item>
     </string-array>
-    <string name="title_activity_unit_info">UnitInfoActivity</string>
     <string name="multiChoiceQuestion">多选题</string>
     <string name="singleChoiceQuestion">单选题</string>
     <string name="fillQuestion">填空题</string>
@@ -156,9 +154,7 @@
     <string name="StatUnitPie">错题的单元分布</string>
     <string name="StatDifficultyPie">错题的难度分布</string>
     <string name="like">喜欢</string>
-    <string name="title_activity_quiz">QuizActivity</string>
     <string name="info">信息</string>
-    <string name="close">关闭</string>
     <string name="title_activity_unit_detail">UnitDetailActivity</string>
     <string name="deleted">已删除</string>
     <string name="skip">跳过</string>
@@ -180,4 +176,5 @@
     <string name="allRight">完全正确</string>
     <string name="halfRight">部分正确</string>
     <string name="noneRight">完全错误</string>
+    <string name="completeQuiz">完成小测</string>
 </resources>

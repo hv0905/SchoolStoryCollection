@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 
-import java.util.List;
 import java.util.Locale;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {

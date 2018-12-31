@@ -51,6 +51,7 @@ public class AppMaster {
         File cacheRoot = context.getCacheDir();
         File imgPreviewCache = new File(cacheRoot,"img-thumbs");
         if(!imgPreviewCache.isDirectory()){
+            //noinspection ResultOfMethodCallIgnored
             imgPreviewCache.mkdir();
         }
         return imgPreviewCache;

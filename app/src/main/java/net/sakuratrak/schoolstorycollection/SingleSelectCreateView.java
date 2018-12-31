@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.design.chip.Chip;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;

@@ -2,14 +2,7 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.Spanned;
 import android.webkit.WebView;
-import android.widget.TextView;
-
-import com.zzhoujay.markdown.MarkDown;
-
-import java.io.IOException;
 
 public class AboutActivity extends AppCompatActivity {
 

@@ -17,7 +17,6 @@ import android.util.Log;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -80,10 +79,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     public static void setupAlarm(Context context,boolean forceDayPlus){
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
-        Date d = AppSettingsMaster.getAlarmTime(context);
+        Calendar d = AppSettingsMaster.getAlarmTime(context);
         if(d == null) return;
-        calendar.set(Calendar.HOUR_OF_DAY, d.getHours());
-        calendar.set(Calendar.MINUTE, d.getMinutes());
+        calendar.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, d.get(Calendar.MINUTE));
         calendar.set(Calendar.SECOND, 0);
         boolean dayPlus = forceDayPlus;
         if((!dayPlus) && calendar.before(Calendar.getInstance())) {

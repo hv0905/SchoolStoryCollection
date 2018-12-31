@@ -98,8 +98,8 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vholder, int position) {
-            Holder holder = (Holder) vholder;
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder vHolder, int position) {
+            Holder holder = (Holder) vHolder;
             DataContext current = _dataContext.get(position);
             holder.title.setText(current.title);
             holder.valAuthorTime.setText(current.authorTime);

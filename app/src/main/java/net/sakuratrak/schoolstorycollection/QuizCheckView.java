@@ -3,10 +3,10 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,9 +24,8 @@ public final class QuizCheckView extends FrameLayout {
     TextView _allRightContent;
     TextView _halfRightContent;
     TextView _noneRightContent;
-    Button _quitBtn;
-    Button _nextBtn;
-
+    MaterialButton _quitBtn;
+    MaterialButton _nextBtn;
 
     public QuizCheckView(@NonNull Context context) {
         super(context);
@@ -89,4 +88,17 @@ public final class QuizCheckView extends FrameLayout {
     public void setOnQuitBtnClickListener(OnClickListener l) {
         _quitBtn.setOnClickListener(l);
     }
+
+    public void setIsDone(boolean isDone) {
+        if(isDone){
+            _nextBtn.setText(R.string.completeQuiz);
+            _nextBtn.setIconResource(R.drawable.ic_done_white_24dp);
+            _quitBtn.setVisibility(GONE);
+        }else {
+            _nextBtn.setText(R.string.nextQuestion);
+            _nextBtn.setIconResource(R.drawable.ic_navigate_next_white_24dp);
+            _quitBtn.setVisibility(VISIBLE);
+        }
+    }
+
 }

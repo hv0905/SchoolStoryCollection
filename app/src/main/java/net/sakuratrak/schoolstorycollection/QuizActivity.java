@@ -156,9 +156,7 @@ public class QuizActivity extends AppCompatActivity {
         _questionImgDisplay.setImages(_currentContext.getQuestionImage());
 
         _quizAnswerContent = _currentContext.getType().getQuizAnswerView(this);
-        _quizAnswerContent.setOnAnswerReport((sender, status) -> {
-            checkAnswer();
-        });
+        _quizAnswerContent.setOnAnswerReport((sender, status) -> checkAnswer());
         FrameLayout.LayoutParams ctLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int dp = (int) getResources().getDimension(R.dimen.ui_margin_mid);
         ctLp.setMargins(dp, dp, dp, dp);

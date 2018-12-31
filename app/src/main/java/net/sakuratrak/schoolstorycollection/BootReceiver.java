@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 public class BootReceiver extends BroadcastReceiver {

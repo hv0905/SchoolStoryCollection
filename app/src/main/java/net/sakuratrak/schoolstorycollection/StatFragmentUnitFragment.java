@@ -1,7 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -155,7 +153,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         switch (requestCode){
             case REQUEST_DETAIL:
                 switch (resultCode){
-                    case UnitDetailActivity.RESULT_DELTED:
+                    case UnitDetailActivity.RESULT_DELETED:
                         Snackbar.make(_root,R.string.deleted,Snackbar.LENGTH_LONG).show();
                     case UnitDetailActivity.RESULT_CHANGED:
                         getParent().requireRefresh();

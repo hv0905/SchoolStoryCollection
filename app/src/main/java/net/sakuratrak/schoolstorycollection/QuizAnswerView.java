@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import net.sakuratrak.schoolstorycollection.core.Answer;
-
 public abstract class QuizAnswerView extends FrameLayout {
 
     public static final int ANSWER_COMPLETED = 0;

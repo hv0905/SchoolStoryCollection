@@ -12,8 +12,6 @@ import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
 
-import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
-
 public class SettingActivity extends AppCompatActivity {
 
     public MainSettingFragment fragment;

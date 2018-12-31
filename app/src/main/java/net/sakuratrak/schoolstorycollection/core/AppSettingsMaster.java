@@ -1,12 +1,10 @@
 package net.sakuratrak.schoolstorycollection.core;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.preference.PreferenceManager;
 
 import java.io.File;
-import java.util.Date;
-import java.util.Map;
+import java.util.Calendar;
 
 public final class AppSettingsMaster {
 
@@ -51,13 +49,13 @@ public final class AppSettingsMaster {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(SETTINGS_STARTUP_SUBJECT_ID,id).apply();
     }
 
-    public static Date getAlarmTime(Context context){
+    public static Calendar getAlarmTime(Context context){
         String str = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_ALARM_TIME,"");
         String[] sp = str.split(":");
         if(sp.length != 2) return null;
-        Date date = new Date();
-        date.setHours(Integer.parseInt(sp[0]));
-        date.setMinutes(Integer.parseInt(sp[1]));
+        Calendar date = Calendar.getInstance();
+        date.set(Calendar.HOUR_OF_DAY,Integer.parseInt(sp[0]));
+        date.set(Calendar.MINUTE,Integer.parseInt(sp[1]));
         return date;
     }
 

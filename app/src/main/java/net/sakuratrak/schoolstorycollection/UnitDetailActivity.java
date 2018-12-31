@@ -16,12 +16,13 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
 import java.sql.SQLException;
+import java.util.Locale;
 
 public class UnitDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_CONTEXT_ID = "subject_id";
 
-    public static final int RESULT_DELTED = 100;
+    public static final int RESULT_DELETED = 100;
 
     public static final int RESULT_CHANGED = 101;
 
@@ -93,7 +94,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                     return;
                 }
                 _changed = false;
-                setResult(RESULT_DELTED);
+                setResult(RESULT_DELETED);
                 finish();
             });
             ad.show();
@@ -111,7 +112,7 @@ public class UnitDetailActivity extends AppCompatActivity {
     void refresh(){
         getSupportActionBar().setTitle(_context.getName());
         _valQuestionCount.setText(String.valueOf(_context.getQuestions().size()));
-        _valCorrectRatio.setText(String.format("%d%%", _context.computeCorrectRatio()));
+        _valCorrectRatio.setText(String.format(Locale.ENGLISH,"%d%%", _context.computeCorrectRatio()));
     }
 
     @Override

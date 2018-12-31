@@ -26,6 +26,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public final class StatFragmentMainFragment extends Fragment {
 
@@ -116,7 +117,7 @@ public final class StatFragmentMainFragment extends Fragment {
 
             for (int i = 0; i < difficultyCounts.length; i++) {
                 if (difficultyCounts[i] == 0) continue;
-                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format("%.1f★", (i + 1) / 2f)));
+                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH,"%.1f★", (i + 1) / 2f)));
             }
 
             PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
