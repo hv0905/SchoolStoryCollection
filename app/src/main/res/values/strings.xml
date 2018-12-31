@@ -177,7 +177,7 @@
     <string name="exitQuizDialogAskState1">还没完成批改,真的要退出喵?</string>
     <string name="exitQuiz">退出小测</string>
     <string name="nextQuestion">下一题</string>
-    <string name="allRight">完全正确  </string>
-    <string name="halfRight">部分正确  </string>
-    <string name="noneRight">完全错误  </string>
+    <string name="allRight">完全正确</string>
+    <string name="halfRight">部分正确</string>
+    <string name="noneRight">完全错误</string>
 </resources>

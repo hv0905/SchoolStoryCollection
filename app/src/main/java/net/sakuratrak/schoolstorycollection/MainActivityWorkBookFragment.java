@@ -107,7 +107,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
         Log.d(TAG, "refreshList: go");
 
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
-        List<QuestionInfo> infos;
         try {
             _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
         } catch (SQLException e) {

@@ -41,7 +41,7 @@ public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
     }
 
     public void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_multiply_choice,this);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_multiply_choice, this);
         _root = findViewById(R.id.rootView);
         _a = findViewById(R.id.answerA);
         _b = findViewById(R.id.answerB);

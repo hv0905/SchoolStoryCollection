@@ -24,6 +24,7 @@ import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class QuizActivity extends AppCompatActivity {
 
     public static final String EXTRA_MODE = "mode";
     public static final String EXTRA_QUESTION_ID = "id";
+    public static final String EXTRA_QUESTION_IDS = "ids";
 
     public static final String TAG = "QuizActivity";
 
@@ -59,7 +61,7 @@ public class QuizActivity extends AppCompatActivity {
 
     boolean _autoNext;
 
-
+    ArrayList<Integer> _idList;
     int _counter = 0;
     int _mode;
 
@@ -99,12 +101,22 @@ public class QuizActivity extends AppCompatActivity {
             _mode = getIntent().getIntExtra(EXTRA_MODE, 0);
         } else finish();
 
-        if (_mode == MODE_SOLO) {
-            try {
-                _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        switch (_mode) {
+            case MODE_SOLO:
+                try {
+                    _currentContext = DbManager.getDefaultHelper(this)
+                            .getQuestionInfos()
+                            .queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case MODE_LIST:
+                _idList = getIntent().getIntegerArrayListExtra(EXTRA_QUESTION_IDS);
+                break;
+            default:
+                finish();
+                return;
         }
 
         setupQuestion();
@@ -174,12 +186,15 @@ public class QuizActivity extends AppCompatActivity {
                 _answerWorkZone.postDelayed(() -> {
                     _answerWorkZone.removeAllViews();
                     _checkView = new QuizCheckView(this);
-                    _checkView.setNoticeContain(score == 0 ? QuizCheckView.NOTICE_NONE_RIGHT:(score == 1 ? QuizCheckView.NOTICE_ALL_RIGHT : QuizCheckView.NOTICE_HALF_RIGHT));
+                    _checkView.setNoticeContain(score == 0 ?
+                            QuizCheckView.NOTICE_NONE_RIGHT
+                            : (score == 1 ? QuizCheckView.NOTICE_ALL_RIGHT
+                            : QuizCheckView.NOTICE_HALF_RIGHT));
                     _checkView.setOnNextBtnClickListener(v -> loadNext());
                     _checkView.setOnQuitBtnClickListener(v -> onBackPressed());
                     _answerWorkZone.addView(_checkView);
                     _answerWorkZone.animate().alpha(1).setDuration(200).start();
-                },200);
+                }, 200);
             }
         } else {
             setupAnswer();
@@ -195,7 +210,7 @@ public class QuizActivity extends AppCompatActivity {
                 });
                 _answerWorkZone.addView(_markView);
                 _answerWorkZone.animate().alpha(1).setDuration(200).start();
-            },200);
+            }, 200);
 
 
         }
@@ -205,7 +220,9 @@ public class QuizActivity extends AppCompatActivity {
     public void postRecord(int score) {
         new Thread(() -> {
             try {
-                DbManager.getDefaultHelper(this).getExerciseLogs().create(new ExerciseLog(score,_currentContext));
+                DbManager.getDefaultHelper(this)
+                        .getExerciseLogs()
+                        .create(new ExerciseLog(score, _currentContext));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -226,7 +243,9 @@ public class QuizActivity extends AppCompatActivity {
 
 
         _answerViewZone.postDelayed(() -> _answerViewZone.expand(), 150);
-        _questionScroll.postDelayed(() -> _questionScroll.smoothScrollTo(0, _questionHolder.getMeasuredHeight()), 650);
+        _questionScroll.postDelayed(() ->
+                        _questionScroll.smoothScrollTo(0, _questionHolder.getMeasuredHeight())
+                , 650);
     }
 
     public void loadNext() {
@@ -235,14 +254,14 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        switch (_state){
+        switch (_state) {
             case STATE_ANSWERING:
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.ic_warning_black_24dp)
                         .setTitle(R.string.exitQuizDialogAskTitle)
                         .setMessage(R.string.exitQuizDialogAskState0)
                         .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
-                        .setPositiveButton(R.string.cancel,null)
+                        .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
             case STATE_CHECKING:
@@ -251,7 +270,7 @@ public class QuizActivity extends AppCompatActivity {
                         .setTitle(R.string.exitQuizDialogAskTitle)
                         .setMessage(R.string.exitQuizDialogAskState1)
                         .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
-                        .setPositiveButton(R.string.cancel,null)
+                        .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
             case STATE_POST_CHECKING:
