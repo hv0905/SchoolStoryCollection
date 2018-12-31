@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
@@ -64,6 +63,7 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
         });
 
         _confirmBtn.setOnClickListener(v -> onAnswerReport(ANSWER_COMPLETED));
+        updateEmptyStatus();
     }
 
     @Override

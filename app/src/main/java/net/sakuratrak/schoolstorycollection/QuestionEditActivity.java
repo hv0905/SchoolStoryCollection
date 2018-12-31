@@ -19,14 +19,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.SQLException;
-import java.util.Date;
-
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
+
+import java.sql.SQLException;
+import java.util.Date;
 
 public class QuestionEditActivity extends AppCompatActivity {
 
@@ -235,7 +235,9 @@ public class QuestionEditActivity extends AppCompatActivity {
                     assert data != null;
                     if (data.getBooleanExtra(LearningUnitChoosingActivity.RESULT_SELECTED, false)) {
                         try {
-                            _unit = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID, 0));
+                            _unit = DbManager.getDefaultHelper(this)
+                                    .getLearningUnitInfos()
+                                    .queryForId(data.getIntExtra(LearningUnitChoosingActivity.RESULT_UNIT_ID, 0));
                             _unitText.setText(_unit.getName());
                         } catch (java.sql.SQLException e) {
                             e.printStackTrace();
@@ -260,7 +262,9 @@ public class QuestionEditActivity extends AppCompatActivity {
         _questionImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
         _analysisImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (_answerContent instanceof ImageAnswerCreateView) {
-            ((ImageAnswerCreateView) _answerContent).getAnswerImage().onRequestPermissionsResult(requestCode, permissions, grantResults);
+            ((ImageAnswerCreateView) _answerContent)
+                    .getAnswerImage()
+                    .onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
