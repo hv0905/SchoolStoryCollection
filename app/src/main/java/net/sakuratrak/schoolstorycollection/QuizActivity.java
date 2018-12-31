@@ -25,6 +25,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -153,7 +154,7 @@ public class QuizActivity extends AppCompatActivity {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getQuestionDetail(), null, _questionText);
             _questionText.setText(sp);
         });
-        _questionImgDisplay.setImages(_currentContext.getQuestionImage());
+        _questionImgDisplay.setImages(Arrays.asList(_currentContext.getQuestionImage()));
 
         _quizAnswerContent = _currentContext.getType().getQuizAnswerView(this);
         _quizAnswerContent.setOnAnswerReport((sender, status) -> checkAnswer());
@@ -228,7 +229,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void setupAnswer() {
-        _analysisImgDisplay.setImages(_currentContext.getAnalysisImage());
+        _analysisImgDisplay.setImages(Arrays.asList(_currentContext.getAnalysisImage()));
         _analysisText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getAnalysisDetail(), null, _analysisText);
             _analysisText.setText(sp);

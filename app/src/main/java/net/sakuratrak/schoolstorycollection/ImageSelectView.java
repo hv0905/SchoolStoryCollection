@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import me.kareluo.imaging.IMGEditActivity;
@@ -32,7 +33,7 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
  */
 public class ImageSelectView extends RecyclerView {
 
-    private ArrayList<String> _images;
+    private List<String> _images;
     private ImageListAdapter _mainAdapter;
     private int _codeCamera = 0;
     private int _codeGet = 1;
@@ -214,11 +215,11 @@ public class ImageSelectView extends RecyclerView {
         return (AppCompatActivity) getContext();
     }
 
-    public ArrayList<String> getImages() {
+    public List<String> getImages() {
         return _images;
     }
 
-    public void setImages(ArrayList<String> _images) {
+    public void setImages(List<String> _images) {
         this._images = _images;
         refresh();
     }

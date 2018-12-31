@@ -46,11 +46,11 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(canBeNull = false)
     private int typeId;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> questionImage;
+    @DatabaseField()
+    private String questionImage;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> analysisImage;
+    @DatabaseField()
+    private String analysisImage;
 
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
@@ -79,20 +79,30 @@ public final class QuestionInfo implements Serializable {
         this.title = title;
     }
 
-    public ArrayList<String> getQuestionImage() {
-        return questionImage;
+    public String[] getQuestionImage() {
+        return questionImage.split(";");
     }
 
-    public void setQuestionImage(ArrayList<String> questionImage) {
-        this.questionImage = questionImage;
+    public void setQuestionImage(List<String> questionImage) {
+        StringBuilder sb = new StringBuilder();
+        for (String item :
+                questionImage) {
+            sb.append(item).append(';');
+        }
+        this.questionImage = sb.toString();
     }
 
-    public ArrayList<String> getAnalysisImage() {
-        return analysisImage;
+    public String[] getAnalysisImage() {
+        return analysisImage.split(";");
     }
 
-    public void setAnalysisImage(ArrayList<String> analysisImage) {
-        this.analysisImage = analysisImage;
+    public void setAnalysisImage(List<String> analysisImage) {
+        StringBuilder sb = new StringBuilder();
+        for (String item :
+                analysisImage) {
+            sb.append(item).append(';');
+        }
+        this.analysisImage = sb.toString();
     }
 
     public Answer getAnswer() {

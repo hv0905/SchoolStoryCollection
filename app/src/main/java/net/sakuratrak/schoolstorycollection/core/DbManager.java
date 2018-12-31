@@ -19,6 +19,8 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
 
     public static final String DATABASE_NAME = "questionBook.db";
 
+    public static final int DATABASE_VER = 3;
+
     private static OrmLiteSqliteOpenHelper currentHelper;
 
     private Dao<QuestionInfo, Integer> questionInfos;
@@ -62,11 +64,11 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
     }
 
     public DbManager(Context context) {
-        super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, 2);
+        super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, DATABASE_VER);
     }
 
     public DbManager(Context context, String databaseName) {
-        super(context, databaseName, null, 2);
+        super(context, databaseName, null, DATABASE_VER);
     }
 
     public DbManager(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {

@@ -214,7 +214,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             QuestionInfo info = _contexts.get(index);
             return new QuestionItemAdapter.DataContext(info.getTitle(),
                     format.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
-                    Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage().get(0))),
+                    Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
                     v -> goDetail(info, v),

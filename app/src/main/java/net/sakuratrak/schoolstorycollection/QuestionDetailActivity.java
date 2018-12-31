@@ -37,6 +37,8 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class QuestionDetailActivity extends AppCompatActivity {
@@ -286,7 +288,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _valCreateTime.setText(new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US).format(_context.getAuthorTime()));
         _valUnit.setText(_context.getUnit() == null ? getText(R.string.emptyUnit) : _context.getUnit().getName());
 
-        _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage().get(0))));
+        _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage()[0])));
 
         _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
         _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
@@ -297,8 +299,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _answerContainer.removeAllViews();
         _answerContainer.addView(_answerContent);
 
-        _questionImgDisplay.setImages(_context.getQuestionImage());
-        _analysisImgDisplay.setImages(_context.getAnalysisImage());
+        _questionImgDisplay.setImages(Arrays.asList(_context.getQuestionImage()));
+        _analysisImgDisplay.setImages(Arrays.asList(_context.getAnalysisImage()));
 
         if (_favouriteMenu != null) {
             _favouriteMenu.setChecked(_context.isFavourite());

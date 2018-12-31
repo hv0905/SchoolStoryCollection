@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import cc.shinichi.library.ImagePreview;
 import cc.shinichi.library.bean.ImageInfo;
@@ -18,7 +19,7 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 public final class ImageDisplayView extends RecyclerView {
 
-    private ArrayList<String> _images;
+    private List<String> _images;
     private ImageListAdapter _mainAdapter;
 
     public ImageDisplayView(@NonNull Context context) {
@@ -87,12 +88,12 @@ public final class ImageDisplayView extends RecyclerView {
         return result;
     }
 
-    public void setImages(ArrayList<String> _images) {
+    public void setImages(List<String> _images) {
         this._images = _images;
         refresh();
     }
 
-    public ArrayList<String> getImages() {
+    public List<String> getImages() {
         return _images;
     }
 
