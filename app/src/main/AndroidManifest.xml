@@ -83,11 +83,15 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <!-- 系统启动完成后会调用-->
-                <action android:name="android.intent.action.BOOT_COMPLETED">
-                </action>
+
+                <!-- 系统启动完成后会调用 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".QuizResultActivity"
+            android:label="@string/title_activity_quiz_result"></activity>
     </application>
 
 </manifest>

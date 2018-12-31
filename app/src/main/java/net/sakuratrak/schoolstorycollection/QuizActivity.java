@@ -63,7 +63,7 @@ public class QuizActivity extends AppCompatActivity {
     boolean _autoNext;
 
     ArrayList<Integer> _idList;
-    int _counter = 0;
+    int _counter = -1;
     int _mode;
 
     int _state;
@@ -148,7 +148,7 @@ public class QuizActivity extends AppCompatActivity {
         _answerWorkZone.setBackgroundColor(uiColor);
 
         _questionName.setText(_currentContext.getTitle());
-        _questionCounter.setText(String.valueOf(++_counter));
+        _questionCounter.setText(String.valueOf(++_counter + 1));
         _textQuestionType.setText(_currentContext.getType().getTitleId());
         _questionText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getQuestionDetail(), null, _questionText);
@@ -175,7 +175,7 @@ public class QuizActivity extends AppCompatActivity {
             float score = ((Answer.PlainTextAnswer) _currentContext.getAnswer()).checkAnswer(userAnswer);
             //提交记录
             Log.d(TAG, "checkAnswer: score:" + score);
-            postRecord((int) (score * 100));
+            postRecord((int) (score * 100 + 0.5));
             _state = STATE_POST_CHECKING;
             if (_autoNext && score >= 1f) {
                 loadNext();
@@ -189,6 +189,7 @@ public class QuizActivity extends AppCompatActivity {
                             QuizCheckView.NOTICE_NONE_RIGHT
                             : (score == 1 ? QuizCheckView.NOTICE_ALL_RIGHT
                             : QuizCheckView.NOTICE_HALF_RIGHT));
+                    _checkView.setIsDone(shouldExit());
                     _checkView.setOnNextBtnClickListener(v -> loadNext());
                     _checkView.setOnQuitBtnClickListener(v -> onBackPressed());
                     _answerWorkZone.addView(_checkView);
@@ -248,7 +249,12 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void loadNext() {
-        //todo 直接下一题
+        if(shouldExit()){
+            exit();
+        }else{
+            //todo 载入下一题
+
+        }
     }
 
     @Override
@@ -259,7 +265,7 @@ public class QuizActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_warning_black_24dp)
                         .setTitle(R.string.exitQuizDialogAskTitle)
                         .setMessage(R.string.exitQuizDialogAskState0)
-                        .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> exit())
                         .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
@@ -268,14 +274,29 @@ public class QuizActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_warning_black_24dp)
                         .setTitle(R.string.exitQuizDialogAskTitle)
                         .setMessage(R.string.exitQuizDialogAskState1)
-                        .setNegativeButton(R.string.confirm, (dialog, which) -> super.onBackPressed())
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> exit())
                         .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
             case STATE_POST_CHECKING:
                 //可以直接退出
-                super.onBackPressed();
+                exit();
                 break;
         }
+    }
+
+    void exit(){
+        //退出小测,显示报告
+        if(_counter == 0){
+            //一题都没做可以直接退了
+            super.onBackPressed();
+        }else{
+            //要显示报告
+
+        }
+    }
+
+    boolean shouldExit(){
+        return _mode == MODE_SOLO || _counter >= (_idList.size() - 1);
     }
 }
