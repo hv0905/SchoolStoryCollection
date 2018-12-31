@@ -23,9 +23,9 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
-import net.sakuratrak.schoolstorycollection.core.ReadOnlyList;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -199,9 +199,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _itemList.setAdapter(_mainAdapter);
     }
 
-    public class DataContextList extends ReadOnlyList<QuestionItemAdapter.DataContext> {
+    public class DataContextList implements IListedDataProvidable<QuestionItemAdapter.DataContext> {
+
         @Override
-        public int size() {
+        public int count() {
             return _contexts.size();
         }
 

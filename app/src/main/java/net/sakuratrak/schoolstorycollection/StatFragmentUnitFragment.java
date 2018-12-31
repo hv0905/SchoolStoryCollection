@@ -24,6 +24,7 @@ import java.util.List;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -119,10 +120,10 @@ public final class StatFragmentUnitFragment extends Fragment {
             udi.add(udiItem);
         }
         if(_unitList.getAdapter() == null){
-            UnitDisplayAdapter uda = new UnitDisplayAdapter(udi);
+            UnitDisplayAdapter uda = new UnitDisplayAdapter(new ListDataProvider<>(udi));
             _unitList.setAdapter(uda);
         }else{
-            ((UnitDisplayAdapter)_unitList.getAdapter()).setDataContext(udi);
+            ((UnitDisplayAdapter)_unitList.getAdapter()).setDataContext(new ListDataProvider<>(udi));
         }
 
         if(_notifyUnitRefresh != null){

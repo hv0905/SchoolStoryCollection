@@ -1,7 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.support.annotation.NonNull;
-import android.support.design.button.MaterialButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,13 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
+
+import java.util.List;
 import java.util.Locale;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {
-    private ArrayList<DataContext> _dataContext;
+    private IListedDataProvidable<DataContext> _dataContext;
 
     @NonNull
     @Override
@@ -46,18 +47,18 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     @Override
     public int getItemCount() {
-        return _dataContext.size();
+        return _dataContext.count();
     }
 
-    public UnitDisplayAdapter(ArrayList<DataContext> mDataSet){
+    public UnitDisplayAdapter(IListedDataProvidable<DataContext> mDataSet){
         _dataContext = mDataSet;
     }
 
-    public ArrayList<DataContext> getDataContext() {
+    public IListedDataProvidable<DataContext> getDataContext() {
         return _dataContext;
     }
 
-    public void setDataContext(ArrayList<DataContext> _dataContext) {
+    public void setDataContext(IListedDataProvidable<DataContext> _dataContext) {
         this._dataContext = _dataContext;
         notifyDataSetChanged();
     }

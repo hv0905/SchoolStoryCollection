@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.util.List;
+import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -23,10 +23,28 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
-    public abstract List<DataContext> get_dataContext();
+    protected IListedDataProvidable<DataContext> _dataContext;
 
-    public abstract void set_dataContext(List<DataContext> _dataContext);
+    public IListedDataProvidable<DataContext> get_dataContext(){
+        return _dataContext;
+    }
 
+    public void set_dataContext(IListedDataProvidable<DataContext> _dataContext) {
+        this._dataContext = _dataContext;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return _dataContext.count();
+    }
+
+    public QuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
+        this._dataContext = _dataContext;
+    }
+
+    public QuestionItemAdapter() {
+    }
 
     public static class DataContext {
         public String title;
@@ -68,7 +86,9 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
     public static final class FullQuestionItemAdapter extends QuestionItemAdapter {
 
-        private List<DataContext> _dataContext;
+        public FullQuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
+            super(_dataContext);
+        }
 
         @NonNull
         @Override
@@ -96,25 +116,6 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder.previewImgBorder.setOnLongClickListener(current.showMenuClicked);
             holder.btnDetail.setOnClickListener(listener);
             holder.btnQuiz.setOnClickListener(current.quizClicked);
-        }
-
-        @Override
-        public int getItemCount() {
-            return _dataContext.size();
-        }
-
-        public FullQuestionItemAdapter(List<DataContext> mDataSet) {
-            _dataContext = mDataSet;
-        }
-
-        @Override
-        public List<DataContext> get_dataContext() {
-            return _dataContext;
-        }
-
-        public void set_dataContext(List<DataContext> _dataContext) {
-            this._dataContext = _dataContext;
-            notifyDataSetChanged();
         }
 
         public final static class Holder extends RecyclerView.ViewHolder {
@@ -149,7 +150,9 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
     public static final class SimpleQuestionItemAdapter extends QuestionItemAdapter {
 
-        private List<DataContext> _dataContext;
+        public SimpleQuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
+            super(_dataContext);
+        }
 
         @NonNull
         @Override
@@ -168,28 +171,6 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             holder._rootView.setOnClickListener(data.detailClicked);
             holder._rootView.setOnLongClickListener(data.showMenuClicked);
-        }
-
-        @Override
-        public int getItemCount() {
-            return _dataContext.size();
-        }
-
-        @Override
-        public List<DataContext> get_dataContext() {
-            return _dataContext;
-        }
-
-        @Override
-        public void set_dataContext(List<DataContext> _dataContext) {
-            this._dataContext = _dataContext;
-        }
-
-        public SimpleQuestionItemAdapter() {
-        }
-
-        public SimpleQuestionItemAdapter(List<DataContext> _dataContext) {
-            this._dataContext = _dataContext;
         }
 
         public static class Holder extends RecyclerView.ViewHolder {
