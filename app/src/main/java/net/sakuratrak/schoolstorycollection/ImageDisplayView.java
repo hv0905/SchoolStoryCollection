@@ -40,7 +40,7 @@ public final class ImageDisplayView extends RecyclerView {
     }
 
     void init(){
-        setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListAdapter(new ArrayList<>(), false);
         setAdapter(_mainAdapter);

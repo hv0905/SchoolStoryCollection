@@ -92,7 +92,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
-        _itemList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
+        _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
         getParent().addSubjectUpdateEvent(this::refreshList);
         setDisplayMode(false);
         refreshList();

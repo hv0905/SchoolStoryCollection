@@ -85,7 +85,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             ab.show();          
         });
 
-        _unitList.setLayoutManager(new LinearLayoutManager(getParent(), LinearLayoutManager.VERTICAL, false));
+        _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
 
         getParent().addSubjectUpdateEvent(this::refreshUnit);
 

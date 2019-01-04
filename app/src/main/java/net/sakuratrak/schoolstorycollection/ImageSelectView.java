@@ -59,7 +59,7 @@ public class ImageSelectView extends RecyclerView {
     }
 
     public void init() {
-        setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListAdapter(new ArrayList<>(), true);
         _mainAdapter.setAddButtonClicked(v -> CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {

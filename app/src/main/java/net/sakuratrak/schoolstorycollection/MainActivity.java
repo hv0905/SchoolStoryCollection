@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         _drawer.addDrawerListener(_drawerToggle);
 
         _navigationView.setNavigationItemSelectedListener(menuItem -> {
-            _drawer.closeDrawer(Gravity.START);
+            _drawer.closeDrawer(GravityCompat.START);
             if (menuItem.getItemId() == R.id.nav_menu_settings) {
                 //settings...
                 Intent intent = new Intent(this, SettingActivity.class);
