@@ -3,8 +3,8 @@ package net.sakuratrak.schoolstorycollection.core;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;

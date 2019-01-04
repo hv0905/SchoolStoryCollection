@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootView"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toEndOf="@id/markBarVal"
         app:layout_constraintTop_toBottomOf="@+id/notice" />
 
-    <android.support.design.chip.ChipGroup
+    <com.google.android.material.chip.ChipGroup
         android:id="@+id/quickChips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/markBar">
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/markA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,26 +75,26 @@
 
             />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/markB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mark_nicejob" />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/markC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mark_justans" />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/markD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mark_zero" />
-    </android.support.design.chip.ChipGroup>
+    </com.google.android.material.chip.ChipGroup>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,4 +103,4 @@
         android:src="@drawable/ic_done_white_24dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/notice" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

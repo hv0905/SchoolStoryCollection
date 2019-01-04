@@ -15,7 +15,7 @@ import me.kareluo.imaging.R;
  * Created by felix on 2017/12/1 下午2:50.
  */
 
-public class IMGColorRadio extends android.support.v7.widget.AppCompatRadioButton implements ValueAnimator.AnimatorUpdateListener {
+public class IMGColorRadio extends androidx.appcompat.widget.AppCompatRadioButton implements ValueAnimator.AnimatorUpdateListener {
 
     private static final String TAG = "IMGColorRadio";
 

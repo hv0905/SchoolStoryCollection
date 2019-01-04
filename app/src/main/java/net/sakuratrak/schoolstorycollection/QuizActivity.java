@@ -1,9 +1,9 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -146,6 +146,7 @@ public class QuizActivity extends AppCompatActivity {
         int uiColor = UiHelper.getFlatUiColor(this, _currentContext.getSubject().getId());
         _toolbar.setBackgroundColor(uiColor);
         _answerWorkZone.setBackgroundColor(uiColor);
+        getWindow().setStatusBarColor(uiColor);
 
         _questionName.setText(_currentContext.getTitle());
         _questionCounter.setText(String.valueOf(++_counter + 1));

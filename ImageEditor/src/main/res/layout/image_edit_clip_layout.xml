@@ -42,7 +42,7 @@
                 android:onClick="onClick"
                 android:src="@drawable/image_btn_cancel" />
 
-            <android.support.design.button.MaterialButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/tv_clip_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

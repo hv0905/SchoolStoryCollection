@@ -12,12 +12,12 @@
         android:layout_margin="8dp"
         android:text="@string/multiplyChoiceAnswer" />
 
-    <android.support.design.chip.ChipGroup
+    <com.google.android.material.chip.ChipGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:singleSelection="false">
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/a"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
@@ -25,7 +25,7 @@
             android:text="@string/answerA"
             android:textAlignment="center" />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/b"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
@@ -33,7 +33,7 @@
             android:text="@string/answerB"
             android:textAlignment="center" />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/c"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
@@ -41,7 +41,7 @@
             android:text="@string/answerC"
             android:textAlignment="center" />
 
-        <android.support.design.chip.Chip
+        <com.google.android.material.chip.Chip
             android:id="@+id/d"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="64dp"
@@ -49,6 +49,6 @@
             android:text="@string/answerD"
             android:textAlignment="center" />
 
-    </android.support.design.chip.ChipGroup>
+    </com.google.android.material.chip.ChipGroup>
 
 </LinearLayout>

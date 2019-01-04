@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;

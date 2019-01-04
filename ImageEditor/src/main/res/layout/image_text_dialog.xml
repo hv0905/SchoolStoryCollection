@@ -11,7 +11,7 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:textColor="@color/image_color_primary"
             android:textSize="16sp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/tv_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

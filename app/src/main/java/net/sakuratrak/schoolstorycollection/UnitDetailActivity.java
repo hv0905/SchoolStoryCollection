@@ -1,11 +1,11 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TextView;

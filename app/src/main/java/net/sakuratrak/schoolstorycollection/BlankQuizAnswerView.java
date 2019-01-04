@@ -1,8 +1,8 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;

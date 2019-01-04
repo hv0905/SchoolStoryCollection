@@ -2,14 +2,14 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +24,9 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 
-import static android.support.constraint.Constraints.TAG;
-
-
 public final class StatFragmentUnitFragment extends Fragment {
+
+    public static final String TAG = "Stat_UnitFragment";
 
     private Runnable _notifyUnitRefresh;
 

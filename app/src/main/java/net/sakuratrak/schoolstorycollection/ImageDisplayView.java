@@ -3,10 +3,10 @@ package net.sakuratrak.schoolstorycollection;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import java.io.File;

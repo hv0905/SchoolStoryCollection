@@ -1,6 +1,6 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
