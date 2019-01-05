@@ -4,9 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/ui_margin_mid"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".QuizResultActivity"
     tools:showIn="@layout/activity_quiz_result">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textStory"
+            style="@style/textValue.large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ui_margin_mid"
+            tools:text="@string/quizResultStory4" />
+
+        <TextView
+            style="@style/textTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_margin_large"
+            android:drawableStart="@drawable/ic_file_text_black_24dp"
+            android:text="@string/quizContent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleQuestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </LinearLayout>
 
 
 </androidx.core.widget.NestedScrollView>

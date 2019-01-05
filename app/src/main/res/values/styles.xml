@@ -50,6 +50,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="textValue.large" parent="textValue">
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="textWindowTitle" parent="textValue">
         <item name="android:textSize">24sp</item>
     </style>

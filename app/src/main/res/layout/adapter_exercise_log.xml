@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_small"
+    android:layout_marginRight="@dimen/margin_small"
+    android:id="@+id/rootView"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    >
+
+    <TextView
+        android:id="@+id/questionId"
+        style="@style/textValue"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ui_margin_mid"
+        android:layout_marginBottom="@dimen/ui_margin_mid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:textSize="30sp"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ui_margin_mid"
+        android:layout_marginTop="@dimen/ui_margin_mid"
+        app:layout_constraintBottom_toTopOf="@+id/unit"
+        app:layout_constraintStart_toEndOf="@+id/questionId"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        tools:text="123123" />
+
+    <TextView
+        android:id="@+id/unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        tools:text="345345"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/questionId"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        />
+
+    <ProgressBar
+        android:id="@+id/scoreProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:max="100"
+        android:progressDrawable="@drawable/circle_progressbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scoreProgressVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreProgress"
+        app:layout_constraintEnd_toEndOf="@+id/scoreProgress"
+        app:layout_constraintStart_toStartOf="@+id/scoreProgress"
+        app:layout_constraintTop_toTopOf="@+id/scoreProgress"
+        tools:text="100" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

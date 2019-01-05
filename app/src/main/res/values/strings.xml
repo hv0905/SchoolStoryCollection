@@ -179,4 +179,10 @@
     <string name="completeQuiz">完成小测</string>
     <string name="unitQuiz">单元小测</string>
     <string name="quickQuiz">快速小测</string>
+    <string name="quizResultStory0">你是雷姆上身了吗⊙﹏⊙∥\n加油啦</string>
+    <string name="quizResultStory1">你是认真的吗⊙﹏⊙∥\n加油啦</string>
+    <string name="quizResultStory2">要认真复习错题啊啊啊</string>
+    <string name="quizResultStory3">我拿不到满分都是石头门的选择.jpg</string>
+    <string name="quizResultStory4">大吉大利,晚上吃鸡!</string>
+    <string name="quizContent">试卷内容</string>
 </resources>

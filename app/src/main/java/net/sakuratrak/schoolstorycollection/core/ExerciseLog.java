@@ -17,7 +17,7 @@ public class ExerciseLog implements Serializable {
     @DatabaseField
     private Date happenedTime;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true ,foreignAutoRefresh = true)
     private QuestionInfo question;
 
     //region simple getter and setter
