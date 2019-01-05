@@ -100,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else {
+                for (int i = 0;i<_navigationView.getMenu().size();i++) {
+                    _navigationView.getMenu().getItem(i).setChecked(false);
+                }
                 menuItem.setChecked(true);
                 for (int subject = 0; subject < 9; subject++) {
                     if (menuItem.getItemId() == SUBJECT_MENU_IDS[subject]) {
