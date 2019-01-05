@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/showAnswerMenu"
+        android:icon="@drawable/ic_key_white_24dp"
         android:title="@string/showAnswer"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_key_white_24dp"/>
+        app:showAsAction="always" />
     <item
         android:id="@+id/favourite"
-        android:title="@string/like"
-        app:showAsAction="always"
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/ic_favorite_border_white_24dp"
-        />
+        android:title="@string/like"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/editMenu"
+        android:icon="@drawable/ic_edit_white_24dp"
         android:title="@string/edit"
         app:showAsAction="always"
-        android:icon="@drawable/ic_edit_white_24dp"
         tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/shareMenu"
-        android:title="@string/share"
-        app:showAsAction="never"
         android:icon="@drawable/ic_share_black_24dp"
-        />
+        android:title="@string/share"
+        app:showAsAction="never" />
     <item
         android:id="@+id/hide"
-        android:title="@string/hide"
         android:icon="@drawable/ic_move_to_inbox_black_24dp"
-        app:showAsAction="never"
-        />
+        android:title="@string/hide"
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete"
-        android:title="@string/delete"
         android:icon="@drawable/ic_delete_black_24dp"
-        app:showAsAction="never"
-        />
+        android:title="@string/delete"
+        app:showAsAction="never" />
 </menu>

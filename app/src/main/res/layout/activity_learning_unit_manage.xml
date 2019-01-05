@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LearningUnitChoosingActivity">
 
-    <include layout="@layout/para_appbar"/>
+    <include layout="@layout/para_appbar" />
 
     <include layout="@layout/content_learning_unit_manage" />
 

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context="net.sakuratrak.schoolstorycollection.MainActivity">
 
-        <include layout="@layout/para_appbar"/>
+        <include layout="@layout/para_appbar" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"

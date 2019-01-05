@@ -2,37 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
+        style="@style/textValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fillAnswer"
-        style="@style/textValue"
         android:layout_margin="8dp"
-        />
+        android:text="@string/fillAnswer" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        android:hint="@string/answer"
-        >
+        android:hint="@string/answer">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/answerText"
-            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fillAnswerTip"
         android:layout_marginStart="8dp"
-        />
+        android:text="@string/fillAnswerTip" />
 
 </LinearLayout>

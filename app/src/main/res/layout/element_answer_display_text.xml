@@ -2,12 +2,11 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/imgs"
+    style="@style/textValue"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/textValue"
-    android:textSize="40sp"
-    tools:text="ABC"
     android:textIsSelectable="true"
-    >
+    android:textSize="40sp"
+    tools:text="ABC">
 
 </TextView>

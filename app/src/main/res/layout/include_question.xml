@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <TextView
         android:id="@+id/questionText"
         android:layout_width="match_parent"
@@ -14,13 +15,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/ui_margin_mid"
-        >
+        android:layout_margin="@dimen/ui_margin_mid">
+
         <net.sakuratrak.schoolstorycollection.ImageDisplayView
             android:id="@+id/questionImgDisplay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            />
+            android:nestedScrollingEnabled="false" />
     </RelativeLayout>
 </LinearLayout>

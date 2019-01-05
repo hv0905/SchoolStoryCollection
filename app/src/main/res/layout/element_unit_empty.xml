@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/unitEmptyNotice"
@@ -16,15 +15,15 @@
     <ImageView
         android:layout_width="300dp"
         android:layout_height="150dp"
-        android:src="@drawable/ic_empty_no_file_selected"
         android:layout_gravity="center"
-        android:contentDescription="@string/unitEmptyUi" />
+        android:contentDescription="@string/unitEmptyUi"
+        android:src="@drawable/ic_empty_no_file_selected" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/unitEmptyUi"
-        android:textColor="@color/black"
         android:layout_gravity="center"
+        android:text="@string/unitEmptyUi"
         android:textAlignment="center"
-        />
+        android:textColor="@color/black" />
 </LinearLayout>

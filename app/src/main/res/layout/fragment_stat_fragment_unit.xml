@@ -6,30 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/element_unit_empty"/>
+    <include layout="@layout/element_unit_empty" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/unitList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:scrollbars="horizontal"
-        android:id="@+id/unitList"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addUnitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ui_margin_floatAction"
         android:layout_marginEnd="@dimen/ui_margin_floatAction"
+        android:layout_marginBottom="@dimen/ui_margin_floatAction"
         android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_white_24dp"
-        android:focusable="true" />
-
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

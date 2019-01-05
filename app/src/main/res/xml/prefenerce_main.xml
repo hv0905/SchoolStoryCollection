@@ -2,63 +2,56 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="通知">
         <SwitchPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:key="showAlarm"
             android:summary="@string/setval_dailyQuiz"
-            android:title="@string/settit_dailyQuiz"
-            android:defaultValue="true"
-            />
+            android:title="@string/settit_dailyQuiz" />
         <!--suppress AndroidElementNotAllowed -->
         <net.sakuratrak.schoolstorycollection.TimePreference
+            android:defaultValue="18:00"
             android:icon="@drawable/ic_access_alarm_black_24dp"
             android:key="alarmTime"
             android:summary="%s"
-            android:defaultValue="18:00"
             android:title="@string/settit_dailyQuizTime" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="小测">
+    <PreferenceCategory android:title="小测">
 
         <CheckBoxPreference
-            android:title="自动进入下一题"
-            android:summary="如果题目回答正确,将直接进入下一题,不会显示解析"
-            android:key="quiz_AutoNext"
             android:icon="@drawable/ic_skip_next_black_24dp"
-            />
+            android:key="quiz_AutoNext"
+            android:summary="如果题目回答正确,将直接进入下一题,不会显示解析"
+            android:title="自动进入下一题" />
 
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/adv"
-        >
+    <PreferenceCategory android:title="@string/adv">
         <SwitchPreference
+            android:defaultValue="true"
             android:icon="@drawable/ic_image_black_24dp"
-            android:title="@string/optimizeImage"
-            android:summary="@string/optimizeImageDetail"
             android:key="optimizeImage"
-            android:defaultValue="true" />
+            android:summary="@string/optimizeImageDetail"
+            android:title="@string/optimizeImage" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/storage">
         <ListPreference
-            android:icon="@drawable/ic_save_black_24dp"
             android:defaultValue="public"
             android:dialogTitle="@string/settit_workbookSaveLoc"
             android:entries="@array/settings_workbookStorageLoc"
             android:entryValues="@array/settings_workbookStorageLoc_val"
+            android:icon="@drawable/ic_save_black_24dp"
             android:key="internalWorkbookLoc"
             android:summary="%s"
             android:title="@string/settit_workbookSaveLoc" />
         <Preference
             android:icon="@drawable/ic_file_download_black_24dp"
             android:key="importWorkBook"
-            android:title="@string/settit_importWorkbook"
             android:summary="@string/setval_importWorkbook"
-            />
+            android:title="@string/settit_importWorkbook" />
         <Preference
             android:icon="@drawable/ic_file_upload_black_24dp"
             android:key="exportWorkBook"
-            android:title="@string/settit_exportWorkbook"
             android:summary="@string/setval_exportWorkBook"
-            />
+            android:title="@string/settit_exportWorkbook" />
         <Preference
             android:icon="@drawable/ic_delete_black_24dp"
             android:summary="@string/setval_clearBmCache"
@@ -66,16 +59,14 @@
         <PreferenceScreen
             android:icon="@drawable/ic_warning_black_24dp"
             android:key="dangerZone"
-            android:summary="@string/setval_dangerZone"
-            android:title="@string/settit_dangerZone"
             android:persistent="false"
-            >
+            android:summary="@string/setval_dangerZone"
+            android:title="@string/settit_dangerZone">
             <Preference
                 android:icon="@drawable/ic_delete_black_24dp"
                 android:key="clearStatInfo"
-                android:title="@string/settit_clearStatInfo"
                 android:summary="@string/setval_clearStatInfo"
-                />
+                android:title="@string/settit_clearStatInfo" />
             <Preference
                 android:icon="@drawable/ic_delete_black_24dp"
                 android:key="clearAll"
@@ -86,31 +77,30 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="aboutPage"
-        android:title="@string/about"
-        >
+        android:title="@string/about">
         <Preference
-            android:title="@string/AppNameCn"
-            android:summary="@string/AppVersionCn"
             android:key="easterEgg"
-            />
+            android:summary="@string/AppVersionCn"
+            android:title="@string/AppNameCn" />
         <Preference
-            android:title="@string/Author"
             android:summary="@string/AppAuthor"
-            />
+            android:title="@string/Author" />
         <Preference
-            android:title="@string/branch"
             android:summary="@string/AppBranch"
-            />
+            android:title="@string/branch" />
         <Preference
-            android:key="showDetailAbout"
             android:icon="@drawable/ic_info_black_24dp"
+            android:key="showDetailAbout"
             android:title="@string/showDetailedAbout">
-            <intent android:targetClass="net.sakuratrak.schoolstorycollection.AboutActivity" android:action="android.intent.action.VIEW" android:targetPackage="net.sakuratrak.schoolstorycollection"/>
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="net.sakuratrak.schoolstorycollection.AboutActivity"
+                android:targetPackage="net.sakuratrak.schoolstorycollection" />
         </Preference>
 
         <Preference
+            android:icon="@drawable/ic_mail_black_24dp"
             android:key="feedback"
-            android:title="@string/feedback"
-            android:icon="@drawable/ic_mail_black_24dp" />
+            android:title="@string/feedback" />
     </PreferenceCategory>
 </PreferenceScreen>

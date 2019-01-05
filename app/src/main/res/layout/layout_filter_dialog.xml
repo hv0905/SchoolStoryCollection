@@ -15,20 +15,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="@string/filter"
-            android:textSize="30sp"
             android:layout_margin="8dp"
             android:drawableStart="@drawable/ic_filter_list_black_24dp"
-            />
+            android:text="@string/filter"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/wrongQuestion"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
 
             />
 
@@ -87,8 +86,7 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </Spinner>
+            android:layout_height="wrap_content"></Spinner>
 
         <Space
             android:layout_width="wrap_content"
@@ -98,35 +96,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="搜索内容:"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            />
+            android:inputType="textPersonName" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            >
+            android:layout_gravity="end">
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/submit"
                 android:layout_margin="4dp"
-                />
+                android:text="@string/submit" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reset"
                 android:layout_margin="4dp"
-                />
+                android:text="@string/reset" />
 
         </LinearLayout>
 

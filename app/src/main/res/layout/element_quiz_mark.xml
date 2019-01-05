@@ -63,8 +63,8 @@
         android:layout_marginEnd="@dimen/ui_margin_mid"
         android:layout_marginBottom="@dimen/ui_margin_mid"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/markBar">
 
         <com.google.android.material.chip.Chip

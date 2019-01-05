@@ -37,8 +37,8 @@
             android:src="@drawable/ic_filter_1_white_24dp"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_size="mini"
-            app:fab_label="@string/singleChoiceQuestion" />
+            app:fab_label="@string/singleChoiceQuestion"
+            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addItem_multiChoice"
@@ -47,8 +47,8 @@
             android:src="@drawable/ic_filter_2_white_24dp"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_size="mini"
-            app:fab_label="@string/multiChoiceQuestion" />
+            app:fab_label="@string/multiChoiceQuestion"
+            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addItem_editableFill"
@@ -57,8 +57,8 @@
             android:src="@drawable/ic_keyboard_white_24dp"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_size="mini"
-            app:fab_label="@string/editableFillQuestion" />
+            app:fab_label="@string/editableFillQuestion"
+            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addItem_fill"
@@ -67,8 +67,8 @@
             android:src="@drawable/ic_edit_white_24dp"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_size="mini"
-            app:fab_label="@string/fillQuestion" />
+            app:fab_label="@string/fillQuestion"
+            app:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addItem_answer"
@@ -77,8 +77,8 @@
             android:src="@drawable/ic_check_white_24dp"
             app:fab_colorNormal="@color/colorAccent"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_size="mini"
-            app:fab_label="@string/answerQuestion" />
+            app:fab_label="@string/answerQuestion"
+            app:fab_size="mini" />
 
 
     </com.github.clans.fab.FloatingActionMenu>

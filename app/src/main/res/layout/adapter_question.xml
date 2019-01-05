@@ -39,34 +39,35 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="vertical">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
 
-    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/difficulty"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        app:layout_constraintRight_toLeftOf="@id/favourite"
-        style="@style/Widget.MaterialRatingBar.RatingBar"
-        android:layout_marginEnd="@dimen/ui_margin_mid"
-        android:isIndicator="true"
-        />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/favourite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/ic_favorite_border_black_24dp"
-        android:contentDescription="@string/like" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/difficulty"
+                    style="@style/Widget.MaterialRatingBar.RatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/ui_margin_mid"
+                    android:isIndicator="true"
+                    app:layout_constraintRight_toLeftOf="@id/favourite" />
+
+                <ImageView
+                    android:id="@+id/favourite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/like"
+                    android:src="@drawable/ic_favorite_border_black_24dp"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <TextView

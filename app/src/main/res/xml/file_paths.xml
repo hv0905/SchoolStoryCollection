@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <external-path name="external" path="." />
+    <external-path
+        name="external"
+        path="." />
     <external-path
         name="common"
-        path="Android/data/net.sakuratrak.schoolstorycollection/files"/>
+        path="Android/data/net.sakuratrak.schoolstorycollection/files" />
 </paths>

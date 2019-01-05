@@ -20,14 +20,14 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/difficultyPie"
             android:layout_width="match_parent"
-            android:layout_margin="@dimen/ui_margin_ularge"
-            android:layout_height="300dp" />
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/ui_margin_ularge" />
 
         <!--<TextView-->
-            <!--style="@style/textValue"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="@dimen/ui_margin_mid"-->
-            <!--android:text="" />-->
+        <!--style="@style/textValue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/ui_margin_mid"-->
+        <!--android:text="" />-->
     </LinearLayout>
 </ScrollView>

@@ -7,53 +7,51 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".QuestionDetailActivity"
     tools:showIn="@layout/activity_question_detail">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/ui_margin_ularge"
         android:layout_marginLeft="@dimen/ui_margin_mid"
+        android:layout_marginTop="@dimen/ui_margin_ularge"
         android:layout_marginRight="@dimen/ui_margin_mid"
         android:layout_marginBottom="@dimen/ui_margin_ularge"
-        >
+        android:orientation="vertical">
         <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--style="@style/textTitle"-->
-            <!--android:text="@string/topic"-->
-            <!--android:drawableStart="@drawable/ic_help_black_24dp"-->
-            <!--/>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--style="@style/textTitle"-->
+        <!--android:text="@string/topic"-->
+        <!--android:drawableStart="@drawable/ic_help_black_24dp"-->
+        <!--/>-->
 
-        <include layout="@layout/include_question"/>
+        <include layout="@layout/include_question" />
 
         <com.github.aakira.expandablelayout.ExpandableLinearLayout
             android:id="@+id/answerZone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:ael_expanded="false"
             app:ael_duration="500"
+            app:ael_expanded="false"
             app:ael_interpolator="bounce"
-            app:ael_orientation="vertical"
-            >
-            <include layout="@layout/include_answer_and_analysis"/>
+            app:ael_orientation="vertical">
+
+            <include layout="@layout/include_answer_and_analysis" />
 
             <TextView
+                style="@style/textTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stat"
-                style="@style/textTitle"
                 android:drawableStart="@drawable/ic_bar_graph_black_24dp"
-                />
+                android:text="@string/stat" />
         </com.github.aakira.expandablelayout.ExpandableLinearLayout>
 
         <TextView
+            style="@style/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/textTitle"
-            android:text="@string/info"
             android:drawableStart="@drawable/ic_info_black_24dp"
-            />
+            android:text="@string/info" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -80,20 +78,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            >
+            android:layout_margin="8dp">
+
             <TextView
+                style="@style/textMidTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/textMidTitle"
-                android:text="@string/CreateTime"
                 android:drawableStart="@drawable/ic_edit_black_24dp"
-                />
+                android:text="@string/CreateTime" />
+
             <TextView
                 android:id="@+id/valCreateTime"
+                style="@style/textValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/textValue"
                 app:layout_constraintRight_toRightOf="parent"
 
                 />
@@ -102,8 +100,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_margin="8dp"
-            >
+            android:layout_margin="8dp">
 
             <TextView
                 style="@style/textMidTitle"
@@ -116,12 +113,11 @@
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/valDifficulty"
-                android:isIndicator="true"
                 style="@style/Widget.MaterialRatingBar.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:layout_constraintRight_toRightOf="parent"
-                />
+                android:isIndicator="true"
+                app:layout_constraintRight_toRightOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

@@ -24,20 +24,19 @@
             app:toolbarId="@+id/toolbar">
 
             <FrameLayout
+                android:id="@+id/imageTopBorder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/imageTopBorder"
                 android:fitsSystemWindows="true"
                 android:foreground="#44000000">
                 <!--android:transitionName="topImage"-->
                 <ImageView
                     android:id="@+id/imageTopContent"
-                    android:scaleType="centerCrop"
-                    android:fitsSystemWindows="true"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/questionPreview"
-                    />
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop" />
             </FrameLayout>
 
 
@@ -46,8 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                />
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -59,10 +57,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/showAnswer"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_key_white_24dp"
-        android:contentDescription="@string/showAnswer"
-        />
+        app:srcCompat="@drawable/ic_key_white_24dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

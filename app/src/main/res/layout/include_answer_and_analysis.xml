@@ -3,27 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <TextView
+        style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/textTitle"
-        android:text="@string/answer"
         android:drawableStart="@drawable/ic_key_black_24dp"
-        />
+        android:text="@string/answer" />
 
     <FrameLayout
         android:id="@+id/answerContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/ui_margin_mid"/>
+        android:layout_margin="@dimen/ui_margin_mid" />
 
     <TextView
+        style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/textTitle"
-        android:text="@string/analysis"
         android:drawableStart="@drawable/ic_insert_comment_black_24dp"
-        />
+        android:text="@string/analysis" />
 
     <TextView
         android:id="@+id/analysisText"
@@ -35,11 +34,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <net.sakuratrak.schoolstorycollection.ImageDisplayView
             android:id="@+id/analysisImgDisplay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            />
+            android:nestedScrollingEnabled="false" />
     </RelativeLayout>
 </LinearLayout>
