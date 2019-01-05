@@ -32,19 +32,19 @@ public abstract class AnswerUiCreatorView extends FrameLayout {
 
     public abstract boolean hasAnswer();
 
-    public void setOnUpdateEventHandler(OnUpdateEventHandler val){
+    public void setOnUpdateEventHandler(OnUpdateEventHandler val) {
         _onUpdate = val;
     }
 
-    protected void toggleOnUpdate(){
-        if(_onUpdate != null){
+    protected void toggleOnUpdate() {
+        if (_onUpdate != null) {
             _onUpdate.onUpdate(this);
         }
     }
 
 
     @FunctionalInterface
-    public interface OnUpdateEventHandler{
+    public interface OnUpdateEventHandler {
         void onUpdate(AnswerUiCreatorView sender);
     }
 

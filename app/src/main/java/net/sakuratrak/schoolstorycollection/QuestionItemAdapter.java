@@ -1,10 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import com.google.android.material.button.MaterialButton;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +9,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
@@ -25,7 +26,14 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
     protected IListedDataProvidable<DataContext> _dataContext;
 
-    public IListedDataProvidable<DataContext> get_dataContext(){
+    public QuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
+        this._dataContext = _dataContext;
+    }
+
+    public QuestionItemAdapter() {
+    }
+
+    public IListedDataProvidable<DataContext> get_dataContext() {
         return _dataContext;
     }
 
@@ -37,13 +45,6 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return _dataContext.count();
-    }
-
-    public QuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
-        this._dataContext = _dataContext;
-    }
-
-    public QuestionItemAdapter() {
     }
 
     public static class DataContext {
@@ -119,7 +120,6 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         }
 
         public final static class Holder extends RecyclerView.ViewHolder {
-            private View _root;
             public TextView title;
             public ImageView previewImgContent;
             public FrameLayout previewImgBorder;
@@ -129,6 +129,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             public MaterialButton btnDetail;
             public RatingBar valDifficulty;
             public ImageView valFavourite;
+            private View _root;
 
 
             public Holder(View rootView) {

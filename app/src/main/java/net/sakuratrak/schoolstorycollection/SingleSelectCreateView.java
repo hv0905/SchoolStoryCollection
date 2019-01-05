@@ -1,13 +1,15 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import com.google.android.material.chip.Chip;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
+import com.google.android.material.chip.Chip;
+
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
+
+import androidx.annotation.Nullable;
 
 public final class SingleSelectCreateView extends AnswerUiCreatorView {
 
@@ -58,7 +60,7 @@ public final class SingleSelectCreateView extends AnswerUiCreatorView {
     @Override
     @Nullable
     public Answer getAnswer() {
-        if(!hasAnswer()) return null;
+        if (!hasAnswer()) return null;
         SelectableAnswer sa = new SelectableAnswer();
         sa.A = a.isChecked();
         sa.B = b.isChecked();
@@ -69,13 +71,13 @@ public final class SingleSelectCreateView extends AnswerUiCreatorView {
 
     @Override
     public void setAnswer(Answer value) {
-        if(value instanceof SelectableAnswer){
+        if (value instanceof SelectableAnswer) {
             SelectableAnswer sv = (SelectableAnswer) value;
             a.setChecked(sv.A);
             b.setChecked(sv.B);
             c.setChecked(sv.C);
             d.setChecked(sv.D);
-        }else{
+        } else {
             throw new IllegalArgumentException("value");
         }
     }

@@ -8,24 +8,25 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.Toast;
+
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import me.kareluo.imaging.IMGEditActivity;
-import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 /**
  * Provide a imageSelectView base on RecycleView
@@ -94,8 +95,8 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(_currentTempCameraPhoto));
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
-                if(AppSettingsMaster.getIfOptimizeImage(getContext()))
-                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
+                if (AppSettingsMaster.getIfOptimizeImage(getContext()))
+                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST, _addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
@@ -106,8 +107,8 @@ public class ImageSelectView extends RecyclerView {
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_URI, data.getData());
                 _currentTargetPhoto = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), UUID.randomUUID().toString() + ".jpg");
                 intent.putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, _currentTargetPhoto.getAbsolutePath());
-                if(AppSettingsMaster.getIfOptimizeImage(getContext()))
-                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST,_addContrast);
+                if (AppSettingsMaster.getIfOptimizeImage(getContext()))
+                    intent.putExtra(IMGEditActivity.EXTRA_ADD_CONTRAST, _addContrast);
                 getActivity().startActivityForResult(intent, _codeEdit);
             }
 
@@ -224,8 +225,8 @@ public class ImageSelectView extends RecyclerView {
         refresh();
     }
 
-    private void onItemToggle(){
-        if(_onItemToggle != null)
+    private void onItemToggle() {
+        if (_onItemToggle != null)
             _onItemToggle.onClick(this);
     }
 
@@ -242,7 +243,9 @@ public class ImageSelectView extends RecyclerView {
         return _addContrast;
     }
 
-    /** disable:change to 1*/
+    /**
+     * disable:change to 1
+     */
     public void set_addContrast(float _addContrast) {
         this._addContrast = _addContrast;
     }

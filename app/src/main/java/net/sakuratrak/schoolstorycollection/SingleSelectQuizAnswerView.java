@@ -1,15 +1,17 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
+
+import androidx.annotation.Nullable;
 
 public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
 
@@ -40,8 +42,8 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
         init();
     }
 
-    public void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_single_choice,this);
+    public void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_single_choice, this);
         _root = findViewById(R.id.rootView);
         _a = findViewById(R.id.answerA);
         _b = findViewById(R.id.answerB);
@@ -63,7 +65,7 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
     }
 
     @Override
-    public void updateEmptyStatus(){
+    public void updateEmptyStatus() {
         _confirm.setEnabled(hasAnswer());
     }
 
@@ -75,7 +77,7 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
     @Override
     @Nullable
     public Answer.PlainTextAnswer getAnswer() {
-        if(!hasAnswer()) return null;
+        if (!hasAnswer()) return null;
         SelectableAnswer sa = new SelectableAnswer();
         sa.A = _a.isChecked();
         sa.B = _b.isChecked();
@@ -86,13 +88,13 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     public void setAnswer(Answer value) {
-        if(value instanceof SelectableAnswer){
+        if (value instanceof SelectableAnswer) {
             SelectableAnswer sv = (SelectableAnswer) value;
             _a.setChecked(sv.A);
             _b.setChecked(sv.B);
             _c.setChecked(sv.C);
             _d.setChecked(sv.D);
-        }else{
+        } else {
             throw new IllegalArgumentException("value");
         }
     }

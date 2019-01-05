@@ -1,9 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +24,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public final class StatFragmentMainFragment extends Fragment {
 
@@ -52,13 +53,12 @@ public final class StatFragmentMainFragment extends Fragment {
 
         _questionPie.setCenterText(getString(R.string.StatUnitPie));
         _questionPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
-        UiHelper.applyAppearanceForPie(getActivity(),_questionPie);
-
+        UiHelper.applyAppearanceForPie(getActivity(), _questionPie);
 
 
         _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
         _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
-        UiHelper.applyAppearanceForPie(getActivity(),_difficultyPie);
+        UiHelper.applyAppearanceForPie(getActivity(), _difficultyPie);
 
         _questionPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -73,7 +73,7 @@ public final class StatFragmentMainFragment extends Fragment {
             }
         });
 
-        getParent().addSubjectUpdateEvent(()-> {
+        getParent().addSubjectUpdateEvent(() -> {
             refreshPies();
             if (isVisible()) {
                 animateIn();
@@ -98,7 +98,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 questionPieEntry.add(new PieEntry(size, item.getName()));
             }
             PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(R.string.unit));
-            UiHelper.applyAppearanceForPieDataSet(getParent(),questionPieDataSet);
+            UiHelper.applyAppearanceForPieDataSet(getParent(), questionPieDataSet);
             PieData questionPieData = new PieData(questionPieDataSet);
             _questionPie.setData(questionPieData);
 
@@ -117,11 +117,11 @@ public final class StatFragmentMainFragment extends Fragment {
 
             for (int i = 0; i < difficultyCounts.length; i++) {
                 if (difficultyCounts[i] == 0) continue;
-                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH,"%.1f★", (i + 1) / 2f)));
+                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH, "%.1f★", (i + 1) / 2f)));
             }
 
             PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
-            UiHelper.applyAppearanceForPieDataSet(getParent(),difficultyPieDataSet);
+            UiHelper.applyAppearanceForPieDataSet(getParent(), difficultyPieDataSet);
 
             _difficultyPie.setData(new PieData(difficultyPieDataSet));
 

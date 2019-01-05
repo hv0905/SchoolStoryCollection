@@ -36,22 +36,19 @@ public abstract class QuizAnswerView extends FrameLayout {
     }
 
 
-
-    public void onAnswerReport(int status){
-        if(onAnswerReport != null){
-            onAnswerReport.done(this,status);
+    public void onAnswerReport(int status) {
+        if (onAnswerReport != null) {
+            onAnswerReport.done(this, status);
         }
     }
 
-    public void updateEmptyStatus(){
+    public void updateEmptyStatus() {
 
     }
 
     public interface AnswerReportListener {
         void done(QuizAnswerView sender, int status);
     }
-
-
 
 
 }

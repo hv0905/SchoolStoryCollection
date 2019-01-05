@@ -3,19 +3,20 @@ package net.sakuratrak.schoolstorycollection;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
+
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cc.shinichi.library.ImagePreview;
 import cc.shinichi.library.bean.ImageInfo;
-import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 public final class ImageDisplayView extends RecyclerView {
 
@@ -39,7 +40,7 @@ public final class ImageDisplayView extends RecyclerView {
         init();
     }
 
-    void init(){
+    void init() {
         setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListAdapter(new ArrayList<>(), false);
@@ -76,9 +77,9 @@ public final class ImageDisplayView extends RecyclerView {
                 .start();
     }
 
-    private ArrayList<ImageInfo> getInfoList(){
+    private ArrayList<ImageInfo> getInfoList() {
         ArrayList<ImageInfo> result = new ArrayList<>();
-        for(String item : _images){
+        for (String item : _images) {
             ImageInfo dst = new ImageInfo();
             String url = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), item)).toString();
             dst.setOriginUrl(url);
@@ -88,16 +89,16 @@ public final class ImageDisplayView extends RecyclerView {
         return result;
     }
 
+    public List<String> getImages() {
+        return _images;
+    }
+
     public void setImages(List<String> _images) {
         this._images = _images;
         refresh();
     }
 
-    public List<String> getImages() {
-        return _images;
-    }
-
-    public Activity getActivity(){
-        return (Activity)getContext();
+    public Activity getActivity() {
+        return (Activity) getContext();
     }
 }

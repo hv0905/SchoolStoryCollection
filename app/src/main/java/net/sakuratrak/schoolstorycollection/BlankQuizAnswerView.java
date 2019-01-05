@@ -1,13 +1,14 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.BlankAnswer;
@@ -39,8 +40,8 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
         init();
     }
 
-    void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_blank,this);
+    void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_blank, this);
         _root = findViewById(R.id.rootView);
         _confirmBtn = findViewById(R.id.confirmBtn);
         _editAnswer = findViewById(R.id.editAnswer);
@@ -68,15 +69,15 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     public Answer.PlainTextAnswer getAnswer() {
-        if(hasAnswer()) return new BlankAnswer(_editAnswer.getText().toString());
+        if (hasAnswer()) return new BlankAnswer(_editAnswer.getText().toString());
         return null;
     }
 
     @Override
     public void setAnswer(Answer value) {
-        if(value instanceof BlankAnswer){
+        if (value instanceof BlankAnswer) {
             _editAnswer.setText(((BlankAnswer) value).answer);
-        }else{
+        } else {
             throw new IllegalArgumentException("value");
         }
     }
@@ -87,7 +88,7 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
     }
 
     @Override
-    public void updateEmptyStatus(){
+    public void updateEmptyStatus() {
         _confirmBtn.setEnabled(hasAnswer());
     }
 }

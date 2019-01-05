@@ -1,14 +1,16 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 public final class MainActivityStatFragment extends Fragment {
 
@@ -16,10 +18,14 @@ public final class MainActivityStatFragment extends Fragment {
     public TabLayout _tabLayout;
     public StatFragmentPagerAdapter _adapter;
 
+    public MainActivityStatFragment() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        _pager = (ViewPager) inflater.inflate(R.layout.fragment_main_activity_stat,container,false);
+        _pager = (ViewPager) inflater.inflate(R.layout.fragment_main_activity_stat, container, false);
 
         _tabLayout = _pager.findViewById(R.id.tab_layout);
 
@@ -34,14 +40,10 @@ public final class MainActivityStatFragment extends Fragment {
         return _pager;
     }
 
-    public MainActivityStatFragment(){
-
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isAdded()) return;
+        if (!isAdded()) return;
         _adapter.main.userVisibleChangeEventHandler(isVisibleToUser);
     }
 }

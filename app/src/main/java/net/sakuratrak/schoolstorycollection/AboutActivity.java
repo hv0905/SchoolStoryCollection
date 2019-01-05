@@ -1,8 +1,9 @@
 package net.sakuratrak.schoolstorycollection;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -19,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       _mainView = findViewById(R.id.mainView);
+        _mainView = findViewById(R.id.mainView);
 //        _mainView.loadMarkdownFile("file:///android_asset/about.md");
 //        _mainView.addStyleSheet(new Github());
 //        _mainView.loadMarkdownFromAsset("about.md");

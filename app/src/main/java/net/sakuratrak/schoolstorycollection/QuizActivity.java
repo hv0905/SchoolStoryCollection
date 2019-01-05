@@ -1,14 +1,7 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +25,11 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -157,8 +155,8 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void setupQuestion() {
-        if(_answerViewZone.isExpanded()){
-            _answerViewZone.collapse(0,new LinearInterpolator());
+        if (_answerViewZone.isExpanded()) {
+            _answerViewZone.collapse(0, new LinearInterpolator());
         }
         int uiColor = UiHelper.getFlatUiColor(this, _currentContext.getSubject().getId());
         _toolbar.setBackgroundColor(uiColor);
@@ -242,7 +240,7 @@ public class QuizActivity extends AppCompatActivity {
                 DbManager.getDefaultHelper(this)
                         .getExerciseLogs()
                         .create(log);
-                if(_historyIds == null)
+                if (_historyIds == null)
                     _historyIds = new ArrayList<>();
                 _historyIds.add(log.getId());
             } catch (SQLException e) {
@@ -275,7 +273,6 @@ public class QuizActivity extends AppCompatActivity {
         if (shouldExit()) {
             exit();
         } else {
-            //todo 载入下一题
             _state = STATE_ANSWERING;
             try {
                 _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
@@ -327,8 +324,8 @@ public class QuizActivity extends AppCompatActivity {
             finish();
         } else {
             //要显示报告
-            Intent intent = new Intent(this,QuizResultActivity.class);
-            intent.putIntegerArrayListExtra(QuizResultActivity.EXTRA_RESULT_IDS,_historyIds);
+            Intent intent = new Intent(this, QuizResultActivity.class);
+            intent.putIntegerArrayListExtra(QuizResultActivity.EXTRA_RESULT_IDS, _historyIds);
             startActivity(intent);
             finish();
         }

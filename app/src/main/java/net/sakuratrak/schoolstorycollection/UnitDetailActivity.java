@@ -1,22 +1,23 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
 import java.sql.SQLException;
 import java.util.Locale;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class UnitDetailActivity extends AppCompatActivity {
 
@@ -44,14 +45,14 @@ public class UnitDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unit_detail);
 
-        if(getIntent().hasExtra(EXTRA_CONTEXT_ID)){
+        if (getIntent().hasExtra(EXTRA_CONTEXT_ID)) {
             try {
-                _context = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID,0));
+                _context = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID, 0));
             } catch (SQLException e) {
                 e.printStackTrace();
                 finish();
             }
-        }else finish();
+        } else finish();
 
         _rmBtn = findViewById(R.id.rmBtn);
         _resetBtn = findViewById(R.id.resetBtn);
@@ -61,9 +62,9 @@ public class UnitDetailActivity extends AppCompatActivity {
         _difficultyPie = findViewById(R.id.difficultyPie);
         _toolbar = findViewById(R.id.toolbar);
 
-        UiHelper.applyAppearanceForPie(this,_difficultyPie);
+        UiHelper.applyAppearanceForPie(this, _difficultyPie);
 
-        int uiColor = UiHelper.getFlatUiColor(this,_context.getSubject().getId());
+        int uiColor = UiHelper.getFlatUiColor(this, _context.getSubject().getId());
         _toolbar.setBackgroundColor(uiColor);
         getWindow().setStatusBarColor(uiColor);
 
@@ -78,7 +79,7 @@ public class UnitDetailActivity extends AppCompatActivity {
             ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), _context.getName()));
             ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
                 _changed = true;
-                Snackbar.make(_resetBtn,"已清除统计信息",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(_resetBtn, "已清除统计信息", Snackbar.LENGTH_LONG).show();
             });
             ad.show();
         });
@@ -106,18 +107,18 @@ public class UnitDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(_changed) setResult(RESULT_CHANGED);
+        if (_changed) setResult(RESULT_CHANGED);
     }
 
-    void refresh(){
+    void refresh() {
         getSupportActionBar().setTitle(_context.getName());
         _valQuestionCount.setText(String.valueOf(_context.getQuestions().size()));
-        _valCorrectRatio.setText(String.format(Locale.ENGLISH,"%d%%", _context.computeCorrectRatio()));
+        _valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", _context.computeCorrectRatio()));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;

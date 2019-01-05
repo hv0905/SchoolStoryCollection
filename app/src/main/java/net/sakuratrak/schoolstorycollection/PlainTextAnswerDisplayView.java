@@ -1,13 +1,14 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public final class PlainTextAnswerDisplayView extends AnswerUiDisplayView {
 

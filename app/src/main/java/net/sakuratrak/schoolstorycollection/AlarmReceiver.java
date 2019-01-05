@@ -10,13 +10,14 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
 
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.util.Calendar;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -26,6 +27,29 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public static final String TAG = "alarmReceiver";
 
+    public static void setupAlarm(Context context, boolean forceDayPlus) {
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        Calendar d = AppSettingsMaster.getAlarmTime(context);
+        if (d == null) return;
+        calendar.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, d.get(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, 0);
+        boolean dayPlus = forceDayPlus;
+        if ((!dayPlus) && calendar.before(Calendar.getInstance())) {
+            dayPlus = true;
+        }
+        if (dayPlus) {
+            //新的一天也多多关照啦
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+        Log.d(TAG, "setupAlarm: next alarm:" + calendar.toString());
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -74,29 +98,5 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         notificationManager.notify(DEFAULT_INS_ID, builder.build());
-    }
-
-    public static void setupAlarm(Context context,boolean forceDayPlus){
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        Calendar d = AppSettingsMaster.getAlarmTime(context);
-        if(d == null) return;
-        calendar.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, d.get(Calendar.MINUTE));
-        calendar.set(Calendar.SECOND, 0);
-        boolean dayPlus = forceDayPlus;
-        if((!dayPlus) && calendar.before(Calendar.getInstance())) {
-            dayPlus = true;
-        }
-        if(dayPlus) {
-            //新的一天也多多关照啦
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
-
-        Intent intent = new Intent(context,AlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
-        Log.d(TAG, "setupAlarm: next alarm:" + calendar.toString());
-        am.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pi);
-
     }
 }

@@ -3,21 +3,19 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 public final class MainActivityQuizFragment extends Fragment {
 
@@ -56,9 +54,9 @@ public final class MainActivityQuizFragment extends Fragment {
                     infos) {
                 ids.add(info.getId());
             }
-            Intent intent = new Intent(getActivity(),QuizActivity.class);
-            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,ids);
-            intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+            Intent intent = new Intent(getActivity(), QuizActivity.class);
+            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, ids);
+            intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
             startActivity(intent);
 
         });
@@ -75,12 +73,12 @@ public final class MainActivityQuizFragment extends Fragment {
 
     }
 
-    public void update(){
-        _operateButtons.setBackgroundColor(UiHelper.getFlatUiColor(getParent(),getParent().getCurrentSubject().getId()));
+    public void update() {
+        _operateButtons.setBackgroundColor(UiHelper.getFlatUiColor(getParent(), getParent().getCurrentSubject().getId()));
     }
 
 
-    public MainActivity getParent(){
+    public MainActivity getParent() {
         return (MainActivity) getActivity();
     }
 

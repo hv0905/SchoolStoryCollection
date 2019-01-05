@@ -5,15 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.zzhoujay.markdown.MarkDown;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
@@ -40,6 +35,12 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
+
 public class QuestionDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_QUESTION_ID = "questionId";
@@ -49,15 +50,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     public static final int RESULT_DELETED = 201;
 
     private static final int REQUEST_EDIT = 100;
-
-    private QuestionInfo _context;
-
-    private boolean _edited = false;
-
-    //region uiElements
-
     AppBarLayout _appBar;
     Toolbar _toolbar;
+
+    //region uiElements
     CollapsingToolbarLayout _toolbarLayout;
     ImageView _imageTopContent;
     FrameLayout _imageTopBorder;
@@ -72,9 +68,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     TextView _valCreateTime;
     RatingBar _valDifficulty;
     TextView _valUnit;
-
     MenuItem _showAnswerMenu;
     MenuItem _favouriteMenu;
+    private QuestionInfo _context;
+    private boolean _edited = false;
 
     //endregion
 

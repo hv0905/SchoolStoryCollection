@@ -1,11 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,13 +8,20 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class LearningUnitChoosingActivity extends AppCompatActivity {
 
@@ -47,7 +49,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learning_unit_manage);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
         getWindow().setStatusBarColor(uiColor);
         toolbar.setBackgroundColor(uiColor);
 
@@ -93,11 +95,11 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                     getIntent().putExtra(RESULT_SELECTED, true);
                     getIntent().putExtra(RESULT_UNIT_ID, _info.get(position - 1).getId());
                 }
-            }else{
+            } else {
                 getIntent().putExtra(RESULT_SELECTED, true);
-                getIntent().putExtra(RESULT_UNIT_ID,_info.get(position).getId());
+                getIntent().putExtra(RESULT_UNIT_ID, _info.get(position).getId());
             }
-            setResult(RESULT_OK,getIntent());
+            setResult(RESULT_OK, getIntent());
             finish();
 
         });
@@ -132,7 +134,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 setResult(RESULT_CANCELED);
                 finish();

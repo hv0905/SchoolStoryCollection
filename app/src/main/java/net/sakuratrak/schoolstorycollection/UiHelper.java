@@ -23,7 +23,7 @@ public final class UiHelper {
 
     }
 
-    public static void applyAppearanceForPie(Context context,PieChart pie){
+    public static void applyAppearanceForPie(Context context, PieChart pie) {
         pie.setRotationEnabled(false);
         pie.setCenterTextSize(16);
         pie.setCenterTextColor(context.getResources().getColor(R.color.colorAccent));
@@ -33,13 +33,13 @@ public final class UiHelper {
         pie.setDescription(dsc);
     }
 
-    public static void applyAppearanceForBar(Context context, BarChart bar){
+    public static void applyAppearanceForBar(Context context, BarChart bar) {
 
     }
 
-    public static int getFlatUiColor(Context context,int id){
+    public static int getFlatUiColor(Context context, int id) {
 
-        switch (id){
+        switch (id) {
             case 0:
                 return context.getResources().getColor(R.color.flat1);
             case 1:
@@ -58,13 +58,13 @@ public final class UiHelper {
                 return context.getResources().getColor(R.color.flat8);
             case 8:
                 return context.getResources().getColor(R.color.flat9);
-                default:
-                    throw new IllegalArgumentException("id");
+            default:
+                throw new IllegalArgumentException("id");
         }
     }
 
-    public static int[] getFlatUiColors(Context context){
-        return new int[] {
+    public static int[] getFlatUiColors(Context context) {
+        return new int[]{
                 context.getResources().getColor(R.color.flat1),
                 context.getResources().getColor(R.color.flat2),
                 context.getResources().getColor(R.color.flat3),

@@ -1,7 +1,5 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-import androidx.annotation.Nullable;
-
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -10,11 +8,13 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 @DatabaseTable(tableName = "QuestionInfo")
 public final class QuestionInfo implements Serializable {
@@ -55,7 +55,7 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
 
-    @DatabaseField(foreign = true,foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private LearningUnitInfo unit;
 
     @DatabaseField
@@ -70,6 +70,22 @@ public final class QuestionInfo implements Serializable {
     //endregion
 
     //region getter and setter
+
+    public QuestionInfo() {
+
+    }
+
+    public QuestionInfo(LearningSubject subject, QuestionType type) {
+        subjectId = subject.getId();
+        setType(type);
+    }
+
+    public static QuestionInfo createEmpty() {
+        QuestionInfo info = new QuestionInfo();
+        info.setAnalysisImage(new ArrayList<>());
+        info.setQuestionImage(new ArrayList<>());
+        return info;
+    }
 
     public String getTitle() {
         return title;
@@ -125,7 +141,7 @@ public final class QuestionInfo implements Serializable {
         return QuestionType.id2Obj(typeId);
     }
 
-    private void setType(QuestionType value){
+    private void setType(QuestionType value) {
         typeId = value.getId();
     }
 
@@ -158,6 +174,10 @@ public final class QuestionInfo implements Serializable {
         return unit;
     }
 
+    public void setUnit(LearningUnitInfo unit) {
+        this.unit = unit;
+    }
+
     public Collection<ExerciseLog> getExerciseLogs() {
         return exerciseLogs;
     }
@@ -174,13 +194,11 @@ public final class QuestionInfo implements Serializable {
         return id;
     }
 
-    public void setUnit(LearningUnitInfo unit) {
-        this.unit = unit;
-    }
-
     public int getDifficulty() {
         return difficulty;
     }
+
+    //endregion
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
@@ -194,46 +212,30 @@ public final class QuestionInfo implements Serializable {
         this.favourite = favourite;
     }
 
-    //endregion
-
-    public QuestionInfo(){
-
-    }
-
-    public static QuestionInfo createEmpty(){
-        QuestionInfo info = new QuestionInfo();
-        info.setAnalysisImage(new ArrayList<>());
-        info.setQuestionImage(new ArrayList<>());
-        return info;
-    }
-
-    public QuestionInfo(LearningSubject subject,QuestionType type){
-        subjectId = subject.getId();
-        setType(type);
-    }
-
-    /** Common usage of QuestionInfo Table*/
-    public static class QuestionInfoDaoManager{
-        private final Dao<QuestionInfo,Integer> _base;
+    /**
+     * Common usage of QuestionInfo Table
+     */
+    public static class QuestionInfoDaoManager {
+        private final Dao<QuestionInfo, Integer> _base;
 
         public QuestionInfoDaoManager(Dao<QuestionInfo, Integer> base) {
             this._base = base;
         }
 
-        public QuestionInfoDaoManager(DbManager mgr){
-            _base= mgr.getQuestionInfos();
+        public QuestionInfoDaoManager(DbManager mgr) {
+            _base = mgr.getQuestionInfos();
         }
 
 
         public List<QuestionInfo> FindAllWithSubject(LearningSubject subject) throws SQLException {
-            return _base.queryForEq("subjectId",subject.getId());
+            return _base.queryForEq("subjectId", subject.getId());
         }
 
         public List<QuestionInfo> FindAllWithUnit(LearningUnitInfo... units) throws SQLException {
             ArrayList<QuestionInfo> infos = new ArrayList<>();
 
-            for (LearningUnitInfo item: units) {
-                infos.addAll(_base.queryForEq("unit",item));
+            for (LearningUnitInfo item : units) {
+                infos.addAll(_base.queryForEq("unit", item));
             }
             return infos;
         }

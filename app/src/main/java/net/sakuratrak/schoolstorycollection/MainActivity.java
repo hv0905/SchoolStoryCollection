@@ -2,21 +2,13 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
@@ -25,10 +17,15 @@ import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
-    private MainActivityPagerAdapter _pageContext;
-    private LearningSubject _currentSubject = LearningSubject.CHINESE;
+public class MainActivity extends AppCompatActivity {
 
     private static final int[] SUBJECT_MENU_IDS = new int[]{
             R.id.nav_menu_chinese,
@@ -41,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
             R.id.nav_menu_history,
             R.id.nav_menu_geo
     };
-
+    private final String TAG = "MainActivity";
+    private MainActivityPagerAdapter _pageContext;
+    private LearningSubject _currentSubject = LearningSubject.CHINESE;
     //region ui_control
     private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
@@ -49,13 +48,11 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager _pager;
     private MenuItem _filterMenu;
     private MenuItem _displayModeToggle;
-    private NavigationView _navigationView;
     //endregion
-
+    private NavigationView _navigationView;
     //region fields
     private boolean _isSecondDisplayMode = false;
     private File _cameraCurrentFile;
-    private final String TAG = "MainActivity";
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
@@ -153,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         _navigation.setOnNavigationItemSelectedListener(item -> {
             if (_filterMenu != null)
                 _filterMenu.setVisible(false);
-            if(_displayModeToggle != null)
+            if (_displayModeToggle != null)
                 _displayModeToggle.setVisible(false);
             switch (item.getItemId()) {
                 case R.id.navigation_home:

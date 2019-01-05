@@ -5,14 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
@@ -32,12 +25,22 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static android.app.Activity.RESULT_OK;
 
 public final class MainActivityWorkBookFragment extends Fragment {
 
     public static final String TAG = "workbookFragment";
-
+    private static final int REQUEST_QUIZ = 1002;
+    private static final int REQUEST_DETAIL = 1001;
+    private static final int REQUEST_ADD_QUESTION = 1000;
     private ConstraintLayout _root;
     private RecyclerView _itemList;
     private FloatingActionMenu _addItemBtn;
@@ -47,16 +50,11 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private List<QuestionInfo> _contexts;
     private View _workbookEmptyNotice;
     private DataContextList _defaultList = this.new DataContextList();
-
     private FloatingActionButton _addItem_singleChoice;
     private FloatingActionButton _addItem_multiChoice;
     private FloatingActionButton _addItem_editableFill;
     private FloatingActionButton _addItem_fill;
     private FloatingActionButton _addItem_answer;
-
-    private static final int REQUEST_QUIZ = 1002;
-    private static final int REQUEST_DETAIL = 1001;
-    private static final int REQUEST_ADD_QUESTION = 1000;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -157,17 +155,17 @@ public final class MainActivityWorkBookFragment extends Fragment {
         startActivityForResult(intent, REQUEST_QUIZ);
     }
 
-    private void showOptionMenu(QuestionInfo info){
+    private void showOptionMenu(QuestionInfo info) {
         AlertDialog builder = new AlertDialog.Builder(getContext()).setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
-            switch (which){
+            switch (which) {
                 case 0:
-                    goDetail(info,null);
+                    goDetail(info, null);
                     break;
                 case 1:
                     goQuiz(info);
                     break;
             }
-        }).setNegativeButton(R.string.cancel,null).show();
+        }).setNegativeButton(R.string.cancel, null).show();
     }
 
     @Override
@@ -220,9 +218,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     v -> goDetail(info, v),
                     v -> goQuiz(info),
                     v -> {
-                showOptionMenu(info);
-                return true;
-            });
+                        showOptionMenu(info);
+                        return true;
+                    });
         }
     }
 

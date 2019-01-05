@@ -2,13 +2,11 @@ package net.sakuratrak.schoolstorycollection.core;
 
 import android.content.Context;
 
-import java.io.Serializable;
-
-import net.sakuratrak.schoolstorycollection.BlankQuizAnswerView;
-import net.sakuratrak.schoolstorycollection.ImageAnswerCreateView;
 import net.sakuratrak.schoolstorycollection.AnswerUiCreatorView;
 import net.sakuratrak.schoolstorycollection.AnswerUiDisplayView;
 import net.sakuratrak.schoolstorycollection.BlankAnswerCreateView;
+import net.sakuratrak.schoolstorycollection.BlankQuizAnswerView;
+import net.sakuratrak.schoolstorycollection.ImageAnswerCreateView;
 import net.sakuratrak.schoolstorycollection.ImageAnswerDisplayView;
 import net.sakuratrak.schoolstorycollection.ImageQuizAnswerView;
 import net.sakuratrak.schoolstorycollection.MultiSelectCreateView;
@@ -16,8 +14,10 @@ import net.sakuratrak.schoolstorycollection.MultiplySelectQuizAnswerView;
 import net.sakuratrak.schoolstorycollection.PlainTextAnswerDisplayView;
 import net.sakuratrak.schoolstorycollection.QuizAnswerView;
 import net.sakuratrak.schoolstorycollection.R;
-import net.sakuratrak.schoolstorycollection.SingleSelectQuizAnswerView;
 import net.sakuratrak.schoolstorycollection.SingleSelectCreateView;
+import net.sakuratrak.schoolstorycollection.SingleSelectQuizAnswerView;
+
+import java.io.Serializable;
 
 public enum QuestionType implements Serializable {
     SINGLE_CHOICE(R.string.singleChoiceQuestion),
@@ -26,18 +26,18 @@ public enum QuestionType implements Serializable {
     BLANK(R.string.fillQuestion),
     ANSWER(R.string.answerQuestion);
 
-    public int getTitleId() {
-        return _resId;
-    }
-
     int _resId;
 
-    QuestionType(int resId){
+    QuestionType(int resId) {
         _resId = resId;
     }
 
     public static QuestionType id2Obj(int id) {
         return values()[id];
+    }
+
+    public int getTitleId() {
+        return _resId;
     }
 
     public int getId() {
@@ -66,8 +66,8 @@ public enum QuestionType implements Serializable {
         throw new IllegalArgumentException();
     }
 
-    public AnswerUiDisplayView getDisplayView(Context context){
-        switch (this){
+    public AnswerUiDisplayView getDisplayView(Context context) {
+        switch (this) {
 
             case SINGLE_CHOICE:
             case MULTIPLY_CHOICE:
@@ -81,8 +81,8 @@ public enum QuestionType implements Serializable {
         throw new IllegalArgumentException();
     }
 
-    public QuizAnswerView getQuizAnswerView(Context context){
-        switch (this){
+    public QuizAnswerView getQuizAnswerView(Context context) {
+        switch (this) {
             case SINGLE_CHOICE:
                 return new SingleSelectQuizAnswerView(context);
             case MULTIPLY_CHOICE:

@@ -1,13 +1,14 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
+
+import androidx.annotation.Nullable;
 
 public final class ImageAnswerCreateView extends AnswerUiCreatorView {
 
@@ -70,18 +71,19 @@ public final class ImageAnswerCreateView extends AnswerUiCreatorView {
         return _answerImage.getImages().size() != 0;
     }
 
-    public void setNoticeText(CharSequence text){
+    public void setNoticeText(CharSequence text) {
         _noticeText.setText(text);
     }
 
-    public void setNoticeText(int resId){
+    public void setNoticeText(int resId) {
         _noticeText.setText(resId);
     }
 
-    /**using this method to link native method for ImageSelectView.
+    /**
+     * using this method to link native method for ImageSelectView.
      * NEVER IGNORE THIS!!!
-     * */
-    public ImageSelectView getAnswerImage(){
+     */
+    public ImageSelectView getAnswerImage() {
         return _answerImage;
     }
 }

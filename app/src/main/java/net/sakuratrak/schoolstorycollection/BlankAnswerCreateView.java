@@ -1,11 +1,12 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import com.google.android.material.textfield.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.BlankAnswer;
@@ -36,7 +37,7 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_blank,this);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_blank, this);
         _answerText = findViewById(R.id.answerText);
         _answerText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -60,15 +61,15 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
 
     @Override
     public Answer getAnswer() {
-       if(hasAnswer()) return new BlankAnswer(_answerText.getText().toString());
-       return null;
+        if (hasAnswer()) return new BlankAnswer(_answerText.getText().toString());
+        return null;
     }
 
     @Override
     public void setAnswer(Answer value) {
-        if(value instanceof BlankAnswer){
+        if (value instanceof BlankAnswer) {
             _answerText.setText(((BlankAnswer) value).answer);
-        }else{
+        } else {
             throw new IllegalArgumentException("value");
         }
     }

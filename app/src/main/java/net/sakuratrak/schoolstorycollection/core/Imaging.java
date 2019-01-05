@@ -11,14 +11,12 @@ public class Imaging {
     // https://stackoverflow.com/questions/12891520/how-to-programmatically-change-contrast-of-a-bitmap-in-android
 
     /**
-     *
-     * @param bmp input bitmap
-     * @param contrast 0..10 1 is default
+     * @param bmp        input bitmap
+     * @param contrast   0..10 1 is default
      * @param brightness -255..255 0 is default
      * @return new bitmap
      */
-    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
-    {
+    public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness) {
         ColorMatrix cm = new ColorMatrix(new float[]
                 {
                         contrast, 0, 0, 0, brightness,

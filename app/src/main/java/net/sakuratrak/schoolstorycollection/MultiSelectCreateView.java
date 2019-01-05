@@ -1,13 +1,15 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import com.google.android.material.chip.Chip;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
+import com.google.android.material.chip.Chip;
+
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
+
+import androidx.annotation.Nullable;
 
 public final class MultiSelectCreateView extends AnswerUiCreatorView {
 
@@ -83,10 +85,10 @@ public final class MultiSelectCreateView extends AnswerUiCreatorView {
     @Override
     public boolean hasAnswer() {
         int count = 0;
-        if(a.isChecked()) count++;
-        if(b.isChecked()) count++;
-        if(c.isChecked()) count++;
-        if(d.isChecked()) count++;
+        if (a.isChecked()) count++;
+        if (b.isChecked()) count++;
+        if (c.isChecked()) count++;
+        if (d.isChecked()) count++;
         return count >= 2;
     }
 }

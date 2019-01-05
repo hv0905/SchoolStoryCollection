@@ -14,7 +14,7 @@ public class BootReceiver extends BroadcastReceiver {
         // an Intent broadcast.
         // 开机的时候需要重新设置提醒
         if (AppSettingsMaster.getIfShowAlarm(context)) {
-            AlarmReceiver.setupAlarm(context,false);
+            AlarmReceiver.setupAlarm(context, false);
         }
     }
 }

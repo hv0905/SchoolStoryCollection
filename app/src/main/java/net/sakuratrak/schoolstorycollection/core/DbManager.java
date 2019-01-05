@@ -3,8 +3,6 @@ package net.sakuratrak.schoolstorycollection.core;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -14,6 +12,9 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.io.File;
 import java.sql.SQLException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public final class DbManager extends OrmLiteSqliteOpenHelper {
 
@@ -28,6 +29,39 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
     private Dao<LearningUnitInfo, Integer> learningUnitInfos;
 
     private Dao<ExerciseLog, Integer> exerciseLogs;
+
+    public DbManager(Context context) {
+        super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, DATABASE_VER);
+    }
+
+    public DbManager(Context context, String databaseName) {
+        super(context, databaseName, null, DATABASE_VER);
+    }
+
+    public DbManager(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
+        super(context, databaseName, factory, databaseVersion);
+    }
+
+    public static DbManager getDefaultHelper(Context context) {
+        if (currentHelper == null) {
+            //File db = AppSettingsMaster.getWorkbookDb(context);
+            currentHelper = OpenHelperManager.getHelper(context, DbManager.class);
+            //currentHelper = new DbManager(context,db.getAbsolutePath());
+        }
+        return (DbManager) currentHelper;
+    }
+
+    public static DbManager getHelperWithPath(Context context, File path) {
+        return new DbManager(context, path.getAbsolutePath());
+    }
+
+    public static void releaseCurrentHelper() {
+        if (currentHelper != null) {
+            //currentHelper.close();
+            OpenHelperManager.releaseHelper();
+            currentHelper = null;
+        }
+    }
 
     public Dao<QuestionInfo, Integer> getQuestionInfos() {
         if (questionInfos == null) {
@@ -63,18 +97,6 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
         return exerciseLogs;
     }
 
-    public DbManager(Context context) {
-        super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, DATABASE_VER);
-    }
-
-    public DbManager(Context context, String databaseName) {
-        super(context, databaseName, null, DATABASE_VER);
-    }
-
-    public DbManager(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
-        super(context, databaseName, factory, databaseVersion);
-    }
-
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
@@ -96,28 +118,6 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-
-    public static DbManager getDefaultHelper(Context context) {
-        if (currentHelper == null) {
-            //File db = AppSettingsMaster.getWorkbookDb(context);
-            currentHelper = OpenHelperManager.getHelper(context, DbManager.class);
-            //currentHelper = new DbManager(context,db.getAbsolutePath());
-        }
-        return (DbManager) currentHelper;
-    }
-
-    public static DbManager getHelperWithPath(Context context, File path) {
-        return new DbManager(context, path.getAbsolutePath());
-    }
-
-    public static void releaseCurrentHelper() {
-        if (currentHelper != null) {
-            //currentHelper.close();
-            OpenHelperManager.releaseHelper();
-            currentHelper = null;
         }
     }
 

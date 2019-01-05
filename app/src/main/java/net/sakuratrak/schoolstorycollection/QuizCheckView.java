@@ -1,14 +1,16 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.button.MaterialButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 public final class QuizCheckView extends FrameLayout {
@@ -90,11 +92,11 @@ public final class QuizCheckView extends FrameLayout {
     }
 
     public void setIsDone(boolean isDone) {
-        if(isDone){
+        if (isDone) {
             _nextBtn.setText(R.string.completeQuiz);
             _nextBtn.setIconResource(R.drawable.ic_done_white_24dp);
             _quitBtn.setVisibility(GONE);
-        }else {
+        } else {
             _nextBtn.setText(R.string.nextQuestion);
             _nextBtn.setIconResource(R.drawable.ic_navigate_next_white_24dp);
             _quitBtn.setVisibility(VISIBLE);

@@ -2,43 +2,45 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public final class StatFragmentUnitFragment extends Fragment {
 
     public static final String TAG = "Stat_UnitFragment";
-
-    private Runnable _notifyUnitRefresh;
-
+    public static final int REQUEST_DETAIL = 100;
     //region UI controls
     public ConstraintLayout _root;
     public View _unitEmptyNotice;
     public RecyclerView _unitList;
     public FloatingActionButton _addUnitBtn;
     //endregion
+    private Runnable _notifyUnitRefresh;
 
-    public static final int REQUEST_DETAIL = 100;
 
+    public StatFragmentUnitFragment() {
+    }
 
     public Runnable getNotifyUnitRefresh() {
         return _notifyUnitRefresh;
@@ -48,20 +50,16 @@ public final class StatFragmentUnitFragment extends Fragment {
         this._notifyUnitRefresh = _notifyUnitRefresh;
     }
 
-    public StatFragmentUnitFragment() {
-    }
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView: stat fragment");
-        _root =  (ConstraintLayout) inflater.inflate(R.layout.fragment_stat_fragment_unit, container, false);
+        _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_stat_fragment_unit, container, false);
         _unitList = _root.findViewById(R.id.unitList);
         _unitEmptyNotice = _root.findViewById(R.id.unitEmptyNotice);
         _addUnitBtn = _root.findViewById(R.id.addUnitBtn);
-        
+
         _addUnitBtn.setOnClickListener(v -> {
             final EditText et = new EditText(getParent());
             et.setSingleLine();
@@ -82,7 +80,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                     })
                     .setNegativeButton("取消", null);
 
-            ab.show();          
+            ab.show();
         });
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
@@ -94,8 +92,8 @@ public final class StatFragmentUnitFragment extends Fragment {
         return _root;
     }
 
-    public void refreshUnit(){
-        if(!this.isAdded()) return;
+    public void refreshUnit() {
+        if (!this.isAdded()) return;
         ArrayList<UnitDisplayAdapter.DataContext> udi = new ArrayList<>();
         List<LearningUnitInfo> luis;
         try {
@@ -116,28 +114,28 @@ public final class StatFragmentUnitFragment extends Fragment {
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udi.add(udiItem);
         }
-        if(_unitList.getAdapter() == null){
+        if (_unitList.getAdapter() == null) {
             UnitDisplayAdapter uda = new UnitDisplayAdapter(new ListDataProvider<>(udi));
             _unitList.setAdapter(uda);
-        }else{
-            ((UnitDisplayAdapter)_unitList.getAdapter()).setDataContext(new ListDataProvider<>(udi));
+        } else {
+            ((UnitDisplayAdapter) _unitList.getAdapter()).setDataContext(new ListDataProvider<>(udi));
         }
 
-        if(_notifyUnitRefresh != null){
+        if (_notifyUnitRefresh != null) {
             _notifyUnitRefresh.run();
         }
     }
 
     private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
-        Intent intent = new Intent(getActivity(),UnitDetailActivity.class);
-        intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID,item.getId());
-        startActivityForResult(intent,REQUEST_DETAIL);
+        Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
+        intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
+        startActivityForResult(intent, REQUEST_DETAIL);
 
 //        UnitDetailDialog udi = new UnitDetailDialog(item);
 //        udi.show(getChildFragmentManager(),"UnitDetailDialog");
     }
 
-    private MainActivity getParent(){
+    private MainActivity getParent() {
         return (MainActivity) getActivity();
     }
 
@@ -149,11 +147,11 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_DETAIL:
-                switch (resultCode){
+                switch (resultCode) {
                     case UnitDetailActivity.RESULT_DELETED:
-                        Snackbar.make(_root,R.string.deleted,Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(_root, R.string.deleted, Snackbar.LENGTH_LONG).show();
                     case UnitDetailActivity.RESULT_CHANGED:
                         getParent().requireRefresh();
                 }

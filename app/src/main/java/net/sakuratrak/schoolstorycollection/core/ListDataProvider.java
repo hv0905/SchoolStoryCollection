@@ -6,6 +6,10 @@ public final class ListDataProvider<T> implements IListedDataProvidable<T> {
 
     private List<T> _context;
 
+    public ListDataProvider(List<T> context) {
+        _context = context;
+    }
+
     @Override
     public int count() {
         return _context.size();
@@ -14,10 +18,6 @@ public final class ListDataProvider<T> implements IListedDataProvidable<T> {
     @Override
     public T get(int index) {
         return _context.get(index);
-    }
-
-    public ListDataProvider(List<T> context){
-        _context = context;
     }
 
     public List<T> get_context() {

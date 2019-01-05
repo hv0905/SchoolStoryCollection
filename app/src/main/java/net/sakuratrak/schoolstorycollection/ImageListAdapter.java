@@ -1,8 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -12,6 +10,9 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Holder> {
 
     private ArrayList<DataContext> _dataContext;
@@ -19,6 +20,11 @@ public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapte
     private View.OnClickListener _addButtonClicked;
     private DisplayMetrics _dp;
 
+
+    public ImageListAdapter(ArrayList<DataContext> dataContext, boolean showAddButton) {
+        _dataContext = dataContext;
+        _showAddButton = showAddButton;
+    }
 
     public View.OnClickListener getAddButtonClicked() {
         return _addButtonClicked;
@@ -37,12 +43,12 @@ public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
-        if(i >= _dataContext.size()) { //add button
-            viewHolder._image.getLayoutParams().height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100,_dp);
+        if (i >= _dataContext.size()) { //add button
+            viewHolder._image.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, _dp);
             viewHolder._image.setImageResource(R.drawable.ic_add_gray_24dp);
             viewHolder._image.setScaleType(ImageView.ScaleType.FIT_CENTER);
             viewHolder._root.setOnClickListener(_addButtonClicked);
-        }else { //image
+        } else { //image
             viewHolder._image.setImageURI(_dataContext.get(i).imgSrc);
             viewHolder._image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             viewHolder._image.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -52,14 +58,9 @@ public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapte
 
     @Override
     public int getItemCount() {
-        if(_showAddButton)
+        if (_showAddButton)
             return _dataContext.size() + 1;
         return _dataContext.size();
-    }
-
-    public ImageListAdapter(ArrayList<DataContext> dataContext, boolean showAddButton) {
-        _dataContext = dataContext;
-        _showAddButton = showAddButton;
     }
 
     public ArrayList<DataContext> get_dataContext() {

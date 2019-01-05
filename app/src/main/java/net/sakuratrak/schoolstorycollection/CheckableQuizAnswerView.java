@@ -23,9 +23,9 @@ public abstract class CheckableQuizAnswerView extends QuizAnswerView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public abstract void setAnswer(Answer answer);
-
     public abstract Answer.PlainTextAnswer getAnswer();
+
+    public abstract void setAnswer(Answer answer);
 
     public abstract boolean hasAnswer();
 

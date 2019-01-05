@@ -21,7 +21,7 @@ public final class StatFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        switch (i){
+        switch (i) {
             case 0:
                 return main;
             case 1:
@@ -38,7 +38,7 @@ public final class StatFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return "统计信息";
             case 1:

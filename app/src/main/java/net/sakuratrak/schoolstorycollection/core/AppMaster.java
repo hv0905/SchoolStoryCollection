@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
+import net.sakuratrak.schoolstorycollection.AndroidHelper;
+
 import java.io.File;
 import java.io.IOException;
-
-import net.sakuratrak.schoolstorycollection.AndroidHelper;
 
 public class AppMaster {
 
@@ -47,24 +47,24 @@ public class AppMaster {
         return dir;
     }
 
-    public static File getLocalThumbCacheDir(Context context){
+    public static File getLocalThumbCacheDir(Context context) {
         File cacheRoot = context.getCacheDir();
-        File imgPreviewCache = new File(cacheRoot,"img-thumbs");
-        if(!imgPreviewCache.isDirectory()){
+        File imgPreviewCache = new File(cacheRoot, "img-thumbs");
+        if (!imgPreviewCache.isDirectory()) {
             //noinspection ResultOfMethodCallIgnored
             imgPreviewCache.mkdir();
         }
         return imgPreviewCache;
     }
 
-    public static File getThumbFile(Context context,String imgId){
-        File previewImgFile = new File(AppMaster.getLocalThumbCacheDir(context),imgId);
-        if(!previewImgFile.exists()){
+    public static File getThumbFile(Context context, String imgId) {
+        File previewImgFile = new File(AppMaster.getLocalThumbCacheDir(context), imgId);
+        if (!previewImgFile.exists()) {
             //create preview img file
-            File fullSizeImg = new File(AppSettingsMaster.getWorkBookImageDir(context),imgId);
-            Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg,500);
+            File fullSizeImg = new File(AppSettingsMaster.getWorkBookImageDir(context), imgId);
+            Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg, 500);
             try {
-                AndroidHelper.saveBitmap2File(previewImgFile,thump,Bitmap.CompressFormat.JPEG,90);
+                AndroidHelper.saveBitmap2File(previewImgFile, thump, Bitmap.CompressFormat.JPEG, 90);
             } catch (IOException e) {
                 e.printStackTrace();
             }

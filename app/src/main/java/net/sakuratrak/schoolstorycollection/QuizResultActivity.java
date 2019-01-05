@@ -7,9 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class QuizResultActivity extends AppCompatActivity {
 
-    private Toolbar _toolbar;
-
     public static final String EXTRA_RESULT_IDS = "result_ids";
+    private Toolbar _toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

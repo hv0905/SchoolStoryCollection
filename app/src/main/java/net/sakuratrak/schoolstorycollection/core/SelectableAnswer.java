@@ -19,12 +19,12 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
 
     @Override
     public String toString() {
-        return (A ? "A" : "") +(B ? "B" : "") +(C ? "C" : "") +(D ? "D" : "");
+        return (A ? "A" : "") + (B ? "B" : "") + (C ? "C" : "") + (D ? "D" : "");
     }
 
     @Override
     public float checkAnswer(PlainTextAnswer userAnswer) {
-        if(!(userAnswer instanceof SelectableAnswer)){
+        if (!(userAnswer instanceof SelectableAnswer)) {
             throw new IllegalArgumentException("userAnswer");
         }
 
@@ -33,33 +33,32 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
         boolean[] correctAnswerArray = getAnswerArray();
         boolean[] userAnswerArray = ((SelectableAnswer) userAnswer).getAnswerArray();
 
-        for(int i = 0; i< correctAnswerArray.length; i++){
-            if(correctAnswerArray[i]){
-                if(userAnswerArray[i]) correctCount++;
-            }else{
-                if(userAnswerArray[i]) return 0;
+        for (int i = 0; i < correctAnswerArray.length; i++) {
+            if (correctAnswerArray[i]) {
+                if (userAnswerArray[i]) correctCount++;
+            } else {
+                if (userAnswerArray[i]) return 0;
             }
         }
 
-        if(correctCount <= 0) return 0;
-        else if(correctCount < itemCount){
+        if (correctCount <= 0) return 0;
+        else if (correctCount < itemCount) {
             return 0.5f;
-        }else return 1;
+        } else return 1;
 
     }
 
-    public int getItemCount(){
+    public int getItemCount() {
         int count = 0;
         for (boolean item : getAnswerArray()) {
-            if(item) count++;
+            if (item) count++;
         }
         return count;
     }
 
-    public boolean[] getAnswerArray( ){
-        return new boolean[]{A,B,C,D};
+    public boolean[] getAnswerArray() {
+        return new boolean[]{A, B, C, D};
     }
-
 
 
 }

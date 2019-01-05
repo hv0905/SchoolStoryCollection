@@ -3,13 +3,6 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
@@ -28,6 +24,12 @@ import net.sakuratrak.schoolstorycollection.core.QuestionType;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class QuestionEditActivity extends AppCompatActivity {
 
@@ -79,12 +81,12 @@ public class QuestionEditActivity extends AppCompatActivity {
         if (_isEdit) {
             //edit
             try {
-                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID,0));
+                _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_CONTEXT_ID, 0));
                 _questionType = _context.getType();
                 _currentSubject = _context.getSubject();
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(this, R.string.sqlExp,Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
             }
         } else {
             _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
@@ -96,8 +98,8 @@ public class QuestionEditActivity extends AppCompatActivity {
         //set answer content
         _answerContent = _questionType.getCreatorView(this);
 
-        if(_answerContent instanceof ImageAnswerCreateView){
-            ((ImageAnswerCreateView)_answerContent).getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
+        if (_answerContent instanceof ImageAnswerCreateView) {
+            ((ImageAnswerCreateView) _answerContent).getAnswerImage().setCodes(REQUEST_IMAGE_CAMERA_ANSWER, REQUEST_IMAGE_EDIT_ANSWER, REQUEST_IMAGE_GET_ANSWER);
         }
 
         //region get views
@@ -115,7 +117,7 @@ public class QuestionEditActivity extends AppCompatActivity {
         //endregion
 
         //region toolbar configure
-        int uiColor = UiHelper.getFlatUiColor(this,_currentSubject.getId());
+        int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
         getWindow().setStatusBarColor(uiColor);
         _toolbar.setBackgroundColor(uiColor);
         setSupportActionBar(_toolbar);
@@ -156,7 +158,7 @@ public class QuestionEditActivity extends AppCompatActivity {
             _unit = _context.getUnit();
             _difficultyEdit.setRating(_context.getDifficulty() / 2f);
 
-        }else{
+        } else {
             _difficultyEdit.setRating(2.5f);
         }
 
@@ -179,7 +181,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ok:
-                if(_context == null) _context = new QuestionInfo(_currentSubject,_questionType);
+                if (_context == null) _context = new QuestionInfo(_currentSubject, _questionType);
                 //todo save
                 if (_editTitle.getText().toString().trim().isEmpty()) {
                     _context.setTitle("some question ~");
@@ -207,9 +209,9 @@ public class QuestionEditActivity extends AppCompatActivity {
                         _context.setAuthorTime(new Date());
                         DbManager.getDefaultHelper(this).getQuestionInfos().create(_context);
                     }
-                }catch (SQLException sql){
+                } catch (SQLException sql) {
                     sql.printStackTrace();
-                    Snackbar.make(_editTitle, R.string.sqlExp,Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_editTitle, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                     return true;
                 }
                 setResult(RESULT_OK);

@@ -29,6 +29,15 @@ public class LearningUnitInfo implements Serializable {
     @DatabaseField(canBeNull = false)
     private int subjectId;
 
+    public LearningUnitInfo() {
+
+    }
+
+    public LearningUnitInfo(String name, LearningSubject subject) {
+        this.name = name;
+        setSubject(subject);
+    }
+
     public int getId() {
         return id;
     }
@@ -45,7 +54,6 @@ public class LearningUnitInfo implements Serializable {
         this.name = name;
     }
 
-
     public LearningSubject getSubject() {
         return LearningSubject.id2Obj(subjectId);
     }
@@ -54,30 +62,21 @@ public class LearningUnitInfo implements Serializable {
         subjectId = value.getId();
     }
 
-    public LearningUnitInfo() {
-
-    }
-
-    public LearningUnitInfo(String name, LearningSubject subject) {
-        this.name = name;
-        setSubject(subject);
-    }
-
     public int computeCorrectRatio() {
         if (questions == null || questions.size() == 0) {
             return 100;
         }
         int sum = 0;
-        int count =0;
+        int count = 0;
         for (QuestionInfo item : questions) {
             Collection<ExerciseLog> logs = item.getExerciseLogs();
-            if(logs == null) continue;
+            if (logs == null) continue;
             for (ExerciseLog log : logs) {
                 sum += log.getCorrectRatio();
             }
             count += logs.size();
         }
-        if(count == 0) return 100;
+        if (count == 0) return 100;
         return sum / count;
     }
 
@@ -85,12 +84,12 @@ public class LearningUnitInfo implements Serializable {
         return getExerciseLogCount() < NEED_MORE_MAX;
     }
 
-    public int getExerciseLogCount(){
-        if(questions == null || questions.size() == 0) return 0;
+    public int getExerciseLogCount() {
+        if (questions == null || questions.size() == 0) return 0;
         int count = 0;
-        for (QuestionInfo item:questions) {
+        for (QuestionInfo item : questions) {
             Collection<ExerciseLog> logs = item.getExerciseLogs();
-            if(logs == null) continue;
+            if (logs == null) continue;
             count += logs.size();
         }
         return count;
@@ -106,7 +105,7 @@ public class LearningUnitInfo implements Serializable {
 
     public static class LearningUnitInfoDaoHelper {
 
-        private final Dao<LearningUnitInfo,Integer> _base;
+        private final Dao<LearningUnitInfo, Integer> _base;
 
         public LearningUnitInfoDaoHelper(Dao<LearningUnitInfo, Integer> base) {
             this._base = base;
@@ -117,11 +116,8 @@ public class LearningUnitInfo implements Serializable {
         }
 
         public List<LearningUnitInfo> findBySubject(LearningSubject subject) throws SQLException {
-            return _base.queryForEq("subjectId",subject.getId());
+            return _base.queryForEq("subjectId", subject.getId());
         }
-
-
-
 
 
     }

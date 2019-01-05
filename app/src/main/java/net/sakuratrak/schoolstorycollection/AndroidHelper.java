@@ -39,21 +39,21 @@ public class AndroidHelper {
         return getThumbImg(src.getAbsolutePath(), maxSize);
     }
 
-    public static boolean saveBitmap2File(File dst, Bitmap src, Bitmap.CompressFormat format,int quality) throws IOException {
+    public static boolean saveBitmap2File(File dst, Bitmap src, Bitmap.CompressFormat format, int quality) throws IOException {
         if (!dst.isFile()) {
             if (!dst.createNewFile()) {
                 return false;
             }
         }
         FileOutputStream output = new FileOutputStream(dst);
-        src.compress(format,quality,output);
+        src.compress(format, quality, output);
         output.flush();
         output.close();
         return true;
     }
 
     public static boolean saveBitmap2File(File dst, Bitmap src) throws IOException {
-        return saveBitmap2File(dst,src,Bitmap.CompressFormat.PNG,100);
+        return saveBitmap2File(dst, src, Bitmap.CompressFormat.PNG, 100);
     }
 
 

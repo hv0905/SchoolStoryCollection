@@ -1,12 +1,13 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public abstract class AnswerUiDisplayView extends FrameLayout {
     public AnswerUiDisplayView(@NonNull Context context) {
