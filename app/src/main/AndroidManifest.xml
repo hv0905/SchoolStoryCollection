@@ -74,6 +74,10 @@
             android:label="@string/title_activity_unit_detail"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".QuizResultActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"

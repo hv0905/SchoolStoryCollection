@@ -9,4 +9,5 @@
     <dimen name="cardCorner">4dp</dimen>
     <dimen name="margin_uSmall">2dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

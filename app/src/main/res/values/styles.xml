@@ -1,6 +1,8 @@
 <resources>
 
     <!-- Base application theme. -->
+    <!--Theme.MaterialComponents.Light.DarkActionBar-->
+    <!--Theme.AppCompat.Light.DarkActionBar-->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -62,8 +64,7 @@
         <item name="android:layout_gravity">left</item>
     </style>
 
-    <style name="textNotice" parent="textNormal">
-    </style>
+    <style name="textNotice" parent="textNormal"></style>
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/welcome_background</item>

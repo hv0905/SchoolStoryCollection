@@ -23,7 +23,10 @@
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:text="@string/answerA"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false"
+
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/b"
@@ -31,7 +34,9 @@
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:text="@string/answerB"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false"
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/c"
@@ -39,7 +44,9 @@
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:text="@string/answerC"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false"
+            />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/d"
@@ -47,7 +54,9 @@
             android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:text="@string/answerD"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false"
+            />
 
     </com.google.android.material.chip.ChipGroup>
 

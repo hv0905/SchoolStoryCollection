@@ -177,4 +177,6 @@
     <string name="halfRight">部分正确</string>
     <string name="noneRight">完全错误</string>
     <string name="completeQuiz">完成小测</string>
+    <string name="unitQuiz">单元小测</string>
+    <string name="quickQuiz">快速小测</string>
 </resources>

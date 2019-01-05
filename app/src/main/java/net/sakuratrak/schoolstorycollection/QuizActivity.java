@@ -1,9 +1,13 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -59,17 +63,19 @@ public class QuizActivity extends AppCompatActivity {
     FrameLayout _answerContainer;
     ImageDisplayView _analysisImgDisplay;
     QuizCheckView _checkView;
+    ConstraintLayout _mainContainer;
 
     boolean _autoNext;
 
     ArrayList<Integer> _idList;
-    int _counter = -1;
+    int _currentId = 0;
     int _mode;
 
     int _state;
 
     QuestionInfo _currentContext;
     private QuizMarkView _markView;
+    private ArrayList<Integer> _historyIds;
 
 
     @Override
@@ -92,6 +98,7 @@ public class QuizActivity extends AppCompatActivity {
         _analysisText = findViewById(R.id.analysisText);
         _answerContainer = findViewById(R.id.answerContainer);
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
+        _mainContainer = findViewById(R.id.mainContainer);
 
         setSupportActionBar(_toolbar);
 
@@ -114,6 +121,11 @@ public class QuizActivity extends AppCompatActivity {
                 break;
             case MODE_LIST:
                 _idList = getIntent().getIntegerArrayListExtra(EXTRA_QUESTION_IDS);
+                try {
+                    _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 finish();
@@ -149,7 +161,7 @@ public class QuizActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(uiColor);
 
         _questionName.setText(_currentContext.getTitle());
-        _questionCounter.setText(String.valueOf(++_counter + 1));
+        _questionCounter.setText(String.valueOf(_currentId + 1));
         _textQuestionType.setText(_currentContext.getType().getTitleId());
         _questionText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getQuestionDetail(), null, _questionText);
@@ -182,8 +194,7 @@ public class QuizActivity extends AppCompatActivity {
                 loadNext();
             } else {
                 setupAnswer();
-                _answerWorkZone.animate().alpha(0).setDuration(200).start();
-                _answerWorkZone.postDelayed(() -> {
+                _answerWorkZone.animate().alpha(0).setDuration(200).withEndAction(() -> {
                     _answerWorkZone.removeAllViews();
                     _checkView = new QuizCheckView(this);
                     _checkView.setNoticeContain(score == 0 ?
@@ -195,23 +206,24 @@ public class QuizActivity extends AppCompatActivity {
                     _checkView.setOnQuitBtnClickListener(v -> onBackPressed());
                     _answerWorkZone.addView(_checkView);
                     _answerWorkZone.animate().alpha(1).setDuration(200).start();
-                }, 200);
+                }).start();
             }
         } else {
             setupAnswer();
             _state = STATE_CHECKING;
-            _answerWorkZone.animate().alpha(0).setDuration(200).start();
-            _answerWorkZone.postDelayed(() -> {
-                _answerWorkZone.removeAllViews();
-                _markView = new QuizMarkView(this);
-                _markView.setOnConfirmListener(v -> {
-                    postRecord(_markView.getScore());
-                    _state = STATE_POST_CHECKING;
-                    loadNext();
-                });
-                _answerWorkZone.addView(_markView);
-                _answerWorkZone.animate().alpha(1).setDuration(200).start();
-            }, 200);
+            _answerWorkZone.animate()
+                    .alpha(0).setDuration(200)
+                    .withEndAction(() -> {
+                        _answerWorkZone.removeAllViews();
+                        _markView = new QuizMarkView(this);
+                        _markView.setOnConfirmListener(v -> {
+                            postRecord(_markView.getScore());
+                            _state = STATE_POST_CHECKING;
+                            loadNext();
+                        });
+                        _answerWorkZone.addView(_markView);
+                        _answerWorkZone.animate().alpha(1).setDuration(200).start();
+                    }).start();
 
 
         }
@@ -221,9 +233,13 @@ public class QuizActivity extends AppCompatActivity {
     public void postRecord(int score) {
         new Thread(() -> {
             try {
+                ExerciseLog log = new ExerciseLog(score, _currentContext);
                 DbManager.getDefaultHelper(this)
                         .getExerciseLogs()
-                        .create(new ExerciseLog(score, _currentContext));
+                        .create(log);
+                if(_historyIds == null)
+                    _historyIds = new ArrayList<>();
+                _historyIds.add(log.getId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -231,6 +247,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void setupAnswer() {
+        if(_answerViewZone.isExpanded()){
+            _answerViewZone.setExpanded(false);
+        }
         _analysisImgDisplay.setImages(Arrays.asList(_currentContext.getAnalysisImage()));
         _analysisText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getAnalysisDetail(), null, _analysisText);
@@ -250,11 +269,22 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void loadNext() {
-        if(shouldExit()){
+        if (shouldExit()) {
             exit();
-        }else{
+        } else {
             //todo 载入下一题
-
+            _state = STATE_ANSWERING;
+            _currentId++;
+            try {
+                _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            _mainContainer.animate().alpha(0).translationXBy(-100).setDuration(200).withEndAction(() -> {
+                setupQuestion();
+                _mainContainer.setTranslationX(100);
+                _mainContainer.animate().alpha(1).translationXBy(-100).setDuration(200).start();
+            }).start();
         }
     }
 
@@ -286,18 +316,22 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    void exit(){
+    void exit() {
         //退出小测,显示报告
-        if(_counter == 0){
+        if (_currentId == 0) {
             //一题都没做可以直接退了
             super.onBackPressed();
-        }else{
+            finish();
+        } else {
             //要显示报告
-
+            Intent intent = new Intent(this,QuizResultActivity.class);
+            intent.putIntegerArrayListExtra(QuizResultActivity.EXTRA_RESULT_IDS,_historyIds);
+            startActivity(intent);
+            finish();
         }
     }
 
-    boolean shouldExit(){
-        return _mode == MODE_SOLO || _counter >= (_idList.size() - 1);
+    boolean shouldExit() {
+        return _mode == MODE_SOLO || _currentId >= (_idList.size() - 1);
     }
 }
