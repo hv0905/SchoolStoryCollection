@@ -7,4 +7,5 @@
     android:layout_margin="@dimen/ui_margin_mid"
     app:icon="@drawable/ic_key_white_24dp"
     android:text="@string/viewAnswer"
+    app:backgroundTint="@color/colorAccent"
     />

@@ -69,6 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/noticeBar"
         app:layout_constraintEnd_toStartOf="@+id/nextBtn"
         app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="@color/colorAccent"
         />
 
     <com.google.android.material.button.MaterialButton
@@ -78,7 +79,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/nextQuestion"
-        android:background="@color/flat5"
+        android:backgroundTint="@color/flat5"
         app:icon="@drawable/ic_navigate_next_white_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quitBtn"

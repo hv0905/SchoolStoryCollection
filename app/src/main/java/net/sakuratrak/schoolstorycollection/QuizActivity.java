@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -155,6 +157,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void setupQuestion() {
+        if(_answerViewZone.isExpanded()){
+            _answerViewZone.collapse(0,new LinearInterpolator());
+        }
         int uiColor = UiHelper.getFlatUiColor(this, _currentContext.getSubject().getId());
         _toolbar.setBackgroundColor(uiColor);
         _answerWorkZone.setBackgroundColor(uiColor);
@@ -190,7 +195,7 @@ public class QuizActivity extends AppCompatActivity {
             Log.d(TAG, "checkAnswer: score:" + score);
             postRecord((int) (score * 100 + 0.5));
             _state = STATE_POST_CHECKING;
-            if (_autoNext && score >= 1f) {
+            if (_autoNext && score >= 1f && !shouldExit()) {
                 loadNext();
             } else {
                 setupAnswer();
@@ -247,9 +252,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void setupAnswer() {
-        if(_answerViewZone.isExpanded()){
-            _answerViewZone.setExpanded(false);
-        }
         _analysisImgDisplay.setImages(Arrays.asList(_currentContext.getAnalysisImage()));
         _analysisText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getAnalysisDetail(), null, _analysisText);
@@ -269,12 +271,12 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void loadNext() {
+        _currentId++;
         if (shouldExit()) {
             exit();
         } else {
             //todo 载入下一题
             _state = STATE_ANSWERING;
-            _currentId++;
             try {
                 _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
             } catch (SQLException e) {
@@ -311,6 +313,7 @@ public class QuizActivity extends AppCompatActivity {
                 break;
             case STATE_POST_CHECKING:
                 //可以直接退出
+                _currentId++;
                 exit();
                 break;
         }
