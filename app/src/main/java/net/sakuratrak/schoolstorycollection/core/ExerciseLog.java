@@ -1,10 +1,12 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 @DatabaseTable(tableName = "ExerciseLog")
 public class ExerciseLog implements Serializable {
@@ -19,6 +21,9 @@ public class ExerciseLog implements Serializable {
 
     @DatabaseField(foreign = true ,foreignAutoRefresh = true)
     private QuestionInfo question;
+
+    @DatabaseField(dataType = DataType.UUID)
+    private UUID groupGuid;
 
     //region simple getter and setter
 
@@ -36,6 +41,20 @@ public class ExerciseLog implements Serializable {
     public ExerciseLog(int correctRatio, QuestionInfo question) {
         this.correctRatio = correctRatio;
         this.question = question;
+        this.happenedTime = new Date();
+    }
+
+    public ExerciseLog(int correctRatio, Date happenedTime, QuestionInfo question, UUID groupGuid) {
+        this.correctRatio = correctRatio;
+        this.happenedTime = happenedTime;
+        this.question = question;
+        this.groupGuid = groupGuid;
+    }
+
+    public ExerciseLog(int correctRatio, QuestionInfo question, UUID groupGuid) {
+        this.correctRatio = correctRatio;
+        this.question = question;
+        this.groupGuid = groupGuid;
         this.happenedTime = new Date();
     }
 
@@ -69,6 +88,14 @@ public class ExerciseLog implements Serializable {
 
     public void setQuestion(QuestionInfo question) {
         this.question = question;
+    }
+
+    public UUID getGroupGuid() {
+        return groupGuid;
+    }
+
+    public void setGroupGuid(UUID groupGuid) {
+        this.groupGuid = groupGuid;
     }
 
     //endregion

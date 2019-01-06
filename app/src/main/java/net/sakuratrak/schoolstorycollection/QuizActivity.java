@@ -25,6 +25,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +47,7 @@ public class QuizActivity extends AppCompatActivity {
     public static final int STATE_CHECKING = 1;
     public static final int STATE_POST_CHECKING = 2;
 
-
+    //region Elements
     Toolbar _toolbar;
     TextView _questionCounter;
     TextView _questionName;
@@ -64,19 +65,19 @@ public class QuizActivity extends AppCompatActivity {
     ImageDisplayView _analysisImgDisplay;
     QuizCheckView _checkView;
     ConstraintLayout _mainContainer;
+    //endregion
 
+    //region fields
+    UUID _currentGuid = UUID.randomUUID();
     boolean _autoNext;
-
     ArrayList<Integer> _idList;
     int _currentId = 0;
     int _mode;
-
     int _state;
-
     QuestionInfo _currentContext;
     private QuizMarkView _markView;
     private ArrayList<Integer> _historyIds;
-
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,7 +237,7 @@ public class QuizActivity extends AppCompatActivity {
     public void postRecord(int score) {
         new Thread(() -> {
             try {
-                ExerciseLog log = new ExerciseLog(score, _currentContext);
+                ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGuid);
                 DbManager.getDefaultHelper(this)
                         .getExerciseLogs()
                         .create(log);

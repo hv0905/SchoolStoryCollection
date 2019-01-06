@@ -185,4 +185,5 @@
     <string name="quizResultStory3">我拿不到满分都是石头门的选择.jpg</string>
     <string name="quizResultStory4">大吉大利,晚上吃鸡!</string>
     <string name="quizContent">试卷内容</string>
+    <string name="quizHistory">小测历史</string>
 </resources>
