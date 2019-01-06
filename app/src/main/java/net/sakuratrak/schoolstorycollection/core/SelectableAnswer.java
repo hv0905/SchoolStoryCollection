@@ -1,5 +1,7 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import androidx.annotation.Nullable;
+
 public class SelectableAnswer extends Answer.PlainTextAnswer {
 
     public boolean A;
@@ -61,4 +63,24 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
     }
 
 
+    @Override
+    public String toMetaData() {
+        StringBuilder builder = new StringBuilder();
+        boolean[] array = getAnswerArray();
+        for (boolean item :
+                array) {
+            builder.append(item ? '1' : '0');
+        }
+        return builder.toString();
+    }
+
+    public static SelectableAnswer fromMetaData(String metaData){
+        char[] c = metaData.toCharArray();
+        SelectableAnswer sa = new SelectableAnswer();
+        sa.A = c[0] == '1';
+        sa.B = c[1] == '1';
+        sa.C = c[2] == '1';
+        sa.D = c[3] == '1';
+        return sa;
+    }
 }

@@ -36,4 +36,13 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
         }
         return answers;
     }
+
+    @Override
+    public String toMetaData() {
+        return answer;
+    }
+
+    public static BlankAnswer fromMetaData(String metaData){
+        return new BlankAnswer(metaData);
+    }
 }

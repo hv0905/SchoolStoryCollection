@@ -46,7 +46,10 @@ public final class MainActivityQuizFragment extends Fragment {
             ArrayList<Integer> ids = new ArrayList<>();
             List<QuestionInfo> infos = null;
             try {
-                infos = DbManager.getDefaultHelper(getContext()).getQuestionInfos().queryForAll();
+                infos = new QuestionInfo.QuestionInfoDaoManager(
+                        DbManager.getDefaultHelper(getContext())
+                                .getQuestionInfos())
+                        .FindAllWithSubject(getParent().getCurrentSubject());
             } catch (SQLException e) {
                 e.printStackTrace();
             }

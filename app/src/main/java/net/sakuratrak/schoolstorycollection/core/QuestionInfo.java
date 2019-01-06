@@ -52,8 +52,10 @@ public final class QuestionInfo implements Serializable {
     @DatabaseField()
     private String analysisImage;
 
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Answer answer;
+
+    @DatabaseField(dataType = DataType.STRING, columnName = "answer")
+    private String answerStr;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private LearningUnitInfo unit;
@@ -96,37 +98,45 @@ public final class QuestionInfo implements Serializable {
     }
 
     public String[] getQuestionImage() {
-        return questionImage.split(";");
+        return AppHelper.string2StringArray(questionImage);
     }
 
     public void setQuestionImage(List<String> questionImage) {
-        StringBuilder sb = new StringBuilder();
-        for (String item :
-                questionImage) {
-            sb.append(item).append(';');
-        }
-        this.questionImage = sb.toString();
+        this.questionImage = AppHelper.stringList2String(questionImage);
     }
 
     public String[] getAnalysisImage() {
-        return analysisImage.split(";");
+        return AppHelper.string2StringArray(analysisImage);
     }
 
     public void setAnalysisImage(List<String> analysisImage) {
-        StringBuilder sb = new StringBuilder();
-        for (String item :
-                analysisImage) {
-            sb.append(item).append(';');
-        }
-        this.analysisImage = sb.toString();
+        this.analysisImage = AppHelper.stringList2String(analysisImage);
     }
 
     public Answer getAnswer() {
+        if (answer == null) {
+            switch (getType()) {
+
+                case SINGLE_CHOICE:
+                case MULTIPLY_CHOICE:
+                    answer = SelectableAnswer.fromMetaData(answerStr);
+                    break;
+                case TYPEABLE_BLANK:
+                    answer = BlankAnswer.fromMetaData(answerStr);
+                    break;
+                case BLANK:
+                case ANSWER:
+                    answer = ImageAnswer.fromMetaData(answerStr);
+                    break;
+            }
+        }
         return answer;
     }
 
     public void setAnswer(Answer answer) {
+        if(answer == this.answer) return;
         this.answer = answer;
+        answerStr = answer.toMetaData();
     }
 
     public LearningSubject getSubject() {

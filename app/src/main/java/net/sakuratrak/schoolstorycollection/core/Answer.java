@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public abstract class Answer implements Serializable {
 
+    public abstract String toMetaData();
+
     public static abstract class PlainTextAnswer extends Answer {
 
         @Override
