@@ -37,6 +37,12 @@ public final class StatFragmentMainFragment extends Fragment {
     ScrollView _root;
     PieChart _questionPie;
     PieChart _difficultyPie;
+    final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
+        refreshPies();
+        if (isVisible()) {
+            animateIn();
+        }
+    };
 
     public StatFragmentMainFragment() {
 
@@ -73,17 +79,23 @@ public final class StatFragmentMainFragment extends Fragment {
             }
         });
 
-        getParent().addSubjectUpdateEvent(() -> {
-            refreshPies();
-            if (isVisible()) {
-                animateIn();
-            }
-        });
+
 
         refreshPies();
         return _root;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getParent().addRequireRefreshEvent(_requireRefreshEvent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getParent().removeRequireRefreshEvent(_requireRefreshEvent);
+    }
 
     public void refreshPies() {
         try {

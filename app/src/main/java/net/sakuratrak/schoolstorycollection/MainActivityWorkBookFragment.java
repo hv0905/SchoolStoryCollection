@@ -32,6 +32,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -55,6 +58,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItem_editableFill;
     private FloatingActionButton _addItem_fill;
     private FloatingActionButton _addItem_answer;
+
+    private MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -91,10 +96,24 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
-        getParent().addSubjectUpdateEvent(this::refreshList);
+
+        return _root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+        getParent().addRequireRefreshEvent(_refreshEvent);
         setDisplayMode(false);
         refreshList();
-        return _root;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+        getParent().removeRequireRefreshEvent(_refreshEvent);
     }
 
     private MainActivity getParent() {
@@ -194,7 +213,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         } else {
             _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
         }
-        _itemList.setAdapter(_mainAdapter);
+        _itemList.setAdapter(new SlideInBottomAnimationAdapter( _mainAdapter));
     }
 
     public class DataContextList implements IListedDataProvidable<QuestionItemAdapter.DataContext> {
@@ -223,5 +242,4 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     });
         }
     }
-
 }

@@ -70,7 +70,7 @@ public final class MainActivityQuizFragment extends Fragment {
 
         //_buttonTest.setOnClickListener(v -> AlarmReceiver.setupAlarm(getContext(),false));
 
-        getParent().addSubjectUpdateEvent(this::update);
+        getParent().addRequireRefreshEvent(this::update);
         update();
         return _root;
 

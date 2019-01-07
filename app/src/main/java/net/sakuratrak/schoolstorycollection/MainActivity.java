@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         //region Events
 
-        _pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载
+        //_pager.setOffscreenPageLimit(MainActivityPagerAdapter.PAGES_COUNT);//全部加载
         _pageContext = new MainActivityPagerAdapter(getSupportFragmentManager());
         _pager.setAdapter(_pageContext);
 
@@ -235,12 +235,12 @@ public class MainActivity extends AppCompatActivity {
         requireRefresh();
     }
 
-    public void addSubjectUpdateEvent(RequireRefreshEventHandler handler) {
+    public void addRequireRefreshEvent(RequireRefreshEventHandler handler) {
         if (_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
         _requireRefreshEvent.add(handler);
     }
 
-    public void removeSubjectUpdateEvent(RequireRefreshEventHandler handler) {
+    public void removeRequireRefreshEvent(RequireRefreshEventHandler handler) {
         if (_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
         _requireRefreshEvent.remove(handler);
     }

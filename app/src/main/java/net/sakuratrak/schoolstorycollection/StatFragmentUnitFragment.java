@@ -38,6 +38,8 @@ public final class StatFragmentUnitFragment extends Fragment {
     //endregion
     private Runnable _notifyUnitRefresh;
 
+    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refreshUnit;
+
 
     public StatFragmentUnitFragment() {
     }
@@ -85,11 +87,22 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
 
-        getParent().addSubjectUpdateEvent(this::refreshUnit);
 
-        refreshUnit();
 
         return _root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getParent().addRequireRefreshEvent(_requireRefresh);
+        refreshUnit();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getParent().removeRequireRefreshEvent(_requireRefresh);
     }
 
     public void refreshUnit() {
