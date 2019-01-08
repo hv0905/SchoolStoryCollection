@@ -156,6 +156,7 @@ public class QuestionEditActivity extends AppCompatActivity {
             _questionImgRecycle.setImages(Arrays.asList(_context.getQuestionImage()));
             _analysisImgRecycle.setImages(Arrays.asList(_context.getAnalysisImage()));
             _unit = _context.getUnit();
+            _unitText.setText(_unit.getName());
             _difficultyEdit.setRating(_context.getDifficulty() / 2f);
 
         } else {
