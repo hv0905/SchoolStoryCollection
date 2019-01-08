@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -35,8 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
-
-import static android.app.Activity.RESULT_OK;
 
 public final class MainActivityWorkBookFragment extends Fragment {
 
@@ -143,7 +142,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case REQUEST_ADD_QUESTION:
-                if (resultCode == RESULT_OK)
+                if (resultCode == Activity.RESULT_OK)
                     getParent().requireRefresh();
                 break;
             case REQUEST_DETAIL:
