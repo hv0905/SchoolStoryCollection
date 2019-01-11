@@ -26,6 +26,8 @@ public final class MainActivityQuizFragment extends Fragment {
     View _quickQuizButton;
     View _unitQuizButton;
 
+    final MainActivity.RequireRefreshEventHandler _update = this::update;
+
     public MainActivityQuizFragment() {
         // Required empty public constructor
     }
@@ -70,10 +72,23 @@ public final class MainActivityQuizFragment extends Fragment {
 
         //_buttonTest.setOnClickListener(v -> AlarmReceiver.setupAlarm(getContext(),false));
 
-        getParent().addRequireRefreshEvent(this::update);
-        update();
+
         return _root;
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getParent().removeRequireRefreshEvent(_update);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getParent().addRequireRefreshEvent(_update);
+        update();
     }
 
     public void update() {
