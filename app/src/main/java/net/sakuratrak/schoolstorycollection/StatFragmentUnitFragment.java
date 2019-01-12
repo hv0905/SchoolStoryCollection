@@ -88,21 +88,17 @@ public final class StatFragmentUnitFragment extends Fragment {
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
 
 
+        getParent().addRequireRefreshEvent(_requireRefresh);
+        refreshUnit();
 
         return _root;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getParent().addRequireRefreshEvent(_requireRefresh);
-        refreshUnit();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
         getParent().removeRequireRefreshEvent(_requireRefresh);
+        super.onDestroyView();
+
     }
 
     public void refreshUnit() {
@@ -150,12 +146,6 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     private MainActivity getParent() {
         return (MainActivity) getActivity();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: UnitFragment");
     }
 
     @Override

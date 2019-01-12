@@ -71,24 +71,16 @@ public final class MainActivityQuizFragment extends Fragment {
         });
 
         //_buttonTest.setOnClickListener(v -> AlarmReceiver.setupAlarm(getContext(),false));
-
-
+        getParent().addRequireRefreshEvent(_update);
+        update();
         return _root;
 
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
         getParent().removeRequireRefreshEvent(_update);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getParent().addRequireRefreshEvent(_update);
-        update();
+        super.onDestroyView();
     }
 
     public void update() {

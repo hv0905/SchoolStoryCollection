@@ -2,7 +2,6 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,8 +33,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
 
 public final class MainActivityWorkBookFragment extends Fragment {
 
@@ -71,6 +68,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_workbook, container, false);
 
         _itemList = _root.findViewById(R.id.itemList);
@@ -96,23 +94,16 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
 
+        getParent().addRequireRefreshEvent(_refreshEvent);
+        setDisplayMode(false);
+        refreshList();
         return _root;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
-        getParent().addRequireRefreshEvent(_refreshEvent);
-        setDisplayMode(false);
-        refreshList();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
+    public void onDestroyView() {
         getParent().removeRequireRefreshEvent(_refreshEvent);
+        super.onDestroyView();
     }
 
     private MainActivity getParent() {
@@ -142,8 +133,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case REQUEST_ADD_QUESTION:
-                if (resultCode == Activity.RESULT_OK)
+                if (resultCode == Activity.RESULT_OK) {
                     getParent().requireRefresh();
+                    _mainAdapter.notifyItemInserted(0);
+                }
                 break;
             case REQUEST_DETAIL:
                 switch (resultCode) {
@@ -186,18 +179,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
         }).setNegativeButton(R.string.cancel, null).show();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        Log.d(TAG, "onAttach: ");
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        Log.d(TAG, "onDetach: ");
-        super.onDetach();
-    }
-
     void onAddItem(QuestionType type) {
         Intent intent = new Intent(getParent(), QuestionEditActivity.class);
         intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID, type.getId());
@@ -212,7 +193,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         } else {
             _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
         }
-        _itemList.setAdapter(new SlideInBottomAnimationAdapter( _mainAdapter));
+        _itemList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
 
     public class DataContextList implements IListedDataProvidable<QuestionItemAdapter.DataContext> {

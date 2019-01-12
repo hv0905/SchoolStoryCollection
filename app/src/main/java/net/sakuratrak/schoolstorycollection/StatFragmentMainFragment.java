@@ -80,21 +80,15 @@ public final class StatFragmentMainFragment extends Fragment {
         });
 
 
-
+        getParent().addRequireRefreshEvent(_requireRefreshEvent);
         refreshPies();
         return _root;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getParent().addRequireRefreshEvent(_requireRefreshEvent);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
         getParent().removeRequireRefreshEvent(_requireRefreshEvent);
+        super.onDestroyView();
     }
 
     public void refreshPies() {
