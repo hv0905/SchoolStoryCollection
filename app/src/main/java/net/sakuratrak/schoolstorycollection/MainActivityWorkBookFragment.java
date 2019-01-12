@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 public final class MainActivityWorkBookFragment extends Fragment {
 
@@ -40,6 +41,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
+
+    //region views
     private ConstraintLayout _root;
     private RecyclerView _itemList;
     private FloatingActionMenu _addItemBtn;
@@ -54,6 +57,11 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItem_editableFill;
     private FloatingActionButton _addItem_fill;
     private FloatingActionButton _addItem_answer;
+    //endregion
+
+    //region fields
+    private int _currentDetailIndex = -1;
+    //endregion
 
     private RecycleViewDivider _mainDivider;
 
@@ -95,8 +103,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
+        _itemList.setItemAnimator(new LandingAnimator());
 
-        getParent().addRequireRefreshEvent(_refreshEvent);
+        setRefreshEventStatus(true);
         setDisplayMode(false);
         refreshList();
         return _root;
@@ -104,8 +113,16 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        getParent().removeRequireRefreshEvent(_refreshEvent);
+        setRefreshEventStatus(false);
         super.onDestroyView();
+    }
+
+    private void setRefreshEventStatus(boolean enabled) {
+        if (enabled) {
+            getParent().addRequireRefreshEvent(_refreshEvent);
+        } else {
+            getParent().removeRequireRefreshEvent(_refreshEvent);
+        }
     }
 
     private MainActivity getParent() {
@@ -115,9 +132,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     public void refreshList() {
         Log.d(TAG, "refreshList: go");
 
-        QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         try {
-            _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+            refreshContext();
         } catch (SQLException e) {
             e.printStackTrace();
             return;
@@ -131,21 +147,63 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     }
 
+    public void refreshContext() throws SQLException {
+        QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
+        _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case REQUEST_ADD_QUESTION:
                 if (resultCode == Activity.RESULT_OK) {
+                    setRefreshEventStatus(false);
                     getParent().requireRefresh();
+                    setRefreshEventStatus(true);
+                    try {
+                        refreshContext();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return;
+                    }
                     _mainAdapter.notifyItemInserted(0);
+                    _itemList.scrollToPosition(0);
                 }
                 break;
             case REQUEST_DETAIL:
                 switch (resultCode) {
                     case QuestionDetailActivity.RESULT_DELETED:
+                        try {
+                            refreshContext();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+
                         Snackbar.make(_root, "已删除", Snackbar.LENGTH_LONG).show();
-                    case QuestionDetailActivity.RESULT_EDITED:
+                        if (_currentDetailIndex != -1)
+                            _mainAdapter.notifyItemRemoved(_currentDetailIndex);
+                        else _mainAdapter.notifyDataSetChanged();
+
+                        setRefreshEventStatus(false);
                         getParent().requireRefresh();
+                        setRefreshEventStatus(true);
+                        break;
+                    case QuestionDetailActivity.RESULT_EDITED:
+                        try {
+                            refreshContext();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+
+                        if (_currentDetailIndex != -1) {
+                            _mainAdapter.notifyItemChanged(_currentDetailIndex);
+                        } else _mainAdapter.notifyDataSetChanged();
+
+                        setRefreshEventStatus(false);
+                        getParent().requireRefresh();
+                        setRefreshEventStatus(true);
                         break;
                 }
                 break;
@@ -153,7 +211,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void goDetail(QuestionInfo info, View sharedView) {
+    private void goDetail(QuestionInfo info, View sharedView, int index) {
+        _currentDetailIndex = index;
         Intent intent = new Intent(getActivity(), QuestionDetailActivity.class);
         intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, info.getId());
         //ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, "topImage");
@@ -168,11 +227,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
         startActivityForResult(intent, REQUEST_QUIZ);
     }
 
-    private void showOptionMenu(QuestionInfo info) {
-        AlertDialog builder = new AlertDialog.Builder(getContext()).setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
+    private void showOptionMenu(QuestionInfo info, int index) {
+        AlertDialog builder = new AlertDialog.Builder(getContext()).
+                setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
             switch (which) {
                 case 0:
-                    goDetail(info, null);
+                    goDetail(info, null, index);
                     break;
                 case 1:
                     goQuiz(info);
@@ -216,16 +276,18 @@ public final class MainActivityWorkBookFragment extends Fragment {
             Log.d(TAG, "get: query:" + index);
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
 
-            QuestionInfo info = _contexts.get(index);
+            QuestionInfo info = _contexts.get(count() - 1 - index);
             return new QuestionItemAdapter.DataContext(info.getTitle(),
                     format.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
-                    v -> goDetail(info, v),
+                    v -> {
+                        goDetail(info, v, index);
+                    },
                     v -> goQuiz(info),
                     v -> {
-                        showOptionMenu(info);
+                        showOptionMenu(info, index);
                         return true;
                     });
         }
