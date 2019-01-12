@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity {
         return _currentSubject;
     }
 
-
     private void notifyUnitSaveError(View v) {
         Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
     }
@@ -253,6 +252,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public boolean is_isSecondDisplayMode() {
+        return _isSecondDisplayMode;
+    }
+
+    public void set_isSecondDisplayMode(boolean _isSecondDisplayMode) {
+        this._isSecondDisplayMode = _isSecondDisplayMode;
+    }
 
     @FunctionalInterface
     public interface RequireRefreshEventHandler {

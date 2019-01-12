@@ -106,7 +106,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _itemList.setItemAnimator(new LandingAnimator());
 
         setRefreshEventStatus(true);
-        setDisplayMode(false);
+        setDisplayMode(getParent().is_isSecondDisplayMode());
         refreshList();
         return _root;
     }
