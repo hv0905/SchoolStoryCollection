@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 public class QuizResultActivity extends AppCompatActivity {
 
@@ -48,10 +50,11 @@ public class QuizResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
-        _recycleQuestions.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        _recycleQuestions.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        _recycleQuestions.addItemDecoration(new RecycleViewDivider(RecyclerView.VERTICAL, this));
 
         //refresh
-        if(!getIntent().hasExtra(EXTRA_RESULT_IDS)){
+        if (!getIntent().hasExtra(EXTRA_RESULT_IDS)) {
             finish();
             return;
         }
@@ -59,16 +62,23 @@ public class QuizResultActivity extends AppCompatActivity {
         Dao<ExerciseLog, Integer> questionInfos = DbManager.getDefaultHelper(this).getExerciseLogs();
         int scoreSum = 0;
         _contextList = new ArrayList<>();
-        for (int i = 0;i<ids.size();i++) {
+        for (int i = 0; i < ids.size(); i++) {
             try {
                 ExerciseLog log = questionInfos.queryForId(ids.get(i));
 
+                int finalI = i;
                 _contextList.add(new ExerciseLogAdapter.DataContext(
-                        i+1,
+                        i + 1,
                         log.getQuestion().getTitle(),
                         log.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : log.getQuestion().getUnit().getName(),
-                        log.getCorrectRatio()));
-                scoreSum+=log.getCorrectRatio();
+                        log.getCorrectRatio(),
+                        v -> {
+                            Intent intent = new Intent(this, QuestionDetailActivity.class);
+                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, ids.get(finalI));
+                            startActivity(intent);
+                        }
+                ));
+                scoreSum += log.getCorrectRatio();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -79,11 +89,11 @@ public class QuizResultActivity extends AppCompatActivity {
         int uiColor;
         switch (scoreLevel) {
             case 0://0-25
-                uiColor =getResources().getColor(R.color.flat8);
+                uiColor = getResources().getColor(R.color.flat8);
                 _textStory.setText(R.string.quizResultStory0);
                 break;
             case 1://25-50
-                uiColor =getResources().getColor(R.color.flat2);
+                uiColor = getResources().getColor(R.color.flat2);
                 _textStory.setText(R.string.quizResultStory1);
                 break;
             case 2://50-75
@@ -105,7 +115,7 @@ public class QuizResultActivity extends AppCompatActivity {
         _toolbarLayout.setContentScrimColor(uiColor);
         getWindow().setStatusBarColor(uiColor);
 
-        String title = String.format(Locale.ENGLISH,"%d%%",scoreAvg);
+        String title = String.format(Locale.ENGLISH, "%d%%", scoreAvg);
         _toolbar.setTitle(title);
         getSupportActionBar().setTitle(title);
         _toolbarLayout.setTitle(title);
@@ -113,14 +123,14 @@ public class QuizResultActivity extends AppCompatActivity {
 
         _adapter = new ExerciseLogAdapter(new ListDataProvider<>(_contextList));
 
-        _recycleQuestions.setAdapter(_adapter);
+        _recycleQuestions.setAdapter(new AlphaInAnimationAdapter(_adapter));
 
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }

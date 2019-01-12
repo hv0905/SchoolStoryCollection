@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
-
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -32,7 +31,28 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
         holder._questionId.setText(String.valueOf(current.Id));
         holder._title.setText(current.Name);
         holder._unit.setText(current.Unit);
+        int scoreLevel = current.Score / 25;
+        int uiColor;
+        switch (scoreLevel) {
+            case 0://0-25
+                uiColor = holder._rootView.getResources().getColor(R.color.flat8);
+                break;
+            case 1://25-50
+                uiColor = holder._rootView.getResources().getColor(R.color.flat2);
+                break;
+            case 2://50-75
+                uiColor = holder._rootView.getResources().getColor(R.color.flat2);
+                break;
+            case 3://75-100
+                uiColor = holder._rootView.getResources().getColor(R.color.flat5);
+                break;
+            default://100+
+                uiColor = holder._rootView.getResources().getColor(R.color.flat7);
+                break;
+        }
+        holder._scoreProgress.setProgressTintList(ColorStateList.valueOf(uiColor));
         holder._scoreProgressVal.setText(String.valueOf(current.Score));
+        holder._rootView.setOnClickListener(current.onClick);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder._scoreProgress.setProgress(current.Score,true);
         }else {
@@ -83,12 +103,21 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
         public String Name;
         public String Unit;
         public int Score;
+        public View.OnClickListener onClick;
 
         public DataContext(int id, String name, String unit, int score) {
             Id = id;
             Name = name;
             Unit = unit;
             Score = score;
+        }
+
+        public DataContext(int id, String name, String unit, int score, View.OnClickListener onClick) {
+            Id = id;
+            Name = name;
+            Unit = unit;
+            Score = score;
+            this.onClick = onClick;
         }
 
         public DataContext() {
