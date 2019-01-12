@@ -25,18 +25,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 public final class StatFragmentUnitFragment extends Fragment {
 
     public static final String TAG = "Stat_UnitFragment";
-    public static final int REQUEST_DETAIL = 100;
-    //region UI controls
+    private static final int REQUEST_DETAIL = 100;
+
+    //region views
     public ConstraintLayout _root;
-    public View _unitEmptyNotice;
-    public RecyclerView _unitList;
-    public FloatingActionButton _addUnitBtn;
+    private View _unitEmptyNotice;
+    private RecyclerView _unitList;
+    private FloatingActionButton _addUnitBtn;
     //endregion
+
     private Runnable _notifyUnitRefresh;
+    private UnitDisplayAdapter _mainAdapter;
 
     private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refreshUnit;
 
@@ -101,7 +105,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     }
 
-    public void refreshUnit() {
+    private void refreshUnit() {
         if (!this.isAdded()) return;
         ArrayList<UnitDisplayAdapter.DataContext> udi = new ArrayList<>();
         List<LearningUnitInfo> luis;
@@ -123,11 +127,11 @@ public final class StatFragmentUnitFragment extends Fragment {
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udi.add(udiItem);
         }
-        if (_unitList.getAdapter() == null) {
-            UnitDisplayAdapter uda = new UnitDisplayAdapter(new ListDataProvider<>(udi));
-            _unitList.setAdapter(uda);
+        if (_mainAdapter == null) {
+            _mainAdapter = new UnitDisplayAdapter(new ListDataProvider<>(udi));
+            _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
         } else {
-            ((UnitDisplayAdapter) _unitList.getAdapter()).setDataContext(new ListDataProvider<>(udi));
+            _mainAdapter.setDataContext(new ListDataProvider<>(udi));
         }
 
         if (_notifyUnitRefresh != null) {
