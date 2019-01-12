@@ -55,6 +55,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItem_fill;
     private FloatingActionButton _addItem_answer;
 
+    private RecycleViewDivider _mainDivider;
+
     private MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
 
     public Runnable getNotifyToUpdate() {
@@ -190,8 +192,14 @@ public final class MainActivityWorkBookFragment extends Fragment {
     void setDisplayMode(boolean second) {
         if (second) {
             _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(_defaultList);
+            if (_mainDivider == null)
+                _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getParent());
+            _itemList.addItemDecoration(_mainDivider);
+
         } else {
             _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
+            if (_mainDivider != null)
+                _itemList.removeItemDecoration(_mainDivider);
         }
         _itemList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
