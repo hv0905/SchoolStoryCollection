@@ -65,8 +65,6 @@ public class QuizResultActivity extends AppCompatActivity {
         for (int i = 0; i < ids.size(); i++) {
             try {
                 ExerciseLog log = questionInfos.queryForId(ids.get(i));
-
-                int finalI = i;
                 _contextList.add(new ExerciseLogAdapter.DataContext(
                         i + 1,
                         log.getQuestion().getTitle(),
@@ -74,7 +72,7 @@ public class QuizResultActivity extends AppCompatActivity {
                         log.getCorrectRatio(),
                         v -> {
                             Intent intent = new Intent(this, QuestionDetailActivity.class);
-                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, ids.get(finalI));
+                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, log.getQuestion().getId());
                             startActivity(intent);
                         }
                 ));
