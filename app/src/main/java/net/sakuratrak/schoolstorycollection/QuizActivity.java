@@ -235,7 +235,6 @@ public class QuizActivity extends AppCompatActivity {
 
     //增加一条做题记录
     public void postRecord(int score) {
-        new Thread(() -> {
             try {
                 ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGuid);
                 DbManager.getDefaultHelper(this)
@@ -247,7 +246,6 @@ public class QuizActivity extends AppCompatActivity {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }).start();
     }
 
     public void setupAnswer() {
