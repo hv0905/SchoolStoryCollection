@@ -16,7 +16,7 @@
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>
     <string name="correctRatio">小测正确率</string>
-    <string name="quizTime">小测次数</string>
+    <string name="quizTime">小测次数/正确率</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="confirmLog_msg">%s的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>

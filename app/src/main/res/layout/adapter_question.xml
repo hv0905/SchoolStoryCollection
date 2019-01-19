@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_small"
@@ -34,84 +35,90 @@
         </FrameLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="The quick brown fox jumps over the lazy dog." />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/difficulty"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:isIndicator="true"
+                app:layout_constraintBottom_toBottomOf="@+id/valAuthorTime"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/valAuthorTime"
+                app:layout_constraintTop_toTopOf="@+id/valAuthorTime" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/difficulty"
-                    style="@style/Widget.MaterialRatingBar.RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="@dimen/ui_margin_mid"
-                    android:isIndicator="true"
-                    app:layout_constraintRight_toLeftOf="@id/favourite" />
-
-                <ImageView
-                    android:id="@+id/favourite"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:contentDescription="@string/like"
-                    android:src="@drawable/ic_favorite_border_black_24dp"
-                    app:layout_constraintRight_toRightOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <ImageView
+                android:id="@+id/favourite"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/like"
+                android:src="@drawable/ic_favorite_border_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnDetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/btnDetail" />
 
             <TextView
                 android:id="@+id/valUnit"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_book_black_24dp"
                 android:gravity="center|start"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="刀~有你" />
 
             <TextView
                 android:id="@+id/valAuthorTime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:drawableStart="@drawable/ic_edit_black_24dp"
                 android:gravity="center|start"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/valUnit"
+                tools:text="sometime" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQuiz"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="@string/test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/valAuthorTime" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnQuiz"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="@string/test" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDetail"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                app:layout_constraintBottom_toBottomOf="@+id/btnQuiz"
+                app:layout_constraintStart_toEndOf="@id/btnQuiz" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDetail"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text="@string/view" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

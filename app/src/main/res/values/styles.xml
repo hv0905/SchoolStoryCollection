@@ -45,6 +45,10 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="textTitle.large" parent="textTitle">
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="textValue" parent="textNormal">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorAccent</item>
@@ -53,6 +57,15 @@
     <style name="textValue.large" parent="textValue">
         <item name="android:textSize">24sp</item>
     </style>
+
+    <style name="textValue.uLarge" parent="textValue">
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="textValue.xuLarge" parent="textValue">
+        <item name="android:textSize">48sp</item>
+    </style>
+
 
     <style name="textWindowTitle" parent="textValue">
         <item name="android:textSize">24sp</item>
