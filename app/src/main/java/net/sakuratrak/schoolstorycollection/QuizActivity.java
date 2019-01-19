@@ -48,6 +48,11 @@ public class QuizActivity extends AppCompatActivity {
     public static final int STATE_CHECKING = 1;
     public static final int STATE_POST_CHECKING = 2;
 
+    public static final int RESULT_ALL_DONE = 1001;
+    public static final int RESULT_PART_DONE = 1002;
+    public static final int RESULT_NONE_DONE = 1003;
+
+
     //region Elements
     Toolbar _toolbar;
     TextView _questionCounter;
@@ -150,7 +155,7 @@ public class QuizActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_warning_black_24dp)
                         .setMessage(getString(R.string.confirmSkipMsg))
                         .setNegativeButton(R.string.confirm, (dialog, which) -> loadNext())
-                        .setPositiveButton(R.string.cancel,null).show();
+                        .setPositiveButton(R.string.cancel, null).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -242,19 +247,19 @@ public class QuizActivity extends AppCompatActivity {
 
     //增加一条做题记录
     public void postRecord(int score) {
-            try {
-                if(_currentGroup == null){
-                    _currentGroup = new ExerciseLogGroup(getIntent().hasExtra(EXTRA_QUIZ_DESCRIPTION) ? getIntent().getStringExtra(EXTRA_QUIZ_DESCRIPTION) : "小测",_currentContext.getSubject());
-                    DbManager.getDefaultHelper(this).getExerciseLogGroups().create(_currentGroup);
-                }
-                ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGroup);
-                DbManager.getDefaultHelper(this)
-                        .getExerciseLogs()
-                        .create(log);
-                _doneCount++;
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            if (_currentGroup == null) {
+                _currentGroup = new ExerciseLogGroup(getIntent().hasExtra(EXTRA_QUIZ_DESCRIPTION) ? getIntent().getStringExtra(EXTRA_QUIZ_DESCRIPTION) : "小测", _currentContext.getSubject());
+                DbManager.getDefaultHelper(this).getExerciseLogGroups().create(_currentGroup);
             }
+            ExerciseLog log = new ExerciseLog(score, _currentContext, _currentGroup);
+            DbManager.getDefaultHelper(this)
+                    .getExerciseLogs()
+                    .create(log);
+            _doneCount++;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setupAnswer() {
@@ -327,10 +332,15 @@ public class QuizActivity extends AppCompatActivity {
         //退出小测,显示报告
         if (_doneCount == 0) {
             //一题都没做可以直接退了
+            setResult(RESULT_NONE_DONE);
             super.onBackPressed();
             finish();
         } else {
             //要显示报告
+            if (shouldExit())
+                setResult(RESULT_ALL_DONE);
+            else
+                setResult(RESULT_PART_DONE);
             Intent intent = new Intent(this, QuizResultActivity.class);
             intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, _currentGroup.getId());
             startActivity(intent);

@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,9 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 public final class MainActivityQuizFragment extends Fragment {
 
     public static final String TAG = "MainWindow_Quiz";
+
+    public static final int REQUEST_QUIZ = 100;
+
 
     ViewGroup _root;
     private ConstraintLayout _operateButtons;
@@ -73,8 +77,8 @@ public final class MainActivityQuizFragment extends Fragment {
             Intent intent = new Intent(getActivity(), QuizActivity.class);
             intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, ids);
             intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
-            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
-            startActivity(intent);
+            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "快速小测");
+            startActivityForResult(intent,REQUEST_QUIZ);
 
         });
 
@@ -86,6 +90,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _logContext = new ArrayList<>();
         _mainAdapter = new ExerciseLogGroupAdapter(new ListDataProvider<>(_logContext));
         _listLog.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        _listLog.addItemDecoration(new RecycleViewDivider(RecyclerView.VERTICAL, getContext()));
         _listLog.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
         getParent().addRequireRefreshEvent(_update);
         update();
@@ -145,21 +150,21 @@ public final class MainActivityQuizFragment extends Fragment {
                                         startActivity(intent);
                                         break;
                                     case 1://retry
-                                        Intent intent1 = new Intent(getContext(),QuizActivity.class);
-                                        intent1.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
-                                        intent1.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"重测：" + data.getDescription());
+                                        Intent intent1 = new Intent(getContext(), QuizActivity.class);
+                                        intent1.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+                                        intent1.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "重测：" + data.getDescription());
                                         ArrayList<Integer> arrayList = new ArrayList<>();
                                         for (ExerciseLog log :
                                                 data.getLogs()) {
-                                            if(log.getQuestion() != null)
+                                            if (log.getQuestion() != null)
                                                 arrayList.add(log.getQuestion().getId());
                                         }
-                                        if(arrayList.size() == 0){
-                                            Toast.makeText(getContext(),"无法开始，小测中的所有题目已被删除",Toast.LENGTH_LONG).show();
+                                        if (arrayList.size() == 0) {
+                                            Toast.makeText(getContext(), "无法开始，小测中的所有题目已被删除", Toast.LENGTH_LONG).show();
                                             return;
                                         }
-                                        intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,arrayList);
-                                        startActivity(intent1);
+                                        intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, arrayList);
+                                        startActivityForResult(intent1,REQUEST_QUIZ);
                                         break;
                                 }
                             }).setNegativeButton(R.string.cancel, null).show();
@@ -179,4 +184,15 @@ public final class MainActivityQuizFragment extends Fragment {
         return (MainActivity) getActivity();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_QUIZ:
+                if(resultCode != QuizActivity.RESULT_NONE_DONE){
+                    //要更新记录
+                    getParent().requireRefresh();
+                }
+        }
+    }
 }

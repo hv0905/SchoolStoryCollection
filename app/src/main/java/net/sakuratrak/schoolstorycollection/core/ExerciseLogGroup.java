@@ -9,7 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Date;
 
 @DatabaseTable
-public final class ExerciseLogGroup {
+public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -90,6 +90,11 @@ public final class ExerciseLogGroup {
             sum+=log.getCorrectRatio();
         }
         return (int) (( (double)sum / logs.size() ) + 0.5);
+    }
+
+    @Override
+    public int compareTo(ExerciseLogGroup o) {
+        return getHappendTime().compareTo(o.getHappendTime());
     }
 
     public static class DaoHelper {

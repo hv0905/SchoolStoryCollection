@@ -168,6 +168,11 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     }
                     _mainAdapter.notifyItemInserted(0);
                     _itemList.scrollToPosition(0);
+                    if (_contexts.size() == 0) {
+                        _workbookEmptyNotice.setVisibility(View.VISIBLE);
+                    } else {
+                        _workbookEmptyNotice.setVisibility(View.INVISIBLE);
+                    }
                 }
                 break;
             case REQUEST_DETAIL:
