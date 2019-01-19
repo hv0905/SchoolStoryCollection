@@ -22,6 +22,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -153,8 +154,8 @@ public class QuestionEditActivity extends AppCompatActivity {
             _editQuestionInfo.setText(_context.getQuestionDetail());
             _editAnalysisInfo.setText(_context.getAnalysisDetail());
             _answerContent.setAnswer(_context.getAnswer());
-            _questionImgRecycle.setImages(Arrays.asList(_context.getQuestionImage()));
-            _analysisImgRecycle.setImages(Arrays.asList(_context.getAnalysisImage()));
+            _questionImgRecycle.setImages(new ArrayList<>(Arrays.asList(_context.getQuestionImage())));
+            _analysisImgRecycle.setImages(new ArrayList<>(Arrays.asList(_context.getAnalysisImage())));
             _unit = _context.getUnit();
             if (_unit != null)
                 _unitText.setText(_unit.getName());
