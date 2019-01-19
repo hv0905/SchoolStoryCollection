@@ -40,6 +40,7 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_MODE = "mode";
     public static final String EXTRA_QUESTION_ID = "id";
     public static final String EXTRA_QUESTION_IDS = "ids";
+    public static final String EXTRA_QUIZ_DESCRIPTION = "quiz_description";
 
     public static final String TAG = "QuizActivity";
 
@@ -71,6 +72,7 @@ public class QuizActivity extends AppCompatActivity {
     boolean _autoNext;
     ArrayList<Integer> _idList;
     int _currentId = 0;
+    int _doneCount = 0;
     int _mode;
     int _state;
     QuestionInfo _currentContext;
@@ -143,6 +145,12 @@ public class QuizActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.skip:
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.confirmSkip))
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setMessage(getString(R.string.confirmSkipMsg))
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> loadNext())
+                        .setPositiveButton(R.string.cancel,null).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -236,14 +244,14 @@ public class QuizActivity extends AppCompatActivity {
     public void postRecord(int score) {
             try {
                 if(_currentGroup == null){
-                    _currentGroup = new ExerciseLogGroup();
-                    _currentGroup.setDescription("小测");
+                    _currentGroup = new ExerciseLogGroup(getIntent().hasExtra(EXTRA_QUIZ_DESCRIPTION) ? getIntent().getStringExtra(EXTRA_QUIZ_DESCRIPTION) : "小测",_currentContext.getSubject());
                     DbManager.getDefaultHelper(this).getExerciseLogGroups().create(_currentGroup);
                 }
                 ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGroup);
                 DbManager.getDefaultHelper(this)
                         .getExerciseLogs()
                         .create(log);
+                _doneCount++;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -269,13 +277,12 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void loadNext() {
-        _currentId++;
         if (shouldExit()) {
             exit();
         } else {
             _state = STATE_ANSWERING;
             try {
-                _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
+                _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(++_currentId));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -318,7 +325,7 @@ public class QuizActivity extends AppCompatActivity {
 
     void exit() {
         //退出小测,显示报告
-        if (_currentId == 0) {
+        if (_doneCount == 0) {
             //一题都没做可以直接退了
             super.onBackPressed();
             finish();

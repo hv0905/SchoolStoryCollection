@@ -16,4 +16,5 @@ public final class AppHelper {
     public static String[] string2StringArray(String str){
         return str.split(";");
     }
+
 }

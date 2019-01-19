@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -72,17 +73,38 @@ public class QuizResultActivity extends AppCompatActivity {
         _contextList = new ArrayList<>();
         int i = 0;
         for (ExerciseLog log : group.getLogs()) {
-            _contextList.add(new ExerciseLogAdapter.DataContext(
-                    ++i,
-                    log.getQuestion().getTitle(),
-                    log.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : log.getQuestion().getUnit().getName(),
-                    log.getCorrectRatio(),
-                    v -> {
-                        Intent intent = new Intent(this, QuestionDetailActivity.class);
-                        intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, log.getQuestion().getId());
-                        startActivity(intent);
-                    }
-            ));
+            if(log.getQuestion() != null) {
+                _contextList.add(new ExerciseLogAdapter.DataContext(
+                        ++i,
+                        log.getQuestion().getTitle(),
+                        log.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : log.getQuestion().getUnit().getName(),
+                        log.getCorrectRatio(),
+                        v -> {
+                            try {
+                                if(DbManager.getDefaultHelper(this).getQuestionInfos().idExists(log.getQuestion().getId())) {
+                                    Intent intent = new Intent(this, QuestionDetailActivity.class);
+                                    intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, log.getQuestion().getId());
+                                    startActivity(intent);
+                                }else{
+                                    Toast.makeText(this,R.string.errQuestionDeleted,Toast.LENGTH_LONG).show();
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                ));
+            }else{
+                _contextList.add(new ExerciseLogAdapter.DataContext(
+                        ++i,
+                        getString(R.string.errQuestionDeleted),
+                        getString(R.string.emptyUnit),
+                        log.getCorrectRatio(),
+                        v -> {
+                            Toast.makeText(this,R.string.errQuestionDeleted,Toast.LENGTH_LONG).show();
+                        }
+                ));
+            }
         }
 
             int scoreAvg = group.getAvgScore();

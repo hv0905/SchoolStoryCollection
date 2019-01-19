@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -50,6 +51,8 @@ public final class ExerciseLogGroup {
     }
 
     public Date getHappendTime() {
+        //emergency fix patch
+        if(happendTime == null) happendTime = new Date();
         return happendTime;
     }
 
@@ -57,10 +60,15 @@ public final class ExerciseLogGroup {
         this.happendTime = happendTime;
     }
 
-    public ExerciseLogGroup(String description, ForeignCollection<ExerciseLog> logs) {
+    public ExerciseLogGroup(String description) {
         happendTime = new Date();
         this.description = description;
-        this.logs = logs;
+    }
+
+    public ExerciseLogGroup(String description, LearningSubject subject) {
+        happendTime = new Date();
+        this.description = description;
+        setSubject(subject);
     }
 
     public ExerciseLogGroup() {
@@ -82,5 +90,14 @@ public final class ExerciseLogGroup {
             sum+=log.getCorrectRatio();
         }
         return (int) (( (double)sum / logs.size() ) + 0.5);
+    }
+
+    public static class DaoHelper {
+        Dao<ExerciseLogGroup,Integer> _base;
+
+        public DaoHelper(Dao<ExerciseLogGroup, Integer> _base) {
+            this._base = _base;
+        }
+
     }
 }

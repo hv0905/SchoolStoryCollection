@@ -139,6 +139,10 @@
         <item>外部(建议)</item>
         <item>内部(应用卸载时错题本将全部清除,可别说我没提醒你哦)</item>
     </string-array>
+    <string-array name="quiz_log_operate">
+        <item>查看详细得分</item>
+        <item>重新测试</item>
+    </string-array>
     <string-array name="settings_workbookStorageLoc_val">
         <item>public</item>
         <item>internal</item>
@@ -186,4 +190,7 @@
     <string name="quizResultStory4">大吉大利,晚上吃鸡!</string>
     <string name="quizContent">试卷内容</string>
     <string name="quizHistory">小测历史</string>
+    <string name="errQuestionDeleted">题目已被删除</string>
+    <string name="confirmSkip">确定跳过这道题目？</string>
+    <string name="confirmSkipMsg">一个人被逼急了什么都能做出来，除了数学题。。。</string>
 </resources>

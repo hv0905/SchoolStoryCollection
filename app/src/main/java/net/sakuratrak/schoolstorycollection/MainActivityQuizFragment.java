@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -70,6 +73,7 @@ public final class MainActivityQuizFragment extends Fragment {
             Intent intent = new Intent(getActivity(), QuizActivity.class);
             intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, ids);
             intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
             startActivity(intent);
 
         });
@@ -133,6 +137,32 @@ public final class MainActivityQuizFragment extends Fragment {
                         data.getLogs().size(),
                         data.getAvgScore(),
                         v -> {
+                            new AlertDialog.Builder(getContext()).setItems(R.array.quiz_log_operate, (dialog, which) -> {
+                                switch (which) {
+                                    case 0://view
+                                        Intent intent = new Intent(getContext(), QuizResultActivity.class);
+                                        intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, data.getId());
+                                        startActivity(intent);
+                                        break;
+                                    case 1://retry
+                                        Intent intent1 = new Intent(getContext(),QuizActivity.class);
+                                        intent1.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+                                        intent1.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"重测：" + data.getDescription());
+                                        ArrayList<Integer> arrayList = new ArrayList<>();
+                                        for (ExerciseLog log :
+                                                data.getLogs()) {
+                                            if(log.getQuestion() != null)
+                                                arrayList.add(log.getQuestion().getId());
+                                        }
+                                        if(arrayList.size() == 0){
+                                            Toast.makeText(getContext(),"无法开始，小测中的所有题目已被删除",Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,arrayList);
+                                        startActivity(intent1);
+                                        break;
+                                }
+                            }).setNegativeButton(R.string.cancel, null).show();
 
                         }));
             }

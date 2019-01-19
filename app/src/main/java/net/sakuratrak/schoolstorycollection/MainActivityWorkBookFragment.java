@@ -224,6 +224,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         Intent intent = new Intent(getActivity(), QuizActivity.class);
         intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_SOLO);
         intent.putExtra(QuizActivity.EXTRA_QUESTION_ID, info.getId());
+        intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"单题测试:" + info.getTitle());
         startActivityForResult(intent, REQUEST_QUIZ);
     }
 
