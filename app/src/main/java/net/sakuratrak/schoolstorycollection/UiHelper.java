@@ -1,6 +1,7 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -75,4 +76,29 @@ public final class UiHelper {
                 context.getResources().getColor(R.color.flat8),
                 context.getResources().getColor(R.color.flat9)};
     }
+
+    public static int getWarnColorByScore(Resources res, int score){
+        int scoreLevel = score / 25;
+        int uiColor;
+        switch (scoreLevel) {
+            case 0://0-25
+                uiColor = res.getColor(R.color.flat8);
+                break;
+            case 1://25-50
+                uiColor = res.getColor(R.color.flat2);
+                break;
+            case 2://50-75
+                uiColor = res.getColor(R.color.flat2);
+                break;
+            case 3://75-100
+                uiColor = res.getColor(R.color.flat5);
+                break;
+            default://100+
+                uiColor = res.getColor(R.color.flat7);
+                break;
+        }
+        return uiColor;
+    }
+
+
 }

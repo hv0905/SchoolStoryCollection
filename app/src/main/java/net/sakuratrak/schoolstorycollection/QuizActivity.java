@@ -20,12 +20,12 @@ import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
+import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,7 +68,6 @@ public class QuizActivity extends AppCompatActivity {
     //endregion
 
     //region fields
-    UUID _currentGuid = UUID.randomUUID();
     boolean _autoNext;
     ArrayList<Integer> _idList;
     int _currentId = 0;
@@ -76,7 +75,7 @@ public class QuizActivity extends AppCompatActivity {
     int _state;
     QuestionInfo _currentContext;
     private QuizMarkView _markView;
-    private ArrayList<Integer> _historyIds;
+    private ExerciseLogGroup _currentGroup;
     //endregion
 
     @Override
@@ -236,13 +235,15 @@ public class QuizActivity extends AppCompatActivity {
     //增加一条做题记录
     public void postRecord(int score) {
             try {
-                ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGuid);
+                if(_currentGroup == null){
+                    _currentGroup = new ExerciseLogGroup();
+                    _currentGroup.setDescription("小测");
+                    DbManager.getDefaultHelper(this).getExerciseLogGroups().create(_currentGroup);
+                }
+                ExerciseLog log = new ExerciseLog(score, _currentContext,_currentGroup);
                 DbManager.getDefaultHelper(this)
                         .getExerciseLogs()
                         .create(log);
-                if (_historyIds == null)
-                    _historyIds = new ArrayList<>();
-                _historyIds.add(log.getId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -324,7 +325,7 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             //要显示报告
             Intent intent = new Intent(this, QuizResultActivity.class);
-            intent.putIntegerArrayListExtra(QuizResultActivity.EXTRA_RESULT_IDS, _historyIds);
+            intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, _currentGroup.getId());
             startActivity(intent);
             finish();
         }

@@ -8,14 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
-import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
+import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -32,8 +31,8 @@ public final class MainActivityQuizFragment extends Fragment {
     private View _quickQuizButton;
     private View _unitQuizButton;
     private RecyclerView _listLog;
-    private ExerciseLogAdapter _mainAdapter;
-    private ArrayList<ExerciseLogAdapter.DataContext> _logContext;
+    private ExerciseLogGroupAdapter _mainAdapter;
+    private ArrayList<ExerciseLogGroupAdapter.DataContext> _logContext;
     private final MainActivity.RequireRefreshEventHandler _update = this::update;
 
     public MainActivityQuizFragment() {
@@ -81,7 +80,7 @@ public final class MainActivityQuizFragment extends Fragment {
 
         //_buttonTest.setOnClickListener(v -> AlarmReceiver.setupAlarm(getContext(),false));
         _logContext = new ArrayList<>();
-        _mainAdapter = new ExerciseLogAdapter(new ListDataProvider<>(_logContext));
+        _mainAdapter = new ExerciseLogGroupAdapter(new ListDataProvider<>(_logContext));
         _listLog.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         _listLog.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
         getParent().addRequireRefreshEvent(_update);
@@ -102,27 +101,43 @@ public final class MainActivityQuizFragment extends Fragment {
         //载入记录
         _logContext.clear();
         try {
-            List<ExerciseLog> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogs().queryForAll();
-            int index = 1;
-            UUID groupUuid = null;
-            for (ExerciseLog data :
-                    datas) {
-                if (data.getGroupGuid().equals(groupUuid)) {
-                    index++;
-                } else {
-                    index = 1;
-                    groupUuid = data.getGroupGuid();
-                }
-                _logContext.add(new ExerciseLogAdapter.DataContext(index,
-                        data.getQuestion().getTitle(),
-                        data.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : data.getQuestion().getUnit().getName(),
-                        data.getCorrectRatio(),
+//            List<ExerciseLog> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogs().queryForAll();
+//            int index = 1;
+//            UUID groupUuid = null;
+//            for (ExerciseLog data :
+//                    datas) {
+//                if (data.getGroupGuid().equals(groupUuid)) {
+//                    index++;
+//                } else {
+//                    index = 1;
+//                    groupUuid = data.getGroupGuid();
+//                }
+//                _logContext.add(new ExerciseLogAdapter.DataContext(index,
+//                        data.getQuestion().getTitle(),
+//                        data.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : data.getQuestion().getUnit().getName(),
+//                        data.getCorrectRatio(),
+//                        v -> {
+//                            Intent intent = new Intent(getContext(),QuestionDetailActivity.class);
+//                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,data.getQuestion().getId());
+//                            startActivity(intent);
+//                        }));
+//            }
+
+            List<ExerciseLogGroup> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogGroups().queryForAll();
+
+            for (ExerciseLogGroup data : datas) {
+                //        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
+                _logContext.add(new ExerciseLogGroupAdapter.DataContext(
+                        data.getDescription(),
+                        data.getHappendTime().toString(),
+                        data.getLogs().size(),
+                        data.getAvgScore(),
                         v -> {
-                            Intent intent = new Intent(getContext(),QuestionDetailActivity.class);
-                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,data.getQuestion().getId());
-                            startActivity(intent);
+
                         }));
             }
+
+            _mainAdapter.notifyDataSetChanged();
 
         } catch (SQLException e) {
             e.printStackTrace();

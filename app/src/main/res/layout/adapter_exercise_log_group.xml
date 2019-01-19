@@ -5,48 +5,45 @@
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/margin_small"
-    android:layout_marginRight="@dimen/margin_small"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    android:background="?android:attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/questionId"
-        style="@style/textValue"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/ui_margin_mid"
-        android:layout_marginBottom="@dimen/ui_margin_mid"
-        android:gravity="center"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="1" />
-
-    <TextView
-        android:id="@+id/title"
+        android:id="@+id/textTitle"
         style="@style/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/ui_margin_mid"
         android:layout_marginTop="@dimen/ui_margin_mid"
-        app:layout_constraintBottom_toTopOf="@+id/unit"
-        app:layout_constraintStart_toEndOf="@+id/questionId"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        tools:text="123123" />
+        tools:text="快速小测"
 
-    <TextView
-        android:id="@+id/unit"
+        />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/ui_margin_mid"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="345345" />
+        app:layout_constraintStart_toStartOf="@+id/textTitle"
+        app:layout_constraintTop_toBottomOf="@id/textTitle">
+
+        <TextView
+            android:id="@+id/textQuestionCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_file_text_black_24dp"
+            android:gravity="center"
+            tools:text="3道题目" />
+
+        <TextView
+            android:id="@+id/textHappenTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ui_margin_mid"
+            android:drawableStart="@drawable/ic_time_black_24dp"
+            android:gravity="center"
+            tools:text="YYYY-MM-DD" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/scoreProgress"
@@ -60,7 +57,8 @@
         android:progressDrawable="@drawable/circle_progressbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:progress="100" />
 
     <TextView
         android:id="@+id/scoreProgressVal"
@@ -75,4 +73,3 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

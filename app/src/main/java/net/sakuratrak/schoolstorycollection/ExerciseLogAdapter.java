@@ -18,6 +18,10 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
 
     private IListedDataProvidable<DataContext> _context;
 
+    public ExerciseLogAdapter(IListedDataProvidable<DataContext> _context) {
+        this._context = _context;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,31 +35,16 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
         holder._questionId.setText(String.valueOf(current.Id));
         holder._title.setText(current.Name);
         holder._unit.setText(current.Unit);
-        int scoreLevel = current.Score / 25;
-        int uiColor;
-        switch (scoreLevel) {
-            case 0://0-25
-                uiColor = holder._rootView.getResources().getColor(R.color.flat8);
-                break;
-            case 1://25-50
-                uiColor = holder._rootView.getResources().getColor(R.color.flat2);
-                break;
-            case 2://50-75
-                uiColor = holder._rootView.getResources().getColor(R.color.flat2);
-                break;
-            case 3://75-100
-                uiColor = holder._rootView.getResources().getColor(R.color.flat5);
-                break;
-            default://100+
-                uiColor = holder._rootView.getResources().getColor(R.color.flat7);
-                break;
-        }
-        holder._scoreProgress.setProgressTintList(ColorStateList.valueOf(uiColor));
+        holder._scoreProgress.setProgressTintList(
+                ColorStateList.valueOf(
+                        UiHelper.getWarnColorByScore(
+                                holder._scoreProgress.getResources()
+                                , current.Score)));
         holder._scoreProgressVal.setText(String.valueOf(current.Score));
         holder._rootView.setOnClickListener(current.onClick);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder._scoreProgress.setProgress(current.Score,true);
-        }else {
+            holder._scoreProgress.setProgress(current.Score, false);
+        } else {
             holder._scoreProgress.setProgress(current.Score);
         }
 
@@ -71,10 +60,6 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
     }
 
     public void set_context(IListedDataProvidable<DataContext> _context) {
-        this._context = _context;
-    }
-
-    public ExerciseLogAdapter(IListedDataProvidable<DataContext> _context) {
         this._context = _context;
     }
 
