@@ -20,7 +20,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
 
     public static final String DATABASE_NAME = "questionBook.db";
 
-    public static final int DATABASE_VER = 4;
+    public static final int DATABASE_VER = 5;
 
     private static OrmLiteSqliteOpenHelper currentHelper;
 
@@ -29,6 +29,8 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
     private Dao<LearningUnitInfo, Integer> learningUnitInfos;
 
     private Dao<ExerciseLog, Integer> exerciseLogs;
+
+    private Dao<ExerciseLogGroup,Integer> exerciseLogGroups;
 
     public DbManager(Context context) {
         super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, DATABASE_VER);
@@ -97,12 +99,24 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
         return exerciseLogs;
     }
 
+    public Dao<ExerciseLogGroup, Integer> getExerciseLogGroups() {
+        if (exerciseLogGroups == null) {
+            try {
+                exerciseLogGroups = getDao(ExerciseLogGroup.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return exerciseLogGroups;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             TableUtils.createTable(connectionSource, QuestionInfo.class);
             TableUtils.createTable(connectionSource, LearningUnitInfo.class);
             TableUtils.createTable(connectionSource, ExerciseLog.class);
+            TableUtils.createTable(connectionSource,ExerciseLogGroup.class);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -115,6 +129,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, QuestionInfo.class, true);
             TableUtils.dropTable(connectionSource, LearningUnitInfo.class, true);
             TableUtils.dropTable(connectionSource, ExerciseLog.class, true);
+            TableUtils.dropTable(connectionSource,ExerciseLogGroup.class,true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class AppHelper {

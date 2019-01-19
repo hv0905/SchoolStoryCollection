@@ -9,11 +9,12 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 
 @DatabaseTable(tableName = "LearningUnitInfo")
-public class LearningUnitInfo implements Serializable {
+public class LearningUnitInfo implements Serializable,Comparable<LearningUnitInfo> {
     private static final int NEED_MORE_MAX = 5;
 
 
@@ -29,11 +30,15 @@ public class LearningUnitInfo implements Serializable {
     @DatabaseField(canBeNull = false)
     private int subjectId;
 
-    public LearningUnitInfo() {
+    @DatabaseField
+    private Date createTime;
 
+    public LearningUnitInfo() {
+        createTime = new Date();
     }
 
     public LearningUnitInfo(String name, LearningSubject subject) {
+        createTime = new Date();
         this.name = name;
         setSubject(subject);
     }
@@ -101,6 +106,11 @@ public class LearningUnitInfo implements Serializable {
 
     public void setQuestions(ForeignCollection<QuestionInfo> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public int compareTo(LearningUnitInfo o) {
+        return createTime.compareTo(o.createTime);
     }
 
     public static class LearningUnitInfoDaoHelper {

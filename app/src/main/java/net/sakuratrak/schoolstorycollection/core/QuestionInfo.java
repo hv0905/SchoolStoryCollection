@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 @DatabaseTable(tableName = "QuestionInfo")
-public final class QuestionInfo implements Serializable {
+public final class QuestionInfo implements Serializable,Comparable<QuestionInfo> {
 
     public static final int DIFFICULTY_MAX = 10;
 
@@ -220,6 +220,11 @@ public final class QuestionInfo implements Serializable {
 
     public void setFavourite(boolean favourite) {
         this.favourite = favourite;
+    }
+
+    @Override
+    public int compareTo(QuestionInfo o) {
+        return - getAuthorTime().compareTo(o.getAuthorTime());
     }
 
     /**
