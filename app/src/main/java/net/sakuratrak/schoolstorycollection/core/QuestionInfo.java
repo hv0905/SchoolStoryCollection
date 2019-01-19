@@ -17,7 +17,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 @DatabaseTable(tableName = "QuestionInfo")
-public final class QuestionInfo implements Serializable,Comparable<QuestionInfo> {
+public final class QuestionInfo implements Serializable, Comparable<QuestionInfo> {
 
     public static final int DIFFICULTY_MAX = 10;
 
@@ -106,6 +106,7 @@ public final class QuestionInfo implements Serializable,Comparable<QuestionInfo>
     }
 
     public String[] getAnalysisImage() {
+        if (analysisImage == null || analysisImage.isEmpty()) return new String[0];
         return AppHelper.string2StringArray(analysisImage);
     }
 
@@ -134,7 +135,7 @@ public final class QuestionInfo implements Serializable,Comparable<QuestionInfo>
     }
 
     public void setAnswer(Answer answer) {
-        if(answer == this.answer) return;
+        if (answer == this.answer) return;
         this.answer = answer;
         answerStr = answer.toMetaData();
     }
@@ -224,7 +225,7 @@ public final class QuestionInfo implements Serializable,Comparable<QuestionInfo>
 
     @Override
     public int compareTo(QuestionInfo o) {
-        return - getAuthorTime().compareTo(o.getAuthorTime());
+        return -getAuthorTime().compareTo(o.getAuthorTime());
     }
 
     /**
