@@ -11,6 +11,10 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
         this.answer = answer;
     }
 
+    public static BlankAnswer fromMetaData(String metaData) {
+        return new BlankAnswer(metaData);
+    }
+
     @Override
     public String toString() {
         return answer;
@@ -40,9 +44,5 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
     @Override
     public String toMetaData() {
         return answer;
-    }
-
-    public static BlankAnswer fromMetaData(String metaData){
-        return new BlankAnswer(metaData);
     }
 }

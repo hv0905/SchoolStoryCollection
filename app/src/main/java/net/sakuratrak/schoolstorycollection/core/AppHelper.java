@@ -4,7 +4,7 @@ import java.util.List;
 
 public final class AppHelper {
 
-    public static String stringList2String(List<String> strList){
+    public static String stringList2String(List<String> strList) {
         StringBuilder sb = new StringBuilder();
         for (String item :
                 strList) {
@@ -13,7 +13,7 @@ public final class AppHelper {
         return sb.toString();
     }
 
-    public static String[] string2StringArray(String str){
+    public static String[] string2StringArray(String str) {
         return str.split(";");
     }
 

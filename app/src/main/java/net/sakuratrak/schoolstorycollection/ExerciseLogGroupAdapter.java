@@ -19,6 +19,10 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
 
     private IListedDataProvidable<DataContext> _context;
 
+    public ExerciseLogGroupAdapter(IListedDataProvidable<DataContext> _context) {
+        this._context = _context;
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,14 +33,14 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         DataContext context = _context.get(position);
-        holder._textQuestionCount.setText(String.format( Locale.US,"%d道题目",context.questionCount));
+        holder._textQuestionCount.setText(String.format(Locale.US, "%d道题目", context.questionCount));
         holder._textTitle.setText(context.title);
         holder._textHappenTime.setText(context.happenTime);
         holder._scoreProgressVal.setText(String.valueOf(context.score));
         holder._scoreProgress.setProgress(context.score);
         holder._scoreProgress.setProgressTintList(
                 ColorStateList.valueOf(
-                        UiHelper.getWarnColorByScore(holder._scoreProgress.getResources(),context.score)));
+                        UiHelper.getWarnColorByScore(holder._scoreProgress.getResources(), context.score)));
         holder._rootView.setOnClickListener(context.onClick);
 
     }
@@ -54,18 +58,14 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
         this._context = _context;
     }
 
-    public ExerciseLogGroupAdapter(IListedDataProvidable<DataContext> _context) {
-        this._context = _context;
-    }
-
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public ConstraintLayout _rootView;
-        public TextView _textTitle;
-        public TextView _textQuestionCount;
-        public TextView _textHappenTime;
-        public TextView _scoreProgressVal;
-        public ProgressBar _scoreProgress;
+        public final ConstraintLayout _rootView;
+        public final TextView _textTitle;
+        public final TextView _textQuestionCount;
+        public final TextView _textHappenTime;
+        public final TextView _scoreProgressVal;
+        public final ProgressBar _scoreProgress;
 
 
         public Holder(@NonNull View itemView) {

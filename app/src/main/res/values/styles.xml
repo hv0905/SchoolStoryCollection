@@ -68,7 +68,7 @@
         <item name="android:layout_gravity">left</item>
     </style>
 
-    <style name="textNotice" parent="textNormal"></style>
+    <style name="textNotice" parent="textNormal" />
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
         <item name="android:windowBackground">@drawable/welcome_background</item>

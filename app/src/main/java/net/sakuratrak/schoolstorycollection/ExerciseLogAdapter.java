@@ -65,12 +65,12 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
 
     public static final class Holder extends RecyclerView.ViewHolder {
 
-        public ConstraintLayout _rootView;
-        public TextView _questionId;
-        public TextView _title;
-        public TextView _unit;
-        public TextView _scoreProgressVal;
-        public ProgressBar _scoreProgress;
+        public final ConstraintLayout _rootView;
+        public final TextView _questionId;
+        public final TextView _title;
+        public final TextView _unit;
+        public final TextView _scoreProgressVal;
+        public final ProgressBar _scoreProgress;
 
         public Holder(@NonNull View itemView) {
             super(itemView);

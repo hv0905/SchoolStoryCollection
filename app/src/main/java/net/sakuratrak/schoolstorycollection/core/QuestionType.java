@@ -26,7 +26,7 @@ public enum QuestionType implements Serializable {
     BLANK(R.string.fillQuestion),
     ANSWER(R.string.answerQuestion);
 
-    int _resId;
+    final int _resId;
 
     QuestionType(int resId) {
         _resId = resId;

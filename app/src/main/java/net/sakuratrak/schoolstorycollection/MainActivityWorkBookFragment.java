@@ -41,7 +41,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
-
+    private final DataContextList _defaultList = this.new DataContextList();
     //region views
     private ConstraintLayout _root;
     private RecyclerView _itemList;
@@ -51,21 +51,17 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private int _questionCount;
     private List<QuestionInfo> _contexts;
     private View _workbookEmptyNotice;
-    private DataContextList _defaultList = this.new DataContextList();
+    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     private FloatingActionButton _addItem_singleChoice;
     private FloatingActionButton _addItem_multiChoice;
     private FloatingActionButton _addItem_editableFill;
     private FloatingActionButton _addItem_fill;
+    //endregion
     private FloatingActionButton _addItem_answer;
     //endregion
-
     //region fields
     private int _currentDetailIndex = -1;
-    //endregion
-
     private RecycleViewDivider _mainDivider;
-
-    private MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -229,22 +225,22 @@ public final class MainActivityWorkBookFragment extends Fragment {
         Intent intent = new Intent(getActivity(), QuizActivity.class);
         intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_SOLO);
         intent.putExtra(QuizActivity.EXTRA_QUESTION_ID, info.getId());
-        intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"单题测试:" + info.getTitle());
+        intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "单题测试:" + info.getTitle());
         startActivityForResult(intent, REQUEST_QUIZ);
     }
 
     private void showOptionMenu(QuestionInfo info, int index) {
         AlertDialog builder = new AlertDialog.Builder(getContext()).
                 setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
-            switch (which) {
-                case 0:
-                    goDetail(info, null, index);
-                    break;
-                case 1:
-                    goQuiz(info);
-                    break;
-            }
-        }).setNegativeButton(R.string.cancel, null).show();
+                    switch (which) {
+                        case 0:
+                            goDetail(info, null, index);
+                            break;
+                        case 1:
+                            goQuiz(info);
+                            break;
+                    }
+                }).setNegativeButton(R.string.cancel, null).show();
     }
 
     void onAddItem(QuestionType type) {

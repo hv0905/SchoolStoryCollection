@@ -31,12 +31,17 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/questionCounter"
                     style="@style/textValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="45sp"
+                    tools:text="12"
+                    />
 
                 <TextView
                     android:id="@+id/questionName"
@@ -45,7 +50,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:textColor="@color/white"
-                    app:layout_constraintLeft_toRightOf="@id/questionCounter" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/textQuestionType"
+                    app:layout_constraintLeft_toRightOf="@id/questionCounter"
+                    tools:text="Name"
+                    />
 
                 <TextView
                     android:id="@+id/textQuestionType"
@@ -55,7 +64,9 @@
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@id/questionCounter"
-                    app:layout_constraintTop_toBottomOf="@id/questionName" />
+                    app:layout_constraintTop_toBottomOf="@id/questionName"
+                    tools:text="单选题"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

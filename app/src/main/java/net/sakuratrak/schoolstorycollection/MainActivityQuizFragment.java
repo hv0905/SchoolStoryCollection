@@ -78,7 +78,7 @@ public final class MainActivityQuizFragment extends Fragment {
             intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, ids);
             intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
             intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "快速小测");
-            startActivityForResult(intent,REQUEST_QUIZ);
+            startActivityForResult(intent, REQUEST_QUIZ);
 
         });
 
@@ -164,7 +164,7 @@ public final class MainActivityQuizFragment extends Fragment {
                                             return;
                                         }
                                         intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, arrayList);
-                                        startActivityForResult(intent1,REQUEST_QUIZ);
+                                        startActivityForResult(intent1, REQUEST_QUIZ);
                                         break;
                                 }
                             }).setNegativeButton(R.string.cancel, null).show();
@@ -189,7 +189,7 @@ public final class MainActivityQuizFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_QUIZ:
-                if(resultCode != QuizActivity.RESULT_NONE_DONE){
+                if (resultCode != QuizActivity.RESULT_NONE_DONE) {
                     //要更新记录
                     getParent().requireRefresh();
                 }

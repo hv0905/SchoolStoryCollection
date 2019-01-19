@@ -26,6 +26,21 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
     @ForeignCollectionField(eager = true)
     private ForeignCollection<ExerciseLog> logs;
 
+    public ExerciseLogGroup(String description) {
+        happendTime = new Date();
+        this.description = description;
+    }
+
+    public ExerciseLogGroup(String description, LearningSubject subject) {
+        happendTime = new Date();
+        this.description = description;
+        setSubject(subject);
+    }
+
+    public ExerciseLogGroup() {
+        happendTime = new Date();
+    }
+
     public int getId() {
         return id;
     }
@@ -52,27 +67,12 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
 
     public Date getHappendTime() {
         //emergency fix patch
-        if(happendTime == null) happendTime = new Date();
+        if (happendTime == null) happendTime = new Date();
         return happendTime;
     }
 
     public void setHappendTime(Date happendTime) {
         this.happendTime = happendTime;
-    }
-
-    public ExerciseLogGroup(String description) {
-        happendTime = new Date();
-        this.description = description;
-    }
-
-    public ExerciseLogGroup(String description, LearningSubject subject) {
-        happendTime = new Date();
-        this.description = description;
-        setSubject(subject);
-    }
-
-    public ExerciseLogGroup() {
-        happendTime = new Date();
     }
 
     public LearningSubject getSubject() {
@@ -87,9 +87,9 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
         int sum = 0;
         for (ExerciseLog log :
                 getLogs()) {
-            sum+=log.getCorrectRatio();
+            sum += log.getCorrectRatio();
         }
-        return (int) (( (double)sum / logs.size() ) + 0.5);
+        return (int) (((double) sum / logs.size()) + 0.5);
     }
 
     @Override
@@ -98,7 +98,7 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
     }
 
     public static class DaoHelper {
-        Dao<ExerciseLogGroup,Integer> _base;
+        final Dao<ExerciseLogGroup, Integer> _base;
 
         public DaoHelper(Dao<ExerciseLogGroup, Integer> _base) {
             this._base = _base;

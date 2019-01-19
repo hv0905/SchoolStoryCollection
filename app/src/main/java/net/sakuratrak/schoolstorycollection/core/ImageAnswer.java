@@ -14,12 +14,12 @@ public final class ImageAnswer extends Answer {
         Image = image;
     }
 
+    public static ImageAnswer fromMetaData(String metaData) {
+        return new ImageAnswer(new ArrayList<>(Arrays.asList(AppHelper.string2StringArray(metaData))));
+    }
+
     @Override
     public String toMetaData() {
         return AppHelper.stringList2String(Image);
-    }
-
-    public static ImageAnswer fromMetaData(String metaData){
-        return new ImageAnswer(new ArrayList<>(Arrays.asList(AppHelper.string2StringArray(metaData))));
     }
 }

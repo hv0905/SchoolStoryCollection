@@ -1,13 +1,11 @@
 package net.sakuratrak.schoolstorycollection.core;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +27,7 @@ public class ExerciseLog implements Serializable {
 //    @DatabaseField(dataType = DataType.UUID)
 //    private UUID groupGuid;
 
-    @DatabaseField(foreign = true,foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private ExerciseLogGroup group;
 
     @DatabaseField
@@ -121,7 +119,7 @@ public class ExerciseLog implements Serializable {
     //endregion
 
     public static class ExerciseLogDaoManager {
-        Dao<ExerciseLog, Integer> _base;
+        final Dao<ExerciseLog, Integer> _base;
 
         public ExerciseLogDaoManager(Dao<ExerciseLog, Integer> _base) {
             this._base = _base;

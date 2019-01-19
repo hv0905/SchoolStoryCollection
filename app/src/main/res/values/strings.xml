@@ -1,7 +1,8 @@
 <resources>
-    <string name="AppBranch">master</string>
+    <string name="AppBranch">develop</string>
     <string name="AppNameCn">错题本Story</string>
-    <string name="AppAuthor">Saber0905 in SakuraTrak studio</string>
+    <string name="AppAuthor">EdgeNeko in SakuraTrak studio</string>
+    <string name="AppVersionCn">版本:develop 1.0.0 发布于19.1.19</string>
 
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
@@ -85,7 +86,6 @@
     <string name="setval_clearStatInfo">将删除所有小测记录(包括已归档的错题的记录),重置单元统计信息,你的错题不会受到影响</string>
     <string name="setval_clearAll">将删除所有错题和单元,包括已归档的错题和单元\n壮士一去兮,就回不来了…</string>
     <string name="settit_clearAll">永久删除所有错题和单元</string>
-    <string name="AppVersionCn">版本:1.0.0 发布于18.11.9</string>
     <string name="Author">作者</string>
     <string name="branch">分支</string>
     <string name="showDetailedAbout">显示详细关于信息</string>

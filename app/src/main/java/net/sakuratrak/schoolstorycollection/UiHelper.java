@@ -77,7 +77,7 @@ public final class UiHelper {
                 context.getResources().getColor(R.color.flat9)};
     }
 
-    public static int getWarnColorByScore(Resources res, int score){
+    public static int getWarnColorByScore(Resources res, int score) {
         int scoreLevel = score / 25;
         int uiColor;
         switch (scoreLevel) {

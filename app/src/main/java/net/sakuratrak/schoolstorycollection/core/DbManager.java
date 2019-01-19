@@ -30,7 +30,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
 
     private Dao<ExerciseLog, Integer> exerciseLogs;
 
-    private Dao<ExerciseLogGroup,Integer> exerciseLogGroups;
+    private Dao<ExerciseLogGroup, Integer> exerciseLogGroups;
 
     public DbManager(Context context) {
         super(context, context.getDatabasePath(AppSettingsMaster.getWorkbookDb(context).getAbsolutePath()).getAbsolutePath(), null, DATABASE_VER);
@@ -116,7 +116,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, QuestionInfo.class);
             TableUtils.createTable(connectionSource, LearningUnitInfo.class);
             TableUtils.createTable(connectionSource, ExerciseLog.class);
-            TableUtils.createTable(connectionSource,ExerciseLogGroup.class);
+            TableUtils.createTable(connectionSource, ExerciseLogGroup.class);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,7 +129,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, QuestionInfo.class, true);
             TableUtils.dropTable(connectionSource, LearningUnitInfo.class, true);
             TableUtils.dropTable(connectionSource, ExerciseLog.class, true);
-            TableUtils.dropTable(connectionSource,ExerciseLogGroup.class,true);
+            TableUtils.dropTable(connectionSource, ExerciseLogGroup.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

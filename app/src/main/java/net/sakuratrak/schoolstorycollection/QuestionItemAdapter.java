@@ -120,16 +120,16 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         }
 
         public final static class Holder extends RecyclerView.ViewHolder {
-            public TextView title;
-            public ImageView previewImgContent;
-            public FrameLayout previewImgBorder;
-            public TextView valAuthorTime;
-            public TextView valUnit;
-            public MaterialButton btnQuiz;
-            public MaterialButton btnDetail;
-            public RatingBar valDifficulty;
-            public ImageView valFavourite;
-            private View _root;
+            public final TextView title;
+            public final ImageView previewImgContent;
+            public final FrameLayout previewImgBorder;
+            public final TextView valAuthorTime;
+            public final TextView valUnit;
+            public final MaterialButton btnQuiz;
+            public final MaterialButton btnDetail;
+            public final RatingBar valDifficulty;
+            public final ImageView valFavourite;
+            private final View _root;
 
 
             public Holder(View rootView) {
@@ -176,11 +176,11 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
         public static class Holder extends RecyclerView.ViewHolder {
 
-            public ConstraintLayout _rootView;
-            public ImageView _previewImg;
-            public TextView _textTitle;
-            public MaterialRatingBar _difficulty;
-            public ImageView _favourite;
+            public final ConstraintLayout _rootView;
+            public final ImageView _previewImg;
+            public final TextView _textTitle;
+            public final MaterialRatingBar _difficulty;
+            public final ImageView _favourite;
 
 
             public Holder(@NonNull View itemView) {

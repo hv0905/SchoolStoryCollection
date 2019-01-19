@@ -73,7 +73,7 @@ public class QuizResultActivity extends AppCompatActivity {
         _contextList = new ArrayList<>();
         int i = 0;
         for (ExerciseLog log : group.getLogs()) {
-            if(log.getQuestion() != null) {
+            if (log.getQuestion() != null) {
                 _contextList.add(new ExerciseLogAdapter.DataContext(
                         ++i,
                         log.getQuestion().getTitle(),
@@ -81,12 +81,12 @@ public class QuizResultActivity extends AppCompatActivity {
                         log.getCorrectRatio(),
                         v -> {
                             try {
-                                if(DbManager.getDefaultHelper(this).getQuestionInfos().idExists(log.getQuestion().getId())) {
+                                if (DbManager.getDefaultHelper(this).getQuestionInfos().idExists(log.getQuestion().getId())) {
                                     Intent intent = new Intent(this, QuestionDetailActivity.class);
                                     intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, log.getQuestion().getId());
                                     startActivity(intent);
-                                }else{
-                                    Toast.makeText(this,R.string.errQuestionDeleted,Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show();
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
@@ -94,22 +94,22 @@ public class QuizResultActivity extends AppCompatActivity {
 
                         }
                 ));
-            }else{
+            } else {
                 _contextList.add(new ExerciseLogAdapter.DataContext(
                         ++i,
                         getString(R.string.errQuestionDeleted),
                         getString(R.string.emptyUnit),
                         log.getCorrectRatio(),
                         v -> {
-                            Toast.makeText(this,R.string.errQuestionDeleted,Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show();
                         }
                 ));
             }
         }
 
-            int scoreAvg = group.getAvgScore();
-            int uiColor = UiHelper.getWarnColorByScore(getResources(),scoreAvg);
-            int scoreLevel = scoreAvg / 25;
+        int scoreAvg = group.getAvgScore();
+        int uiColor = UiHelper.getWarnColorByScore(getResources(), scoreAvg);
+        int scoreLevel = scoreAvg / 25;
         switch (scoreLevel) {
             case 0://0-25
                 _textStory.setText(R.string.quizResultStory0);
@@ -134,30 +134,30 @@ public class QuizResultActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(uiColor);
 
         _toolbar.setBackgroundColor(uiColor);
-            _appBar.setBackgroundColor(uiColor);
-            _toolbarLayout.setBackgroundColor(uiColor);
-            _toolbarLayout.setContentScrimColor(uiColor);
-            getWindow().setStatusBarColor(uiColor);
+        _appBar.setBackgroundColor(uiColor);
+        _toolbarLayout.setBackgroundColor(uiColor);
+        _toolbarLayout.setContentScrimColor(uiColor);
+        getWindow().setStatusBarColor(uiColor);
 
-            String title = String.format(Locale.ENGLISH, "%d%%", scoreAvg);
-            _toolbar.setTitle(title);
-            getSupportActionBar().setTitle(title);
-            _toolbarLayout.setTitle(title);
-            setTitle(title);
+        String title = String.format(Locale.ENGLISH, "%d%%", scoreAvg);
+        _toolbar.setTitle(title);
+        getSupportActionBar().setTitle(title);
+        _toolbarLayout.setTitle(title);
+        setTitle(title);
 
-            _adapter = new ExerciseLogAdapter(new ListDataProvider<>(_contextList));
+        _adapter = new ExerciseLogAdapter(new ListDataProvider<>(_contextList));
 
-            _recycleQuestions.setAdapter(new AlphaInAnimationAdapter(_adapter));
+        _recycleQuestions.setAdapter(new AlphaInAnimationAdapter(_adapter));
 
-        }
-
-
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            if (item.getItemId() == android.R.id.home) {
-                onBackPressed();
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

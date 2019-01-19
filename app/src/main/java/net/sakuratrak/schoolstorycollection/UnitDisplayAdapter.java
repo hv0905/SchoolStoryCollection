@@ -64,17 +64,17 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
     }
 
     public static final class Holder extends RecyclerView.ViewHolder {
-        private View _root;
+        private final View _root;
 
-        private TextView _valTitle;
-        private TextView _valCorrectRatio;
-        private ProgressBar _correctRatioBar;
-        private TextView _valQuizCount;
-        private TextView _warningTxt;
-        private TextView _valQuestionCount;
-        private TextView _valQuestionRatio;
-        private ProgressBar _questionRatioBar;
-        private FrameLayout _frame;
+        private final TextView _valTitle;
+        private final TextView _valCorrectRatio;
+        private final ProgressBar _correctRatioBar;
+        private final TextView _valQuizCount;
+        private final TextView _warningTxt;
+        private final TextView _valQuestionCount;
+        private final TextView _valQuestionRatio;
+        private final ProgressBar _questionRatioBar;
+        private final FrameLayout _frame;
 
 
         private Holder(View rootView) {

@@ -8,11 +8,11 @@ public final class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
 
     public static final int PAGES_COUNT = 3;
 
-    public MainActivityWorkBookFragment workBook;
+    public final MainActivityWorkBookFragment workBook;
 
-    public MainActivityQuizFragment mainActivityQuizFragment;
+    public final MainActivityQuizFragment mainActivityQuizFragment;
 
-    public MainActivityStatFragment stat;
+    public final MainActivityStatFragment stat;
 
     public MainActivityPagerAdapter(FragmentManager fm) {
         super(fm);

@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else {
-                for (int i = 0;i<_navigationView.getMenu().size();i++) {
+                for (int i = 0; i < _navigationView.getMenu().size(); i++) {
                     _navigationView.getMenu().getItem(i).setChecked(false);
                 }
                 menuItem.setChecked(true);

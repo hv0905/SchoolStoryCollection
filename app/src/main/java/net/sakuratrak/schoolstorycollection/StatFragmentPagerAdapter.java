@@ -9,8 +9,8 @@ public final class StatFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     public static final int PAGE_COUNT = 2;
 
-    public StatFragmentMainFragment main;
-    public StatFragmentUnitFragment unit;
+    public final StatFragmentMainFragment main;
+    public final StatFragmentUnitFragment unit;
 
     public StatFragmentPagerAdapter(FragmentManager fm) {
         super(fm);

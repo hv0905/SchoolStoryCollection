@@ -83,8 +83,8 @@ public final class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapte
 
     public static final class Holder extends RecyclerView.ViewHolder {
 
-        View _root;
-        ImageView _image;
+        final View _root;
+        final ImageView _image;
 
         protected Holder(@NonNull View rootView) {
             super(rootView);

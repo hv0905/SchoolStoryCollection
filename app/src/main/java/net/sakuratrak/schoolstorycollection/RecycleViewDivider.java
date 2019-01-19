@@ -9,8 +9,8 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 public final class RecycleViewDivider extends RecyclerView.ItemDecoration {
-    private Drawable _divider;
-    private int _orientation;
+    private final Drawable _divider;
+    private final int _orientation;
 
     public RecycleViewDivider(int orientation, Drawable divider) {
         this._orientation = orientation;

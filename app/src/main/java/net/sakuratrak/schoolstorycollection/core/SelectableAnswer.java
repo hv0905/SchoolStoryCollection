@@ -1,7 +1,5 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-import androidx.annotation.Nullable;
-
 public class SelectableAnswer extends Answer.PlainTextAnswer {
 
     public boolean A;
@@ -17,6 +15,16 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
     }
 
     public SelectableAnswer() {
+    }
+
+    public static SelectableAnswer fromMetaData(String metaData) {
+        char[] c = metaData.toCharArray();
+        SelectableAnswer sa = new SelectableAnswer();
+        sa.A = c[0] == '1';
+        sa.B = c[1] == '1';
+        sa.C = c[2] == '1';
+        sa.D = c[3] == '1';
+        return sa;
     }
 
     @Override
@@ -62,7 +70,6 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
         return new boolean[]{A, B, C, D};
     }
 
-
     @Override
     public String toMetaData() {
         StringBuilder builder = new StringBuilder();
@@ -72,15 +79,5 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
             builder.append(item ? '1' : '0');
         }
         return builder.toString();
-    }
-
-    public static SelectableAnswer fromMetaData(String metaData){
-        char[] c = metaData.toCharArray();
-        SelectableAnswer sa = new SelectableAnswer();
-        sa.A = c[0] == '1';
-        sa.B = c[1] == '1';
-        sa.C = c[2] == '1';
-        sa.D = c[3] == '1';
-        return sa;
     }
 }

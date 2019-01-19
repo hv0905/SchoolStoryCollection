@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @DatabaseTable(tableName = "LearningUnitInfo")
-public class LearningUnitInfo implements Serializable,Comparable<LearningUnitInfo> {
+public class LearningUnitInfo implements Serializable, Comparable<LearningUnitInfo> {
     private static final int NEED_MORE_MAX = 5;
 
 
