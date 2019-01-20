@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,13 +29,25 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 public class QuizResultActivity extends AppCompatActivity {
 
     public static final String EXTRA_GROUP_ID = "groupId";
+
+    public static final int REQUEST_QUIZ = 101;
+    public static final int RESULT_NORMAL = 1000;
+    public static final int RESULT_REQUIZ = 1001;
+
+    //region views
     private Toolbar _toolbar;
     private AppBarLayout _appBar;
     private TextView _textStory;
     private RecyclerView _recycleQuestions;
     private ExerciseLogAdapter _adapter;
     private CollapsingToolbarLayout _toolbarLayout;
+    private FloatingActionButton _retryBtn;
+    //endregion
+
+
     private ArrayList<ExerciseLogAdapter.DataContext> _contextList;
+    private ExerciseLogGroup _group;
+    private boolean _quized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +59,7 @@ public class QuizResultActivity extends AppCompatActivity {
         _textStory = findViewById(R.id.textStory);
         _recycleQuestions = findViewById(R.id.recycleQuestions);
         _toolbarLayout = findViewById(R.id.toolbar_layout);
+        _retryBtn = findViewById(R.id.retryBtn);
 
         setSupportActionBar(_toolbar);
 
@@ -59,11 +74,30 @@ public class QuizResultActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        _retryBtn.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, QuizActivity.class);
+            intent1.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+            intent1.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "重测：" + _group.getDescription());
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for (ExerciseLog log :
+                    _group.getLogs()) {
+                if (log.getQuestion() != null)
+                    arrayList.add(log.getQuestion().getId());
+            }
+            if (arrayList.size() == 0) {
+                Toast.makeText(this, "无法开始，小测中的所有题目已被删除", Toast.LENGTH_LONG).show();
+                return;
+            }
+            intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, arrayList);
+            startActivityForResult(intent1, REQUEST_QUIZ);
+        });
+
         //ArrayList<Integer> ids = getIntent().getIntegerArrayListExtra(EXTRA_RESULT_IDS);
         //Dao<ExerciseLog, Integer> questionInfos = DbManager.getDefaultHelper(this).getExerciseLogs();
-        ExerciseLogGroup group;
+
         try {
-            group = DbManager.getDefaultHelper(this).getExerciseLogGroups().queryForId(getIntent().getIntExtra(EXTRA_GROUP_ID, 0));
+            _group = DbManager.getDefaultHelper(this).getExerciseLogGroups().queryForId(getIntent().getIntExtra(EXTRA_GROUP_ID, 0));
         } catch (SQLException e) {
             e.printStackTrace();
             finish();
@@ -72,7 +106,7 @@ public class QuizResultActivity extends AppCompatActivity {
         int scoreSum = 0;
         _contextList = new ArrayList<>();
         int i = 0;
-        for (ExerciseLog log : group.getLogs()) {
+        for (ExerciseLog log : _group.getLogs()) {
             if (log.getQuestion() != null) {
                 _contextList.add(new ExerciseLogAdapter.DataContext(
                         ++i,
@@ -107,7 +141,7 @@ public class QuizResultActivity extends AppCompatActivity {
             }
         }
 
-        int scoreAvg = group.getAvgScore();
+        int scoreAvg = _group.getAvgScore();
         int uiColor = UiHelper.getWarnColorByScore(getResources(), scoreAvg);
         int scoreLevel = scoreAvg / 25;
         switch (scoreLevel) {
@@ -159,5 +193,23 @@ public class QuizResultActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(_quized ? RESULT_REQUIZ : RESULT_NORMAL);
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_QUIZ:
+                if (resultCode != QuizActivity.RESULT_NONE_DONE) {
+                    _quized = true;
+                }
+                break;
+        }
     }
 }

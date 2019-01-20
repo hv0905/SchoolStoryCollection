@@ -31,6 +31,7 @@ public final class MainActivityQuizFragment extends Fragment {
     public static final String TAG = "MainWindow_Quiz";
 
     public static final int REQUEST_QUIZ = 100;
+    public static final int REQUEST_DETAIL = 101;
 
 
     ViewGroup _root;
@@ -110,27 +111,6 @@ public final class MainActivityQuizFragment extends Fragment {
         //载入记录
         _logContext.clear();
         try {
-//            List<ExerciseLog> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogs().queryForAll();
-//            int index = 1;
-//            UUID groupUuid = null;
-//            for (ExerciseLog data :
-//                    datas) {
-//                if (data.getGroupGuid().equals(groupUuid)) {
-//                    index++;
-//                } else {
-//                    index = 1;
-//                    groupUuid = data.getGroupGuid();
-//                }
-//                _logContext.add(new ExerciseLogAdapter.DataContext(index,
-//                        data.getQuestion().getTitle(),
-//                        data.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : data.getQuestion().getUnit().getName(),
-//                        data.getCorrectRatio(),
-//                        v -> {
-//                            Intent intent = new Intent(getContext(),QuestionDetailActivity.class);
-//                            intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID,data.getQuestion().getId());
-//                            startActivity(intent);
-//                        }));
-//            }
 
             List<ExerciseLogGroup> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogGroups().queryForAll();
 
@@ -147,7 +127,7 @@ public final class MainActivityQuizFragment extends Fragment {
                                     case 0://view
                                         Intent intent = new Intent(getContext(), QuizResultActivity.class);
                                         intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, data.getId());
-                                        startActivity(intent);
+                                        startActivityForResult(intent,REQUEST_DETAIL);
                                         break;
                                     case 1://retry
                                         Intent intent1 = new Intent(getContext(), QuizActivity.class);
@@ -191,6 +171,10 @@ public final class MainActivityQuizFragment extends Fragment {
             case REQUEST_QUIZ:
                 if (resultCode != QuizActivity.RESULT_NONE_DONE) {
                     //要更新记录
+                    getParent().requireRefresh();
+                }
+            case REQUEST_DETAIL:
+                if(resultCode == QuizResultActivity.RESULT_REQUIZ){
                     getParent().requireRefresh();
                 }
         }

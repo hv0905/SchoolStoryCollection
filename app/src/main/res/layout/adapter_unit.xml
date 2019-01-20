@@ -141,7 +141,10 @@
                 android:text="@string/times_too_few_warn"
                 android:textColor="@color/danger"
                 android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

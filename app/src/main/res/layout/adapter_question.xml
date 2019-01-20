@@ -85,7 +85,7 @@
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                tools:text="刀~有你" />
+                tools:text="somewhere" />
 
             <TextView
                 android:id="@+id/valAuthorTime"
