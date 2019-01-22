@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -287,7 +288,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage()[0])));
 
         _questionText.post(() -> loadMarkdown(_questionText, _context.getQuestionDetail()));
-        _analysisText.post(() -> loadMarkdown(_analysisText, _context.getAnalysisDetail()));
+        _analysisText.post(() -> {
+            loadMarkdown(_analysisText, _context.getAnalysisDetail());
+            _answerZone.initLayout();
+        });
 
 
         _answerContent = _context.getType().getDisplayView(this);
@@ -302,7 +306,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
             _favouriteMenu.setChecked(_context.isFavourite());
             _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
         }
-        _answerZone.initLayout();
     }
 
     @Override
