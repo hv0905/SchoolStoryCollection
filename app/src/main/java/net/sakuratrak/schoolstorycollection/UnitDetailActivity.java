@@ -2,6 +2,8 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.Locale;
@@ -18,6 +21,7 @@ import java.util.Locale;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class UnitDetailActivity extends AppCompatActivity {
 
@@ -33,9 +37,15 @@ public class UnitDetailActivity extends AppCompatActivity {
     MaterialButton _resetBtn;
     MaterialButton _rmBtn;
     ScrollView _scrollMain;
-    TextView _valQuestionCount;
-    TextView _valCorrectRatio;
     PieChart _difficultyPie;
+    TextView _valQuizCount;
+    TextView _valCorrectRatio;
+    ProgressBar _correctRatioBar;
+    TextView _warningTxt;
+    TextView _valQuestionCount;
+    TextView _valQuestionRatio;
+    ProgressBar _questionRatioBar;
+    ConstraintLayout _unitMainInfo;
 
 
     boolean _changed = false;
@@ -57,10 +67,16 @@ public class UnitDetailActivity extends AppCompatActivity {
         _rmBtn = findViewById(R.id.rmBtn);
         _resetBtn = findViewById(R.id.resetBtn);
         _scrollMain = findViewById(R.id.scrollMain);
-        _valQuestionCount = findViewById(R.id.valQuestionCount);
-        _valCorrectRatio = findViewById(R.id.valCorrectRatio);
         _difficultyPie = findViewById(R.id.difficultyPie);
         _toolbar = findViewById(R.id.toolbar);
+        _valQuizCount = findViewById(R.id.valQuizCount);
+        _valCorrectRatio = findViewById(R.id.valCorrectRatio);
+        _correctRatioBar = findViewById(R.id.correctRatioBar);
+        _warningTxt = findViewById(R.id.warningTxt);
+        _valQuestionCount = findViewById(R.id.valQuestionCount);
+        _valQuestionRatio = findViewById(R.id.valQuestionRatio);
+        _questionRatioBar = findViewById(R.id.questionRatioBar);
+        _unitMainInfo = findViewById(R.id.unitMainInfo);
 
         UiHelper.applyAppearanceForPie(this, _difficultyPie);
 
@@ -112,8 +128,22 @@ public class UnitDetailActivity extends AppCompatActivity {
 
     void refresh() {
         getSupportActionBar().setTitle(_context.getName());
-        _valQuestionCount.setText(String.valueOf(_context.getQuestions().size()));
-        _valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", _context.computeCorrectRatio()));
+        int questionSum;
+        try {
+            questionSum = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(this)).FindAllWithSubject(_context.getSubject()).size();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        UnitDisplayAdapter.DataContext mainInfo = UnitDisplayAdapter.DataContext.fromDb(_context,questionSum);
+        _valQuizCount.setText(String.valueOf(mainInfo.QuizCount));
+        _valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuizCorrectRatio));
+        _correctRatioBar.setProgress(mainInfo.QuizCorrectRatio);
+        _warningTxt.setVisibility(mainInfo.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
+        _valQuestionCount.setText(String.valueOf(mainInfo.QuestionCount));
+        _valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuestionRatio));
+        _questionRatioBar.setProgress(mainInfo.QuestionRatio);
+        // load graph
     }
 
     @Override

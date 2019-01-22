@@ -3,22 +3,24 @@ package net.sakuratrak.schoolstorycollection;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
+import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAdapter.Holder> {
     private IListedDataProvidable<DataContext> _dataContext;
 
-    public UnitDisplayAdapter(IListedDataProvidable<DataContext> mDataSet) {
-        _dataContext = mDataSet;
+    public UnitDisplayAdapter(IListedDataProvidable<DataContext> dataContext) {
+        _dataContext = dataContext;
     }
 
     @NonNull
@@ -30,19 +32,20 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     @Override
     public void onBindViewHolder(@NonNull Holder viewHolder, int i) {
-        DataContext udi = _dataContext.get(i);
-        viewHolder._valTitle.setText(udi.Title);
-        viewHolder._valQuizCount.setText(String.valueOf(udi.QuizCount));
-        viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", udi.QuizCorrectRatio));
-        viewHolder._correctRatioBar.setProgress(udi.QuizCorrectRatio);
-        viewHolder._frame.setOnClickListener(udi.DetailClicked);
-        viewHolder._warningTxt.setVisibility(udi.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
-        viewHolder._valQuestionCount.setText(String.valueOf(udi.QuestionCount));
-        viewHolder._valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", udi.QuestionRatio));
-        viewHolder._questionRatioBar.setProgress(udi.QuestionRatio);
+        DataContext current = _dataContext.get(i);
+        viewHolder._valTitle.setText(current.Title);
+        viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
+        viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", current.QuizCorrectRatio));
+        viewHolder._correctRatioBar.setProgress(current.QuizCorrectRatio);
+        viewHolder._frame.setOnClickListener(current.DetailClicked);
+        viewHolder._warningTxt.setVisibility(current.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
+        viewHolder._valQuestionCount.setText(String.valueOf(current.QuestionCount));
+        viewHolder._valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", current.QuestionRatio));
+        viewHolder._questionRatioBar.setProgress(current.QuestionRatio);
+        current.unitMainInfo = viewHolder._unitMainInfo;
 
 
-        if (udi.requireMoreRecord) {
+        if (current.requireMoreRecord) {
             viewHolder._warningTxt.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         } else {
             viewHolder._warningTxt.setHeight(0);
@@ -65,7 +68,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
     public static final class Holder extends RecyclerView.ViewHolder {
         private final View _root;
-
+        private final ConstraintLayout _unitMainInfo;
         private final TextView _valTitle;
         private final TextView _valCorrectRatio;
         private final ProgressBar _correctRatioBar;
@@ -74,7 +77,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         private final TextView _valQuestionCount;
         private final TextView _valQuestionRatio;
         private final ProgressBar _questionRatioBar;
-        private final FrameLayout _frame;
+        private final LinearLayout _frame;
 
 
         private Holder(View rootView) {
@@ -89,6 +92,7 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
             _valQuestionRatio = _root.findViewById(R.id.valQuestionRatio);
             _questionRatioBar = _root.findViewById(R.id.questionRatioBar);
             _frame = _root.findViewById(R.id.frame);
+            _unitMainInfo = _root.findViewById(R.id.unitMainInfo);
         }
 
     }
@@ -103,6 +107,8 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
         protected int QuestionCount;
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
+
+        public ConstraintLayout unitMainInfo;
 
         public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
             QuizCount = quizCount;
@@ -125,6 +131,16 @@ public final class UnitDisplayAdapter extends RecyclerView.Adapter<UnitDisplayAd
 
         public DataContext() {
 
+        }
+
+        public static DataContext fromDb(LearningUnitInfo dbInfo,int questionSum){
+            int questionsc = dbInfo.getQuestions().size();
+            return new UnitDisplayAdapter.DataContext(dbInfo.getName(),
+                    dbInfo.getExerciseLogCount(),
+                    dbInfo.computeCorrectRatio(),
+                    questionsc,
+                    (int) (((double)questionsc / questionSum) * 100),
+                    dbInfo.getIfNeedMoreQuiz());
         }
     }
 }

@@ -33,49 +33,7 @@
                     android:drawableStart="@drawable/ic_info_black_24dp"
                     android:text="@string/info" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
-
-                    <TextView
-                        style="@style/textMidTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_file_text_black_24dp"
-                        android:text="@string/questionCount" />
-
-                    <TextView
-                        android:id="@+id/valQuestionCount"
-                        style="@style/textValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintRight_toRightOf="parent"
-
-                        />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp">
-
-                    <TextView
-                        style="@style/textMidTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_done_all_black_24dp"
-                        android:text="@string/correctRatio" />
-
-                    <TextView
-                        android:id="@+id/valCorrectRatio"
-                        style="@style/textValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintRight_toRightOf="parent"
-
-                        />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <include layout="@layout/include_unit_main"/>
 
                 <TextView
                     style="@style/textTitle"

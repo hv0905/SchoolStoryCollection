@@ -72,7 +72,7 @@
         <activity
             android:name=".UnitDetailActivity"
             android:label="@string/title_activity_unit_detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Explode" />
 
         <activity
             android:name=".QuizResultActivity"

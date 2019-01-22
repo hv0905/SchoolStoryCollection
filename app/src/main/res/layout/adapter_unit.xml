@@ -11,21 +11,12 @@
     app:cardCornerRadius="4dp"
     tools:context=".UnitDisplayAdapter">
 
-    <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/ui_margin_mid"
-            android:orientation="vertical"
-            tools:ignore="UselessParent">
-
+            android:background="?attr/selectableItemBackground"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/valTitle"
                 style="@style/textTitle.large"
@@ -36,118 +27,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="hello world" />
-
-            <ProgressBar
-                android:id="@+id/questionRatioBar"
-                style="?android:attr/progressBarStyleHorizontal"
-
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:max="100"
-                android:progress="100"
-                android:progressDrawable="@drawable/circle_progressbar"
-                app:layout_constraintEnd_toStartOf="@id/correctRatioBar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/valTitle" />
-
-            <ProgressBar
-                android:id="@+id/correctRatioBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:progress="100"
-                android:progressDrawable="@drawable/circle_progressbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/questionRatioBar"
-                app:layout_constraintTop_toTopOf="@id/questionRatioBar" />
-
-            <TextView
-                android:id="@+id/textView"
-                style="@style/textMidTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/questionCount"
-                app:layout_constraintEnd_toEndOf="@+id/questionRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/questionRatioBar"
-                app:layout_constraintTop_toBottomOf="@+id/questionRatioBar" />
-
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/textMidTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quizTime"
-                app:layout_constraintEnd_toEndOf="@+id/correctRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/correctRatioBar"
-                app:layout_constraintTop_toBottomOf="@+id/correctRatioBar" />
-
-            <TextView
-                android:id="@+id/valQuestionCount"
-                style="@style/textValue.xuLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ui_margin_ularge"
-                app:layout_constraintEnd_toEndOf="@+id/questionRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/questionRatioBar"
-                app:layout_constraintTop_toTopOf="@+id/questionRatioBar"
-                tools:text="12" />
-
-            <TextView
-                android:id="@+id/valQuestionRatio"
-                style="@style/textValue.large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ui_margin_ularge"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@id/questionRatioBar"
-                app:layout_constraintEnd_toEndOf="@+id/questionRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/questionRatioBar"
-                tools:text="50%" />
-
-            <TextView
-                android:id="@+id/valQuizCount"
-                style="@style/textValue.xuLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ui_margin_ularge"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="@+id/correctRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/correctRatioBar"
-                app:layout_constraintTop_toTopOf="@+id/correctRatioBar"
-                tools:text="12" />
-
-            <TextView
-                android:id="@+id/valCorrectRatio"
-                style="@style/textValue.large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ui_margin_ularge"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@id/correctRatioBar"
-                app:layout_constraintEnd_toEndOf="@+id/correctRatioBar"
-                app:layout_constraintStart_toStartOf="@+id/correctRatioBar"
-                tools:text="100%" />
-
-            <TextView
-                android:id="@+id/warningTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/times_too_few_warn"
-                android:textColor="@color/danger"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+        <include layout="@layout/include_unit_main" />
+        </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

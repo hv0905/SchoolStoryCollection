@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -121,9 +123,16 @@ public final class StatFragmentUnitFragment extends Fragment {
         } else {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
+        int questionSum;
+        try {
+            questionSum = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext())).FindAllWithSubject(getParent().getCurrentSubject()).size();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
         for (LearningUnitInfo item : luis) {
-            UnitDisplayAdapter.DataContext udiItem = new UnitDisplayAdapter.DataContext(item.getName(), item.getExerciseLogCount(), item.computeCorrectRatio(), item.getExerciseLogCount(), 50, item.getIfNeedMoreQuiz());
-            udiItem.QuestionCount = item.getQuestions().size();
+            UnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udi.add(udiItem);
         }
@@ -142,7 +151,11 @@ public final class StatFragmentUnitFragment extends Fragment {
     private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
         intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
-        startActivityForResult(intent, REQUEST_DETAIL);
+        startActivityForResult(intent, REQUEST_DETAIL,
+                ActivityOptions.makeSceneTransitionAnimation(
+                        getActivity(),
+                        udiItem.unitMainInfo,
+                        "unitMainInfo").toBundle());
 
 //        UnitDetailDialog udi = new UnitDetailDialog(item);
 //        udi.show(getChildFragmentManager(),"UnitDetailDialog");
