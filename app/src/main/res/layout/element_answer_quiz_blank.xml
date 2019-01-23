@@ -11,8 +11,10 @@
         android:layout_height="wrap_content"
         android:hint="@string/answer"
         android:textColorHint="@color/white"
+        app:boxBackgroundMode="none"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/confirmBtn">
+        app:layout_constraintRight_toLeftOf="@id/confirmBtn"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editAnswer"
