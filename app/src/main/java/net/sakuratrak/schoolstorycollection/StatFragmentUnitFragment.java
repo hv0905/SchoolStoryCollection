@@ -131,7 +131,8 @@ public final class StatFragmentUnitFragment extends Fragment {
             return;
         }
 
-        for (LearningUnitInfo item : luis) {
+        for (int i = luis.size() - 1; i >= 0; i--) {
+            LearningUnitInfo item = luis.get(i);
             UnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udi.add(udiItem);

@@ -202,7 +202,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
         _displayContexts.clear();
-        for (int i = 0; i < _contexts.size(); i++) {
+        for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
             int finalI = i;
             _displayContexts.add(new QuestionItemAdapter.DataContext(info.getTitle(),
