@@ -180,7 +180,12 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             holder._rootView.setOnClickListener(data.detailClicked);
             holder._rootView.setOnLongClickListener(data.showMenuClicked);
-            holder._multiCheckbox.setOnCheckedChangeListener(data.onCheckChanged);
+            holder._multiCheckbox.setVisibility(data.checkAble ? View.VISIBLE : View.INVISIBLE);
+            holder._multiCheckbox.setChecked(data.checked);
+            holder._multiCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                data.checked = isChecked;
+                data.onCheckChanged.onCheckedChanged(buttonView,isChecked);
+            });
         }
 
         public static class Holder extends RecyclerView.ViewHolder {

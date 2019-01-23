@@ -5,13 +5,13 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -20,12 +20,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
-import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
+import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,7 +45,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
-    private final DataContextList _defaultList = this.new DataContextList();
     //region views
     private ConstraintLayout _root;
     private RecyclerView _itemList;
@@ -59,18 +58,21 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FloatingActionButton _addItem_answer;
     private MaterialCardView _multiActionBar;
     private FrameLayout _multiQuizBtn;
+    private TextView _multiQuizBtnText;
     private ImageButton _multiMoreBtn;
     //endregion
 
     //region fields
     private Runnable _notifyToUpdate;
     private List<QuestionInfo> _contexts;
-    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
+    private List<QuestionItemAdapter.DataContext> _displayContexts;
     private int _questionCount;
     private int _currentDetailIndex = -1;
     private RecycleViewDivider _mainDivider;
     private int _multiCount = 0;
     private boolean _isMulti = false;
+    private boolean _multiShowed = false;
+    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     //endregion
 
     public Runnable getNotifyToUpdate() {
@@ -98,6 +100,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _multiActionBar = _root.findViewById(R.id.multiActionBar);
         _multiQuizBtn = _root.findViewById(R.id.multiQuizBtn);
         _multiMoreBtn = _root.findViewById(R.id.multiMoreBtn);
+        _multiQuizBtnText = _root.findViewById(R.id.multiQuizBtnText);
 
         _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
@@ -111,12 +114,51 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         _addItem_answer.setOnClickListener(v -> onAddItem(QuestionType.ANSWER));
 
+        _multiQuizBtn.setOnClickListener(v -> {
+            ArrayList<Integer> idList = new ArrayList<>();
+            for (int i = 0; i < _displayContexts.size(); i++) {
+                QuestionItemAdapter.DataContext dc = _displayContexts.get(i);
+                if(dc.checked){
+                    idList.add(_contexts.get(i).getId());
+                }
+            }
+            //invoke quiz
+            Intent intent = new Intent(getActivity(),QuizActivity.class);
+            intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, getString(R.string.customQuiz));
+            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,idList);
+            startActivityForResult(intent,REQUEST_QUIZ);
+        });
+
+        _multiMoreBtn.setOnClickListener(v -> {
+            new AlertDialog.Builder(getContext())
+                    .setItems(R.array.question_multi_options, (dialog, which) -> {
+                        dialog.dismiss();
+                        switch (which) {
+                            case 0:
+                                break;
+                            case 1:
+                                break;
+                        }
+                    })
+                    .setPositiveButton(R.string.cancel, null)
+                    .setNegativeButton("取消选择", (dialog, which) -> {
+
+                    })
+                    .setTitle(String.format(Locale.US, "已选择%d题", _multiCount))
+                    .setIcon(R.drawable.ic_done_all_black_24dp)
+                    .show();
+        });
+
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
         _itemList.setItemAnimator(new LandingAnimator());
 
         setRefreshEventStatus(true);
+        _displayContexts = new ArrayList<>();
         setDisplayMode(getParent().is_isSecondDisplayMode());
         refreshList();
+        _multiCount = 0;
+        updateMulti(false);
         return _root;
     }
 
@@ -159,6 +201,33 @@ public final class MainActivityWorkBookFragment extends Fragment {
     public void refreshContext() throws SQLException {
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+        _displayContexts.clear();
+        for (int i = 0; i < _contexts.size(); i++) {
+            QuestionInfo info = _contexts.get(i);
+            int finalI = i;
+            _displayContexts.add(new QuestionItemAdapter.DataContext(info.getTitle(),
+                    UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
+                    Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
+                    info.getDifficulty() / 2f,
+                    info.isFavourite(),
+                    v -> {
+                        goDetail(info, v, finalI);
+                    },
+                    v -> goQuiz(info),
+                    v -> {
+                        showOptionMenu(info, finalI);
+                        return true;
+                    }, (sender, e) -> {
+                if (e) _multiCount++;
+                else {
+                    if(_multiCount > 0)
+                        _multiCount--;
+                }
+                updateMulti(false);
+            }));
+        }
+        _multiCount = 0;
+        updateMulti(false);
     }
 
     @Override
@@ -221,6 +290,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
                         break;
                 }
                 break;
+            case REQUEST_QUIZ:
+                if(resultCode != QuizActivity.RESULT_NONE_DONE)
+                    getParent().requireRefresh();
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -266,77 +339,48 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     void setDisplayMode(boolean second) {
         if (second) {
-            _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(_defaultList);
+            _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
             if (_mainDivider == null)
-                _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getParent());
+                _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
             _itemList.addItemDecoration(_mainDivider);
-
+            updateMulti(false);
         } else {
-            _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(_defaultList);
+            _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
+            //要隐藏选择框
+            updateMulti(true);
             if (_mainDivider != null)
                 _itemList.removeItemDecoration(_mainDivider);
         }
         _itemList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
 
-    private void updateMulti() {
-        if (_multiCount == 0 && _isMulti) {
-            //hide the multi menu
-            _isMulti = false;
+    private void updateMulti(boolean shouldHide) {
+        _multiQuizBtnText.setText(String.format(Locale.US, "小测%d题", _multiCount));
+        _isMulti = _multiCount != 0;
+
+        if (_multiShowed && (!_isMulti || shouldHide)) {
+            _multiShowed = false;
             _multiActionBar.setVisibility(View.VISIBLE);
             _multiActionBar.setTranslationY(0);
             _multiActionBar.setAlpha(1);
             _multiActionBar.animate()
-                    .translationYBy(200)
+                    .translationYBy(100)
                     .alpha(0)
                     .setDuration(200)
                     .withEndAction(() -> _multiActionBar.setVisibility(View.INVISIBLE))
                     .start();
-        } else if (_multiCount != 0 && !_isMulti) {
-            //show the multi menu
-            _isMulti = true;
+        }
+
+        if ((!_multiShowed) && (!shouldHide) && _isMulti) {
+            _multiShowed = true;
             _multiActionBar.setVisibility(View.VISIBLE);
-            _multiActionBar.setTranslationY(200);
+            _multiActionBar.setTranslationY(100);
             _multiActionBar.setAlpha(0);
             _multiActionBar.animate()
-                    .translationYBy(-200)
+                    .translationYBy(-100)
                     .alpha(1)
                     .setDuration(200)
                     .start();
-        }
-    }
-
-    public class DataContextList implements IListedDataProvidable<QuestionItemAdapter.DataContext> {
-
-        @Override
-        public int count() {
-            return _contexts.size();
-        }
-
-        @Override
-        public QuestionItemAdapter.DataContext get(int index) {
-            Log.d(TAG, "get: query:" + index);
-            SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
-
-            QuestionInfo info = _contexts.get(count() - 1 - index);
-            QuestionItemAdapter.DataContext dataContext = new QuestionItemAdapter.DataContext(info.getTitle(),
-                    format.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
-                    Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
-                    info.getDifficulty() / 2f,
-                    info.isFavourite(),
-                    v -> {
-                        goDetail(info, v, index);
-                    },
-                    v -> goQuiz(info),
-                    v -> {
-                        showOptionMenu(info, index);
-                        return true;
-                    }, (sender, e) -> {
-                if (e) _multiCount++;
-                else _multiCount--;
-                updateMulti();
-            });
-            return dataContext;
         }
     }
 }

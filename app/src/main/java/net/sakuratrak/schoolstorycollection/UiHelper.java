@@ -9,7 +9,12 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieDataSet;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public final class UiHelper {
+
+    public static SimpleDateFormat defaultFormat = new SimpleDateFormat("yy.MM.dd", Locale.US);
 
     public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet) {
         dataSet.setValueTextColor(Color.BLACK);

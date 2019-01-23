@@ -113,6 +113,7 @@
                 android:background="@drawable/ripple_white"
                 >
                 <TextView
+                    android:id="@+id/multiQuizBtnText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -122,7 +123,7 @@
                     android:gravity="center"
                     style="@style/textTitle"
                     android:drawablePadding="@dimen/ui_margin_mid"
-
+                    tools:text="小测9999题"
                     />
             </FrameLayout>
 
