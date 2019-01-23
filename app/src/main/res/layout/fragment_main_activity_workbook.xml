@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,8 +14,10 @@
         android:scrollbars="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -27,8 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu_colorNormal="@color/colorAccent"
-        app:menu_colorPressed="@color/colorAccent"
-        app:src="@drawable/ic_add_white_24dp">
+        app:menu_colorPressed="@color/colorAccent">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/addItem_singleChoice"
@@ -82,4 +84,59 @@
 
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/multiActionBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/ui_margin_floating"
+        app:layout_constraintBottom_toBottomOf="@+id/itemList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardBackgroundColor="@color/materialDark"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/multiQuizBtn"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/ripple_white"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_file_text_white_24dp"
+                    android:text="@string/startQuiz"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    style="@style/textTitle"
+                    android:drawablePadding="@dimen/ui_margin_mid"
+
+                    />
+            </FrameLayout>
+
+
+            <ImageButton
+                android:id="@+id/multiMoreBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_white"
+                android:src="@drawable/ic_more_horiz_white_24dp"
+                />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -57,8 +59,12 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
         public View.OnLongClickListener showMenuClicked;
+        public boolean checkAble = true;
+        public boolean checked = false;
+        public CompoundButton.OnCheckedChangeListener onCheckChanged;
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked) {
+
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -68,6 +74,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.difficulty = difficulty;
             this.favourite = favourite;
             this.showMenuClicked = showMenuClicked;
+            this.onCheckChanged = onCheckChanged;
         }
 
         public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite) {
@@ -117,6 +124,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder.previewImgBorder.setOnLongClickListener(current.showMenuClicked);
             holder.btnDetail.setOnClickListener(listener);
             holder.btnQuiz.setOnClickListener(current.quizClicked);
+
         }
 
         public final static class Holder extends RecyclerView.ViewHolder {
@@ -172,6 +180,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             holder._rootView.setOnClickListener(data.detailClicked);
             holder._rootView.setOnLongClickListener(data.showMenuClicked);
+            holder._multiCheckbox.setOnCheckedChangeListener(data.onCheckChanged);
         }
 
         public static class Holder extends RecyclerView.ViewHolder {
@@ -181,6 +190,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             public final TextView _textTitle;
             public final MaterialRatingBar _difficulty;
             public final ImageView _favourite;
+            public final CheckBox _multiCheckbox;
 
 
             public Holder(@NonNull View itemView) {
@@ -190,6 +200,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
                 _difficulty = itemView.findViewById(R.id.difficulty);
                 _textTitle = itemView.findViewById(R.id.textTitle);
                 _favourite = itemView.findViewById(R.id.favourite);
+                _multiCheckbox = itemView.findViewById(R.id.multiCheckbox);
             }
         }
     }

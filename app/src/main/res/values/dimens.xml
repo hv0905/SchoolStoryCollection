@@ -6,7 +6,9 @@
     <dimen name="ui_margin_large">16dp</dimen>
     <dimen name="ui_margin_floatAction">24dp</dimen>
     <dimen name="ui_margin_ularge">32dp</dimen>
+    <dimen name="ui_margin_floating">64dp</dimen>
     <dimen name="cardCorner">4dp</dimen>
     <dimen name="margin_uSmall">2dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="match_constraint">0dp</dimen>
 </resources>

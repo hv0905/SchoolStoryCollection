@@ -5,13 +5,17 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
@@ -46,22 +50,28 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private ConstraintLayout _root;
     private RecyclerView _itemList;
     private FloatingActionMenu _addItemBtn;
-    private Runnable _notifyToUpdate;
     private QuestionItemAdapter _mainAdapter;
-    private int _questionCount;
-    private List<QuestionInfo> _contexts;
     private View _workbookEmptyNotice;
-    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     private FloatingActionButton _addItem_singleChoice;
     private FloatingActionButton _addItem_multiChoice;
     private FloatingActionButton _addItem_editableFill;
     private FloatingActionButton _addItem_fill;
-    //endregion
     private FloatingActionButton _addItem_answer;
+    private MaterialCardView _multiActionBar;
+    private FrameLayout _multiQuizBtn;
+    private ImageButton _multiMoreBtn;
     //endregion
+
     //region fields
+    private Runnable _notifyToUpdate;
+    private List<QuestionInfo> _contexts;
+    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
+    private int _questionCount;
     private int _currentDetailIndex = -1;
     private RecycleViewDivider _mainDivider;
+    private int _multiCount = 0;
+    private boolean _isMulti = false;
+    //endregion
 
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
@@ -85,6 +95,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItem_editableFill = _root.findViewById(R.id.addItem_editableFill);
         _addItem_fill = _root.findViewById(R.id.addItem_fill);
         _addItem_answer = _root.findViewById(R.id.addItem_answer);
+        _multiActionBar = _root.findViewById(R.id.multiActionBar);
+        _multiQuizBtn = _root.findViewById(R.id.multiQuizBtn);
+        _multiMoreBtn = _root.findViewById(R.id.multiMoreBtn);
 
         _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
@@ -266,6 +279,33 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _itemList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
 
+    private void updateMulti() {
+        if (_multiCount == 0 && _isMulti) {
+            //hide the multi menu
+            _isMulti = false;
+            _multiActionBar.setVisibility(View.VISIBLE);
+            _multiActionBar.setTranslationY(0);
+            _multiActionBar.setAlpha(1);
+            _multiActionBar.animate()
+                    .translationYBy(200)
+                    .alpha(0)
+                    .setDuration(200)
+                    .withEndAction(() -> _multiActionBar.setVisibility(View.INVISIBLE))
+                    .start();
+        } else if (_multiCount != 0 && !_isMulti) {
+            //show the multi menu
+            _isMulti = true;
+            _multiActionBar.setVisibility(View.VISIBLE);
+            _multiActionBar.setTranslationY(200);
+            _multiActionBar.setAlpha(0);
+            _multiActionBar.animate()
+                    .translationYBy(-200)
+                    .alpha(1)
+                    .setDuration(200)
+                    .start();
+        }
+    }
+
     public class DataContextList implements IListedDataProvidable<QuestionItemAdapter.DataContext> {
 
         @Override
@@ -279,7 +319,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             SimpleDateFormat format = new SimpleDateFormat("yy.mm.dd", Locale.US);
 
             QuestionInfo info = _contexts.get(count() - 1 - index);
-            return new QuestionItemAdapter.DataContext(info.getTitle(),
+            QuestionItemAdapter.DataContext dataContext = new QuestionItemAdapter.DataContext(info.getTitle(),
                     format.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
@@ -291,7 +331,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     v -> {
                         showOptionMenu(info, index);
                         return true;
-                    });
+                    }, (sender, e) -> {
+                if (e) _multiCount++;
+                else _multiCount--;
+                updateMulti();
+            });
+            return dataContext;
         }
     }
 }

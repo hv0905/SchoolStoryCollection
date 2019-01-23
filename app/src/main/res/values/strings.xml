@@ -193,4 +193,5 @@
     <string name="errQuestionDeleted">题目已被删除</string>
     <string name="confirmSkip">确定跳过这道题目？</string>
     <string name="confirmSkipMsg">一个人被逼急了什么都能做出来，除了数学题。。。</string>
+    <string name="startQuiz">开始小测</string>
 </resources>
