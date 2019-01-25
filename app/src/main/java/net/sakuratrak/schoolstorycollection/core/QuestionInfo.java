@@ -69,6 +69,9 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     @DatabaseField
     private boolean favourite;
 
+    @DatabaseField()
+    private boolean hidden;
+
     //endregion
 
     //region getter and setter
@@ -226,6 +229,14 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     @Override
     public int compareTo(QuestionInfo o) {
         return -getAuthorTime().compareTo(o.getAuthorTime());
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     /**
