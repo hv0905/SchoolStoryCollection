@@ -98,6 +98,8 @@
         app:cardBackgroundColor="@color/materialDark"
         android:visibility="invisible"
         tools:visibility="visible"
+        android:elevation="4dp"
+
         >
 
         <LinearLayout
@@ -118,7 +120,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:drawableStart="@drawable/ic_file_text_white_24dp"
-                    android:text="@string/startQuiz"
                     android:textColor="@color/white"
                     android:gravity="center"
                     style="@style/textTitle"

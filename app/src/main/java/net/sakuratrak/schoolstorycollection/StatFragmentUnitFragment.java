@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 public final class StatFragmentUnitFragment extends Fragment {
 
@@ -43,8 +44,11 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     private Runnable _notifyUnitRefresh;
     private UnitDisplayAdapter _mainAdapter;
+    private List<LearningUnitInfo> _context;
+    private List<UnitDisplayAdapter.DataContext> _displayContext;
 
-    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refreshUnit;
+    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
+    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
 
 
     public StatFragmentUnitFragment() {
@@ -84,7 +88,14 @@ public final class StatFragmentUnitFragment extends Fragment {
                             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                             return;
                         }
+
+                        destroyTel();
                         getParent().requireRefresh();
+                        regTel();
+
+                        refreshContext();
+                        _mainAdapter.notifyItemInserted(0);
+                        _unitList.scrollToPosition(0);
                     })
                     .setNegativeButton("取消", null);
 
@@ -92,37 +103,49 @@ public final class StatFragmentUnitFragment extends Fragment {
         });
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
+        _unitList.setItemAnimator(new LandingAnimator());
 
+        _displayContext = new ArrayList<>();
+        _mainAdapter = new UnitDisplayAdapter(new ListDataProvider<>(_displayContext));
+        _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
 
-        getParent().addRequireRefreshEvent(_requireRefresh);
-        refreshUnit();
+        regTel();
+        refresh();
 
         return _root;
     }
 
+    public void regTel(){
+        getParent().addRequireRefreshEvent(_requireRefresh);
+        getParent().addChangeDisplayModeEvent(_changeMode);
+    }
+
+    public void destroyTel(){
+        getParent().removeRequireRefreshEvent(_requireRefresh);
+        getParent().removeChangeDisplayModeEvent(_changeMode);
+    }
+
     @Override
     public void onDestroyView() {
-        getParent().removeRequireRefreshEvent(_requireRefresh);
+        destroyTel();
         super.onDestroyView();
 
     }
 
-    private void refreshUnit() {
-        if (!this.isAdded()) return;
-        ArrayList<UnitDisplayAdapter.DataContext> udi = new ArrayList<>();
-        List<LearningUnitInfo> luis;
+    private void refreshContext(){
         try {
-            luis = (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
+            _context= (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
         } catch (SQLException e) {
             e.printStackTrace();
             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
-        if (luis.size() == 0) {
+        if (_context.size() == 0) {
             _unitEmptyNotice.setVisibility(View.VISIBLE);
         } else {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
+
         int questionSum;
         try {
             questionSum = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext())).FindAllWithSubject(getParent().getCurrentSubject()).size();
@@ -131,22 +154,24 @@ public final class StatFragmentUnitFragment extends Fragment {
             return;
         }
 
-        for (int i = luis.size() - 1; i >= 0; i--) {
-            LearningUnitInfo item = luis.get(i);
+        _displayContext.clear();
+
+        for (int i = _context.size() - 1; i >= 0; i--) {
+            LearningUnitInfo item = _context.get(i);
             UnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
-            udi.add(udiItem);
+            _displayContext.add(udiItem);
         }
-        if (_mainAdapter == null) {
-            _mainAdapter = new UnitDisplayAdapter(new ListDataProvider<>(udi));
-            _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
-        } else {
-            _mainAdapter.setDataContext(new ListDataProvider<>(udi));
-        }
+
 
         if (_notifyUnitRefresh != null) {
             _notifyUnitRefresh.run();
         }
+    }
+
+    private void refresh() {
+        refreshContext();
+        _mainAdapter.notifyDataSetChanged();
     }
 
     private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
@@ -178,6 +203,10 @@ public final class StatFragmentUnitFragment extends Fragment {
                 }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void changeDisplayMode(boolean isSecondMode) {
+
     }
 }
 
