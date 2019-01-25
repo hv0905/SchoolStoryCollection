@@ -69,7 +69,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
             et.setSingleLine();
             AlertDialog.Builder ab = new AlertDialog.Builder(this).setIcon(R.drawable.ic_book_black_24dp).setTitle(R.string.createUnit)
                     .setMessage(R.string.unitName)
-                    .setView(et).setNegativeButton(R.string.finish, (dialog, which) -> {
+                    .setView(et).setPositiveButton(R.string.finish, (dialog, which) -> {
                         if (et.getText().toString().trim().isEmpty()) {
                             new AlertDialog.Builder(this).setMessage(R.string.plsInputUnitName).setTitle(R.string.error).setNegativeButton(R.string.confirm, null).setIcon(R.drawable.ic_warning_black_24dp).show();
                             return;
@@ -82,7 +82,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                         }
                         refreshUnit();
                     })
-                    .setPositiveButton(R.string.cancel, null);
+                    .setNegativeButton(R.string.cancel, null);
 
             ab.show();
         });

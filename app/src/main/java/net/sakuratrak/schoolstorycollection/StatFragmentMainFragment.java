@@ -113,17 +113,17 @@ public final class StatFragmentMainFragment extends Fragment {
                     getQuestionInfos()).FindAllWithSubject(getParent().getCurrentSubject());
 
 
-            int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX];
+            int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
 
             for (QuestionInfo item : questions) {
-                difficultyCounts[item.getDifficulty() - 1]++;
+                difficultyCounts[item.getDifficulty()]++;
             }
 
             ArrayList<PieEntry> difficultyPieEntry = new ArrayList<>();
 
             for (int i = 0; i < difficultyCounts.length; i++) {
                 if (difficultyCounts[i] == 0) continue;
-                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH, "%.1f★", (i + 1) / 2f)));
+                difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH, "%.1f★", (i) / 2f)));
             }
 
             PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
