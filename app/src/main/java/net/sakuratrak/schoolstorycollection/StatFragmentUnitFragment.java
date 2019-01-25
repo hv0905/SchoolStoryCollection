@@ -45,10 +45,11 @@ public final class StatFragmentUnitFragment extends Fragment {
     private Runnable _notifyUnitRefresh;
     private UnitDisplayAdapter _mainAdapter;
     private List<LearningUnitInfo> _context;
-    private List<UnitDisplayAdapter.DataContext> _displayContext;
+    private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
 
     private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
+    private RecycleViewDivider _mainDivider;
 
 
     public StatFragmentUnitFragment() {
@@ -106,8 +107,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         _unitList.setItemAnimator(new LandingAnimator());
 
         _displayContext = new ArrayList<>();
-        _mainAdapter = new UnitDisplayAdapter(new ListDataProvider<>(_displayContext));
-        _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
+        changeDisplayMode(getParent().is_isSecondDisplayMode());
 
         regTel();
         refresh();
@@ -158,7 +158,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         for (int i = _context.size() - 1; i >= 0; i--) {
             LearningUnitInfo item = _context.get(i);
-            UnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
+            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             _displayContext.add(udiItem);
         }
@@ -177,11 +177,16 @@ public final class StatFragmentUnitFragment extends Fragment {
     private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
         intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
-        startActivityForResult(intent, REQUEST_DETAIL,
-                ActivityOptions.makeSceneTransitionAnimation(
-                        getActivity(),
-                        udiItem.unitMainInfo,
-                        "unitMainInfo").toBundle());
+        ActivityOptions ao;
+        if(getParent().is_isSecondDisplayMode()){
+            ao = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+        }else {
+            ao = ActivityOptions.makeSceneTransitionAnimation(
+                    getActivity(),
+                    udiItem.unitMainInfo,
+                    "unitMainInfo");
+        }
+        startActivityForResult(intent, REQUEST_DETAIL, ao.toBundle());
 
 //        UnitDetailDialog udi = new UnitDetailDialog(item);
 //        udi.show(getChildFragmentManager(),"UnitDetailDialog");
@@ -206,7 +211,17 @@ public final class StatFragmentUnitFragment extends Fragment {
     }
 
     private void changeDisplayMode(boolean isSecondMode) {
-
+        if (isSecondMode) {
+            _mainAdapter = new UnitDisplayAdapter.SimpleUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
+            if (_mainDivider == null)
+                _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
+            _unitList.addItemDecoration(_mainDivider);
+        } else {
+            _mainAdapter = new UnitDisplayAdapter.FullUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
+            if (_mainDivider != null)
+                _unitList.removeItemDecoration(_mainDivider);
+        }
+        _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
 }
 

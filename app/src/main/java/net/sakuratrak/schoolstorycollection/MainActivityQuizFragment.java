@@ -114,11 +114,12 @@ public final class MainActivityQuizFragment extends Fragment {
 
             List<ExerciseLogGroup> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogGroups().queryForAll();
 
-            for (ExerciseLogGroup data : datas) {
+            for (int i = datas.size() - 1; i >= 0; i--) {
+                ExerciseLogGroup data = datas.get(i);
                 //        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
                 _logContext.add(new ExerciseLogGroupAdapter.DataContext(
                         data.getDescription(),
-                        data.getHappendTime().toString(),
+                        UiHelper.defaultFormatWithTime.format(data.getHappendTime()),
                         data.getLogs().size(),
                         data.getAvgScore(),
                         v -> {
@@ -127,7 +128,7 @@ public final class MainActivityQuizFragment extends Fragment {
                                     case 0://view
                                         Intent intent = new Intent(getContext(), QuizResultActivity.class);
                                         intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, data.getId());
-                                        startActivityForResult(intent,REQUEST_DETAIL);
+                                        startActivityForResult(intent, REQUEST_DETAIL);
                                         break;
                                     case 1://retry
                                         Intent intent1 = new Intent(getContext(), QuizActivity.class);
@@ -174,7 +175,7 @@ public final class MainActivityQuizFragment extends Fragment {
                     getParent().requireRefresh();
                 }
             case REQUEST_DETAIL:
-                if(resultCode == QuizResultActivity.RESULT_REQUIZ){
+                if (resultCode == QuizResultActivity.RESULT_REQUIZ) {
                     getParent().requireRefresh();
                 }
         }

@@ -184,7 +184,8 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._multiCheckbox.setChecked(data.checked);
             holder._multiCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 data.checked = isChecked;
-                data.onCheckChanged.onCheckedChanged(buttonView,isChecked);
+                if (data.onCheckChanged != null)
+                    data.onCheckChanged.onCheckedChanged(buttonView, isChecked);
             });
         }
 

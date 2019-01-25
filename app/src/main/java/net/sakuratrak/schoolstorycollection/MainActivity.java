@@ -2,6 +2,7 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private MainActivityPagerAdapter _pageContext;
     private LearningSubject _currentSubject = LearningSubject.CHINESE;
+
     //region ui_control
     private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
@@ -48,17 +51,20 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager _pager;
     private MenuItem _filterMenu;
     private MenuItem _displayModeToggle;
-    //endregion
     private NavigationView _navigationView;
+    //endregion
+
     //region fields
     private boolean _isSecondDisplayMode = false;
     private File _cameraCurrentFile;
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
-    private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
+    private AlertDialog _filterDialog;
 
-    //endregion
+
+    private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
+    private ArrayList<ChangeDisplayModeEventHandler> _changeDisplayModeEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_unit:
                     _pager.setCurrentItem(2);
+                    _displayModeToggle.setVisible(true);
                     return true;
             }
             return false;
@@ -204,13 +211,16 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                FilterDialog fd = new FilterDialog();
-                fd.show(getSupportFragmentManager(), "filter");
+//                FilterDialog fd = new FilterDialog();
+//                fd.show(getSupportFragmentManager(), "filter");
+//                createFilterDialog();
+//                _filterDialog.show();
+
                 return true;
             case R.id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
                 _displayModeToggle.setIcon(_isSecondDisplayMode ? R.drawable.ic_view_list_white_24dp : R.drawable.ic_dashboard_white_24dp);
-                _pageContext.workBook.setDisplayMode(_isSecondDisplayMode);
+                changeDisplayMode();
                 return true;
         }
         return false;
@@ -240,17 +250,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void removeRequireRefreshEvent(RequireRefreshEventHandler handler) {
-        if (_requireRefreshEvent == null) _requireRefreshEvent = new ArrayList<>();
+        if (_requireRefreshEvent == null) return;
         _requireRefreshEvent.remove(handler);
     }
 
     public void requireRefresh() {
         if (_requireRefreshEvent == null) return;
+        Log.d(TAG, "requireRefresh: Time to refresh~");
         for (RequireRefreshEventHandler item :
                 _requireRefreshEvent) {
             item.update();
         }
     }
+
+    public void addChangeDisplayModeEvent(ChangeDisplayModeEventHandler handler) {
+        if (_changeDisplayModeEvent == null) _changeDisplayModeEvent = new ArrayList<>();
+        _changeDisplayModeEvent.add(handler);
+    }
+
+    public void removeChangeDisplayModeEvent(ChangeDisplayModeEventHandler handler) {
+        if (_changeDisplayModeEvent == null) return;
+        _changeDisplayModeEvent.remove(handler);
+    }
+
+    public void changeDisplayMode() {
+        if (_changeDisplayModeEvent == null) return;
+        for (ChangeDisplayModeEventHandler item :
+                _changeDisplayModeEvent) {
+            item.change(_isSecondDisplayMode);
+        }
+    }
+
 
     public boolean is_isSecondDisplayMode() {
         return _isSecondDisplayMode;
@@ -260,9 +290,19 @@ public class MainActivity extends AppCompatActivity {
         this._isSecondDisplayMode = _isSecondDisplayMode;
     }
 
+    void createFilterDialog() {
+
+    }
+
+
     @FunctionalInterface
     public interface RequireRefreshEventHandler {
         void update();
+    }
+
+    @FunctionalInterface
+    public interface ChangeDisplayModeEventHandler {
+        void change(boolean isSecondMode);
     }
 
 }
