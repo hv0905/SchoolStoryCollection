@@ -62,6 +62,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private FrameLayout _multiQuizBtn;
     private TextView _multiQuizBtnText;
     private ImageButton _multiMoreBtn;
+    private TextView _emptyNotify;
     //endregion
 
     //region fields
@@ -104,7 +105,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _multiQuizBtn = _root.findViewById(R.id.multiQuizBtn);
         _multiMoreBtn = _root.findViewById(R.id.multiMoreBtn);
         _multiQuizBtnText = _root.findViewById(R.id.multiQuizBtnText);
-
+        _emptyNotify = _root.findViewById(R.id.emptyNotify);
         _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
 
         _addItem_singleChoice.setOnClickListener(v -> onAddItem(QuestionType.SINGLE_CHOICE));
@@ -192,13 +193,15 @@ public final class MainActivityWorkBookFragment extends Fragment {
         return (MainActivity) getActivity();
     }
 
-    private void refreshList() {
+    public void refreshList() {
         Log.d(TAG, "refreshList: go");
 
         refreshContext();
         _mainAdapter.notifyDataSetChanged();
-        if (_contexts.size() == 0) {
+        if (_displayContexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
+            _emptyNotify.setText((getParent()._filterDialog != null && getParent()._filterDialog.isFilterActive())
+                    ? R.string.filterEmptyUi : R.string.workbookEmptyUi);
         } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
         }
@@ -210,13 +213,16 @@ public final class MainActivityWorkBookFragment extends Fragment {
         boolean hiddenShown = false;
         String[] keyword = null;
         List<LearningUnitInfo> unit = null;
-        if(getParent()._filterDialog != null){
+        if (getParent()._filterDialog != null) {
             hiddenShown = getParent()._filterDialog.is_isHiddenShown();
             keyword = getParent()._filterDialog.get_searchTxt() == null ? null : getParent()._filterDialog.get_searchTxt().split(" ");
             unit = getParent()._filterDialog.get_selectedUnits();
+            if (keyword.length == 0) keyword = null;
+            if (unit.size() == 0) unit = null;
         }
 
-        QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
+        QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(
+                DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         try {
             _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
         } catch (SQLException e) {
@@ -226,9 +232,33 @@ public final class MainActivityWorkBookFragment extends Fragment {
         for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
             //筛选
-            if(!hiddenShown && info.isHidden()) continue;
+            if (!hiddenShown && info.isHidden()) continue;
+            if (unit != null) {
+                //需要按单元筛选
+                if(info.getUnit() == null) continue;
+                if(!unit.contains(info.getUnit())) continue;
+            }
+            if (keyword != null) {
+                //需要按关键字筛选
+                boolean mainGoFlag = false;
+                for (String key :
+                        keyword) {
+                    boolean goFlag = false;
 
+                    if (info.getTitle().contains(key)) goFlag = true;
+                    else if (info.getUnit() != null && info.getUnit().getName().contains(key))
+                        goFlag = true;
+                    else if (info.getSource().contains(key)) goFlag = true;
+                    else if (info.getQuestionDetail().contains(key)) goFlag = true;
+                    else if (info.getAnalysisDetail().contains(key)) goFlag = true;
 
+                    if (goFlag) {
+                        mainGoFlag = true;
+                        break;
+                    }
+                }
+                if (!mainGoFlag) continue;
+            }
 
             //OK,加入列表
             int finalI = i;
@@ -254,6 +284,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             });
             dc.dbId = info.getId();
             _displayContexts.add(dc);
+
         }
         _multiCount = 0;
         updateMulti(false);

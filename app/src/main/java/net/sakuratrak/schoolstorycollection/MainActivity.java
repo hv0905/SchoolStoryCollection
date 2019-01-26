@@ -212,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-
-
+                showFilterDialog();
                 return true;
             case R.id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
@@ -298,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void onFilterDialogUpdate(){
+        _pageContext.workBook.refreshList();
 
     }
 

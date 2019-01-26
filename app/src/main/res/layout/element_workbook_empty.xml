@@ -20,6 +20,7 @@
         android:src="@drawable/ic_empty_no_file_selected" />
 
     <TextView
+        android:id="@+id/emptyNotify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

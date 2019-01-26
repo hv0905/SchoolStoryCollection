@@ -69,6 +69,8 @@ public final class FilterDialog {
         _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
         _unitChips = _dialog.findViewById(R.id.unitChips);
 
+        _searchText.setText(_searchTxt);
+        _hiddenSwitch.setChecked(_isHiddenShown);
 
         _unitChips.removeAllViews();
 
@@ -154,6 +156,10 @@ public final class FilterDialog {
 
     public void set_onUpdate(Runnable _onUpdate) {
         this._onUpdate = _onUpdate;
+    }
+
+    public boolean isFilterActive(){
+        return (_searchTxt != null && !_searchTxt.isEmpty()) || (_selectedUnits.size() != 0) || _isHiddenShown;
     }
 
 }
