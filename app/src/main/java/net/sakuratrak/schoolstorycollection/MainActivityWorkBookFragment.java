@@ -18,8 +18,10 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 
+import net.sakuratrak.schoolstorycollection.QuestionItemAdapter.DataContext;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
@@ -65,7 +67,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     //region fields
     private Runnable _notifyToUpdate;
     private List<QuestionInfo> _contexts;
-    private List<QuestionItemAdapter.DataContext> _displayContexts;
+    private List<DataContext> _displayContexts;
     private int _questionCount;
     private int _currentDetailIndex = -1;
     private RecycleViewDivider _mainDivider;
@@ -73,6 +75,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private boolean _isMulti = false;
     private boolean _multiShowed = false;
     private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
+    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
     //endregion
 
     public Runnable getNotifyToUpdate() {
@@ -117,38 +120,45 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _multiQuizBtn.setOnClickListener(v -> {
             ArrayList<Integer> idList = new ArrayList<>();
             for (int i = 0; i < _displayContexts.size(); i++) {
-                QuestionItemAdapter.DataContext dc = _displayContexts.get(i);
-                if(dc.checked){
-                    idList.add(_contexts.get(i).getId());
+                DataContext dc = _displayContexts.get(i);
+                if (dc.checked) {
+                    idList.add(_displayContexts.get(i).dbId);
                 }
             }
             //invoke quiz
-            Intent intent = new Intent(getActivity(),QuizActivity.class);
-            intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+            Intent intent = new Intent(getActivity(), QuizActivity.class);
+            intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
             intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, getString(R.string.customQuiz));
-            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,idList);
-            startActivityForResult(intent,REQUEST_QUIZ);
+            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, idList);
+            startActivityForResult(intent, REQUEST_QUIZ);
+
         });
 
-        _multiMoreBtn.setOnClickListener(v -> {
-            new AlertDialog.Builder(getContext())
-                    .setItems(R.array.question_multi_options, (dialog, which) -> {
-                        dialog.dismiss();
-                        switch (which) {
-                            case 0:
-                                break;
-                            case 1:
-                                break;
-                        }
-                    })
-                    .setPositiveButton(R.string.cancel, null)
-                    .setNegativeButton("取消选择", (dialog, which) -> {
-
-                    })
-                    .setTitle(String.format(Locale.US, "已选择%d题", _multiCount))
-                    .setIcon(R.drawable.ic_done_all_black_24dp)
-                    .show();
-        });
+        _multiMoreBtn.setOnClickListener(v ->
+                new AlertDialog.Builder(getContext())
+                        .setItems(R.array.question_multi_options, (dialog, which) -> {
+                            dialog.dismiss();
+                            switch (which) {
+                                case 0:
+                                    break;
+                                case 1:
+                                    break;
+                            }
+                        })
+                        .setPositiveButton(R.string.cancel, null)
+                        .setNegativeButton("取消选择", (dialog, which) -> {
+                            for (DataContext dc :
+                                    _displayContexts) {
+                                dc.checked = false;
+                            }
+                            _mainAdapter.notifyDataSetChanged();
+                            _multiCount = 0;
+                            updateMulti(false);
+                        })
+                        .setTitle(String.format(Locale.US, "已选择%d题", _multiCount))
+                        .setIcon(R.drawable.ic_done_all_black_24dp)
+                        .show()
+        );
 
         _itemList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
         _itemList.setItemAnimator(new LandingAnimator());
@@ -171,8 +181,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private void setRefreshEventStatus(boolean enabled) {
         if (enabled) {
             getParent().addRequireRefreshEvent(_refreshEvent);
+            getParent().addChangeDisplayModeEvent(_changeMode);
         } else {
             getParent().removeRequireRefreshEvent(_refreshEvent);
+            getParent().removeChangeDisplayModeEvent(_changeMode);
         }
     }
 
@@ -180,15 +192,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
         return (MainActivity) getActivity();
     }
 
-    public void refreshList() {
+    private void refreshList() {
         Log.d(TAG, "refreshList: go");
 
-        try {
-            refreshContext();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
+        refreshContext();
         _mainAdapter.notifyDataSetChanged();
         if (_contexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
@@ -198,14 +205,34 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     }
 
-    public void refreshContext() throws SQLException {
+    private void refreshContext() {
+        //筛选条件
+        boolean hiddenShown = false;
+        String[] keyword = null;
+        List<LearningUnitInfo> unit = null;
+        if(getParent()._filterDialog != null){
+            hiddenShown = getParent()._filterDialog.is_isHiddenShown();
+            keyword = getParent()._filterDialog.get_searchTxt() == null ? null : getParent()._filterDialog.get_searchTxt().split(" ");
+            unit = getParent()._filterDialog.get_selectedUnits();
+        }
+
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getContext()).getQuestionInfos());
-        _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+        try {
+            _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         _displayContexts.clear();
         for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
+            //筛选
+            if(!hiddenShown && info.isHidden()) continue;
+
+
+
+            //OK,加入列表
             int finalI = i;
-            _displayContexts.add(new QuestionItemAdapter.DataContext(info.getTitle(),
+            DataContext dc = new DataContext(info.getTitle(),
                     UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
@@ -220,11 +247,13 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     }, (sender, e) -> {
                 if (e) _multiCount++;
                 else {
-                    if(_multiCount > 0)
+                    if (_multiCount > 0)
                         _multiCount--;
                 }
                 updateMulti(false);
-            }));
+            });
+            dc.dbId = info.getId();
+            _displayContexts.add(dc);
         }
         _multiCount = 0;
         updateMulti(false);
@@ -238,12 +267,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     setRefreshEventStatus(false);
                     getParent().requireRefresh();
                     setRefreshEventStatus(true);
-                    try {
-                        refreshContext();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        return;
-                    }
+                    refreshContext();
                     _mainAdapter.notifyItemInserted(0);
                     _itemList.scrollToPosition(0);
                     if (_contexts.size() == 0) {
@@ -256,13 +280,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             case REQUEST_DETAIL:
                 switch (resultCode) {
                     case QuestionDetailActivity.RESULT_DELETED:
-                        try {
-                            refreshContext();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            return;
-                        }
-
+                        refreshContext();
                         Snackbar.make(_root, "已删除", Snackbar.LENGTH_LONG).show();
                         if (_currentDetailIndex != -1)
                             _mainAdapter.notifyItemRemoved(_currentDetailIndex);
@@ -273,13 +291,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                         setRefreshEventStatus(true);
                         break;
                     case QuestionDetailActivity.RESULT_EDITED:
-                        try {
-                            refreshContext();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            return;
-                        }
-
+                        refreshContext();
                         if (_currentDetailIndex != -1) {
                             _mainAdapter.notifyItemChanged(_currentDetailIndex);
                         } else _mainAdapter.notifyDataSetChanged();
@@ -291,7 +303,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 }
                 break;
             case REQUEST_QUIZ:
-                if(resultCode != QuizActivity.RESULT_NONE_DONE)
+                if (resultCode != QuizActivity.RESULT_NONE_DONE)
                     getParent().requireRefresh();
                 break;
         }
@@ -329,7 +341,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 }).setNegativeButton(R.string.cancel, null).show();
     }
 
-    void onAddItem(QuestionType type) {
+    private void onAddItem(QuestionType type) {
         Intent intent = new Intent(getParent(), QuestionEditActivity.class);
         intent.putExtra(QuestionEditActivity.EXTRA_QUESTION_TYPE_ID, type.getId());
         intent.putExtra(QuestionEditActivity.EXTRA_SUBJECT, getParent().getCurrentSubject());
@@ -337,7 +349,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _addItemBtn.close(true);
     }
 
-    void setDisplayMode(boolean second) {
+    private void setDisplayMode(boolean second) {
         if (second) {
             _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
             if (_mainDivider == null)

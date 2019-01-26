@@ -62,6 +62,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public boolean checkAble = true;
         public boolean checked = false;
         public CompoundButton.OnCheckedChangeListener onCheckChanged;
+        public int dbId;
 
 
         public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {

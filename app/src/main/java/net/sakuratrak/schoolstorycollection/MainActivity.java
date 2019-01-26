@@ -17,6 +17,7 @@ import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle _drawerToggle;
     //endregion
 
-    private AlertDialog _filterDialog;
+    public FilterDialog _filterDialog;
 
 
     private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
@@ -211,10 +212,7 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-//                FilterDialog fd = new FilterDialog();
-//                fd.show(getSupportFragmentManager(), "filter");
-//                createFilterDialog();
-//                _filterDialog.show();
+
 
                 return true;
             case R.id.displayModeToggle:
@@ -290,7 +288,16 @@ public class MainActivity extends AppCompatActivity {
         this._isSecondDisplayMode = _isSecondDisplayMode;
     }
 
-    void createFilterDialog() {
+    void showFilterDialog() {
+
+        if(_filterDialog == null) {
+            _filterDialog = new FilterDialog(getCurrentSubject());
+            _filterDialog.set_onUpdate(this::onFilterDialogUpdate);
+        }
+        _filterDialog.showDialog(this);
+    }
+
+    void onFilterDialogUpdate(){
 
     }
 
