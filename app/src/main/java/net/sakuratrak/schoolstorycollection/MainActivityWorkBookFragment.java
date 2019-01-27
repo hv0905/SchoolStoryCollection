@@ -267,6 +267,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
+                    info.getType(),
                     v -> {
                         goDetail(info, v, finalI);
                     },
