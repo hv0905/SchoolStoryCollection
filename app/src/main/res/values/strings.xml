@@ -203,4 +203,5 @@
     <string name="filterHidden">包括已归档的题目</string>
     <string name="filterTitle">搜索和筛选</string>
     <string name="filterEmptyUi">当前筛选条件下找不到错题</string>
+    <string name="questionType">题目类型</string>
 </resources>

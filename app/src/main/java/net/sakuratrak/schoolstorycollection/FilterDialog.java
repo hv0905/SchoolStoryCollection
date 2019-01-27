@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,16 +24,26 @@ public final class FilterDialog {
 
     public static final String TAG = "filter_dialog";
 
+    private static final int[] QUESTION_TYPE_CHIP_IDS = new int[]{
+            R.id.chipSingleChoice,
+            R.id.chipMultiChoice,
+            R.id.chipEditableFill,
+            R.id.chipFill,
+            R.id.chipAnswer,
+    };
+
     private AlertDialog _dialog;
 
     private TextInputEditText _searchText;
     private Switch _hiddenSwitch;
     private ChipGroup _unitChips;
+    private ChipGroup _questionTypeGroup;
 
     private String _searchTxt;
     private boolean _isHiddenShown;
     private LearningSubject _subject;
-    private List<LearningUnitInfo> _selectedUnits;
+    private List<Integer> _selectedUnitIds;
+    private List<QuestionType> _selectedType;
     private Runnable _onUpdate;
 
 
@@ -42,7 +53,9 @@ public final class FilterDialog {
 
     public FilterDialog(LearningSubject _subject) {
         this._subject = _subject;
-        _selectedUnits = new ArrayList<>();
+        _selectedUnitIds = new ArrayList<>();
+        _selectedType = new ArrayList<>();
+
     }
 
     public void showDialog(Context context) {
@@ -68,6 +81,25 @@ public final class FilterDialog {
         _searchText = _dialog.findViewById(R.id.searchText);
         _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
         _unitChips = _dialog.findViewById(R.id.unitChips);
+        _questionTypeGroup = _dialog.findViewById(R.id.questionTypeGroup);
+
+        for (int i = 0; i < QUESTION_TYPE_CHIP_IDS.length; i++) {
+            final int finalI = i;
+            Chip chip = _dialog.findViewById(QUESTION_TYPE_CHIP_IDS[i]);
+            if(_selectedType.contains(QuestionType.id2Obj(i))){
+                //noinspection ConstantConditions
+                chip.setChecked(true);
+            }
+            //noinspection ConstantConditions
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    _selectedType.add(QuestionType.id2Obj(finalI));
+                } else {
+                    _selectedType.remove(QuestionType.id2Obj(finalI));
+                }
+            });
+        }
+
 
         _searchText.setText(_searchTxt);
         _hiddenSwitch.setChecked(_isHiddenShown);
@@ -83,7 +115,7 @@ public final class FilterDialog {
                 Chip ch = (Chip) lf.inflate(R.layout.elements_unit_choose_chip, _unitChips, false);
                 ch.setText(unit.getName());
                 ch.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                if (_selectedUnits.contains(unit)) {
+                if (_selectedUnitIds.contains(unit.getId())) {
                     ch.setChecked(true);
                 } else {
                     ch.setChecked(false);
@@ -91,9 +123,10 @@ public final class FilterDialog {
                 _unitChips.addView(ch, 0, new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 ch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
-                        _selectedUnits.add(unit);
+                        _selectedUnitIds.add(unit.getId());
                     } else {
-                        _selectedUnits.remove(unit);
+                        _selectedUnitIds.remove((Integer) unit.getId());
+
                     }
                 });
             }
@@ -114,7 +147,7 @@ public final class FilterDialog {
 
     public void resetDialog() {
         _searchText.setText("");
-        _selectedUnits.clear();
+        _selectedUnitIds.clear();
         _hiddenSwitch.setChecked(false);
     }
 
@@ -142,12 +175,12 @@ public final class FilterDialog {
         this._subject = _subject;
     }
 
-    public List<LearningUnitInfo> get_selectedUnits() {
-        return _selectedUnits;
+    public List<Integer> get_selectedUnitIds() {
+        return _selectedUnitIds;
     }
 
-    public void set_selectedUnits(List<LearningUnitInfo> _selectedUnits) {
-        this._selectedUnits = _selectedUnits;
+    public void set_selectedUnitIds(List<Integer> _selectedUnitIds) {
+        this._selectedUnitIds = _selectedUnitIds;
     }
 
     public Runnable get_onUpdate() {
@@ -158,8 +191,15 @@ public final class FilterDialog {
         this._onUpdate = _onUpdate;
     }
 
-    public boolean isFilterActive(){
-        return (_searchTxt != null && !_searchTxt.isEmpty()) || (_selectedUnits.size() != 0) || _isHiddenShown;
+    public boolean isFilterActive() {
+        return (_searchTxt != null && !_searchTxt.isEmpty()) || (_selectedUnitIds.size() != 0) || (_selectedType.size() != 0) || _isHiddenShown;
     }
 
+    public List<QuestionType> get_selectedType() {
+        return _selectedType;
+    }
+
+    public void set_selectedType(List<QuestionType> _selectedType) {
+        this._selectedType = _selectedType;
+    }
 }

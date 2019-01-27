@@ -35,6 +35,63 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchLayout" />
 
+
+    <TextView
+        android:id="@+id/titleType"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ui_margin_mid"
+        android:layout_marginTop="@dimen/ui_margin_large"
+        android:text="@string/questionType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hiddenSwitch" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/questionTypeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/titleType"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSingleChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/singleChoiceQuestion"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMultiChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/multiChoiceQuestion"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEditableFill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editableFillQuestion"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipFill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fillQuestion"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/answerQuestion"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <TextView
         android:id="@+id/titleUnit"
         style="@style/textTitle"
@@ -44,11 +101,11 @@
         android:layout_marginTop="@dimen/ui_margin_large"
         android:text="@string/unit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hiddenSwitch" />
+        app:layout_constraintTop_toBottomOf="@id/questionTypeGroup" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:layout_marginStart="@dimen/ui_margin_mid"
         android:layout_marginEnd="@dimen/ui_margin_mid"
         android:orientation="vertical"

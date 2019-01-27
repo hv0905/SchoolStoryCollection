@@ -21,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 import net.sakuratrak.schoolstorycollection.QuestionItemAdapter.DataContext;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
-import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
@@ -212,13 +211,16 @@ public final class MainActivityWorkBookFragment extends Fragment {
         //筛选条件
         boolean hiddenShown = false;
         String[] keyword = null;
-        List<LearningUnitInfo> unit = null;
+        List<Integer> unit = null;
+        List<QuestionType> type = null;
         if (getParent()._filterDialog != null) {
             hiddenShown = getParent()._filterDialog.is_isHiddenShown();
             keyword = getParent()._filterDialog.get_searchTxt() == null ? null : getParent()._filterDialog.get_searchTxt().split(" ");
-            unit = getParent()._filterDialog.get_selectedUnits();
+            unit = getParent()._filterDialog.get_selectedUnitIds();
+            type = getParent()._filterDialog.get_selectedType();
             if (keyword.length == 0) keyword = null;
             if (unit.size() == 0) unit = null;
+            if(type.size() == 0) type = null;
         }
 
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(
@@ -231,12 +233,17 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _displayContexts.clear();
         for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
+
             //筛选
+            //筛掉隐藏的题目
             if (!hiddenShown && info.isHidden()) continue;
+            if(type != null){
+                if(!type.contains(info.getType())) continue;
+            }
             if (unit != null) {
                 //需要按单元筛选
                 if(info.getUnit() == null) continue;
-                if(!unit.contains(info.getUnit())) continue;
+                if(!unit.contains(info.getUnit().getId())) continue;
             }
             if (keyword != null) {
                 //需要按关键字筛选
