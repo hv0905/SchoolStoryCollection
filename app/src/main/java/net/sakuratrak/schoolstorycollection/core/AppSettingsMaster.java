@@ -16,6 +16,7 @@ public final class AppSettingsMaster {
     public static final String SETTINGS_ALARM_TIME = "alarmTime";
     public static final String SETTINGS_SHOW_ALARM = "showAlarm";
     public static final String SETTINGS_QUIZ_AUTO_NEXT = "quiz_AutoNext";
+    public static final String SETTINGS_DIALOG_HIDE_CONFIRM = "dialog_hide_confirm";
 
     public static File getWorkbookDb(Context context) {
         String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC, null);
@@ -66,6 +67,14 @@ public final class AppSettingsMaster {
 
     public static boolean getIfQuizAutoNext(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_QUIZ_AUTO_NEXT, false);
+    }
+
+    public static boolean getBooleanVal(Context context,String key,boolean def){
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key,def);
+    }
+
+    public static void setBooleanVal(Context context,String key,boolean val){
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key,val).apply();
     }
 
 }

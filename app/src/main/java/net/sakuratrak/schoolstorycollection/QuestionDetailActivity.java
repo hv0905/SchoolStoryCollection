@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -48,30 +50,33 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     public static final int RESULT_EDITED = 200;
     public static final int RESULT_DELETED = 201;
+    public static final int RESULT_HIDDEN = 202;
 
     private static final int REQUEST_EDIT = 100;
     AppBarLayout _appBar;
     Toolbar _toolbar;
 
     //region uiElements
-    CollapsingToolbarLayout _toolbarLayout;
-    ImageView _imageTopContent;
-    FrameLayout _imageTopBorder;
-    TextView _questionText;
-    TextView _analysisText;
-    FrameLayout _answerContainer;
-    AnswerUiDisplayView _answerContent;
-    FloatingActionButton _showAnswerButton;
-    ExpandableLinearLayout _answerZone;
-    ImageDisplayView _questionImgDisplay;
-    ImageDisplayView _analysisImgDisplay;
-    TextView _valCreateTime;
-    RatingBar _valDifficulty;
-    TextView _valUnit;
-    MenuItem _showAnswerMenu;
-    MenuItem _favouriteMenu;
+    private CollapsingToolbarLayout _toolbarLayout;
+    private ImageView _imageTopContent;
+    private FrameLayout _imageTopBorder;
+    private TextView _questionText;
+    private TextView _analysisText;
+    private FrameLayout _answerContainer;
+    private AnswerUiDisplayView _answerContent;
+    private FloatingActionButton _showAnswerButton;
+    private ExpandableLinearLayout _answerZone;
+    private ImageDisplayView _questionImgDisplay;
+    private ImageDisplayView _analysisImgDisplay;
+    private TextView _valCreateTime;
+    private RatingBar _valDifficulty;
+    private TextView _valUnit;
+    private MenuItem _showAnswerMenu;
+    private MenuItem _favouriteMenu;
+    private MenuItem _hideMenu;
     private QuestionInfo _context;
     private boolean _edited = false;
+    private boolean _hidden = true;
 
     //endregion
 
@@ -137,12 +142,15 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbar.inflateMenu(R.menu.detail_top_options);
         _showAnswerMenu = _toolbar.getMenu().findItem(R.id.showAnswerMenu);
         _favouriteMenu = _toolbar.getMenu().findItem(R.id.favourite);
+        _hideMenu = _toolbar.getMenu().findItem(R.id.hide);
+
         if (_toolbar.getMenu() instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             //noinspection RestrictedApi
             m.setOptionalIconsVisible(true);
         }
 
+        _hideMenu.setTitle(_context.isHidden() ? R.string.undoHide : R.string.hide);
         _favouriteMenu.setChecked(_context.isFavourite());
         _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
 
@@ -171,6 +179,42 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 return true;
             case R.id
                     .hide:
+                if (_context.isHidden()) {
+                    //要取消
+                    _context.setHidden(false);
+                    try {
+                        DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return true;
+                    }
+                    Snackbar.make(_appBar,getString(R.string.hiddenUndoed),Snackbar.LENGTH_LONG).show();
+                    refresh();
+                    _edited = true;
+                    _hidden = false;
+                } else {
+                    //要隐藏
+                    if (!AppSettingsMaster.getBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM, false)) {
+                        CheckBox cb = new CheckBox(this);
+                        cb.setText(getString(R.string.neverShowAgain));
+                        cb.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        new AlertDialog.Builder(this)
+                                .setTitle(R.string.hiddenDialogTital)
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .setMessage(R.string.hiddenDialogMsg)
+                                .setView(cb)
+                                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                    if (cb.isChecked()) {
+                                        AppSettingsMaster.setBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM, true);
+                                    }
+                                    hideQuestion();
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .show();
+                    } else {
+                        hideQuestion();
+                    }
+                }
                 return true;
             case R.id.favourite:
                 Log.d(TAG, "onOptionsItemSelected: " + item.isChecked());
@@ -196,7 +240,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
             case R.id.delete:
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.ic_warning_black_24dp)
-                        .setTitle("删除确认").setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
+                        .setTitle(getString(R.string.confirmDelete)).setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
                         .setPositiveButton(R.string.confirm, (dialog, which) -> {
                             try {
                                 //delete all images
@@ -236,6 +280,18 @@ public class QuestionDetailActivity extends AppCompatActivity {
         return false;
     }
 
+    private void hideQuestion() {
+        _context.setHidden(true);
+        try {
+            DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Snackbar.make(_appBar,getString(R.string.hiddenDone),Snackbar.LENGTH_LONG).show();
+        refresh();
+        _hidden = true;
+    }
+
     public void gotoEdit() {
         Intent intent = new Intent(this, QuestionEditActivity.class);
         intent.putExtra(QuestionEditActivity.EXTRA_CONTEXT_ID, _context.getId());
@@ -251,7 +307,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_EDIT:
                 if (resultCode == RESULT_OK) {
-                    Snackbar.make(_toolbarLayout, "更改已保存", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_toolbarLayout, getString(R.string.changeSaved), Snackbar.LENGTH_LONG).show();
                     _edited = true;
                     refresh();
                 }
@@ -305,11 +361,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
             _favouriteMenu.setChecked(_context.isFavourite());
             _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
         }
+
+        if (_hideMenu != null) {
+            _hideMenu.setTitle(_context.isHidden() ? R.string.undoHide : R.string.hide);
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (_edited)
+        if(_hidden) setResult(RESULT_HIDDEN);
+        else if (_edited)
             setResult(RESULT_EDITED);
         super.onBackPressed();
     }

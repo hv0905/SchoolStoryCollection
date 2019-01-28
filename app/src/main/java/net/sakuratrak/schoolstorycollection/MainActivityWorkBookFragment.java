@@ -231,6 +231,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             e.printStackTrace();
         }
         _displayContexts.clear();
+        int displayId = 0;
         for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
 
@@ -269,18 +270,20 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
             //OK,加入列表
             int finalI = i;
+            final int currentDisplayId = displayId++;
             DataContext dc = new DataContext(info.getTitle(),
                     UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
                     info.getType(),
+                    info.isHidden(),
                     v -> {
-                        goDetail(info, v, finalI);
+                        goDetail(info, v, currentDisplayId);
                     },
                     v -> goQuiz(info),
                     v -> {
-                        showOptionMenu(info, finalI);
+                        showOptionMenu(info, currentDisplayId);
                         return true;
                     }, (sender, e) -> {
                 if (e) _multiCount++;
@@ -325,6 +328,23 @@ public final class MainActivityWorkBookFragment extends Fragment {
                             _mainAdapter.notifyItemRemoved(_currentDetailIndex);
                         else _mainAdapter.notifyDataSetChanged();
 
+                        setRefreshEventStatus(false);
+                        getParent().requireRefresh();
+                        setRefreshEventStatus(true);
+                        break;
+                    case QuestionDetailActivity.RESULT_HIDDEN:
+                        refreshContext();
+                        if(getParent()._questionFilterDialog!= null && getParent()._questionFilterDialog.is_isHiddenShown()){
+                            //看起来只是被修改了
+                            if (_currentDetailIndex != -1) {
+                                _mainAdapter.notifyItemChanged(_currentDetailIndex);
+                            } else _mainAdapter.notifyDataSetChanged();
+                        }else{
+                            //看起来被删除了
+                            if (_currentDetailIndex != -1)
+                                _mainAdapter.notifyItemRemoved(_currentDetailIndex);
+                            else _mainAdapter.notifyDataSetChanged();
+                        }
                         setRefreshEventStatus(false);
                         getParent().requireRefresh();
                         setRefreshEventStatus(true);

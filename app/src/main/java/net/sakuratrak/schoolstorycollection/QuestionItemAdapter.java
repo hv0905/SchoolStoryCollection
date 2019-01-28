@@ -58,6 +58,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public float difficulty;
         public boolean favourite;
         public QuestionType type;
+        public boolean hidden;
         public View.OnClickListener detailClicked;
         public View.OnClickListener quizClicked;
         public View.OnLongClickListener showMenuClicked;
@@ -67,7 +68,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public int dbId;
 
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type,boolean hidden, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -79,15 +80,18 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.favourite = favourite;
             this.showMenuClicked = showMenuClicked;
             this.onCheckChanged = onCheckChanged;
+            this.hidden = hidden;
         }
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite,QuestionType type,boolean hidden) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
             this.difficulty = difficulty;
             this.favourite = favourite;
+            this.type = type;
+            this.hidden = hidden;
         }
 
         public DataContext() {
@@ -114,6 +118,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             Holder holder = (Holder) vHolder;
             DataContext current = _dataContext.get(position);
             holder.title.setText(current.title);
+            holder.title.getPaint().setStrikeThruText(current.hidden);
             switch (current.type) {
                 case SINGLE_CHOICE:
                     holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);
@@ -196,6 +201,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             Holder holder = (Holder) viewHolder;
             QuestionItemAdapter.DataContext data = _dataContext.get(i);
             holder._textTitle.setText(data.title);
+            holder._textTitle.getPaint().setStrikeThruText(data.hidden);
             switch (data.type) {
                 case SINGLE_CHOICE:
                     holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);

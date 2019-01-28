@@ -206,4 +206,12 @@
     <string name="questionType">题目类型</string>
     <string name="searchUnit">搜索单元</string>
     <string name="filterHiddenUnit">包括已归档的单元</string>
+    <string name="undoHide">取消归档</string>
+    <string name="hiddenUndoed">已取消归档</string>
+    <string name="changeSaved">更改已保存</string>
+    <string name="hiddenDone">已归档</string>
+    <string name="hiddenDialogMsg">归档的错题不会删除，但是不会在错题列表、小测中出现，且不会纳入统计。</string>
+    <string name="hiddenDialogTital">确定归档错题？</string>
+    <string name="neverShowAgain">不再显示</string>
+    <string name="confirmDelete">删除确认</string>
 </resources>
