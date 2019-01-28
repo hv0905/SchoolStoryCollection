@@ -92,13 +92,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="@dimen/ui_margin_floating"
+        android:elevation="4dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="@color/materialDark"
         app:layout_constraintBottom_toBottomOf="@+id/itemList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardBackgroundColor="@color/materialDark"
-        android:visibility="invisible"
         tools:visibility="visible"
-        android:elevation="4dp"
 
         >
 
@@ -110,22 +110,21 @@
                 android:id="@+id/multiQuizBtn"
                 android:layout_width="140dp"
                 android:layout_height="60dp"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="@drawable/ripple_white"
-                >
+                android:clickable="true"
+                android:focusable="true">
+
                 <TextView
                     android:id="@+id/multiQuizBtnText"
+                    style="@style/textTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:drawableStart="@drawable/ic_file_text_white_24dp"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    style="@style/textTitle"
                     android:drawablePadding="@dimen/ui_margin_mid"
-                    tools:text="小测9999题"
-                    />
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    tools:text="小测9999题" />
             </FrameLayout>
 
 
@@ -134,8 +133,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/ripple_white"
-                android:src="@drawable/ic_more_horiz_white_24dp"
-                />
+                android:src="@drawable/ic_more_horiz_white_24dp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

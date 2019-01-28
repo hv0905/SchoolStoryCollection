@@ -84,7 +84,7 @@ public final class QuestionFilterDialog {
         for (int i = 0; i < QUESTION_TYPE_CHIP_IDS.length; i++) {
             final int finalI = i;
             Chip chip = _dialog.findViewById(QUESTION_TYPE_CHIP_IDS[i]);
-            if(_selectedType.contains(QuestionType.id2Obj(i))){
+            if (_selectedType.contains(QuestionType.id2Obj(i))) {
                 //noinspection ConstantConditions
                 chip.setChecked(true);
             }

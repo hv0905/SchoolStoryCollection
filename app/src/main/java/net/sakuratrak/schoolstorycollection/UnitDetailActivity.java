@@ -135,7 +135,7 @@ public class UnitDetailActivity extends AppCompatActivity {
             e.printStackTrace();
             return;
         }
-        UnitDisplayAdapter.DataContext mainInfo = UnitDisplayAdapter.DataContext.fromDb(_context,questionSum);
+        UnitDisplayAdapter.DataContext mainInfo = UnitDisplayAdapter.DataContext.fromDb(_context, questionSum);
         _valQuizCount.setText(String.valueOf(mainInfo.QuizCount));
         _valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuizCorrectRatio));
         _correctRatioBar.setProgress(mainInfo.QuizCorrectRatio);

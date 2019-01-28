@@ -4,13 +4,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/unitMainInfo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/ui_margin_mid"
     android:orientation="vertical"
-    android:id="@+id/unitMainInfo"
-    android:transitionName="unitMainInfo"
-    >
+    android:transitionName="unitMainInfo">
 
     <ProgressBar
         android:id="@+id/questionRatioBar"

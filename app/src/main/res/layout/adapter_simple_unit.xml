@@ -8,11 +8,10 @@
     android:layout_marginTop="@dimen/margin_uSmall"
     android:layout_marginEnd="@dimen/margin_small"
     android:layout_marginBottom="@dimen/margin_uSmall"
-    tools:context=".UnitDisplayAdapter"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    >
+    tools:context=".UnitDisplayAdapter">
 
     <TextView
         android:id="@+id/txtTitle"

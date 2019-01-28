@@ -163,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_unit:
                     _pager.setCurrentItem(2);
-                    if(_pageContext.stat._pager.getCurrentItem() == 1)
-                    {
+                    if (_pageContext.stat._pager.getCurrentItem() == 1) {
                         //in unit
                         setToolBtnVisible(true);
                     }
@@ -206,9 +205,9 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                if(_pager.getCurrentItem() == 0) {
+                if (_pager.getCurrentItem() == 0) {
                     showQuestionFilterDialog();
-                }else{
+                } else {
                     showUnitFilterDialog();
                 }
                 return true;
@@ -321,6 +320,10 @@ public class MainActivity extends AppCompatActivity {
         _pageContext.stat._adapter.unit.refresh();
     }
 
+    void setToolBtnVisible(boolean visible) {
+        _filterMenu.setVisible(visible);
+        _displayModeToggle.setVisible(visible);
+    }
 
     @FunctionalInterface
     public interface RequireRefreshEventHandler {
@@ -330,11 +333,6 @@ public class MainActivity extends AppCompatActivity {
     @FunctionalInterface
     public interface ChangeDisplayModeEventHandler {
         void change(boolean isSecondMode);
-    }
-
-    void setToolBtnVisible(boolean visible){
-        _filterMenu.setVisible(visible);
-        _displayModeToggle.setVisible(visible);
     }
 
 }

@@ -63,15 +63,15 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             DataContext current = _dataContext.get(position);
             Holder viewHolder = (Holder) holder;
             viewHolder._txtTitle.setText(current.Title);
-            viewHolder._txtCount.setText(String.format(Locale.US,"%dx",current.QuestionCount));
-            viewHolder._txtQuiz.setText(String.format(Locale.US,"%d%%",current.QuizCorrectRatio));
+            viewHolder._txtCount.setText(String.format(Locale.US, "%dx", current.QuestionCount));
+            viewHolder._txtQuiz.setText(String.format(Locale.US, "%d%%", current.QuizCorrectRatio));
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
             viewHolder._multiCheckbox.setChecked(current.Checked);
             viewHolder._root.setOnClickListener(current.DetailClicked);
             viewHolder._multiCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 current.Checked = isChecked;
-                if(current.OnChecked != null)
-                    current.OnChecked.onCheckedChanged(buttonView,isChecked);
+                if (current.OnChecked != null)
+                    current.OnChecked.onCheckedChanged(buttonView, isChecked);
             });
         }
 
@@ -168,16 +168,15 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         public View.OnClickListener DetailClicked;
         public String Title;
         public ConstraintLayout unitMainInfo;
+        public boolean Checkable = true;
+        public boolean Checked = false;
+        public CompoundButton.OnCheckedChangeListener OnChecked;
         //public View.OnClickListener RmClicked;
         protected int QuizCount;
         protected int QuizCorrectRatio;
         protected int QuestionCount;
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
-
-        public boolean Checkable = true;
-        public boolean Checked = false;
-        public CompoundButton.OnCheckedChangeListener OnChecked;
 
         public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
             QuizCount = quizCount;

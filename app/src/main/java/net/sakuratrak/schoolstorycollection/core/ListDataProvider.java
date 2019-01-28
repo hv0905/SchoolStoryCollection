@@ -12,7 +12,7 @@ public final class ListDataProvider<T> implements IListedDataProvidable<T> {
 
     @Override
     public int count() {
-        if(_context == null) return 0;
+        if (_context == null) return 0;
         return _context.size();
     }
 

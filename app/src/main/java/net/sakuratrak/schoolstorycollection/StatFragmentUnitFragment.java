@@ -169,7 +169,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         for (int i = _context.size() - 1; i >= 0; i--) {
             LearningUnitInfo item = _context.get(i);
             //筛选
-            if(!isHiddenShown && item.isHidden()) continue;
+            if (!isHiddenShown && item.isHidden()) continue;
             if (keyword != null) {
                 boolean mainGoFlag = false;
                 for (String word :
@@ -179,7 +179,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                         break;
                     }
                 }
-                if(!mainGoFlag) continue;
+                if (!mainGoFlag) continue;
             }
 
             //ok,加入列表

@@ -33,7 +33,7 @@
                     android:drawableStart="@drawable/ic_info_black_24dp"
                     android:text="@string/info" />
 
-                <include layout="@layout/include_unit_main"/>
+                <include layout="@layout/include_unit_main" />
 
                 <TextView
                     style="@style/textTitle"

@@ -220,7 +220,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             type = getParent()._questionFilterDialog.get_selectedType();
             if (keyword != null && keyword.length == 0) keyword = null;
             if (unit != null && unit.size() == 0) unit = null;
-            if(type != null && type.size() == 0) type = null;
+            if (type != null && type.size() == 0) type = null;
         }
 
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(
@@ -237,13 +237,13 @@ public final class MainActivityWorkBookFragment extends Fragment {
             //筛选
             //筛掉隐藏的题目
             if (!hiddenShown && info.isHidden()) continue;
-            if(type != null){
-                if(!type.contains(info.getType())) continue;
+            if (type != null) {
+                if (!type.contains(info.getType())) continue;
             }
             if (unit != null) {
                 //需要按单元筛选
-                if(info.getUnit() == null) continue;
-                if(!unit.contains(info.getUnit().getId())) continue;
+                if (info.getUnit() == null) continue;
+                if (!unit.contains(info.getUnit().getId())) continue;
             }
             if (keyword != null) {
                 //需要按关键字筛选

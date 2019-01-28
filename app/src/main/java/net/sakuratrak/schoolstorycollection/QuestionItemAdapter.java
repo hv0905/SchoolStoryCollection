@@ -67,7 +67,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public int dbId;
 
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite,QuestionType type, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -114,21 +114,21 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             Holder holder = (Holder) vHolder;
             DataContext current = _dataContext.get(position);
             holder.title.setText(current.title);
-            switch (current.type){
+            switch (current.type) {
                 case SINGLE_CHOICE:
-                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp,0,0,0);
+                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);
                     break;
                 case MULTIPLY_CHOICE:
-                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_2_black_24dp,0,0,0);
+                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_2_black_24dp, 0, 0, 0);
                     break;
                 case TYPEABLE_BLANK:
-                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_keyboard_black_24dp,0,0,0);
+                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_keyboard_black_24dp, 0, 0, 0);
                     break;
                 case BLANK:
-                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_edit_black_24dp,0,0,0);
+                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_edit_black_24dp, 0, 0, 0);
                     break;
                 case ANSWER:
-                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+                    holder.title.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_done_black_24dp, 0, 0, 0);
                     break;
             }
             holder.valAuthorTime.setText(current.authorTime);
@@ -196,21 +196,21 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             Holder holder = (Holder) viewHolder;
             QuestionItemAdapter.DataContext data = _dataContext.get(i);
             holder._textTitle.setText(data.title);
-            switch (data.type){
+            switch (data.type) {
                 case SINGLE_CHOICE:
-                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp,0,0,0);
+                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);
                     break;
                 case MULTIPLY_CHOICE:
-                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_2_black_24dp,0,0,0);
+                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_2_black_24dp, 0, 0, 0);
                     break;
                 case TYPEABLE_BLANK:
-                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_keyboard_black_24dp,0,0,0);
+                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_keyboard_black_24dp, 0, 0, 0);
                     break;
                 case BLANK:
-                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_edit_black_24dp,0,0,0);
+                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_edit_black_24dp, 0, 0, 0);
                     break;
                 case ANSWER:
-                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_done_black_24dp,0,0,0);
+                    holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_done_black_24dp, 0, 0, 0);
                     break;
             }
             holder._difficulty.setRating(data.difficulty);

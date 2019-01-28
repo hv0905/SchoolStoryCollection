@@ -32,12 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/ui_margin_mid"
+        android:drawableStart="@drawable/ic_filter_1_black_24dp"
+        android:drawablePadding="@dimen/margin_small"
+        android:gravity="center_vertical|start"
         app:layout_constraintBottom_toTopOf="@+id/difficulty"
         app:layout_constraintLeft_toRightOf="@id/previewImg"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_vertical|start"
-        android:drawableStart="@drawable/ic_filter_1_black_24dp"
-        android:drawablePadding="@dimen/margin_small"
         tools:text="231323123" />
 
     <me.zhanghai.android.materialratingbar.MaterialRatingBar

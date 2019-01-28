@@ -128,7 +128,7 @@ public class QuizActivity extends AppCompatActivity {
                 break;
             case MODE_LIST:
                 _idList = getIntent().getIntegerArrayListExtra(EXTRA_QUESTION_IDS);
-                if(_idList.size() == 0) finish();
+                if (_idList.size() == 0) finish();
                 try {
                     _currentContext = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(_idList.get(_currentId));
                 } catch (SQLException e) {

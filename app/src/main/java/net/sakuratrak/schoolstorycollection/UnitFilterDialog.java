@@ -28,7 +28,7 @@ public final class UnitFilterDialog {
     public UnitFilterDialog() {
     }
 
-    public void showDialog(Context context){
+    public void showDialog(Context context) {
         _dialog = new AlertDialog.Builder(context)
                 .setView(R.layout.layout_unit_filter_dialog)
                 .setIcon(R.drawable.ic_filter_list_black_24dp)
@@ -62,7 +62,7 @@ public final class UnitFilterDialog {
     private void dialogClosed() {
         _keyword = _searchText.getText().toString();
         _isHiddenShown = _hiddenSwitch.isChecked();
-        if(_onUpdate != null)
+        if (_onUpdate != null)
             _onUpdate.run();
     }
 
@@ -71,7 +71,7 @@ public final class UnitFilterDialog {
     }
 
     public void set_subject(LearningSubject _subject) {
-        if(_subject == this._subject) return;
+        if (_subject == this._subject) return;
         this._subject = _subject;
     }
 

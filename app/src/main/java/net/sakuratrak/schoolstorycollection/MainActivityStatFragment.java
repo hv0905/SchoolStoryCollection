@@ -43,9 +43,9 @@ public final class MainActivityStatFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 1){
+                if (position == 1) {
                     getParent().setToolBtnVisible(true);
-                }else{
+                } else {
                     getParent().setToolBtnVisible(false);
                 }
             }

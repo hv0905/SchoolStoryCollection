@@ -14,16 +14,14 @@
         app:boxBackgroundMode="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:drawableStart="@drawable/ic_search_black_24dp"
-            />
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
@@ -55,44 +53,42 @@
         android:id="@+id/questionTypeGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleType"
-        >
+        app:layout_constraintTop_toBottomOf="@id/titleType">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipSingleChoice"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/singleChoiceQuestion"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            />
+            android:text="@string/singleChoiceQuestion" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipMultiChoice"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/multiChoiceQuestion"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            />
+            android:text="@string/multiChoiceQuestion" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipEditableFill"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/editableFillQuestion"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            />
+            android:text="@string/editableFillQuestion" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipFill"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fillQuestion"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            />
+            android:text="@string/fillQuestion" />
+
         <com.google.android.material.chip.Chip
             android:id="@+id/chipAnswer"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/answerQuestion"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            />
+            android:text="@string/answerQuestion" />
 
     </com.google.android.material.chip.ChipGroup>
 
