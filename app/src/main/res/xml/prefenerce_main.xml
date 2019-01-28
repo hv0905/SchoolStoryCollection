@@ -14,6 +14,12 @@
             android:key="alarmTime"
             android:summary="%s"
             android:title="@string/settit_dailyQuizTime" />
+        <Preference
+            android:icon="@drawable/ic_warning_black_24dp"
+            android:key="resetDialog"
+            android:title="重置所有“不再显示”对话框"
+            android:summary="这会使所有曾被你标记为“不再显示”的对话框再次可见。"
+            />
     </PreferenceCategory>
     <PreferenceCategory android:title="小测">
 

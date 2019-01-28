@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -71,6 +73,11 @@ public class SettingActivity extends AppCompatActivity {
                                     .setIcon(R.drawable.ic_info_black_24dp)
                                     .show();
                         }
+                        break;
+                    case "resetDialog":
+                        AppSettingsMaster.setBooleanVal(getContext(),AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,false);
+                        Toast.makeText(getContext(),"已全部重置",Toast.LENGTH_LONG).show();
+                        break;
                 }
             }
             return super.onPreferenceTreeClick(preference);
