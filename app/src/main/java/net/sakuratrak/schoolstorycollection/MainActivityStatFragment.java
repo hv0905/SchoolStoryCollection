@@ -35,9 +35,34 @@ public final class MainActivityStatFragment extends Fragment {
         _pager.setOffscreenPageLimit(StatFragmentPagerAdapter.PAGE_COUNT);
         _pager.setAdapter(_adapter);
 
+        _pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 1){
+                    getParent().setToolBtnVisible(true);
+                }else{
+                    getParent().setToolBtnVisible(false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         _tabLayout.setupWithViewPager(_pager);
 
         return _pager;
+    }
+
+    private MainActivity getParent() {
+        return (MainActivity) getActivity();
     }
 
     @Override

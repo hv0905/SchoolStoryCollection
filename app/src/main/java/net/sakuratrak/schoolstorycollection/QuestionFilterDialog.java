@@ -20,7 +20,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 
-public final class FilterDialog {
+public final class QuestionFilterDialog {
 
     public static final String TAG = "filter_dialog";
 
@@ -42,25 +42,23 @@ public final class FilterDialog {
     private String _searchTxt;
     private boolean _isHiddenShown;
     private LearningSubject _subject;
-    private List<Integer> _selectedUnitIds;
-    private List<QuestionType> _selectedType;
+    private List<Integer> _selectedUnitIds = new ArrayList<>();
+    private List<QuestionType> _selectedType = new ArrayList<>();
     private Runnable _onUpdate;
 
 
-    public FilterDialog() {
+    public QuestionFilterDialog() {
 
     }
 
-    public FilterDialog(LearningSubject _subject) {
+    public QuestionFilterDialog(LearningSubject _subject) {
         this._subject = _subject;
-        _selectedUnitIds = new ArrayList<>();
-        _selectedType = new ArrayList<>();
 
     }
 
     public void showDialog(Context context) {
         _dialog = new AlertDialog.Builder(context)
-                .setView(R.layout.layout_filter_dialog)
+                .setView(R.layout.layout_question_filter_dialog)
                 .setIcon(R.drawable.ic_filter_list_black_24dp)
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     dialogClosed();

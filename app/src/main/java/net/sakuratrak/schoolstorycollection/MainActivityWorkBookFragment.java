@@ -199,7 +199,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         _mainAdapter.notifyDataSetChanged();
         if (_displayContexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
-            _emptyNotify.setText((getParent()._filterDialog != null && getParent()._filterDialog.isFilterActive())
+            _emptyNotify.setText((getParent()._questionFilterDialog != null && getParent()._questionFilterDialog.isFilterActive())
                     ? R.string.filterEmptyUi : R.string.workbookEmptyUi);
         } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
@@ -213,14 +213,14 @@ public final class MainActivityWorkBookFragment extends Fragment {
         String[] keyword = null;
         List<Integer> unit = null;
         List<QuestionType> type = null;
-        if (getParent()._filterDialog != null) {
-            hiddenShown = getParent()._filterDialog.is_isHiddenShown();
-            keyword = getParent()._filterDialog.get_searchTxt() == null ? null : getParent()._filterDialog.get_searchTxt().split(" ");
-            unit = getParent()._filterDialog.get_selectedUnitIds();
-            type = getParent()._filterDialog.get_selectedType();
-            if (keyword.length == 0) keyword = null;
-            if (unit.size() == 0) unit = null;
-            if(type.size() == 0) type = null;
+        if (getParent()._questionFilterDialog != null) {
+            hiddenShown = getParent()._questionFilterDialog.is_isHiddenShown();
+            keyword = getParent()._questionFilterDialog.get_searchTxt() == null ? null : getParent()._questionFilterDialog.get_searchTxt().split(" ");
+            unit = getParent()._questionFilterDialog.get_selectedUnitIds();
+            type = getParent()._questionFilterDialog.get_selectedType();
+            if (keyword != null && keyword.length == 0) keyword = null;
+            if (unit != null && unit.size() == 0) unit = null;
+            if(type != null && type.size() == 0) type = null;
         }
 
         QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(

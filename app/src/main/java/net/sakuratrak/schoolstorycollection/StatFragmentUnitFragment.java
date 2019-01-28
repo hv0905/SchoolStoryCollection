@@ -48,8 +48,8 @@ public final class StatFragmentUnitFragment extends Fragment {
     private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
 
     private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
-    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
     private RecycleViewDivider _mainDivider;
+    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
 
 
     public StatFragmentUnitFragment() {
@@ -115,12 +115,12 @@ public final class StatFragmentUnitFragment extends Fragment {
         return _root;
     }
 
-    public void regTel(){
+    private void regTel() {
         getParent().addRequireRefreshEvent(_requireRefresh);
         getParent().addChangeDisplayModeEvent(_changeMode);
     }
 
-    public void destroyTel(){
+    private void destroyTel() {
         getParent().removeRequireRefreshEvent(_requireRefresh);
         getParent().removeChangeDisplayModeEvent(_changeMode);
     }
@@ -132,9 +132,9 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     }
 
-    private void refreshContext(){
+    private void refreshContext() {
         try {
-            _context= (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
+            _context = (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
         } catch (SQLException e) {
             e.printStackTrace();
             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
@@ -156,8 +156,33 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         _displayContext.clear();
 
+        String[] keyword = null;
+        boolean isHiddenShown = false;
+
+        if (getParent()._unitFilterDialog != null) {
+            keyword = getParent()._unitFilterDialog.get_keyword() == null ? null : getParent()._unitFilterDialog.get_keyword().split(" ");
+            isHiddenShown = getParent()._unitFilterDialog.is_isHiddenShown();
+            if (keyword != null && keyword.length == 0) keyword = null;
+        }
+
+
         for (int i = _context.size() - 1; i >= 0; i--) {
             LearningUnitInfo item = _context.get(i);
+            //筛选
+            if(!isHiddenShown && item.isHidden()) continue;
+            if (keyword != null) {
+                boolean mainGoFlag = false;
+                for (String word :
+                        keyword) {
+                    if (item.getName().contains(word)) {
+                        mainGoFlag = true;
+                        break;
+                    }
+                }
+                if(!mainGoFlag) continue;
+            }
+
+            //ok,加入列表
             UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             _displayContext.add(udiItem);
@@ -169,7 +194,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         }
     }
 
-    private void refresh() {
+    public void refresh() {
         refreshContext();
         _mainAdapter.notifyDataSetChanged();
     }
@@ -178,9 +203,9 @@ public final class StatFragmentUnitFragment extends Fragment {
         Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
         intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
         ActivityOptions ao;
-        if(getParent().is_isSecondDisplayMode()){
+        if (getParent().is_isSecondDisplayMode()) {
             ao = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-        }else {
+        } else {
             ao = ActivityOptions.makeSceneTransitionAnimation(
                     getActivity(),
                     udiItem.unitMainInfo,
@@ -193,7 +218,7 @@ public final class StatFragmentUnitFragment extends Fragment {
     }
 
     private MainActivity getParent() {
-        return (MainActivity) getActivity();
+        return (MainActivity) getContext();
     }
 
     @Override

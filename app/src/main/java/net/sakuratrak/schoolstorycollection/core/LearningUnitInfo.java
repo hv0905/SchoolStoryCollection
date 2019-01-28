@@ -140,6 +140,5 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
             return _base.queryForEq("subjectId", subject.getId());
         }
 
-
     }
 }

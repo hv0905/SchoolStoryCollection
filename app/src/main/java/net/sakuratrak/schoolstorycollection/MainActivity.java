@@ -17,11 +17,9 @@ import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.logging.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -42,28 +40,24 @@ public class MainActivity extends AppCompatActivity {
             R.id.nav_menu_geo
     };
     private final String TAG = "MainActivity";
+    public QuestionFilterDialog _questionFilterDialog;
+    public UnitFilterDialog _unitFilterDialog;
     private MainActivityPagerAdapter _pageContext;
     private LearningSubject _currentSubject = LearningSubject.CHINESE;
-
     //region ui_control
     private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
     private Toolbar _toolbar;
     private ViewPager _pager;
     private MenuItem _filterMenu;
+    //endregion
     private MenuItem _displayModeToggle;
     private NavigationView _navigationView;
-    //endregion
-
     //region fields
     private boolean _isSecondDisplayMode = false;
+    //endregion
     private File _cameraCurrentFile;
     private ActionBarDrawerToggle _drawerToggle;
-    //endregion
-
-    public FilterDialog _filterDialog;
-
-
     private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
     private ArrayList<ChangeDisplayModeEventHandler> _changeDisplayModeEvent;
 
@@ -158,22 +152,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         _navigation.setOnNavigationItemSelectedListener(item -> {
-            if (_filterMenu != null)
-                _filterMenu.setVisible(false);
-            if (_displayModeToggle != null)
-                _displayModeToggle.setVisible(false);
+            setToolBtnVisible(false);
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     _pager.setCurrentItem(0);
-                    _filterMenu.setVisible(true);
-                    _displayModeToggle.setVisible(true);
+                    setToolBtnVisible(true);
                     return true;
                 case R.id.navigation_dashboard:
                     _pager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_unit:
                     _pager.setCurrentItem(2);
-                    _displayModeToggle.setVisible(true);
+                    if(_pageContext.stat._pager.getCurrentItem() == 1)
+                    {
+                        //in unit
+                        setToolBtnVisible(true);
+                    }
                     return true;
             }
             return false;
@@ -212,7 +206,11 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                showFilterDialog();
+                if(_pager.getCurrentItem() == 0) {
+                    showQuestionFilterDialog();
+                }else{
+                    showUnitFilterDialog();
+                }
                 return true;
             case R.id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
@@ -238,6 +236,17 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(uiColor);
         _toolbar.setBackgroundColor(uiColor);
         getSupportActionBar().setTitle(getResources().getStringArray(R.array.learning_subjects)[subject.getId()]);
+
+        //reset filter dialog
+        if (_questionFilterDialog != null) {
+            _questionFilterDialog.set_subject(_currentSubject);
+            _questionFilterDialog.resetDialog();
+        }
+        if (_unitFilterDialog != null) {
+            _unitFilterDialog.set_subject(_currentSubject);
+            _unitFilterDialog.resetDialog();
+        }
+
         requireRefresh();
     }
 
@@ -287,18 +296,29 @@ public class MainActivity extends AppCompatActivity {
         this._isSecondDisplayMode = _isSecondDisplayMode;
     }
 
-    void showFilterDialog() {
+    void showQuestionFilterDialog() {
 
-        if(_filterDialog == null) {
-            _filterDialog = new FilterDialog(getCurrentSubject());
-            _filterDialog.set_onUpdate(this::onFilterDialogUpdate);
+        if (_questionFilterDialog == null) {
+            _questionFilterDialog = new QuestionFilterDialog(getCurrentSubject());
+            _questionFilterDialog.set_onUpdate(this::onWorkbookFilterDialogUpdate);
         }
-        _filterDialog.showDialog(this);
+        _questionFilterDialog.showDialog(this);
     }
 
-    void onFilterDialogUpdate(){
-        _pageContext.workBook.refreshList();
+    void showUnitFilterDialog() {
+        if (_unitFilterDialog == null) {
+            _unitFilterDialog = new UnitFilterDialog(getCurrentSubject());
+            _unitFilterDialog.set_onUpdate(this::onUnitFilterDialogUpdate);
+        }
+        _unitFilterDialog.showDialog(this);
+    }
 
+    void onWorkbookFilterDialogUpdate() {
+        _pageContext.workBook.refreshList();
+    }
+
+    void onUnitFilterDialogUpdate() {
+        _pageContext.stat._adapter.unit.refresh();
     }
 
 
@@ -310,6 +330,11 @@ public class MainActivity extends AppCompatActivity {
     @FunctionalInterface
     public interface ChangeDisplayModeEventHandler {
         void change(boolean isSecondMode);
+    }
+
+    void setToolBtnVisible(boolean visible){
+        _filterMenu.setVisible(visible);
+        _displayModeToggle.setVisible(visible);
     }
 
 }
