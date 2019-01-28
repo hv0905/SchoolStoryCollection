@@ -33,6 +33,9 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
     @DatabaseField
     private Date createTime;
 
+    @DatabaseField
+    private boolean hidden;
+
     public LearningUnitInfo() {
         createTime = new Date();
     }
@@ -65,6 +68,14 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
 
     private void setSubject(LearningSubject value) {
         subjectId = value.getId();
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public int computeCorrectRatio() {
