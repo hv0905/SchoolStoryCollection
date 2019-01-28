@@ -76,7 +76,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private MenuItem _hideMenu;
     private QuestionInfo _context;
     private boolean _edited = false;
-    private boolean _hidden = true;
+    private boolean _hidden = false;
 
     //endregion
 
