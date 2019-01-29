@@ -214,4 +214,9 @@
     <string name="hiddenDialogTital">确定归档错题？</string>
     <string name="neverShowAgain">不再显示</string>
     <string name="confirmDelete">删除确认</string>
+    <string name="hideUnit">归档单元</string>
+    <string name="hideUnitAll">归档单元及其下所有错题</string>
+    <string name="dialogHideUnitConfirm">确定归档单元？</string>
+    <string name="dialogHideUnitConfirmMsg">如果你归档本单元，本单元下所有错题将会一同隐藏，这些错题不会在错题本和小测中出现，且不会纳入统计。</string>
+    <string name="undoHideUnit">取消归档单元</string>
 </resources>

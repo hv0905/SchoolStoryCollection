@@ -3,6 +3,8 @@ package net.sakuratrak.schoolstorycollection;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
@@ -28,12 +31,16 @@ public class UnitDetailActivity extends AppCompatActivity {
     public static final String EXTRA_CONTEXT_ID = "subject_id";
 
     public static final int RESULT_DELETED = 100;
-
     public static final int RESULT_CHANGED = 101;
+    public static final int RESULT_HIDDEN = 102;
 
     LearningUnitInfo _context;
+    boolean _edited = false;
+    boolean _hidden = false;
 
+    //region views
     Toolbar _toolbar;
+    MaterialButton _hideBtn;
     MaterialButton _resetBtn;
     MaterialButton _rmBtn;
     ScrollView _scrollMain;
@@ -46,9 +53,8 @@ public class UnitDetailActivity extends AppCompatActivity {
     TextView _valQuestionRatio;
     ProgressBar _questionRatioBar;
     ConstraintLayout _unitMainInfo;
+    //endregion
 
-
-    boolean _changed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,7 @@ public class UnitDetailActivity extends AppCompatActivity {
             }
         } else finish();
 
+        _hideBtn = findViewById(R.id.hideBtn);
         _rmBtn = findViewById(R.id.rmBtn);
         _resetBtn = findViewById(R.id.resetBtn);
         _scrollMain = findViewById(R.id.scrollMain);
@@ -89,12 +96,53 @@ public class UnitDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        _hideBtn.setOnClickListener(v -> {
+            if(_context.isHidden()){
+                //要恢复显示
+                // TODO: 2019/1/29 undo hide unit
+                _context.setHidden(false);
+                try {
+                    DbManager.getDefaultHelper(this).getLearningUnitInfos().update(_context);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                Snackbar.make(_toolbar,R.string.hiddenUndoed,Snackbar.LENGTH_LONG).show();
+                refresh();
+                _hidden = false;
+                _edited = true;
+
+            }else {
+                //要隐藏
+                if (AppSettingsMaster.getBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM, false)) {
+                    hideUnit();
+                } else {
+                    CheckBox cb = new CheckBox(this);
+                    cb.setText(getString(R.string.neverShowAgain));
+                    cb.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    new AlertDialog.Builder(this)
+                            .setIcon(R.drawable.ic_warning_black_24dp)
+                            .setTitle(getString(R.string.dialogHideUnitConfirm))
+                            .setMessage(getString(R.string.dialogHideUnitConfirmMsg))
+                            .setView(cb)
+                            .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                if (cb.isChecked()) {
+                                    AppSettingsMaster.setBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM, true);
+                                }
+                                hideUnit();
+                            })
+                            .setNegativeButton(R.string.cancel,null)
+                            .show();
+                }
+            }
+        });
+
 
         _resetBtn.setOnClickListener(v -> {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
             ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmLog_msg), _context.getName()));
             ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-                _changed = true;
+                _edited = true;
                 Snackbar.make(_resetBtn, "已清除统计信息", Snackbar.LENGTH_LONG).show();
             });
             ad.show();
@@ -110,7 +158,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                     Snackbar.make(_rmBtn, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                _changed = false;
+                _edited = false;
                 setResult(RESULT_DELETED);
                 finish();
             });
@@ -122,8 +170,10 @@ public class UnitDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if(_hidden) setResult(RESULT_HIDDEN);
+        else if (_edited) setResult(RESULT_CHANGED);
+
         super.onBackPressed();
-        if (_changed) setResult(RESULT_CHANGED);
     }
 
     void refresh() {
@@ -143,6 +193,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         _valQuestionCount.setText(String.valueOf(mainInfo.QuestionCount));
         _valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuestionRatio));
         _questionRatioBar.setProgress(mainInfo.QuestionRatio);
+        _hideBtn.setText(_context.isHidden() ? R.string.undoHideUnit : R.string.hideUnit);
         // load graph
     }
 
@@ -154,5 +205,19 @@ public class UnitDetailActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void hideUnit(){
+        // TODO: 2019/1/29
+        _context.setHidden(true);
+        try {
+            DbManager.getDefaultHelper(this).getLearningUnitInfos().update(_context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        Snackbar.make(_toolbar,R.string.hiddenDone,Snackbar.LENGTH_LONG).show();
+        refresh();
+        _hidden = true;
     }
 }

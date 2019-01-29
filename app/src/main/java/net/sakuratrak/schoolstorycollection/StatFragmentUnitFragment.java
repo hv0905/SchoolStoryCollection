@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -228,8 +229,14 @@ public final class StatFragmentUnitFragment extends Fragment {
                 switch (resultCode) {
                     case UnitDetailActivity.RESULT_DELETED:
                         Snackbar.make(_root, R.string.deleted, Snackbar.LENGTH_LONG).show();
+                        getParent().requireRefresh();
+                        break;
                     case UnitDetailActivity.RESULT_CHANGED:
                         getParent().requireRefresh();
+                        break;
+                    case UnitDetailActivity.RESULT_HIDDEN:
+                        getParent().requireRefresh();
+                        break;
                 }
         }
         super.onActivityResult(requestCode, resultCode, data);

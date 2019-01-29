@@ -114,6 +114,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             DataContext current = _dataContext.get(i);
             Holder viewHolder = (Holder) holder;
             viewHolder._valTitle.setText(current.Title);
+            viewHolder._valTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
             viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", current.QuizCorrectRatio));
             viewHolder._correctRatioBar.setProgress(current.QuizCorrectRatio);
@@ -171,6 +172,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         public boolean Checkable = true;
         public boolean Checked = false;
         public CompoundButton.OnCheckedChangeListener OnChecked;
+        public boolean isHidden;
         //public View.OnClickListener RmClicked;
         protected int QuizCount;
         protected int QuizCorrectRatio;
@@ -178,13 +180,14 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
 
-        public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord) {
+        public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, boolean isHidden) {
             QuizCount = quizCount;
             QuizCorrectRatio = quizCorrectRatio;
             QuestionCount = questionCount;
             QuestionRatio = questionRatio;
             this.requireMoreRecord = requireMoreRecord;
             Title = title;
+            this.isHidden = isHidden;
         }
 
         public DataContext(View.OnClickListener detailClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
@@ -208,7 +211,9 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
                     dbInfo.computeCorrectRatio(),
                     questionsc,
                     (int) (((double) questionsc / questionSum) * 100),
-                    dbInfo.getIfNeedMoreQuiz());
+                    dbInfo.getIfNeedMoreQuiz(),
+                    dbInfo.isHidden()
+            );
         }
     }
 }

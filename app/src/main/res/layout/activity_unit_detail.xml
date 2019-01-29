@@ -55,11 +55,21 @@
 
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/hideBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ui_margin_mid"
+                android:layout_marginEnd="@dimen/ui_margin_mid"
+                android:text="@string/hideUnit"
+                app:icon="@drawable/ic_move_to_inbox_black_24dp" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/resetBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/ui_margin_mid"
                 android:layout_marginRight="@dimen/ui_margin_mid"
+                android:backgroundTint="@color/colorAccent"
                 android:text="@string/reset_info"
                 app:icon="@drawable/ic_repeat_black_24dp" />
 
