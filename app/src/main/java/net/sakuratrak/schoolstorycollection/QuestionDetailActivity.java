@@ -245,23 +245,21 @@ public class QuestionDetailActivity extends AppCompatActivity {
                             try {
                                 //delete all images
                                 for (String item_ : _context.getQuestionImage()) {
-                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
-                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
-                                    if (raw.exists()) raw.delete();
-                                    if (tmb.exists()) tmb.delete();
+//                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
+//                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
+//                                    if (raw.exists()) raw.delete();
+//                                    if (tmb.exists()) tmb.delete();
+                                    AppMaster.removeImgFile(this,item_);
+                                    AppMaster.removeThumbFile(this,item_);
                                 }
                                 for (String item_ : _context.getAnalysisImage()) {
-                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
-                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
-                                    if (raw.exists()) raw.delete();
-                                    if (tmb.exists()) tmb.delete();
+                                    AppMaster.removeImgFile(this,item_);
+                                    AppMaster.removeThumbFile(this,item_);
                                 }
                                 if (_context.getAnswer() instanceof ImageAnswer) {
                                     for (String item_ : ((ImageAnswer) _context.getAnswer()).Image) {
-                                        File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
-                                        File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
-                                        if (raw.exists()) raw.delete();
-                                        if (tmb.exists()) tmb.delete();
+                                        AppMaster.removeImgFile(this,item_);
+                                        AppMaster.removeThumbFile(this,item_);
                                     }
                                 }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);

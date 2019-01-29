@@ -269,7 +269,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
             }
 
             //OK,加入列表
-            int finalI = i;
             final int currentDisplayId = displayId++;
             DataContext dc = new DataContext(info.getTitle(),
                     UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
@@ -278,9 +277,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     info.isFavourite(),
                     info.getType(),
                     info.isHidden(),
-                    v -> {
-                        goDetail(info, v, currentDisplayId);
-                    },
+                    v -> goDetail(info, v, currentDisplayId),
                     v -> goQuiz(info),
                     v -> {
                         showOptionMenu(info, currentDisplayId);

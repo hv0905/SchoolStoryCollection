@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.io.File;
@@ -133,7 +134,7 @@ public class ImageSelectView extends RecyclerView {
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
             ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
-            item.imgSrc = Uri.fromFile(new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), path));
+            item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(), path));
             final int finalI = i;
             item.imageClicked = v -> showImageOptionMenu(finalI);
             dataContext.add(item);
@@ -146,7 +147,9 @@ public class ImageSelectView extends RecyclerView {
             switch (which) {
                 case 0:
                     //noinspection ResultOfMethodCallIgnored
-                    new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), _images.get(index)).delete();
+//                    File toDel = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), _images.get(index));
+//                    if (toDel.isFile()) toDel.delete();
+                    AppMaster.removeImgFile(getContext(),_images.get(index));
                     _images.remove(index);
                     onItemToggle();
                     refresh();
