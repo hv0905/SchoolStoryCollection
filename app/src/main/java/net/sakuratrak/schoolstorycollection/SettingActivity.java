@@ -11,11 +11,17 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 public class SettingActivity extends AppCompatActivity {
+
+    public static final String[] DIALOG_SETTINGS = {
+            AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,
+            AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM
+    };
 
     public static final String TAG = "SettingActivity";
     public MainSettingFragment fragment;
@@ -59,7 +65,20 @@ public class SettingActivity extends AppCompatActivity {
                             Toast.makeText(getContext(), "无论前方如何,请不要后悔与我的相遇\n      -- 古河渚", Toast.LENGTH_LONG).show();
                         }
                         break;
-                    case "feedback":
+                    case "feedback_vote":
+                        Intent intVote = new Intent(Intent.ACTION_VIEW,Uri.parse("https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__tALAnlURTUzSTVLWjBHVVA5R1E3Wk44N0ZKNVFLTy4u"));
+                        if(intVote.resolveActivity(getContext().getPackageManager()) != null){
+                            startActivity(intVote);
+                        }
+
+                        break;
+                    case "feedback_github":
+                        Intent intGh = new Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/EdgeNeko/SchoolStoryCollection_FeedbackOnly"));
+                        if(intGh.resolveActivity(getContext().getPackageManager()) != null){
+                            startActivity(intGh);
+                        }
+                        break;
+                    case "feedback_mail":
                         Intent intent = new Intent(Intent.ACTION_SENDTO);
                         intent.setData(Uri.parse("mailto:mchxfeedback@126.com"));
                         intent.putExtra(Intent.EXTRA_EMAIL, "mchxfeedback@126.com");
@@ -75,7 +94,11 @@ public class SettingActivity extends AppCompatActivity {
                         }
                         break;
                     case "resetDialog":
-                        AppSettingsMaster.setBooleanVal(getContext(),AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,false);
+                        for (String item :
+                                DIALOG_SETTINGS) {
+                            AppSettingsMaster.setBooleanVal(getContext(), item, false);
+                        }
+
                         Toast.makeText(getContext(),"已全部重置",Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -113,6 +136,7 @@ public class SettingActivity extends AppCompatActivity {
             //noinspection ConstantConditions
             getFragmentManager()
                     .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(getId(), applicationPreferencesFragment)
                     .addToBackStack(null)
                     .commit();

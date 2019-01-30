@@ -104,9 +104,31 @@
                 android:targetPackage="net.sakuratrak.schoolstorycollection" />
         </Preference>
 
-        <Preference
+        <PreferenceScreen
             android:icon="@drawable/ic_mail_black_24dp"
             android:key="feedback"
-            android:title="@string/feedback" />
+            android:persistent="false"
+            android:title="@string/feedback" >
+            <Preference
+                android:icon="@drawable/ic_star_half_black_24dp"
+                android:key="feedback_vote"
+                android:persistent="false"
+                android:title="提供反馈"
+                android:summary="完成反馈问卷，告诉我们我们做的怎样"
+                />
+            <Preference
+                android:icon="@drawable/ic_assignment_black_24dp"
+                android:key="feedback_github"
+                android:persistent="false"
+                android:title="报告问题和建议"
+                />
+            <Preference
+                android:icon="@drawable/ic_mail_black_24dp"
+                android:key="feedback_mail"
+                android:persistent="false"
+                android:title="联系作者"
+                />
+
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

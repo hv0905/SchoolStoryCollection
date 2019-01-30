@@ -122,8 +122,8 @@ public class UnitDetailActivity extends AppCompatActivity {
                     cb.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     new AlertDialog.Builder(this)
                             .setIcon(R.drawable.ic_warning_black_24dp)
-                            .setTitle(getString(R.string.dialogHideUnitConfirm))
-                            .setMessage(getString(R.string.dialogHideUnitConfirmMsg))
+                            .setTitle(R.string.dialogHideUnitConfirm)
+                            .setMessage(R.string.dialogHideUnitConfirmMsg)
                             .setView(cb)
                             .setPositiveButton(R.string.confirm, (dialog, which) -> {
                                 if (cb.isChecked()) {
