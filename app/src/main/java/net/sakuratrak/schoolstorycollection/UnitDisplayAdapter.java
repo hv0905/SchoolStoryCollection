@@ -179,6 +179,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         protected int QuestionCount;
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
+        public LearningUnitInfo db;
 
         public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, boolean isHidden) {
             QuizCount = quizCount;
@@ -206,7 +207,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
 
         public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum) {
             int questionsc = dbInfo.getQuestions().size();
-            return new FullUnitDisplayAdapter.DataContext(dbInfo.getName(),
+            DataContext dataContext = new DataContext(dbInfo.getName(),
                     dbInfo.getExerciseLogCount(),
                     dbInfo.computeCorrectRatio(),
                     questionsc,
@@ -214,6 +215,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
                     dbInfo.getIfNeedMoreQuiz(),
                     dbInfo.isHidden()
             );
+            dataContext.db = dbInfo;
+            return dataContext;
         }
     }
 }

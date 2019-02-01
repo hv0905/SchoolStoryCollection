@@ -72,7 +72,6 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private int _currentDetailIndex = -1;
     private RecycleViewDivider _mainDivider;
     private int _multiCount = 0;
-    private boolean _isMulti = false;
     private boolean _multiShowed = false;
     private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
@@ -166,7 +165,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                     //删除
                                     new AlertDialog.Builder(getContext())
                                             .setMessage(String.format(Locale.US,"真的删除%d道错题吗？",_multiCount))
-                                            .setTitle("批量删除？")
+                                            .setTitle(R.string.confirmMultiRmTitle)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
@@ -186,7 +185,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                             }
                         })
                         .setPositiveButton(R.string.cancel, null)
-                        .setNegativeButton("取消选择", (dialog, which) -> {
+                        .setNegativeButton(R.string.unselectAll, (dialog, which) -> {
                             for (DataContext dc :
                                     _displayContexts) {
                                 dc.checked = false;
@@ -464,9 +463,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     private void updateMulti(boolean shouldHide) {
         _multiQuizBtnText.setText(String.format(Locale.US, "小测%d题", _multiCount));
-        _isMulti = _multiCount != 0;
+        boolean isMulti = _multiCount != 0;
 
-        if (_multiShowed && (!_isMulti || shouldHide)) {
+        if (_multiShowed && (!isMulti || shouldHide)) {
             _multiShowed = false;
             _multiActionBar.setVisibility(View.VISIBLE);
             _multiActionBar.setTranslationY(0);
@@ -479,7 +478,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     .start();
         }
 
-        if ((!_multiShowed) && (!shouldHide) && _isMulti) {
+        if ((!_multiShowed) && (!shouldHide) && isMulti) {
             _multiShowed = true;
             _multiActionBar.setVisibility(View.VISIBLE);
             _multiActionBar.setTranslationY(100);

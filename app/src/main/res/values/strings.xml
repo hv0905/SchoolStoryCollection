@@ -178,6 +178,8 @@
     <string name="dialogHideUnitConfirmMsg">如果你归档本单元，本单元下所有错题将会一同隐藏，这些错题不会在错题本和小测中出现，且不会纳入统计。</string>
     <string name="undoHideUnit">取消归档单元</string>
     <string name="more">more</string>
+    <string name="unselectAll">取消选择</string>
+    <string name="confirmMultiRmTitle">批量删除？</string>
 
 
     <string-array name="learning_subjects">
@@ -236,5 +238,10 @@
         <item>20</item>
         <item>25</item>
         <item>30</item>
+    </string-array>
+    <string-array name="unit_multi_options">
+        <item>归档</item>
+        <item>重置统计信息</item>
+        <item>删除</item>
     </string-array>
 </resources>

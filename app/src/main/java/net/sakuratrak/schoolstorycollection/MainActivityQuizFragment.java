@@ -34,11 +34,14 @@ public final class MainActivityQuizFragment extends Fragment {
     public static final int REQUEST_DETAIL = 101;
 
 
+    //region views
     ViewGroup _root;
     private ConstraintLayout _operateButtons;
     private View _quickQuizButton;
     private View _unitQuizButton;
     private RecyclerView _listLog;
+    //endregion
+
     private ExerciseLogGroupAdapter _mainAdapter;
     private ArrayList<ExerciseLogGroupAdapter.DataContext> _logContext;
     private final MainActivity.RequireRefreshEventHandler _update = this::update;
