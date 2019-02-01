@@ -30,7 +30,7 @@ public final class UnitFilterDialog {
 
     public void showDialog(Context context) {
         _dialog = new AlertDialog.Builder(context)
-                .setView(R.layout.layout_unit_filter_dialog)
+                .setView(R.layout.dialog_unit_filter)
                 .setIcon(R.drawable.ic_filter_list_black_24dp)
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     dialogClosed();

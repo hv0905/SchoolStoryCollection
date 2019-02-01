@@ -58,7 +58,7 @@ public final class QuestionFilterDialog {
 
     public void showDialog(Context context) {
         _dialog = new AlertDialog.Builder(context)
-                .setView(R.layout.layout_question_filter_dialog)
+                .setView(R.layout.dialog_question_filter)
                 .setIcon(R.drawable.ic_filter_list_black_24dp)
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
                     dialogClosed();
