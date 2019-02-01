@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import androidx.annotation.NonNull;
@@ -65,7 +66,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public boolean checkAble = true;
         public boolean checked = false;
         public CompoundButton.OnCheckedChangeListener onCheckChanged;
-        public int dbId;
+        public QuestionInfo db;
 
 
         public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type,boolean hidden, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {

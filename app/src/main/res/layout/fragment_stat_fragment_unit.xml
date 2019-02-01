@@ -4,6 +4,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/element_unit_empty" />
@@ -29,6 +30,59 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_white_24dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/multiActionBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/ui_margin_floating"
+        android:elevation="4dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="@color/materialDark"
+        app:layout_constraintBottom_toBottomOf="@id/unitList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible"
+
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/multiQuizBtn"
+                android:layout_width="180dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_white"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/multiQuizBtnText"
+                    style="@style/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_file_text_white_24dp"
+                    android:drawablePadding="@dimen/ui_margin_mid"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    tools:text="自定义单元小测" />
+            </FrameLayout>
+
+
+            <ImageButton
+                android:id="@+id/multiMoreBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ripple_white"
+                android:src="@drawable/ic_more_horiz_white_24dp" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

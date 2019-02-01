@@ -22,6 +22,17 @@
             />
     </PreferenceCategory>
     <PreferenceCategory android:title="小测">
+        <ListPreference
+            android:title="每次小测的题目量"
+            android:defaultValue="10"
+            android:dialogTitle="每次小测的题目量"
+            android:entries="@array/settings_quiz_quizSize"
+            android:entryValues="@array/settings_quiz_quizSize_val"
+            android:summary="%s 该设定不会影响自定义小测"
+            android:key="quiz_size"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            />
+
 
         <CheckBoxPreference
             android:icon="@drawable/ic_skip_next_black_24dp"

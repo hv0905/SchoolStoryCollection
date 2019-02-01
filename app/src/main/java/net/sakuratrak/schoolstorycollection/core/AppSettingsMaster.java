@@ -18,6 +18,7 @@ public final class AppSettingsMaster {
     public static final String SETTINGS_QUIZ_AUTO_NEXT = "quiz_AutoNext";
     public static final String SETTINGS_DIALOG_HIDE_CONFIRM = "dialog_hide_confirm";
     public static final String SETTINGS_DIALOG_UNIT_HIDE_CONFIRM = "dialog_unit_hide_confirm";
+    public static final String SETTINGS_QUIZ_SIZE = "quiz_size";
 
     public static File getWorkbookDb(Context context) {
         String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC, null);
@@ -76,6 +77,10 @@ public final class AppSettingsMaster {
 
     public static void setBooleanVal(Context context,String key,boolean val){
         PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key,val).apply();
+    }
+
+    public static int getQuizSize(Context context){
+        return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_QUIZ_SIZE,"10"));
     }
 
 }

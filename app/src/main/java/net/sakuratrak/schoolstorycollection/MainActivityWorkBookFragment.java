@@ -122,7 +122,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             for (int i = 0; i < _displayContexts.size(); i++) {
                 DataContext dc = _displayContexts.get(i);
                 if (dc.checked) {
-                    idList.add(_displayContexts.get(i).dbId);
+                    idList.add(_displayContexts.get(i).db.getId());
                 }
             }
             //invoke quiz
@@ -140,8 +140,48 @@ public final class MainActivityWorkBookFragment extends Fragment {
                             dialog.dismiss();
                             switch (which) {
                                 case 0:
+                                    //归档
+                                    new AlertDialog.Builder(getContext())
+                                            .setMessage(String.format(Locale.US,"真的归档%d道错题吗？",_multiCount))
+                                            .setTitle("批量归档？")
+                                            .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                                for (int i = 0; i < _displayContexts.size(); i++) {
+                                                    DataContext dc = _displayContexts.get(i);
+                                                    if (dc.checked) {
+                                                        dc.db.setHidden(!dc.db.isHidden());
+                                                        try {
+                                                            DbManager.getDefaultHelper(getContext()).getQuestionInfos().update(dc.db);
+                                                        } catch (SQLException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }
+                                                getParent().requireRefresh();
+                                            })
+                                            .setNegativeButton(R.string.cancel,null)
+                                            .show();
+
                                     break;
                                 case 1:
+                                    //删除
+                                    new AlertDialog.Builder(getContext())
+                                            .setMessage(String.format(Locale.US,"真的删除%d道错题吗？",_multiCount))
+                                            .setTitle("批量删除？")
+                                            .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                                for (int i = 0; i < _displayContexts.size(); i++) {
+                                                    DataContext dc = _displayContexts.get(i);
+                                                    if (dc.checked) {
+                                                        try{
+                                                            DbManager.getDefaultHelper(getContext()).getQuestionInfos().delete(dc.db);
+                                                        } catch (SQLException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }
+                                                getParent().requireRefresh();
+                                            })
+                                            .setNegativeButton(R.string.cancel,null)
+                                            .show();
                                     break;
                             }
                         })
@@ -290,7 +330,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 }
                 updateMulti(false);
             });
-            dc.dbId = info.getId();
+            dc.db = info;
             _displayContexts.add(dc);
 
         }

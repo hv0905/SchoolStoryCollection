@@ -148,9 +148,26 @@
         <item>internal</item>
     </string-array>
     <string-array name="question_multi_options">
-        <item>归档</item>
+        <item>切换归档/取消归档</item>
         <item>删除</item>
     </string-array>
+    <string-array name="settings_quiz_quizSize">
+        <item>5题</item>
+        <item>10题</item>
+        <item>15题</item>
+        <item>20题</item>
+        <item>25题</item>
+        <item>30题</item>
+    </string-array>
+    <string-array name="settings_quiz_quizSize_val">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+
     <string name="multiChoiceQuestion">多选题</string>
     <string name="singleChoiceQuestion">单选题</string>
     <string name="fillQuestion">填空题</string>
