@@ -141,8 +141,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                 case 0:
                                     //归档
                                     new AlertDialog.Builder(getContext())
-                                            .setMessage(String.format(Locale.US,"真的归档%d道错题吗？",_multiCount))
-                                            .setTitle("批量归档？")
+                                            .setMessage(String.format(Locale.US,"真的归档/取消归档%d道错题吗？",_multiCount))
+                                            .setTitle(R.string.confirmMultiHideTitle)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);

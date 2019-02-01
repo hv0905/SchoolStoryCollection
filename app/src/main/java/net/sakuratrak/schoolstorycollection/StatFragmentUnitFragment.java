@@ -104,8 +104,8 @@ public final class StatFragmentUnitFragment extends Fragment {
                             case 0:
                                 // TODO: 2019/2/1 box
                                 new AlertDialog.Builder(getContext())
-                                        .setMessage(String.format(Locale.US,"真的归档%d道错题吗？",_multiCount))
-                                        .setTitle("批量归档？")
+                                        .setMessage(String.format(Locale.US,"真的归档/取消归档%d个单元吗？",_multiCount))
+                                        .setTitle(R.string.confirmMultiHideTitle)
                                         .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                             for (int i = 0; i < _displayContext.size(); i++) {
                                                 UnitDisplayAdapter.DataContext dc = _displayContext.get(i);

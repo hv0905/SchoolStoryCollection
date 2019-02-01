@@ -180,6 +180,7 @@
     <string name="more">more</string>
     <string name="unselectAll">取消选择</string>
     <string name="confirmMultiRmTitle">批量删除？</string>
+    <string name="confirmMultiHideTitle">批量归档/取消归档？</string>
 
 
     <string-array name="learning_subjects">
@@ -240,7 +241,7 @@
         <item>30</item>
     </string-array>
     <string-array name="unit_multi_options">
-        <item>归档</item>
+        <item>切换归档/取消归档</item>
         <item>重置统计信息</item>
         <item>删除</item>
     </string-array>

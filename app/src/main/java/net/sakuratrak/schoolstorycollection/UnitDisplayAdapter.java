@@ -63,6 +63,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             DataContext current = _dataContext.get(position);
             Holder viewHolder = (Holder) holder;
             viewHolder._txtTitle.setText(current.Title);
+            viewHolder._txtTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._txtCount.setText(String.format(Locale.US, "%dx", current.QuestionCount));
             viewHolder._txtQuiz.setText(String.format(Locale.US, "%d%%", current.QuizCorrectRatio));
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
