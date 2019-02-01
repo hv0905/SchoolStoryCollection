@@ -68,13 +68,18 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
             new AlertDialog.Builder(this)
                     .setIcon(R.drawable.ic_book_black_24dp)
-                    .setTitle("创建单元")
+                    .setTitle(R.string.newUnitTitle)
                     .setView(R.layout.dialog_add_unit)
-                    .setPositiveButton("完成", (dialog, which) -> {
+                    .setPositiveButton(R.string.done, (dialog, which) -> {
                         AlertDialog dg = (AlertDialog) dialog;
                         TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
                         if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
-                            new AlertDialog.Builder(getParent()).setMessage("请输入单元名称").setTitle("错误").setNegativeButton("确定", null).setIcon(R.drawable.ic_warning_black_24dp).show();
+                            new AlertDialog.Builder(getParent())
+                                    .setMessage("请输入单元名称")
+                                    .setTitle(R.string.error)
+                                    .setNegativeButton(R.string.confirm, null)
+                                    .setIcon(R.drawable.ic_warning_black_24dp)
+                                    .show();
                             return;
                         }
                         try {

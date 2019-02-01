@@ -181,6 +181,8 @@
     <string name="unselectAll">取消选择</string>
     <string name="confirmMultiRmTitle">批量删除？</string>
     <string name="confirmMultiHideTitle">批量归档/取消归档？</string>
+    <string name="newUnitTitle">创建单元</string>
+    <string name="done">完成</string>
 
 
     <string-array name="learning_subjects">
