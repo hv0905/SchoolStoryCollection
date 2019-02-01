@@ -26,6 +26,9 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,35 +57,38 @@ public class QuizActivity extends AppCompatActivity {
 
 
     //region Elements
-    Toolbar _toolbar;
-    TextView _questionCounter;
-    TextView _questionName;
-    TextView _textQuestionType;
-    TextView _questionText;
-    ImageDisplayView _questionImgDisplay;
-    FrameLayout _answerWorkZone;
-    QuizAnswerView _quizAnswerContent;
-    ExpandableLinearLayout _answerViewZone;
-    LinearLayout _questionHolder;
-    ScrollView _questionScroll;
-    AnswerUiDisplayView _answerContent;
-    TextView _analysisText;
-    FrameLayout _answerContainer;
-    ImageDisplayView _analysisImgDisplay;
-    QuizCheckView _checkView;
-    ConstraintLayout _mainContainer;
+    private Toolbar _toolbar;
+    private TextView _questionCounter;
+    private TextView _questionName;
+    private TextView _textQuestionType;
+    private TextView _questionText;
+    private ImageDisplayView _questionImgDisplay;
+    private FrameLayout _answerWorkZone;
+    private QuizAnswerView _quizAnswerContent;
+    private ExpandableLinearLayout _answerViewZone;
+    private LinearLayout _questionHolder;
+    private ScrollView _questionScroll;
+    private AnswerUiDisplayView _answerContent;
+    private TextView _analysisText;
+    private FrameLayout _answerContainer;
+    private ImageDisplayView _analysisImgDisplay;
+    private QuizCheckView _checkView;
+    private ConstraintLayout _mainContainer;
+    private TextView _txtTime;
     //endregion
 
     //region fields
-    boolean _autoNext;
-    ArrayList<Integer> _idList;
-    int _currentId = 0;
-    int _doneCount = 0;
-    int _mode;
-    int _state;
-    QuestionInfo _currentContext;
+    private boolean _autoNext;
+    private ArrayList<Integer> _idList;
+    private int _currentId = 0;
+    private int _doneCount = 0;
+    private int _mode;
+    private int _state;
+    private QuestionInfo _currentContext;
     private QuizMarkView _markView;
     private ExerciseLogGroup _currentGroup;
+    private Timer _timer;
+    private int currentTimeSec;
     //endregion
 
     @Override
@@ -106,6 +112,7 @@ public class QuizActivity extends AppCompatActivity {
         _answerContainer = findViewById(R.id.answerContainer);
         _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
         _mainContainer = findViewById(R.id.mainContainer);
+        _txtTime = findViewById(R.id.txtTime);
 
         setSupportActionBar(_toolbar);
 
@@ -195,10 +202,21 @@ public class QuizActivity extends AppCompatActivity {
         _answerWorkZone.removeAllViews();
         _answerWorkZone.addView(_quizAnswerContent);
         _state = STATE_ANSWERING;
+        currentTimeSec = 0;
+        _timer = new Timer();
+        _txtTime.setText(String.format(Locale.US, "%02d:%02d", currentTimeSec / 60, currentTimeSec % 60));
+        _timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                currentTimeSec++;
+                _txtTime.post(() -> _txtTime.setText(String.format(Locale.US, "%02d:%02d", currentTimeSec / 60, currentTimeSec % 60)));
+            }
+        }, 1000, 1000);
     }
 
     public void checkAnswer() {
         Log.d(TAG, "checkAnswer: submit");
+        _timer.cancel();
         if (_currentContext.getAnswer() instanceof Answer.PlainTextAnswer) {
             //收集用户答案并检查
             Answer.PlainTextAnswer userAnswer = ((CheckableQuizAnswerView) _quizAnswerContent).getAnswer();

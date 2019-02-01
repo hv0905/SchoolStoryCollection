@@ -54,7 +54,7 @@
 
             <FrameLayout
                 android:id="@+id/multiQuizBtn"
-                android:layout_width="180dp"
+                android:layout_width="160dp"
                 android:layout_height="60dp"
                 android:background="@drawable/ripple_white"
                 android:clickable="true"
@@ -70,16 +70,16 @@
                     android:drawablePadding="@dimen/ui_margin_mid"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    tools:text="自定义单元小测" />
+                    tools:text="小测99个单元" />
             </FrameLayout>
-
 
             <ImageButton
                 android:id="@+id/multiMoreBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:background="@drawable/ripple_white"
-                android:src="@drawable/ic_more_horiz_white_24dp" />
+                android:src="@drawable/ic_more_horiz_white_24dp"
+                android:contentDescription="@string/more" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

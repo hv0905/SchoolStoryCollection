@@ -35,7 +35,6 @@ public final class StatFragmentPagerAdapter extends FragmentStatePagerAdapter {
         return PAGE_COUNT;
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
