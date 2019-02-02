@@ -1,12 +1,16 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import android.content.Context;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 @DatabaseTable
 public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
@@ -102,6 +106,27 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
 
         public DaoHelper(Dao<ExerciseLogGroup, Integer> _base) {
             this._base = _base;
+        }
+
+    }
+
+    public static class DbHelper {
+        final Dao<ExerciseLogGroup, Integer> _base;
+
+        public DbHelper(Dao<ExerciseLogGroup, Integer> _base) {
+            this._base = _base;
+        }
+
+        public DbHelper(DbManager mgr) {
+            _base = mgr.getExerciseLogGroups();
+        }
+
+        public DbHelper(Context context){
+            _base = DbManager.getDefaultHelper(context).getExerciseLogGroups();
+        }
+
+        public List<ExerciseLogGroup> FindAllWithSubject(LearningSubject subject) throws SQLException {
+            return _base.queryForEq("subjectId", subject.getId());
         }
 
     }

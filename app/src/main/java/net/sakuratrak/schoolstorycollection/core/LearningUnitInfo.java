@@ -1,5 +1,7 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import android.content.Context;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -125,16 +127,20 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         return createTime.compareTo(o.createTime);
     }
 
-    public static class LearningUnitInfoDaoHelper {
+    public static class DbHelper {
 
         private final Dao<LearningUnitInfo, Integer> _base;
 
-        public LearningUnitInfoDaoHelper(Dao<LearningUnitInfo, Integer> base) {
+        public DbHelper(Dao<LearningUnitInfo, Integer> base) {
             this._base = base;
         }
 
-        public LearningUnitInfoDaoHelper(DbManager mgr) {
+        public DbHelper(DbManager mgr) {
             _base = mgr.getLearningUnitInfos();
+        }
+
+        public DbHelper(Context context) {
+            _base = DbManager.getDefaultHelper(context).getLearningUnitInfos();
         }
 
         public List<LearningUnitInfo> findBySubject(LearningSubject subject) throws SQLException {

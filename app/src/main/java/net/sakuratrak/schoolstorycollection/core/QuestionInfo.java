@@ -242,14 +242,14 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     /**
      * Common usage of QuestionInfo Table
      */
-    public static class QuestionInfoDaoManager {
+    public static class DbHelper {
         private final Dao<QuestionInfo, Integer> _base;
 
-        public QuestionInfoDaoManager(Dao<QuestionInfo, Integer> base) {
+        public DbHelper(Dao<QuestionInfo, Integer> base) {
             this._base = base;
         }
 
-        public QuestionInfoDaoManager(DbManager mgr) {
+        public DbHelper(DbManager mgr) {
             _base = mgr.getQuestionInfos();
         }
 

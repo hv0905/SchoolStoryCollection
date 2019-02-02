@@ -67,7 +67,7 @@ public final class MainActivityQuizFragment extends Fragment {
             ArrayList<Integer> ids = new ArrayList<>();
             List<QuestionInfo> infos = null;
             try {
-                infos = new QuestionInfo.QuestionInfoDaoManager(
+                infos = new QuestionInfo.DbHelper(
                         DbManager.getDefaultHelper(getContext())
                                 .getQuestionInfos())
                         .FindAllWithSubject(getParent().getCurrentSubject());
@@ -115,7 +115,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _logContext.clear();
         try {
 
-            List<ExerciseLogGroup> datas = DbManager.getDefaultHelper(getContext()).getExerciseLogGroups().queryForAll();
+            List<ExerciseLogGroup> datas = new ExerciseLogGroup.DbHelper(getContext()).FindAllWithSubject(getParent().getCurrentSubject());
 
             for (int i = datas.size() - 1; i >= 0; i--) {
                 ExerciseLogGroup data = datas.get(i);

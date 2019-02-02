@@ -101,7 +101,7 @@ public final class QuestionFilterDialog {
         _unitChips.removeAllViews();
 
         try {
-            List<LearningUnitInfo> units = new LearningUnitInfo.LearningUnitInfoDaoHelper(DbManager.getDefaultHelper(context))
+            List<LearningUnitInfo> units = new LearningUnitInfo.DbHelper(DbManager.getDefaultHelper(context))
                     .findBySubject(_subject);
             LayoutInflater lf = _dialog.getLayoutInflater();
             for (int i = units.size() - 1; i >= 0; i--) {

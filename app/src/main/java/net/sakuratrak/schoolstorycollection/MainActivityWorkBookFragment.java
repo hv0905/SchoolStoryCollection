@@ -262,7 +262,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             if (type != null && type.size() == 0) type = null;
         }
 
-        QuestionInfo.QuestionInfoDaoManager mgr = new QuestionInfo.QuestionInfoDaoManager(
+        QuestionInfo.DbHelper mgr = new QuestionInfo.DbHelper(
                 DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         try {
             _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());

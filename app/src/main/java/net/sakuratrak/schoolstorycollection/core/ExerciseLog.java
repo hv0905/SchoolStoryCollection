@@ -1,5 +1,7 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import android.content.Context;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -44,12 +46,16 @@ public class ExerciseLog implements Serializable {
         this.correctRatio = correctRatio;
         this.happenedTime = happenedTime;
         this.question = question;
+        this.setSubject(question.getSubject());
+
     }
 
     public ExerciseLog(int correctRatio, QuestionInfo question) {
         this.correctRatio = correctRatio;
         this.question = question;
         this.happenedTime = new Date();
+        this.setSubject(question.getSubject());
+
     }
 
     public ExerciseLog(int correctRatio, Date happenedTime, QuestionInfo question, ExerciseLogGroup group) {
@@ -57,6 +63,8 @@ public class ExerciseLog implements Serializable {
         this.happenedTime = happenedTime;
         this.question = question;
         this.group = group;
+        this.setSubject(question.getSubject());
+
 
     }
 
@@ -64,6 +72,7 @@ public class ExerciseLog implements Serializable {
         this.correctRatio = correctRatio;
         this.question = question;
         this.group = group;
+        this.setSubject(question.getSubject());
         this.happenedTime = new Date();
     }
 
@@ -118,39 +127,24 @@ public class ExerciseLog implements Serializable {
 
     //endregion
 
-    public static class ExerciseLogDaoManager {
+    public static class DbHelper {
         final Dao<ExerciseLog, Integer> _base;
 
-        public ExerciseLogDaoManager(Dao<ExerciseLog, Integer> _base) {
+        public DbHelper(Dao<ExerciseLog, Integer> _base) {
             this._base = _base;
         }
 
-        public ExerciseLogDaoManager(DbManager mgr) {
+        public DbHelper(DbManager mgr) {
             _base = mgr.getExerciseLogs();
         }
 
-//        public List<ExerciseLog> FindAllWithSubject(LearningSubject subject) throws SQLException {
-//            return _base.queryForEq("subjectId", subject.getId());
-//        }
-
-        public List<ExerciseLog> findWithGuid(UUID guid) throws SQLException {
-            return _base.queryForEq("groupGuid", guid);
+        public DbHelper(Context context){
+            _base = DbManager.getDefaultHelper(context).getExerciseLogs();
         }
 
-//        public List<List<ExerciseLog>> findAllGroupByGUID() throws SQLException {
-//            ArrayList<List<ExerciseLog>> result = new ArrayList<>();
-//            List<ExerciseLog> datas = _base.queryForAll();
-//            List<ExerciseLog> current = null;
-//            UUID currentGuid = null;
-//            for (ExerciseLog data:datas) {
-//                if(!data.getGroupGuid().equals(currentGuid)){
-//                    currentGuid = data.getGroupGuid();
-//                    current = new ArrayList<>();
-//                    result.add(current);
-//                }
-//                current.add(data);
-//            }
-//            return result;
-//        }
+        public List<ExerciseLog> FindAllWithSubject(LearningSubject subject) throws SQLException {
+            return _base.queryForEq("subjectId", subject.getId());
+        }
+
     }
 }
