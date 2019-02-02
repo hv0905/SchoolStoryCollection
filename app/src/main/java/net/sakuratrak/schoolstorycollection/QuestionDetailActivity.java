@@ -31,7 +31,6 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

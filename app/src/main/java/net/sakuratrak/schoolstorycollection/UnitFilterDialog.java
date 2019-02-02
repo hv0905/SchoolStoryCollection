@@ -32,16 +32,12 @@ public final class UnitFilterDialog {
         _dialog = new AlertDialog.Builder(context)
                 .setView(R.layout.dialog_unit_filter)
                 .setIcon(R.drawable.ic_filter_list_black_24dp)
-                .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                    dialogClosed();
-                })
+                .setPositiveButton(R.string.confirm, (dialog, which) -> dialogClosed())
                 .setNegativeButton(R.string.reset, (dialog, which) -> {
                     resetDialog();
                     dialogClosed();
                 })
-                .setOnCancelListener(dialog -> {
-                    dialogClosed();
-                })
+                .setOnCancelListener(dialog -> dialogClosed())
                 .setTitle(R.string.filterTitle)
                 .show();
         _dialog.setCanceledOnTouchOutside(false);

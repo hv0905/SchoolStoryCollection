@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int PERMISSION_EXTERNAL_STORAGE = 0;
+    private static final int PERMISSION_EXTERNAL_STORAGE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void loadApp() {
+    private void loadApp() {
         new Handler().postDelayed(() -> {
             //注册错题通知
             if (AppSettingsMaster.getIfShowAlarm(this)) {

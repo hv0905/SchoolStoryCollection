@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 
 public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
 
-    ViewGroup _root;
-    Chip _a;
-    Chip _b;
-    Chip _c;
-    Chip _d;
-    FloatingActionButton _confirm;
+    private ViewGroup _root;
+    private Chip _a;
+    private Chip _b;
+    private Chip _c;
+    private Chip _d;
+    private FloatingActionButton _confirm;
 
     public SingleSelectQuizAnswerView(Context context) {
         super(context);

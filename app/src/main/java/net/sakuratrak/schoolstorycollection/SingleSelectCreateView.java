@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 public final class SingleSelectCreateView extends AnswerUiCreatorView {
 
     //region elements
-    Chip a;
-    Chip b;
-    Chip c;
-    Chip d;
+    private Chip a;
+    private Chip b;
+    private Chip c;
+    private Chip d;
     //endregion
 
 

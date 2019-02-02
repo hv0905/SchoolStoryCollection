@@ -15,7 +15,6 @@
     <string name="times_too_few_warn">由于小测次数不足,无法提供足够准确的针对训练,将继续将有关本单元的题目安排在小测中.</string>
     <string name="reset_info">重置统计信息</string>
     <string name="rm_unit">删除单元</string>
-    <string name="correctRatio">小测正确率</string>
     <string name="quizTime">小测次数/正确率</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
@@ -25,16 +24,11 @@
     <string name="confirmRm_title">删除确认</string>
     <string name="failSaveUnitError">错误:无法保存单元文件</string>
     <string name="questionCount">错题数量</string>
-    <string name="QuestionRatio">错题占比(不包含已归档的错题)</string>
     <string name="test">测试</string>
     <string name="view">查看</string>
     <string name="questionPreview">错题预览</string>
     <string name="subject">科目</string>
     <string name="filter">过滤器</string>
-    <string name="showNormalQuestion">仅显示未归档的错题</string>
-    <string name="showPassedQuestion">仅显示已归档的错题</string>
-    <string name="showAllQuestion">显示所有错题,包括已归档的错题</string>
-    <string name="showUnit">显示单元:</string>
     <string name="sqlExp">Story酱被玩坏了…错误:SqlException</string>
     <string name="unitEmptyUi">当前没有创建任何单元\n点击添加按钮开始创建喵</string>
     <string name="aboutTitle">关于错题本Story</string>
@@ -44,9 +38,6 @@
     <string name="unit">单元</string>
     <string name="emptyUnit">(未指定)</string>
     <string name="unitName">单元名称</string>
-    <string name="finish">完成</string>
-    <string name="createUnit">创建单元</string>
-    <string name="plsInputUnitName">请输入单元名称</string>
     <string name="error">错误</string>
     <string name="editQuestion">修改错题</string>
     <string name="questionImg">题目图片</string>
@@ -89,8 +80,6 @@
     <string name="Author">作者</string>
     <string name="branch">分支</string>
     <string name="showDetailedAbout">显示详细关于信息</string>
-    <string name="wrongQuestion">错题</string>
-    <string name="submit">确定</string>
     <string name="reset">重置</string>
     <string name="feedback">问题与建议反馈</string>
     <string name="chinese">语文</string>
@@ -155,7 +144,6 @@
     <string name="errQuestionDeleted">题目已被删除</string>
     <string name="confirmSkip">确定跳过这道题目？</string>
     <string name="confirmSkipMsg">一个人被逼急了什么都能做出来，除了数学题。。。</string>
-    <string name="startQuiz">开始小测</string>
     <string name="customQuiz">自定义小测</string>
     <string name="searchQuestion">搜索题目</string>
     <string name="filterHidden">包括已归档的题目</string>
@@ -173,7 +161,6 @@
     <string name="neverShowAgain">不再显示</string>
     <string name="confirmDelete">删除确认</string>
     <string name="hideUnit">归档单元</string>
-    <string name="hideUnitAll">归档单元及其下所有错题</string>
     <string name="dialogHideUnitConfirm">确定归档单元？</string>
     <string name="dialogHideUnitConfirmMsg">如果你归档本单元，本单元下所有错题将会一同隐藏，这些错题不会在错题本和小测中出现，且不会纳入统计。</string>
     <string name="undoHideUnit">取消归档单元</string>

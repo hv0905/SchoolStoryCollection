@@ -134,9 +134,7 @@ public class QuizResultActivity extends AppCompatActivity {
                         getString(R.string.errQuestionDeleted),
                         getString(R.string.emptyUnit),
                         log.getCorrectRatio(),
-                        v -> {
-                            Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show();
-                        }
+                        v -> Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show()
                 ));
             }
         }

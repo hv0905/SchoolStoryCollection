@@ -21,13 +21,13 @@ public final class QuizCheckView extends FrameLayout {
     public static final int NOTICE_NONE_RIGHT = 3;
 
 
-    ViewGroup _rootView;
-    FrameLayout _noticeBar;
-    TextView _allRightContent;
-    TextView _halfRightContent;
-    TextView _noneRightContent;
-    MaterialButton _quitBtn;
-    MaterialButton _nextBtn;
+    private ViewGroup _rootView;
+    private FrameLayout _noticeBar;
+    private TextView _allRightContent;
+    private TextView _halfRightContent;
+    private TextView _noneRightContent;
+    private MaterialButton _quitBtn;
+    private MaterialButton _nextBtn;
 
     public QuizCheckView(@NonNull Context context) {
         super(context);
@@ -52,7 +52,7 @@ public final class QuizCheckView extends FrameLayout {
         init();
     }
 
-    void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_quiz_check, this);
         _rootView = findViewById(R.id.rootView);
         _noticeBar = findViewById(R.id.noticeBar);

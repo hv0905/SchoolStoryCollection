@@ -101,7 +101,7 @@ public class AppMaster {
             e.printStackTrace();
         }
         byte[] buff = new byte[1024];
-        int read = 0;
+        int read;
         try {
             try {
                 while ((read = in.read(buff)) > 0) {
@@ -111,8 +111,8 @@ public class AppMaster {
                 in.close();
                 out.close();
             }
-        }catch (IOException ioex){
-            ioex.printStackTrace();
+        }catch (IOException ioEx){
+            ioEx.printStackTrace();
         }
         return imgFile;
     }

@@ -9,7 +9,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 
 public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat implements DialogPreference.TargetFragment {
-    TimePicker timePicker = null;
+    private TimePicker timePicker = null;
 
     @Override
     protected View onCreateDialogView(Context context) {

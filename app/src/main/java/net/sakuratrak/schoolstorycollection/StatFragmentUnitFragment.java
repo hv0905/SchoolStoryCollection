@@ -37,11 +37,11 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 public final class StatFragmentUnitFragment extends Fragment {
 
-    public static final String TAG = "Stat_UnitFragment";
+    private static final String TAG = "Stat_UnitFragment";
     private static final int REQUEST_DETAIL = 100;
 
     //region views
-    public ConstraintLayout _root;
+    private ConstraintLayout _root;
     private View _unitEmptyNotice;
     private RecyclerView _unitList;
     private FloatingActionButton _addUnitBtn;
@@ -91,110 +91,105 @@ public final class StatFragmentUnitFragment extends Fragment {
             // TODO: 2019/2/1 调用单元小测
         });
 
-        _multiMoreBtn.setOnClickListener(v -> {
-            new AlertDialog.Builder(getContext())
-                    .setTitle(String.format(Locale.US, "已选择%d个单元", _multiCount))
-                    .setItems(R.array.unit_multi_options, (dialog, which) -> {
-                        switch (which) {
-                            case 0:
-                                // TODO: 2019/2/1 box
-                                new AlertDialog.Builder(getContext())
-                                        .setMessage(String.format(Locale.US, "真的归档/取消归档%d个单元吗？", _multiCount))
-                                        .setTitle(R.string.confirmMultiHideTitle)
-                                        .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
-                                            for (int i = 0; i < _displayContext.size(); i++) {
-                                                UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
-                                                if (dc.Checked) {
-                                                    dc.db.setHidden(!dc.db.isHidden());
-                                                    try {
-                                                        DbManager.getDefaultHelper(getContext()).getLearningUnitInfos().update(dc.db);
-                                                    } catch (SQLException e) {
-                                                        e.printStackTrace();
-                                                    }
+        _multiMoreBtn.setOnClickListener(v -> new AlertDialog.Builder(getContext())
+                .setTitle(String.format(Locale.US, "已选择%d个单元", _multiCount))
+                .setItems(R.array.unit_multi_options, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            // TODO: 2019/2/1 box
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage(String.format(Locale.US, "真的归档/取消归档%d个单元吗？", _multiCount))
+                                    .setTitle(R.string.confirmMultiHideTitle)
+                                    .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                        for (int i = 0; i < _displayContext.size(); i++) {
+                                            UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                                            if (dc.Checked) {
+                                                dc.db.setHidden(!dc.db.isHidden());
+                                                try {
+                                                    DbManager.getDefaultHelper(getContext()).getLearningUnitInfos().update(dc.db);
+                                                } catch (SQLException e) {
+                                                    e.printStackTrace();
                                                 }
                                             }
-                                            getParent().requireRefresh();
-                                        })
-                                        .setNegativeButton(R.string.cancel, null)
-                                        .show();
-                                break;
-                            case 1:
-                                // TODO: 2019/2/1 clear
-                                break;
-
-                            case 2:
-                                // TODO: 2019/2/1 rm
-                                new AlertDialog.Builder(getContext())
-                                        .setMessage(String.format(Locale.US, "真的删除%d个单元吗？", _multiCount))
-                                        .setTitle(R.string.confirmMultiRmTitle)
-                                        .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
-                                            for (int i = 0; i < _displayContext.size(); i++) {
-                                                UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
-                                                if (dc.Checked) {
-                                                    try {
-                                                        DbManager.getDefaultHelper(getContext()).getLearningUnitInfos().delete(dc.db);
-                                                    } catch (SQLException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }
-                                            getParent().requireRefresh();
-                                        })
-                                        .setNegativeButton(R.string.cancel, null)
-                                        .show();
-                                break;
-                        }
-                    })
-                    .setIcon(R.drawable.ic_done_all_black_24dp)
-                    .setPositiveButton(R.string.cancel, null)
-                    .setNegativeButton(R.string.unselectAll, (dialog, which) -> {
-                        for (UnitDisplayAdapter.DataContext dc :
-                                _displayContext) {
-                            dc.Checked = false;
-                        }
-                        _mainAdapter.notifyDataSetChanged();
-                        _multiCount = 0;
-                        updateMulti(false);
-                    })
-                    .show();
-        });
-
-        _addUnitBtn.setOnClickListener(v -> {
-
-            new AlertDialog.Builder(getParent())
-                    .setIcon(R.drawable.ic_book_black_24dp)
-                    .setTitle(R.string.newUnitTitle)
-                    .setView(R.layout.dialog_add_unit)
-                    .setPositiveButton(R.string.done, (dialog, which) -> {
-                        AlertDialog dg = (AlertDialog) dialog;
-                        TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
-                        if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
-                            new AlertDialog.Builder(getParent())
-                                    .setMessage("请输入单元名称")
-                                    .setTitle(R.string.error)
-                                    .setNegativeButton(R.string.confirm, null)
-                                    .setIcon(R.drawable.ic_warning_black_24dp)
+                                        }
+                                        getParent().requireRefresh();
+                                    })
+                                    .setNegativeButton(R.string.cancel, null)
                                     .show();
-                            return;
-                        }
-                        try {
-                            DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), getParent().getCurrentSubject()));
-                        } catch (SQLException e) {
-                            Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
-                            return;
-                        }
+                            break;
+                        case 1:
+                            // TODO: 2019/2/1 clear
+                            break;
 
-                        destroyTel();
-                        getParent().requireRefresh();
-                        regTel();
+                        case 2:
+                            // TODO: 2019/2/1 rm
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage(String.format(Locale.US, "真的删除%d个单元吗？", _multiCount))
+                                    .setTitle(R.string.confirmMultiRmTitle)
+                                    .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                        for (int i = 0; i < _displayContext.size(); i++) {
+                                            UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                                            if (dc.Checked) {
+                                                try {
+                                                    DbManager.getDefaultHelper(getContext()).getLearningUnitInfos().delete(dc.db);
+                                                } catch (SQLException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+                                        getParent().requireRefresh();
+                                    })
+                                    .setNegativeButton(R.string.cancel, null)
+                                    .show();
+                            break;
+                    }
+                })
+                .setIcon(R.drawable.ic_done_all_black_24dp)
+                .setPositiveButton(R.string.cancel, null)
+                .setNegativeButton(R.string.unselectAll, (dialog, which) -> {
+                    for (UnitDisplayAdapter.DataContext dc :
+                            _displayContext) {
+                        dc.Checked = false;
+                    }
+                    _mainAdapter.notifyDataSetChanged();
+                    _multiCount = 0;
+                    updateMulti(false);
+                })
+                .show());
 
-                        refreshContext();
-                        _mainAdapter.notifyItemInserted(0);
-                        _unitList.scrollToPosition(0);
-                    })
-                    .setNegativeButton("取消", null)
-                    .show();
-        });
+        _addUnitBtn.setOnClickListener(v -> new AlertDialog.Builder(getParent())
+                .setIcon(R.drawable.ic_book_black_24dp)
+                .setTitle(R.string.newUnitTitle)
+                .setView(R.layout.dialog_add_unit)
+                .setPositiveButton(R.string.done, (dialog, which) -> {
+                    AlertDialog dg = (AlertDialog) dialog;
+                    TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
+                    if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
+                        new AlertDialog.Builder(getParent())
+                                .setMessage("请输入单元名称")
+                                .setTitle(R.string.error)
+                                .setNegativeButton(R.string.confirm, null)
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .show();
+                        return;
+                    }
+                    try {
+                        DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), getParent().getCurrentSubject()));
+                    } catch (SQLException e) {
+                        Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    destroyTel();
+                    getParent().requireRefresh();
+                    regTel();
+
+                    refreshContext();
+                    _mainAdapter.notifyItemInserted(0);
+                    _unitList.scrollToPosition(0);
+                })
+                .setNegativeButton("取消", null)
+                .show());
 
         _unitList.setLayoutManager(new LinearLayoutManager(getParent(), RecyclerView.VERTICAL, false));
         _unitList.setItemAnimator(new LandingAnimator());
@@ -359,7 +354,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         _unitList.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
     }
 
-    public void updateMulti(boolean shouldHide) {
+    private void updateMulti(boolean shouldHide) {
         _multiQuizBtnText.setText(String.format(Locale.US, "小测%d个单元", _multiCount));
         boolean isMulti = _multiCount != 0;
 

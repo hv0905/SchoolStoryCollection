@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 
+@SuppressWarnings("CanBeFinal")
 @DatabaseTable(tableName = "LearningUnitInfo")
 public class LearningUnitInfo implements Serializable, Comparable<LearningUnitInfo> {
     private static final int NEED_MORE_MAX = 5;

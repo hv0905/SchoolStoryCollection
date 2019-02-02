@@ -64,35 +64,32 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-
-            new AlertDialog.Builder(this)
-                    .setIcon(R.drawable.ic_book_black_24dp)
-                    .setTitle(R.string.newUnitTitle)
-                    .setView(R.layout.dialog_add_unit)
-                    .setPositiveButton(R.string.done, (dialog, which) -> {
-                        AlertDialog dg = (AlertDialog) dialog;
-                        TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
-                        if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
-                            new AlertDialog.Builder(getParent())
-                                    .setMessage("请输入单元名称")
-                                    .setTitle(R.string.error)
-                                    .setNegativeButton(R.string.confirm, null)
-                                    .setIcon(R.drawable.ic_warning_black_24dp)
-                                    .show();
-                            return;
-                        }
-                        try {
-                            DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), _currentSubject));
-                        } catch (SQLException e) {
-                            Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
-                            return;
-                        }
-                        refreshUnit();
-                    })
-                    .setNegativeButton("取消", null)
-                    .show();
-        });
+        fab.setOnClickListener(view -> new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_book_black_24dp)
+                .setTitle(R.string.newUnitTitle)
+                .setView(R.layout.dialog_add_unit)
+                .setPositiveButton(R.string.done, (dialog, which) -> {
+                    AlertDialog dg = (AlertDialog) dialog;
+                    TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
+                    if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
+                        new AlertDialog.Builder(getParent())
+                                .setMessage("请输入单元名称")
+                                .setTitle(R.string.error)
+                                .setNegativeButton(R.string.confirm, null)
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .show();
+                        return;
+                    }
+                    try {
+                        DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), _currentSubject));
+                    } catch (SQLException e) {
+                        Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    refreshUnit();
+                })
+                .setNegativeButton("取消", null)
+                .show());
 
         _listMain.setOnItemClickListener((parent, view, position, id) -> {
             if (_showNone) {

@@ -18,13 +18,13 @@ import androidx.preference.PreferenceScreen;
 
 public class SettingActivity extends AppCompatActivity {
 
-    public static final String[] DIALOG_SETTINGS = {
+    private static final String[] DIALOG_SETTINGS = {
             AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,
             AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM
     };
 
     public static final String TAG = "SettingActivity";
-    public MainSettingFragment fragment;
+    private MainSettingFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public static class MainSettingFragment extends PreferenceFragmentCompat {
-        public int easterEggClickTime = 0;
+        protected int easterEggClickTime = 0;
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {

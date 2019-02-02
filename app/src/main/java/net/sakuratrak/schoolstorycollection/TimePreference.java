@@ -15,7 +15,7 @@ public class TimePreference extends DialogPreference {
         super(context, attrs);
     }
 
-    public static int parseHour(String value) {
+    private static int parseHour(String value) {
         try {
             String[] time = value.split(":");
             return (Integer.parseInt(time[0]));
@@ -24,7 +24,7 @@ public class TimePreference extends DialogPreference {
         }
     }
 
-    public static int parseMinute(String value) {
+    private static int parseMinute(String value) {
         try {
             String[] time = value.split(":");
             return (Integer.parseInt(time[1]));

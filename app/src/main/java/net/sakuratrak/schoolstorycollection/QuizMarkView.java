@@ -19,14 +19,14 @@ import androidx.annotation.Nullable;
 
 public final class QuizMarkView extends FrameLayout {
 
-    Chip _markA;
-    Chip _markB;
-    Chip _markC;
-    Chip _markD;
-    FloatingActionButton _doneButton;
-    SeekBar _markBar;
-    TextView _markBarVal;
-    ViewGroup _rootView;
+    private Chip _markA;
+    private Chip _markB;
+    private Chip _markC;
+    private Chip _markD;
+    private FloatingActionButton _doneButton;
+    private SeekBar _markBar;
+    private TextView _markBarVal;
+    private ViewGroup _rootView;
 
 
     public QuizMarkView(@NonNull Context context) {
@@ -52,7 +52,7 @@ public final class QuizMarkView extends FrameLayout {
         init();
     }
 
-    void init() {
+    private void init() {
         _rootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.element_quiz_mark, this);
 
         _markA = _rootView.findViewById(R.id.markA);
@@ -97,12 +97,12 @@ public final class QuizMarkView extends FrameLayout {
         return _markBar.getProgress();
     }
 
-    public void setScore(int score) {
+    private void setScore(int score) {
         _markBar.setProgress(score);
         updateText();
     }
 
-    void updateText() {
+    private void updateText() {
         _markBarVal.setText(String.format(Locale.ENGLISH, "%d%%", _markBar.getProgress()));
     }
 

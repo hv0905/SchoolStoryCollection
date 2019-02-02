@@ -34,25 +34,25 @@ public class UnitDetailActivity extends AppCompatActivity {
     public static final int RESULT_CHANGED = 101;
     public static final int RESULT_HIDDEN = 102;
 
-    LearningUnitInfo _context;
-    boolean _edited = false;
-    boolean _hidden = false;
+    private LearningUnitInfo _context;
+    private boolean _edited = false;
+    private boolean _hidden = false;
 
     //region views
-    Toolbar _toolbar;
-    MaterialButton _hideBtn;
-    MaterialButton _resetBtn;
-    MaterialButton _rmBtn;
-    ScrollView _scrollMain;
-    PieChart _difficultyPie;
-    TextView _valQuizCount;
-    TextView _valCorrectRatio;
-    ProgressBar _correctRatioBar;
-    TextView _warningTxt;
-    TextView _valQuestionCount;
-    TextView _valQuestionRatio;
-    ProgressBar _questionRatioBar;
-    ConstraintLayout _unitMainInfo;
+    private Toolbar _toolbar;
+    private MaterialButton _hideBtn;
+    private MaterialButton _resetBtn;
+    private MaterialButton _rmBtn;
+    private ScrollView _scrollMain;
+    private PieChart _difficultyPie;
+    private TextView _valQuizCount;
+    private TextView _valCorrectRatio;
+    private ProgressBar _correctRatioBar;
+    private TextView _warningTxt;
+    private TextView _valQuestionCount;
+    private TextView _valQuestionRatio;
+    private ProgressBar _questionRatioBar;
+    private ConstraintLayout _unitMainInfo;
     //endregion
 
 
@@ -176,7 +176,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    void refresh() {
+    private void refresh() {
         getSupportActionBar().setTitle(_context.getName());
         int questionSum;
         try {
@@ -207,7 +207,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void hideUnit(){
+    private void hideUnit(){
         // TODO: 2019/1/29
         _context.setHidden(true);
         try {

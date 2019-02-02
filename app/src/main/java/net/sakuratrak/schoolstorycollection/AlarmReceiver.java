@@ -21,11 +21,11 @@ import androidx.core.app.TaskStackBuilder;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String CHANNEL_ID = "quizNotify";
+    private static final String CHANNEL_ID = "quizNotify";
 
-    public static final int DEFAULT_INS_ID = 1000;
+    private static final int DEFAULT_INS_ID = 1000;
 
-    public static final String TAG = "alarmReceiver";
+    private static final String TAG = "alarmReceiver";
 
     public static void setupAlarm(Context context, boolean forceDayPlus) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

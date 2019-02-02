@@ -42,7 +42,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator;
 
 public final class MainActivityWorkBookFragment extends Fragment {
 
-    public static final String TAG = "workbookFragment";
+    private static final String TAG = "workbookFragment";
     private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;

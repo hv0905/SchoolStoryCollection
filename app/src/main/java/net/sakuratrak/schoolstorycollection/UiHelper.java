@@ -14,8 +14,8 @@ import java.util.Locale;
 
 public final class UiHelper {
 
-    public static SimpleDateFormat defaultFormat = new SimpleDateFormat("yy.MM.dd", Locale.US);
-    public static SimpleDateFormat defaultFormatWithTime = new SimpleDateFormat("yy.MM.dd hh:mm", Locale.US);
+    public static final SimpleDateFormat defaultFormat = new SimpleDateFormat("yy.MM.dd", Locale.US);
+    public static final SimpleDateFormat defaultFormatWithTime = new SimpleDateFormat("yy.MM.dd hh:mm", Locale.US);
 
     public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet) {
         dataSet.setValueTextColor(Color.BLACK);
