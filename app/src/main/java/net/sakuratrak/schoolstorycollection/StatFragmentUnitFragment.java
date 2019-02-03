@@ -16,10 +16,20 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import net.sakuratrak.schoolstorycollection.MainActivity.ChangeDisplayModeEventHandler;
+import net.sakuratrak.schoolstorycollection.MainActivity.RequireRefreshEventHandler;
+import net.sakuratrak.schoolstorycollection.R.array;
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
+import net.sakuratrak.schoolstorycollection.UnitDisplayAdapter.DataContext;
+import net.sakuratrak.schoolstorycollection.UnitDisplayAdapter.FullUnitDisplayAdapter;
+import net.sakuratrak.schoolstorycollection.UnitDisplayAdapter.SimpleUnitDisplayAdapter;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
-import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo.DbHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +38,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,7 +61,7 @@ public final class StatFragmentUnitFragment extends Fragment {
     private Runnable _notifyUnitRefresh;
     private UnitDisplayAdapter _mainAdapter;
     private List<LearningUnitInfo> _context;
-    private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
+    private List<FullUnitDisplayAdapter.DataContext> _displayContext;
     private RecycleViewDivider _mainDivider;
     private int _multiCount;
     private boolean _multiShowed;
@@ -58,8 +69,8 @@ public final class StatFragmentUnitFragment extends Fragment {
     private TextView _multiQuizBtnText;
     private ImageButton _multiMoreBtn;
     private MaterialCardView _multiActionBar;
-    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
-    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
+    private final RequireRefreshEventHandler _requireRefresh = this::refresh;
+    private final ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
 
 
     public StatFragmentUnitFragment() {
@@ -78,31 +89,31 @@ public final class StatFragmentUnitFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView: stat fragment");
-        _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_stat_fragment_unit, container, false);
-        _unitList = _root.findViewById(R.id.unitList);
-        _unitEmptyNotice = _root.findViewById(R.id.unitEmptyNotice);
-        _addUnitBtn = _root.findViewById(R.id.addUnitBtn);
-        _multiQuizBtn = (FrameLayout) _root.findViewById(R.id.multiQuizBtn);
-        _multiQuizBtnText = (TextView) _root.findViewById(R.id.multiQuizBtnText);
-        _multiMoreBtn = (ImageButton) _root.findViewById(R.id.multiMoreBtn);
-        _multiActionBar = (MaterialCardView) _root.findViewById(R.id.multiActionBar);
+        _root = (ConstraintLayout) inflater.inflate(layout.fragment_stat_fragment_unit, container, false);
+        _unitList = _root.findViewById(id.unitList);
+        _unitEmptyNotice = _root.findViewById(id.unitEmptyNotice);
+        _addUnitBtn = _root.findViewById(id.addUnitBtn);
+        _multiQuizBtn = (FrameLayout) _root.findViewById(id.multiQuizBtn);
+        _multiQuizBtnText = (TextView) _root.findViewById(id.multiQuizBtnText);
+        _multiMoreBtn = (ImageButton) _root.findViewById(id.multiMoreBtn);
+        _multiActionBar = (MaterialCardView) _root.findViewById(id.multiActionBar);
 
         _multiQuizBtn.setOnClickListener(v -> {
             // TODO: 2019/2/1 调用单元小测
         });
 
-        _multiMoreBtn.setOnClickListener(v -> new AlertDialog.Builder(getContext())
+        _multiMoreBtn.setOnClickListener(v -> new Builder(getContext())
                 .setTitle(String.format(Locale.US, "已选择%d个单元", _multiCount))
-                .setItems(R.array.unit_multi_options, (dialog, which) -> {
+                .setItems(array.unit_multi_options, (dialog, which) -> {
                     switch (which) {
                         case 0:
                             // TODO: 2019/2/1 box
-                            new AlertDialog.Builder(getContext())
+                            new Builder(getContext())
                                     .setMessage(String.format(Locale.US, "真的归档/取消归档%d个单元吗？", _multiCount))
-                                    .setTitle(R.string.confirmMultiHideTitle)
-                                    .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                    .setTitle(string.confirmMultiHideTitle)
+                                    .setPositiveButton(string.confirm, (dialog1, which1) -> {
                                         for (int i = 0; i < _displayContext.size(); i++) {
-                                            UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                                            DataContext dc = _displayContext.get(i);
                                             if (dc.Checked) {
                                                 dc.db.setHidden(!dc.db.isHidden());
                                                 try {
@@ -114,7 +125,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                                         }
                                         getParent().requireRefresh();
                                     })
-                                    .setNegativeButton(R.string.cancel, null)
+                                    .setNegativeButton(string.cancel, null)
                                     .show();
                             break;
                         case 1:
@@ -123,12 +134,12 @@ public final class StatFragmentUnitFragment extends Fragment {
 
                         case 2:
                             // TODO: 2019/2/1 rm
-                            new AlertDialog.Builder(getContext())
+                            new Builder(getContext())
                                     .setMessage(String.format(Locale.US, "真的删除%d个单元吗？", _multiCount))
-                                    .setTitle(R.string.confirmMultiRmTitle)
-                                    .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                    .setTitle(string.confirmMultiRmTitle)
+                                    .setPositiveButton(string.confirm, (dialog1, which1) -> {
                                         for (int i = 0; i < _displayContext.size(); i++) {
-                                            UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                                            DataContext dc = _displayContext.get(i);
                                             if (dc.Checked) {
                                                 try {
                                                     DbManager.getDefaultHelper(getContext()).getLearningUnitInfos().delete(dc.db);
@@ -139,15 +150,15 @@ public final class StatFragmentUnitFragment extends Fragment {
                                         }
                                         getParent().requireRefresh();
                                     })
-                                    .setNegativeButton(R.string.cancel, null)
+                                    .setNegativeButton(string.cancel, null)
                                     .show();
                             break;
                     }
                 })
-                .setIcon(R.drawable.ic_done_all_black_24dp)
-                .setPositiveButton(R.string.cancel, null)
-                .setNegativeButton(R.string.unselectAll, (dialog, which) -> {
-                    for (UnitDisplayAdapter.DataContext dc :
+                .setIcon(drawable.ic_done_all_black_24dp)
+                .setPositiveButton(string.cancel, null)
+                .setNegativeButton(string.unselectAll, (dialog, which) -> {
+                    for (DataContext dc :
                             _displayContext) {
                         dc.Checked = false;
                     }
@@ -157,26 +168,26 @@ public final class StatFragmentUnitFragment extends Fragment {
                 })
                 .show());
 
-        _addUnitBtn.setOnClickListener(v -> new AlertDialog.Builder(getParent())
-                .setIcon(R.drawable.ic_book_black_24dp)
-                .setTitle(R.string.newUnitTitle)
-                .setView(R.layout.dialog_add_unit)
-                .setPositiveButton(R.string.done, (dialog, which) -> {
+        _addUnitBtn.setOnClickListener(v -> new Builder(getParent())
+                .setIcon(drawable.ic_book_black_24dp)
+                .setTitle(string.newUnitTitle)
+                .setView(layout.dialog_add_unit)
+                .setPositiveButton(string.done, (dialog, which) -> {
                     AlertDialog dg = (AlertDialog) dialog;
-                    TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
+                    TextInputEditText tiet = dg.findViewById(id.txtUnitName);
                     if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
-                        new AlertDialog.Builder(getParent())
+                        new Builder(getParent())
                                 .setMessage("请输入单元名称")
-                                .setTitle(R.string.error)
-                                .setNegativeButton(R.string.confirm, null)
-                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .setTitle(string.error)
+                                .setNegativeButton(string.confirm, null)
+                                .setIcon(drawable.ic_warning_black_24dp)
                                 .show();
                         return;
                     }
                     try {
                         DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), getParent().getCurrentSubject()));
                     } catch (SQLException e) {
-                        Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(_root, string.sqlExp, Snackbar.LENGTH_LONG).show();
                         return;
                     }
 
@@ -225,7 +236,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             _context = (DbManager.getDefaultHelper(getParent())).getLearningUnitInfos().queryForEq("subjectId", getParent().getCurrentSubject().getId());
         } catch (SQLException e) {
             e.printStackTrace();
-            Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(_root, string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
         if (_context.size() == 0) {
@@ -236,7 +247,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         int questionSum;
         try {
-            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getContext())).FindAllWithSubject(getParent().getCurrentSubject()).size();
+            questionSum = new DbHelper(DbManager.getDefaultHelper(getContext())).FindAllWithSubject(getParent().getCurrentSubject()).size();
         } catch (SQLException e) {
             e.printStackTrace();
             return;
@@ -271,7 +282,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             }
 
             //ok,加入列表
-            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
+            FullUnitDisplayAdapter.DataContext udiItem = DataContext.fromDb(item, questionSum);
             udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
             udiItem.OnChecked = (buttonView, isChecked) -> {
                 if (isChecked) _multiCount++;
@@ -295,7 +306,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         _mainAdapter.notifyDataSetChanged();
     }
 
-    private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
+    private void detailClicked(View v, DataContext udiItem, LearningUnitInfo item) {
         Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
         intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
         ActivityOptions ao;
@@ -323,7 +334,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             case REQUEST_DETAIL:
                 switch (resultCode) {
                     case UnitDetailActivity.RESULT_DELETED:
-                        Snackbar.make(_root, R.string.deleted, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(_root, string.deleted, Snackbar.LENGTH_LONG).show();
                         getParent().requireRefresh();
                         break;
                     case UnitDetailActivity.RESULT_CHANGED:
@@ -339,13 +350,13 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     private void changeDisplayMode(boolean isSecondMode) {
         if (isSecondMode) {
-            _mainAdapter = new UnitDisplayAdapter.SimpleUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
+            _mainAdapter = new SimpleUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
             if (_mainDivider == null)
                 _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
             _unitList.addItemDecoration(_mainDivider);
             updateMulti(false);
         } else {
-            _mainAdapter = new UnitDisplayAdapter.FullUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
+            _mainAdapter = new FullUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
             if (_mainDivider != null)
                 _unitList.removeItemDecoration(_mainDivider);
             updateMulti(true);

@@ -1,6 +1,8 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-public class SelectableAnswer extends Answer.PlainTextAnswer {
+import net.sakuratrak.schoolstorycollection.core.Answer.PlainTextAnswer;
+
+public class SelectableAnswer extends PlainTextAnswer {
 
     public boolean A;
     public boolean B;

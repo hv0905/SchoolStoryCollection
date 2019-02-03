@@ -2,10 +2,11 @@ package net.sakuratrak.schoolstorycollection.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 
 import net.sakuratrak.schoolstorycollection.AndroidHelper;
-import net.sakuratrak.schoolstorycollection.R;
+import net.sakuratrak.schoolstorycollection.R.raw;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,7 +69,7 @@ public class AppMaster {
             File fullSizeImg = getImgFileDisplay(context,imgId);
             Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg, 500);
             try {
-                AndroidHelper.saveBitmap2File(previewImgFile, thump, Bitmap.CompressFormat.JPEG, 90);
+                AndroidHelper.saveBitmap2File(previewImgFile, thump, CompressFormat.JPEG, 90);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,7 +94,7 @@ public class AppMaster {
             e.printStackTrace();
         }
         //将备选考进去
-        InputStream in = context.getResources().openRawResource(R.raw.img_notify_disappear);
+        InputStream in = context.getResources().openRawResource(raw.img_notify_disappear);
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(imgFile.getAbsolutePath());

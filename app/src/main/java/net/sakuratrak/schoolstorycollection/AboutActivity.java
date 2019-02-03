@@ -3,6 +3,9 @@ package net.sakuratrak.schoolstorycollection;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class AboutActivity extends AppCompatActivity {
@@ -12,7 +15,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(layout.activity_about);
 
 
     }
@@ -20,7 +23,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        _mainView = findViewById(R.id.mainView);
+        _mainView = findViewById(id.mainView);
 //        _mainView.loadMarkdownFile("file:///android_asset/about.md");
 //        _mainView.addStyleSheet(new Github());
 //        _mainView.loadMarkdownFromAsset("about.md");

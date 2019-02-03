@@ -13,18 +13,18 @@ import net.sakuratrak.schoolstorycollection.MultiSelectCreateView;
 import net.sakuratrak.schoolstorycollection.MultiplySelectQuizAnswerView;
 import net.sakuratrak.schoolstorycollection.PlainTextAnswerDisplayView;
 import net.sakuratrak.schoolstorycollection.QuizAnswerView;
-import net.sakuratrak.schoolstorycollection.R;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.SingleSelectCreateView;
 import net.sakuratrak.schoolstorycollection.SingleSelectQuizAnswerView;
 
 import java.io.Serializable;
 
 public enum QuestionType implements Serializable {
-    SINGLE_CHOICE(R.string.singleChoiceQuestion),
-    MULTIPLY_CHOICE(R.string.multiChoiceQuestion),
-    TYPEABLE_BLANK(R.string.fillQuestion),
-    BLANK(R.string.fillQuestion),
-    ANSWER(R.string.answerQuestion);
+    SINGLE_CHOICE(string.singleChoiceQuestion),
+    MULTIPLY_CHOICE(string.multiChoiceQuestion),
+    TYPEABLE_BLANK(string.fillQuestion),
+    BLANK(string.fillQuestion),
+    ANSWER(string.answerQuestion);
 
     final int _resId;
 
@@ -55,11 +55,11 @@ public enum QuestionType implements Serializable {
                 return new BlankAnswerCreateView(context);
             case BLANK:
                 ImageAnswerCreateView view = new ImageAnswerCreateView(context);
-                view.setNoticeText(R.string.fillAnswer);
+                view.setNoticeText(string.fillAnswer);
                 return view;
             case ANSWER:
                 ImageAnswerCreateView view1 = new ImageAnswerCreateView(context);
-                view1.setNoticeText(R.string.answerQuestionAnswer);
+                view1.setNoticeText(string.answerQuestionAnswer);
                 return view1;
         }
 

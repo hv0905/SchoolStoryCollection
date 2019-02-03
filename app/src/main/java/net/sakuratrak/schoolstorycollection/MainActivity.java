@@ -11,6 +11,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import net.sakuratrak.schoolstorycollection.R.array;
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
@@ -25,19 +30,20 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int[] SUBJECT_MENU_IDS = new int[]{
-            R.id.nav_menu_chinese,
-            R.id.nav_menu_math,
-            R.id.nav_menu_english,
-            R.id.nav_menu_physics,
-            R.id.nav_menu_chemistry,
-            R.id.nav_menu_biologic,
-            R.id.nav_menu_politics,
-            R.id.nav_menu_history,
-            R.id.nav_menu_geo
+            id.nav_menu_chinese,
+            id.nav_menu_math,
+            id.nav_menu_english,
+            id.nav_menu_physics,
+            id.nav_menu_chemistry,
+            id.nav_menu_biologic,
+            id.nav_menu_politics,
+            id.nav_menu_history,
+            id.nav_menu_geo
     };
     private final String TAG = "MainActivity";
     public QuestionFilterDialog _questionFilterDialog;
@@ -66,28 +72,28 @@ public class MainActivity extends AppCompatActivity {
 
         //region loadUI
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
         //endregion
 
         //region get UI elements
-        _pager = findViewById(R.id.pager);
-        _navigation = findViewById(R.id.bottomNav);
-        _toolbar = findViewById(R.id.toolbar);
-        _drawer = findViewById(R.id.drawer);
-        _navigationView = findViewById(R.id.navigationView);
+        _pager = findViewById(id.pager);
+        _navigation = findViewById(id.bottomNav);
+        _toolbar = findViewById(id.toolbar);
+        _drawer = findViewById(id.drawer);
+        _navigationView = findViewById(id.navigationView);
         //endregion
 
         //设置工具栏
         setSupportActionBar(_toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(drawable.ic_menu_white_24dp);
         int startId = AppSettingsMaster.getStartupSubjectId(this);
         refreshSubject(LearningSubject.id2Obj(startId));
         _navigationView.setCheckedItem(SUBJECT_MENU_IDS[startId]);
 
         //设置Drawer
-        _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, R.string.subject, R.string.subject) {
+        _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, string.subject, string.subject) {
 
         };
 
@@ -95,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         _navigationView.setNavigationItemSelectedListener(menuItem -> {
             _drawer.closeDrawer(GravityCompat.START);
-            if (menuItem.getItemId() == R.id.nav_menu_settings) {
+            if (menuItem.getItemId() == id.nav_menu_settings) {
                 //settings...
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
@@ -125,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         _pageContext = new MainActivityPagerAdapter(getSupportFragmentManager());
         _pager.setAdapter(_pageContext);
 
-        _pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        _pager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
             }
@@ -134,13 +140,13 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int i) {
                 switch (i) {
                     case 0:
-                        _navigation.setSelectedItemId(R.id.navigation_home);
+                        _navigation.setSelectedItemId(id.navigation_home);
                         break;
                     case 1:
-                        _navigation.setSelectedItemId(R.id.navigation_dashboard);
+                        _navigation.setSelectedItemId(id.navigation_dashboard);
                         break;
                     case 2:
-                        _navigation.setSelectedItemId(R.id.navigation_unit);
+                        _navigation.setSelectedItemId(id.navigation_unit);
                         break;
                 }
             }
@@ -154,14 +160,14 @@ public class MainActivity extends AppCompatActivity {
         _navigation.setOnNavigationItemSelectedListener(item -> {
             setToolBtnVisible(false);
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case id.navigation_home:
                     _pager.setCurrentItem(0);
                     setToolBtnVisible(true);
                     return true;
-                case R.id.navigation_dashboard:
+                case id.navigation_dashboard:
                     _pager.setCurrentItem(1);
                     return true;
-                case R.id.navigation_unit:
+                case id.navigation_unit:
                     _pager.setCurrentItem(2);
                     if (_pageContext.stat._pager.getCurrentItem() == 1) {
                         //in unit
@@ -187,14 +193,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void notifyUnitSaveError(View v) {
-        Snackbar.make(v, R.string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(v, string.failSaveUnitError, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_options, menu);
-        _filterMenu = menu.findItem(R.id.filter);
-        _displayModeToggle = menu.findItem(R.id.displayModeToggle);
+        getMenuInflater().inflate(menu.top_options, menu);
+        _filterMenu = menu.findItem(id.filter);
+        _displayModeToggle = menu.findItem(id.displayModeToggle);
         return true;
     }
 
@@ -204,16 +210,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.filter:
+            case id.filter:
                 if (_pager.getCurrentItem() == 0) {
                     showQuestionFilterDialog();
                 } else {
                     showUnitFilterDialog();
                 }
                 return true;
-            case R.id.displayModeToggle:
+            case id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
-                _displayModeToggle.setIcon(_isSecondDisplayMode ? R.drawable.ic_view_list_white_24dp : R.drawable.ic_dashboard_white_24dp);
+                _displayModeToggle.setIcon(_isSecondDisplayMode ? drawable.ic_view_list_white_24dp : drawable.ic_dashboard_white_24dp);
                 changeDisplayMode();
                 return true;
         }
@@ -234,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
         getWindow().setStatusBarColor(uiColor);
         _toolbar.setBackgroundColor(uiColor);
-        getSupportActionBar().setTitle(getResources().getStringArray(R.array.learning_subjects)[subject.getId()]);
+        getSupportActionBar().setTitle(getResources().getStringArray(array.learning_subjects)[subject.getId()]);
 
         //reset filter dialog
         if (_questionFilterDialog != null) {

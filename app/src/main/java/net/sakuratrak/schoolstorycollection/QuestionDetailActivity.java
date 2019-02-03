@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,6 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.zzhoujay.markdown.MarkDown;
 
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
@@ -37,7 +41,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
@@ -88,28 +92,28 @@ public class QuestionDetailActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_detail);
+        setContentView(layout.activity_question_detail);
 
-        _appBar = findViewById(R.id.app_bar);
-        _toolbar = findViewById(R.id.toolbar);
-        _toolbarLayout = findViewById(R.id.toolbarLayout);
-        _imageTopBorder = findViewById(R.id.imageTopBorder);
-        _imageTopContent = findViewById(R.id.imageTopContent);
-        _questionText = findViewById(R.id.questionText);
-        _analysisText = findViewById(R.id.analysisText);
-        _answerContainer = findViewById(R.id.answerContainer);
-        _showAnswerButton = findViewById(R.id.showAnswerButton);
-        _answerZone = findViewById(R.id.answerZone);
-        _questionImgDisplay = findViewById(R.id.questionImgDisplay);
-        _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
-        _valCreateTime = findViewById(R.id.valCreateTime);
-        _valDifficulty = findViewById(R.id.valDifficulty);
-        _valUnit = findViewById(R.id.valUnit);
+        _appBar = findViewById(id.app_bar);
+        _toolbar = findViewById(id.toolbar);
+        _toolbarLayout = findViewById(id.toolbarLayout);
+        _imageTopBorder = findViewById(id.imageTopBorder);
+        _imageTopContent = findViewById(id.imageTopContent);
+        _questionText = findViewById(id.questionText);
+        _analysisText = findViewById(id.analysisText);
+        _answerContainer = findViewById(id.answerContainer);
+        _showAnswerButton = findViewById(id.showAnswerButton);
+        _answerZone = findViewById(id.answerZone);
+        _questionImgDisplay = findViewById(id.questionImgDisplay);
+        _analysisImgDisplay = findViewById(id.analysisImgDisplay);
+        _valCreateTime = findViewById(id.valCreateTime);
+        _valDifficulty = findViewById(id.valDifficulty);
+        _valUnit = findViewById(id.valUnit);
 
         setSupportActionBar(_toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(drawable.ic_close_white_24dp);
 
         _appBar.addOnOffsetChangedListener((appBarLayout, i) -> {
             if (Math.abs(i) - appBarLayout.getTotalScrollRange() == 0) {
@@ -138,10 +142,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        _toolbar.inflateMenu(R.menu.detail_top_options);
-        _showAnswerMenu = _toolbar.getMenu().findItem(R.id.showAnswerMenu);
-        _favouriteMenu = _toolbar.getMenu().findItem(R.id.favourite);
-        _hideMenu = _toolbar.getMenu().findItem(R.id.hide);
+        _toolbar.inflateMenu(menu.detail_top_options);
+        _showAnswerMenu = _toolbar.getMenu().findItem(id.showAnswerMenu);
+        _favouriteMenu = _toolbar.getMenu().findItem(id.favourite);
+        _hideMenu = _toolbar.getMenu().findItem(id.hide);
 
         if (_toolbar.getMenu() instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
@@ -149,9 +153,9 @@ public class QuestionDetailActivity extends AppCompatActivity {
             m.setOptionalIconsVisible(true);
         }
 
-        _hideMenu.setTitle(_context.isHidden() ? R.string.undoHide : R.string.hide);
+        _hideMenu.setTitle(_context.isHidden() ? string.undoHide : string.hide);
         _favouriteMenu.setChecked(_context.isFavourite());
-        _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
+        _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? drawable.ic_favorite_pink_24dp : drawable.ic_favorite_border_white_24dp);
 
         return true;
     }
@@ -163,20 +167,20 @@ public class QuestionDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id
+            case id
                     .showAnswerMenu:
                 toggleAnswer();
                 return true;
-            case R.id
+            case id
                     .editMenu:
                 gotoEdit();
                 return true;
 
-            case R.id
+            case id
                     .shareMenu:
                 //todo share
                 return true;
-            case R.id
+            case id
                     .hide:
                 if (_context.isHidden()) {
                     //要取消
@@ -187,7 +191,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                         e.printStackTrace();
                         return true;
                     }
-                    Snackbar.make(_appBar,getString(R.string.hiddenUndoed),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_appBar,getString(string.hiddenUndoed),Snackbar.LENGTH_LONG).show();
                     refresh();
                     _edited = true;
                     _hidden = false;
@@ -195,36 +199,36 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     //要隐藏
                     if (!AppSettingsMaster.getBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM, false)) {
                         CheckBox cb = new CheckBox(this);
-                        cb.setText(getString(R.string.neverShowAgain));
-                        cb.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                        new AlertDialog.Builder(this)
-                                .setTitle(R.string.hiddenDialogTital)
-                                .setIcon(R.drawable.ic_warning_black_24dp)
-                                .setMessage(R.string.hiddenDialogMsg)
+                        cb.setText(getString(string.neverShowAgain));
+                        cb.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                        new Builder(this)
+                                .setTitle(string.hiddenDialogTital)
+                                .setIcon(drawable.ic_warning_black_24dp)
+                                .setMessage(string.hiddenDialogMsg)
                                 .setView(cb)
-                                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                .setPositiveButton(string.confirm, (dialog, which) -> {
                                     if (cb.isChecked()) {
                                         AppSettingsMaster.setBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM, true);
                                     }
                                     hideQuestion();
                                 })
-                                .setNegativeButton(R.string.cancel, null)
+                                .setNegativeButton(string.cancel, null)
                                 .show();
                     } else {
                         hideQuestion();
                     }
                 }
                 return true;
-            case R.id.favourite:
+            case id.favourite:
                 Log.d(TAG, "onOptionsItemSelected: " + item.isChecked());
                 item.setChecked(!item.isChecked());
-                item.setIcon(item.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
+                item.setIcon(item.isChecked() ? drawable.ic_favorite_pink_24dp : drawable.ic_favorite_border_white_24dp);
                 _context.setFavourite(item.isChecked());
                 try {
                     DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
                     _edited = true;
                 } catch (SQLException e) {
-                    Snackbar.make(_toolbarLayout, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_toolbarLayout, string.sqlExp, Snackbar.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
                 Snackbar.make(_toolbarLayout, String.format("已%s喜欢", item.isChecked() ? "" : "取消"), Snackbar.LENGTH_LONG).show();
@@ -236,11 +240,11 @@ public class QuestionDetailActivity extends AppCompatActivity {
 //                }
                 return true;
 
-            case R.id.delete:
-                new AlertDialog.Builder(this)
-                        .setIcon(R.drawable.ic_warning_black_24dp)
-                        .setTitle(getString(R.string.confirmDelete)).setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
-                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
+            case id.delete:
+                new Builder(this)
+                        .setIcon(drawable.ic_warning_black_24dp)
+                        .setTitle(getString(string.confirmDelete)).setMessage(String.format("将永久删除错题%s(真的很久!)!", _context.getTitle()))
+                        .setPositiveButton(string.confirm, (dialog, which) -> {
                             try {
                                 //delete all images
                                 for (String item_ : _context.getQuestionImage()) {
@@ -263,14 +267,14 @@ public class QuestionDetailActivity extends AppCompatActivity {
                                 }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
                             } catch (SQLException e) {
-                                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, string.sqlExp, Toast.LENGTH_LONG).show();
                                 e.printStackTrace();
                                 return;
                             }
                             setResult(RESULT_DELETED);
                             finish();
                         })
-                        .setNegativeButton(R.string.cancel, null).show();
+                        .setNegativeButton(string.cancel, null).show();
                 return true;
 
         }
@@ -284,7 +288,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Snackbar.make(_appBar,getString(R.string.hiddenDone),Snackbar.LENGTH_LONG).show();
+        Snackbar.make(_appBar,getString(string.hiddenDone),Snackbar.LENGTH_LONG).show();
         refresh();
         _hidden = true;
     }
@@ -304,7 +308,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_EDIT:
                 if (resultCode == RESULT_OK) {
-                    Snackbar.make(_toolbarLayout, getString(R.string.changeSaved), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_toolbarLayout, getString(string.changeSaved), Snackbar.LENGTH_LONG).show();
                     _edited = true;
                     refresh();
                 }
@@ -323,7 +327,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
             _context = DbManager.getDefaultHelper(this).getQuestionInfos().queryForId(getIntent().getIntExtra(EXTRA_QUESTION_ID, 0));
         } catch (SQLException e) {
             e.printStackTrace();
-            Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, string.sqlExp, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -335,7 +339,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbarLayout.setTitle(_context.getTitle());
         _valDifficulty.setRating(_context.getDifficulty() / 2f);
         _valCreateTime.setText(new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US).format(_context.getAuthorTime()));
-        _valUnit.setText(_context.getUnit() == null ? getText(R.string.emptyUnit) : _context.getUnit().getName());
+        _valUnit.setText(_context.getUnit() == null ? getText(string.emptyUnit) : _context.getUnit().getName());
 
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage()[0])));
 
@@ -356,11 +360,11 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         if (_favouriteMenu != null) {
             _favouriteMenu.setChecked(_context.isFavourite());
-            _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_white_24dp);
+            _favouriteMenu.setIcon(_favouriteMenu.isChecked() ? drawable.ic_favorite_pink_24dp : drawable.ic_favorite_border_white_24dp);
         }
 
         if (_hideMenu != null) {
-            _hideMenu.setTitle(_context.isHidden() ? R.string.undoHide : R.string.hide);
+            _hideMenu.setTitle(_context.isHidden() ? string.undoHide : string.hide);
         }
     }
 

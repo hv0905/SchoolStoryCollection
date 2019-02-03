@@ -1,6 +1,8 @@
 package net.sakuratrak.schoolstorycollection.core;
 
-public final class BlankAnswer extends Answer.PlainTextAnswer {
+import net.sakuratrak.schoolstorycollection.core.Answer.PlainTextAnswer;
+
+public final class BlankAnswer extends PlainTextAnswer {
 
     public String answer;
 

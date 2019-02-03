@@ -1,16 +1,19 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.Manifest;
+import android.Manifest.permission;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.ImageListAdapter.DataContext;
+import net.sakuratrak.schoolstorycollection.R.array;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
@@ -22,7 +25,7 @@ import java.util.UUID;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,7 +71,7 @@ public class ImageSelectView extends RecyclerView {
             //todo choose photo
             switch (which) {
                 case 0: {
-                    if (!PermissionAdmin.get(getActivity(), Manifest.permission.CAMERA, _codeCamera)) {
+                    if (!PermissionAdmin.get(getActivity(), permission.CAMERA, _codeCamera)) {
                         return;
                     }
                     takePhoto(_codeCamera);
@@ -129,11 +132,11 @@ public class ImageSelectView extends RecyclerView {
     }
 
     public void refresh() {
-        ArrayList<ImageListAdapter.DataContext> dataContext = _mainAdapter.get_dataContext();
+        ArrayList<DataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
-            ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
+            DataContext item = new DataContext();
             item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(), path));
             final int finalI = i;
             item.imageClicked = v -> showImageOptionMenu(finalI);
@@ -143,7 +146,7 @@ public class ImageSelectView extends RecyclerView {
     }
 
     private void showImageOptionMenu(int index) {
-        new AlertDialog.Builder(getContext()).setItems(R.array.imageOptionMenu, (dialog, which) -> {
+        new Builder(getContext()).setItems(array.imageOptionMenu, (dialog, which) -> {
             switch (which) {
                 case 0:
                     //noinspection ResultOfMethodCallIgnored
@@ -155,11 +158,11 @@ public class ImageSelectView extends RecyclerView {
                     refresh();
                     break;
             }
-        }).setPositiveButton(R.string.cancel, null).show();
+        }).setPositiveButton(string.cancel, null).show();
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = VERSION_CODES.M)
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == _codeCamera) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -167,10 +170,10 @@ public class ImageSelectView extends RecyclerView {
                 takePhoto(requestCode);
             } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 if (((AppCompatActivity) getContext()).shouldShowRequestPermissionRationale(permissions[0])) {
-                    Toast.makeText(getContext(), R.string.notice_permission_camera, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), string.notice_permission_camera, Toast.LENGTH_LONG).show();
                 } else {
                     //go to settings
-                    new AlertDialog.Builder(getContext()).setTitle(R.string.errPermissionDenied).setMessage(R.string.setCameraPermission).setPositiveButton(R.string.confirm, null).show();
+                    new Builder(getContext()).setTitle(string.errPermissionDenied).setMessage(string.setCameraPermission).setPositiveButton(string.confirm, null).show();
                 }
             }
         }

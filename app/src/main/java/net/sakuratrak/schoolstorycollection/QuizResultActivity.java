@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.R.id;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +11,10 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.sakuratrak.schoolstorycollection.ExerciseLogAdapter.DataContext;
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
@@ -45,14 +50,14 @@ public class QuizResultActivity extends AppCompatActivity {
     //endregion
 
 
-    private ArrayList<ExerciseLogAdapter.DataContext> _contextList;
+    private ArrayList<DataContext> _contextList;
     private ExerciseLogGroup _group;
     private boolean _quized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz_result);
+        setContentView(layout.activity_quiz_result);
 
         _toolbar = findViewById(R.id.toolbar);
         _appBar = findViewById(R.id.app_bar);
@@ -64,7 +69,7 @@ public class QuizResultActivity extends AppCompatActivity {
         setSupportActionBar(_toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(drawable.ic_close_white_24dp);
 
         _recycleQuestions.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         _recycleQuestions.addItemDecoration(new RecycleViewDivider(RecyclerView.VERTICAL, this));
@@ -108,10 +113,10 @@ public class QuizResultActivity extends AppCompatActivity {
         int i = 0;
         for (ExerciseLog log : _group.getLogs()) {
             if (log.getQuestion() != null) {
-                _contextList.add(new ExerciseLogAdapter.DataContext(
+                _contextList.add(new DataContext(
                         ++i,
                         log.getQuestion().getTitle(),
-                        log.getQuestion().getUnit() == null ? getString(R.string.emptyUnit) : log.getQuestion().getUnit().getName(),
+                        log.getQuestion().getUnit() == null ? getString(string.emptyUnit) : log.getQuestion().getUnit().getName(),
                         log.getCorrectRatio(),
                         v -> {
                             try {
@@ -120,7 +125,7 @@ public class QuizResultActivity extends AppCompatActivity {
                                     intent.putExtra(QuestionDetailActivity.EXTRA_QUESTION_ID, log.getQuestion().getId());
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this, string.errQuestionDeleted, Toast.LENGTH_LONG).show();
                                 }
                             } catch (SQLException e) {
                                 e.printStackTrace();
@@ -129,12 +134,12 @@ public class QuizResultActivity extends AppCompatActivity {
                         }
                 ));
             } else {
-                _contextList.add(new ExerciseLogAdapter.DataContext(
+                _contextList.add(new DataContext(
                         ++i,
-                        getString(R.string.errQuestionDeleted),
-                        getString(R.string.emptyUnit),
+                        getString(string.errQuestionDeleted),
+                        getString(string.emptyUnit),
                         log.getCorrectRatio(),
-                        v -> Toast.makeText(this, R.string.errQuestionDeleted, Toast.LENGTH_LONG).show()
+                        v -> Toast.makeText(this, string.errQuestionDeleted, Toast.LENGTH_LONG).show()
                 ));
             }
         }
@@ -144,19 +149,19 @@ public class QuizResultActivity extends AppCompatActivity {
         int scoreLevel = scoreAvg / 25;
         switch (scoreLevel) {
             case 0://0-25
-                _textStory.setText(R.string.quizResultStory0);
+                _textStory.setText(string.quizResultStory0);
                 break;
             case 1://25-50
-                _textStory.setText(R.string.quizResultStory1);
+                _textStory.setText(string.quizResultStory1);
                 break;
             case 2://50-75
-                _textStory.setText(R.string.quizResultStory2);
+                _textStory.setText(string.quizResultStory2);
                 break;
             case 3://75-100
-                _textStory.setText(R.string.quizResultStory3);
+                _textStory.setText(string.quizResultStory3);
                 break;
             default://100+
-                _textStory.setText(R.string.quizResultStory4);
+                _textStory.setText(string.quizResultStory4);
                 break;
         }
         _toolbar.setBackgroundColor(uiColor);
@@ -186,7 +191,7 @@ public class QuizResultActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == id.home) {
             onBackPressed();
             return true;
         }

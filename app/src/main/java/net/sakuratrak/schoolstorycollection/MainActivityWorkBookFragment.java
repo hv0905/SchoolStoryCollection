@@ -18,11 +18,21 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 
+import net.sakuratrak.schoolstorycollection.MainActivity.ChangeDisplayModeEventHandler;
+import net.sakuratrak.schoolstorycollection.MainActivity.RequireRefreshEventHandler;
 import net.sakuratrak.schoolstorycollection.QuestionItemAdapter.DataContext;
+import net.sakuratrak.schoolstorycollection.QuestionItemAdapter.FullQuestionItemAdapter;
+import net.sakuratrak.schoolstorycollection.QuestionItemAdapter.SimpleQuestionItemAdapter;
+import net.sakuratrak.schoolstorycollection.R.array;
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo.DbHelper;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import java.sql.SQLException;
@@ -33,6 +43,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -73,8 +84,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private RecycleViewDivider _mainDivider;
     private int _multiCount = 0;
     private boolean _multiShowed = false;
-    private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
-    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
+    private final RequireRefreshEventHandler _refreshEvent = this::refreshList;
+    private final ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
     //endregion
 
     public Runnable getNotifyToUpdate() {
@@ -89,22 +100,22 @@ public final class MainActivityWorkBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        _root = (ConstraintLayout) inflater.inflate(R.layout.fragment_main_activity_workbook, container, false);
+        _root = (ConstraintLayout) inflater.inflate(layout.fragment_main_activity_workbook, container, false);
 
-        _itemList = _root.findViewById(R.id.itemList);
-        _addItemBtn = _root.findViewById(R.id.addItemBtn);
+        _itemList = _root.findViewById(id.itemList);
+        _addItemBtn = _root.findViewById(id.addItemBtn);
 
-        _addItem_singleChoice = _root.findViewById(R.id.addItem_singleChoice);
-        _addItem_multiChoice = _root.findViewById(R.id.addItem_multiChoice);
-        _addItem_editableFill = _root.findViewById(R.id.addItem_editableFill);
-        _addItem_fill = _root.findViewById(R.id.addItem_fill);
-        _addItem_answer = _root.findViewById(R.id.addItem_answer);
-        _multiActionBar = _root.findViewById(R.id.multiActionBar);
-        _multiQuizBtn = _root.findViewById(R.id.multiQuizBtn);
-        _multiMoreBtn = _root.findViewById(R.id.multiMoreBtn);
-        _multiQuizBtnText = _root.findViewById(R.id.multiQuizBtnText);
-        _emptyNotify = _root.findViewById(R.id.emptyNotify);
-        _workbookEmptyNotice = _root.findViewById(R.id.workbookEmptyNotice);
+        _addItem_singleChoice = _root.findViewById(id.addItem_singleChoice);
+        _addItem_multiChoice = _root.findViewById(id.addItem_multiChoice);
+        _addItem_editableFill = _root.findViewById(id.addItem_editableFill);
+        _addItem_fill = _root.findViewById(id.addItem_fill);
+        _addItem_answer = _root.findViewById(id.addItem_answer);
+        _multiActionBar = _root.findViewById(id.multiActionBar);
+        _multiQuizBtn = _root.findViewById(id.multiQuizBtn);
+        _multiMoreBtn = _root.findViewById(id.multiMoreBtn);
+        _multiQuizBtnText = _root.findViewById(id.multiQuizBtnText);
+        _emptyNotify = _root.findViewById(id.emptyNotify);
+        _workbookEmptyNotice = _root.findViewById(id.workbookEmptyNotice);
 
         _addItem_singleChoice.setOnClickListener(v -> onAddItem(QuestionType.SINGLE_CHOICE));
 
@@ -127,23 +138,23 @@ public final class MainActivityWorkBookFragment extends Fragment {
             //invoke quiz
             Intent intent = new Intent(getActivity(), QuizActivity.class);
             intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
-            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, getString(R.string.customQuiz));
+            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, getString(string.customQuiz));
             intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, idList);
             startActivityForResult(intent, REQUEST_QUIZ);
 
         });
 
         _multiMoreBtn.setOnClickListener(v ->
-                new AlertDialog.Builder(getContext())
-                        .setItems(R.array.question_multi_options, (dialog, which) -> {
+                new Builder(getContext())
+                        .setItems(array.question_multi_options, (dialog, which) -> {
                             dialog.dismiss();
                             switch (which) {
                                 case 0:
                                     //归档
-                                    new AlertDialog.Builder(getContext())
+                                    new Builder(getContext())
                                             .setMessage(String.format(Locale.US,"真的归档/取消归档%d道错题吗？",_multiCount))
-                                            .setTitle(R.string.confirmMultiHideTitle)
-                                            .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                            .setTitle(string.confirmMultiHideTitle)
+                                            .setPositiveButton(string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
                                                     if (dc.checked) {
@@ -157,16 +168,16 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                                 }
                                                 getParent().requireRefresh();
                                             })
-                                            .setNegativeButton(R.string.cancel,null)
+                                            .setNegativeButton(string.cancel,null)
                                             .show();
 
                                     break;
                                 case 1:
                                     //删除
-                                    new AlertDialog.Builder(getContext())
+                                    new Builder(getContext())
                                             .setMessage(String.format(Locale.US,"真的删除%d道错题吗？",_multiCount))
-                                            .setTitle(R.string.confirmMultiRmTitle)
-                                            .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                            .setTitle(string.confirmMultiRmTitle)
+                                            .setPositiveButton(string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
                                                     if (dc.checked) {
@@ -179,13 +190,13 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                                 }
                                                 getParent().requireRefresh();
                                             })
-                                            .setNegativeButton(R.string.cancel,null)
+                                            .setNegativeButton(string.cancel,null)
                                             .show();
                                     break;
                             }
                         })
-                        .setPositiveButton(R.string.cancel, null)
-                        .setNegativeButton(R.string.unselectAll, (dialog, which) -> {
+                        .setPositiveButton(string.cancel, null)
+                        .setNegativeButton(string.unselectAll, (dialog, which) -> {
                             for (DataContext dc :
                                     _displayContexts) {
                                 dc.checked = false;
@@ -195,7 +206,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                             updateMulti(false);
                         })
                         .setTitle(String.format(Locale.US, "已选择%d题", _multiCount))
-                        .setIcon(R.drawable.ic_done_all_black_24dp)
+                        .setIcon(drawable.ic_done_all_black_24dp)
                         .show()
         );
 
@@ -239,7 +250,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         if (_displayContexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
             _emptyNotify.setText((getParent()._questionFilterDialog != null && getParent()._questionFilterDialog.isFilterActive())
-                    ? R.string.filterEmptyUi : R.string.workbookEmptyUi);
+                    ? string.filterEmptyUi : string.workbookEmptyUi);
         } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
         }
@@ -262,7 +273,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             if (type != null && type.size() == 0) type = null;
         }
 
-        QuestionInfo.DbHelper mgr = new QuestionInfo.DbHelper(
+        DbHelper mgr = new DbHelper(
                 DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         try {
             _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
@@ -310,7 +321,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
             //OK,加入列表
             final int currentDisplayId = displayId++;
             DataContext dc = new DataContext(info.getTitle(),
-                    UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(R.string.emptyUnit),
+                    UiHelper.defaultFormat.format(info.getAuthorTime()), info.getUnit() != null ? info.getUnit().getName() : getString(string.emptyUnit),
                     Uri.fromFile(AppMaster.getThumbFile(getContext(), info.getQuestionImage()[0])),
                     info.getDifficulty() / 2f,
                     info.isFavourite(),
@@ -423,8 +434,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     }
 
     private void showOptionMenu(QuestionInfo info, int index) {
-        AlertDialog builder = new AlertDialog.Builder(getContext()).
-                setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
+        AlertDialog builder = new Builder(getContext()).
+                setItems(new String[]{getString(string.view), getString(string.test)}, (dialog, which) -> {
                     switch (which) {
                         case 0:
                             goDetail(info, null, index);
@@ -433,7 +444,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                             goQuiz(info);
                             break;
                     }
-                }).setNegativeButton(R.string.cancel, null).show();
+                }).setNegativeButton(string.cancel, null).show();
     }
 
     private void onAddItem(QuestionType type) {
@@ -446,13 +457,13 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     private void setDisplayMode(boolean second) {
         if (second) {
-            _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
+            _mainAdapter = new SimpleQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
             if (_mainDivider == null)
                 _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
             _itemList.addItemDecoration(_mainDivider);
             updateMulti(false);
         } else {
-            _mainAdapter = new QuestionItemAdapter.FullQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
+            _mainAdapter = new FullQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
             //要隐藏选择框
             updateMulti(true);
             if (_mainDivider != null)

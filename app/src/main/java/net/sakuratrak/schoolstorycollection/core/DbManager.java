@@ -3,6 +3,7 @@ package net.sakuratrak.schoolstorycollection.core;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -40,7 +41,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
         super(context, databaseName, null, DATABASE_VER);
     }
 
-    public DbManager(Context context, String databaseName, SQLiteDatabase.CursorFactory factory, int databaseVersion) {
+    public DbManager(Context context, String databaseName, CursorFactory factory, int databaseVersion) {
         super(context, databaseName, factory, databaseVersion);
     }
 

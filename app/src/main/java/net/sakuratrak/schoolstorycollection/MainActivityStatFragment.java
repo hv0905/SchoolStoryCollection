@@ -7,10 +7,14 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public final class MainActivityStatFragment extends Fragment {
 
@@ -25,9 +29,9 @@ public final class MainActivityStatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        _pager = (ViewPager) inflater.inflate(R.layout.fragment_main_activity_stat, container, false);
+        _pager = (ViewPager) inflater.inflate(layout.fragment_main_activity_stat, container, false);
 
-        _tabLayout = _pager.findViewById(R.id.tab_layout);
+        _tabLayout = _pager.findViewById(id.tab_layout);
 
         //set pages
 
@@ -35,7 +39,7 @@ public final class MainActivityStatFragment extends Fragment {
         _pager.setOffscreenPageLimit(StatFragmentPagerAdapter.PAGE_COUNT);
         _pager.setAdapter(_adapter);
 
-        _pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        _pager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

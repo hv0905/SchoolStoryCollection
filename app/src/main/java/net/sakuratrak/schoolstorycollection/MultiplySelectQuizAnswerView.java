@@ -8,7 +8,10 @@ import android.view.ViewGroup;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.Answer;
+import net.sakuratrak.schoolstorycollection.core.Answer.PlainTextAnswer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
 
 import androidx.annotation.Nullable;
@@ -43,13 +46,13 @@ public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
     }
 
     public void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_multiply_choice, this);
-        _root = findViewById(R.id.rootView);
-        _a = findViewById(R.id.answerA);
-        _b = findViewById(R.id.answerB);
-        _c = findViewById(R.id.answerC);
-        _d = findViewById(R.id.answerD);
-        _confirm = findViewById(R.id.confirmBtn);
+        LayoutInflater.from(getContext()).inflate(layout.element_answer_quiz_multiply_choice, this);
+        _root = findViewById(id.rootView);
+        _a = findViewById(id.answerA);
+        _b = findViewById(id.answerB);
+        _c = findViewById(id.answerC);
+        _d = findViewById(id.answerD);
+        _confirm = findViewById(id.confirmBtn);
 
 
         OnClickListener chipClicked = v -> updateEmptyStatus();
@@ -76,7 +79,7 @@ public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     @Nullable
-    public Answer.PlainTextAnswer getAnswer() {
+    public PlainTextAnswer getAnswer() {
         if (!hasAnswer()) return null;
         SelectableAnswer sa = new SelectableAnswer();
         sa.A = _a.isChecked();

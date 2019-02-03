@@ -5,6 +5,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.Button;
 
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+
 public final class ImageQuizAnswerView extends QuizAnswerView {
 
     Button _confirmBtn;
@@ -33,8 +36,8 @@ public final class ImageQuizAnswerView extends QuizAnswerView {
     }
 
     void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_image, this);
-        _confirmBtn = findViewById(R.id.confirmBtn);
+        LayoutInflater.from(getContext()).inflate(layout.element_answer_quiz_image, this);
+        _confirmBtn = findViewById(id.confirmBtn);
         _confirmBtn.setOnClickListener(v -> onAnswerReport(ANSWER_COMPLETED));
     }
 }

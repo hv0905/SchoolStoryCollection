@@ -1,7 +1,8 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.R.id;
 import android.content.Intent;
-import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
@@ -76,7 +80,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_edit);
+        setContentView(layout.activity_question_edit);
 
         _isEdit = getIntent().hasExtra(EXTRA_CONTEXT_ID);
         if (_isEdit) {
@@ -87,7 +91,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                 _currentSubject = _context.getSubject();
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(this, R.string.sqlExp, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, string.sqlExp, Toast.LENGTH_LONG).show();
             }
         } else {
             _questionType = QuestionType.id2Obj(getIntent().getIntExtra(EXTRA_QUESTION_TYPE_ID, 0));
@@ -125,7 +129,7 @@ public class QuestionEditActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+            getSupportActionBar().setHomeAsUpIndicator(drawable.ic_close_white_24dp);
         }
         //endregion
 
@@ -173,7 +177,7 @@ public class QuestionEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_activity_menu, menu);
+        getMenuInflater().inflate(menu.edit_activity_menu, menu);
         _okButton = menu.findItem(R.id.ok);
         checkState();
         return true;
@@ -214,13 +218,13 @@ public class QuestionEditActivity extends AppCompatActivity {
                     }
                 } catch (SQLException sql) {
                     sql.printStackTrace();
-                    Snackbar.make(_editTitle, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_editTitle, string.sqlExp, Snackbar.LENGTH_LONG).show();
                     return true;
                 }
                 setResult(RESULT_OK);
                 finish();
                 return true;
-            case android.R.id.home:
+            case id.home:
                 setResult(RESULT_CANCELED);
                 finish();
                 return true;
@@ -250,7 +254,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                         }
                     } else {
                         _unit = null;
-                        _unitText.setText(R.string.emptyUnit);
+                        _unitText.setText(string.emptyUnit);
 
                     }
                 }
@@ -262,7 +266,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         _questionImgRecycle.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -20,10 +20,15 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import net.sakuratrak.schoolstorycollection.MainActivity.RequireRefreshEventHandler;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo.DbHelper;
 import net.sakuratrak.schoolstorycollection.core.StatHelper;
 
 import java.sql.SQLException;
@@ -45,7 +50,7 @@ public final class StatFragmentMainFragment extends Fragment {
     private BarChart _dailyQuizChart;
     private PieChart _questionPie;
     private PieChart _difficultyPie;
-    private final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
+    private final RequireRefreshEventHandler _requireRefreshEvent = () -> {
         refreshPies();
         if (isVisible()) {
             animateIn();
@@ -61,23 +66,23 @@ public final class StatFragmentMainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         _created = true;
 
-        _root = (ScrollView) inflater.inflate(R.layout.fragment_stat_fragment_main, container, false);
+        _root = (ScrollView) inflater.inflate(layout.fragment_stat_fragment_main, container, false);
 
-        _dailyQuizChart = _root.findViewById(R.id.dailyQuizChart);
-        _questionPie = _root.findViewById(R.id.questionPie);
-        _difficultyPie = _root.findViewById(R.id.difficultyPie);
+        _dailyQuizChart = _root.findViewById(id.dailyQuizChart);
+        _questionPie = _root.findViewById(id.questionPie);
+        _difficultyPie = _root.findViewById(id.difficultyPie);
 
         UiHelper.applyAppearanceForBar(getContext(), _dailyQuizChart);
-        _questionPie.setNoDataText(getString(R.string.quizDailyEmptyNotce));
+        _questionPie.setNoDataText(getString(string.quizDailyEmptyNotce));
         _dailyQuizChart.getXAxis().setValueFormatter(new DayOfWeekAxisValveFormatter());
 
-        _questionPie.setCenterText(getString(R.string.StatUnitPie));
-        _questionPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
+        _questionPie.setCenterText(getString(string.StatUnitPie));
+        _questionPie.setNoDataText(getString(string.StatAddQuestionNotify));
         UiHelper.applyAppearanceForPie(getActivity(), _questionPie);
 
 
-        _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
-        _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
+        _difficultyPie.setCenterText(getString(string.StatDifficultyPie));
+        _difficultyPie.setNoDataText(getString(string.StatAddQuestionNotify));
         UiHelper.applyAppearanceForPie(getActivity(), _difficultyPie);
 
         _questionPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -137,7 +142,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 if (size <= 0) continue;
                 questionPieEntry.add(new PieEntry(size, item.getName()));
             }
-            PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(R.string.unit));
+            PieDataSet questionPieDataSet = new PieDataSet(questionPieEntry, getString(string.unit));
             UiHelper.applyAppearanceForPieDataSet(getParent(), questionPieDataSet);
             PieData questionPieData = new PieData(questionPieDataSet);
             _questionPie.setData(questionPieData);
@@ -147,7 +152,7 @@ public final class StatFragmentMainFragment extends Fragment {
             //Pie 2
             //==============
 
-            List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getActivity()).
+            List<QuestionInfo> questions = new DbHelper(DbManager.getDefaultHelper(getActivity()).
                     getQuestionInfos()).FindAllWithSubject(getParent().getCurrentSubject());
 
             int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
@@ -163,7 +168,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH, "%.1f★", (i) / 2f)));
             }
 
-            PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
+            PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(string.difficulty));
             UiHelper.applyAppearanceForPieDataSet(getParent(), difficultyPieDataSet);
 
             _difficultyPie.setData(new PieData(difficultyPieDataSet));

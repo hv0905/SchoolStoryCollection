@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TimePicker;
 
-import androidx.preference.DialogPreference;
+import androidx.preference.DialogPreference.TargetFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 
-public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat implements DialogPreference.TargetFragment {
+public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat implements TargetFragment {
     private TimePicker timePicker = null;
 
     @Override

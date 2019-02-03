@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
+import net.sakuratrak.schoolstorycollection.R.string;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -53,14 +58,14 @@ public final class QuizCheckView extends FrameLayout {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_quiz_check, this);
-        _rootView = findViewById(R.id.rootView);
-        _noticeBar = findViewById(R.id.noticeBar);
-        _allRightContent = findViewById(R.id.allRightContent);
-        _halfRightContent = findViewById(R.id.halfRightContent);
-        _noneRightContent = findViewById(R.id.noneRightContent);
-        _quitBtn = findViewById(R.id.quitBtn);
-        _nextBtn = findViewById(R.id.nextBtn);
+        LayoutInflater.from(getContext()).inflate(layout.element_quiz_check, this);
+        _rootView = findViewById(id.rootView);
+        _noticeBar = findViewById(id.noticeBar);
+        _allRightContent = findViewById(id.allRightContent);
+        _halfRightContent = findViewById(id.halfRightContent);
+        _noneRightContent = findViewById(id.noneRightContent);
+        _quitBtn = findViewById(id.quitBtn);
+        _nextBtn = findViewById(id.nextBtn);
 
 
     }
@@ -93,12 +98,12 @@ public final class QuizCheckView extends FrameLayout {
 
     public void setIsDone(boolean isDone) {
         if (isDone) {
-            _nextBtn.setText(R.string.completeQuiz);
-            _nextBtn.setIconResource(R.drawable.ic_done_white_24dp);
+            _nextBtn.setText(string.completeQuiz);
+            _nextBtn.setIconResource(drawable.ic_done_white_24dp);
             _quitBtn.setVisibility(GONE);
         } else {
-            _nextBtn.setText(R.string.nextQuestion);
-            _nextBtn.setIconResource(R.drawable.ic_navigate_next_white_24dp);
+            _nextBtn.setText(string.nextQuestion);
+            _nextBtn.setIconResource(drawable.ic_navigate_next_white_24dp);
             _quitBtn.setVisibility(VISIBLE);
         }
     }

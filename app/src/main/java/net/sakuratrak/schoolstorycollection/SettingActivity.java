@@ -1,14 +1,18 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.R.id;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.R.drawable;
+import net.sakuratrak.schoolstorycollection.R.string;
+import net.sakuratrak.schoolstorycollection.R.xml;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,7 +35,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_setting);
         fragment = new MainSettingFragment();
-        getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(id.content, fragment).commit();
     }
 
     @Override
@@ -48,9 +52,9 @@ public class SettingActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle bundle, String s) {
             if (getArguments() != null) {
                 String key = getArguments().getString("rootKey");
-                setPreferencesFromResource(R.xml.prefenerce_main, key);
+                setPreferencesFromResource(xml.prefenerce_main, key);
             } else {
-                setPreferencesFromResource(R.xml.prefenerce_main, s);
+                setPreferencesFromResource(xml.prefenerce_main, s);
             }
         }
 
@@ -86,10 +90,10 @@ public class SettingActivity extends AppCompatActivity {
                         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intent);
                         } else {
-                            new AlertDialog.Builder(getContext())
+                            new Builder(getContext())
                                     .setMessage("未检测到邮件应用\n请手动发送邮件到mchxfeedback@126.com")
-                                    .setTitle(R.string.feedback)
-                                    .setIcon(R.drawable.ic_info_black_24dp)
+                                    .setTitle(string.feedback)
+                                    .setIcon(drawable.ic_info_black_24dp)
                                     .show();
                         }
                         break;

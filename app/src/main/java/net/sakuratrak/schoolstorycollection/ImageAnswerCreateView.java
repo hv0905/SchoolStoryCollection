@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 
@@ -42,9 +44,9 @@ public final class ImageAnswerCreateView extends AnswerUiCreatorView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_answer, this);
-        _noticeText = findViewById(R.id.noticeText);
-        _answerImage = findViewById(R.id.answerImage);
+        LayoutInflater.from(getContext()).inflate(layout.element_answer_define_answer, this);
+        _noticeText = findViewById(id.noticeText);
+        _answerImage = findViewById(id.answerImage);
 
         _answerImage.setOnItemToggleListener(v -> toggleOnUpdate());
     }

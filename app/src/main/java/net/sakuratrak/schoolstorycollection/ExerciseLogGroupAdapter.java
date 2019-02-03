@@ -3,19 +3,24 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import net.sakuratrak.schoolstorycollection.ExerciseLogGroupAdapter.Holder;
+import net.sakuratrak.schoolstorycollection.R.id;
+import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<ExerciseLogGroupAdapter.Holder> {
+public final class ExerciseLogGroupAdapter extends Adapter<Holder> {
 
     private IListedDataProvidable<DataContext> _context;
 
@@ -26,7 +31,7 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_exercise_log_group, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(layout.adapter_exercise_log_group, parent, false);
         return new Holder(v);
     }
 
@@ -58,7 +63,7 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
         this._context = _context;
     }
 
-    public static class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends ViewHolder {
 
         public final ConstraintLayout _rootView;
         public final TextView _textTitle;
@@ -70,12 +75,12 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            _rootView = itemView.findViewById(R.id.rootView);
-            _textTitle = itemView.findViewById(R.id.textTitle);
-            _textQuestionCount = itemView.findViewById(R.id.textQuestionCount);
-            _textHappenTime = itemView.findViewById(R.id.textHappenTime);
-            _scoreProgressVal = itemView.findViewById(R.id.scoreProgressVal);
-            _scoreProgress = itemView.findViewById(R.id.scoreProgress);
+            _rootView = itemView.findViewById(id.rootView);
+            _textTitle = itemView.findViewById(id.textTitle);
+            _textQuestionCount = itemView.findViewById(id.textQuestionCount);
+            _textHappenTime = itemView.findViewById(id.textHappenTime);
+            _scoreProgressVal = itemView.findViewById(id.scoreProgressVal);
+            _scoreProgress = itemView.findViewById(id.scoreProgress);
         }
     }
 
@@ -84,9 +89,9 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
         public String happenTime;
         public int questionCount;
         public int score;
-        public View.OnClickListener onClick;
+        public OnClickListener onClick;
 
-        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
+        public DataContext(String title, String happenTime, int questionCount, int score, OnClickListener onClick) {
             this.title = title;
             this.happenTime = happenTime;
             this.questionCount = questionCount;
