@@ -142,7 +142,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        _toolbar.inflateMenu(menu.detail_top_options);
+        _toolbar.inflateMenu(R.menu.detail_top_options);
         _showAnswerMenu = _toolbar.getMenu().findItem(id.showAnswerMenu);
         _favouriteMenu = _toolbar.getMenu().findItem(id.favourite);
         _hideMenu = _toolbar.getMenu().findItem(id.hide);

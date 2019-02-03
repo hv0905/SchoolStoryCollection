@@ -61,6 +61,7 @@ public final class UiHelper {
         Description dsc = new Description();
         dsc.setText("");
         bar.setDescription(dsc);
+        bar.getLegend().setEnabled(false);
 
         XAxis xAxis = bar.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);

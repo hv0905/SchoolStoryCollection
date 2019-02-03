@@ -177,7 +177,7 @@ public class QuestionEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(menu.edit_activity_menu, menu);
+        getMenuInflater().inflate(R.menu.edit_activity_menu, menu);
         _okButton = menu.findItem(R.id.ok);
         checkState();
         return true;

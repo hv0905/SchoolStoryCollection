@@ -176,7 +176,7 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(menu.quiz_options, menu);
+        getMenuInflater().inflate(R.menu.quiz_options, menu);
         return true;
     }
 

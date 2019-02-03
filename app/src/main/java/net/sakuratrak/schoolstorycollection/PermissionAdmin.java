@@ -10,7 +10,7 @@ public class PermissionAdmin {
 
 
     public static boolean get(Activity context, String permission, int code) {
-        if (ContextCompat.checkSelfPermission(context, permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(context, new String[]{permission}, code);
             return false;
         } else return true;

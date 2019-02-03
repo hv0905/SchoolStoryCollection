@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(menu.top_options, menu);
+        getMenuInflater().inflate(R.menu.top_options, menu);
         _filterMenu = menu.findItem(id.filter);
         _displayModeToggle = menu.findItem(id.displayModeToggle);
         return true;
