@@ -52,17 +52,24 @@ public final class UiHelper {
         bar.setMaxVisibleValueCount(100);
         bar.setPinchZoom(false);
         bar.setDrawGridBackground(false);
+        bar.setScaleEnabled(false);
+        Description dsc = new Description();
+        dsc.setText("");
+        bar.setDescription(dsc);
+
         XAxis xAxis = bar.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
         YAxis leftAxis = bar.getAxisLeft();
-        leftAxis.setLabelCount(8, false);
+        leftAxis.setDrawGridLines(false);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setSpaceTop(15f);
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
+        YAxis rightAxis = bar.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawLabels(false);
+        rightAxis.setDrawAxisLine(false);
     }
 
     public static int getFlatUiColor(Context context, int id) {

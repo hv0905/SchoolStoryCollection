@@ -68,6 +68,7 @@ public final class StatFragmentMainFragment extends Fragment {
         _difficultyPie = _root.findViewById(R.id.difficultyPie);
 
         UiHelper.applyAppearanceForBar(getContext(), _dailyQuizChart);
+        _questionPie.setNoDataText(getString(R.string.quizDailyEmptyNotce));
         _dailyQuizChart.getXAxis().setValueFormatter(new DayOfWeekAxisValveFormatter());
 
         _questionPie.setCenterText(getString(R.string.StatUnitPie));
@@ -117,7 +118,7 @@ public final class StatFragmentMainFragment extends Fragment {
                 BarEntry entry = new BarEntry(i + 1, last7Days[i]);
                 dailyBarEntry.add(entry);
             }
-            BarDataSet dailyQuizDataSet = new BarDataSet(dailyBarEntry, "天");
+            BarDataSet dailyQuizDataSet = new BarDataSet(dailyBarEntry, "");
             UiHelper.applyAppearanceForBarDataSet(getContext(), dailyQuizDataSet);
             BarData dqd = new BarData(dailyQuizDataSet);
             _dailyQuizChart.setData(dqd);
