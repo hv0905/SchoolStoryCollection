@@ -1,8 +1,12 @@
 package net.sakuratrak.schoolstorycollection;
 
+import net.sakuratrak.schoolstorycollection.core.AppHelper;
+
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.Calendar;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +15,10 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void test_dayDelta() {
+        Calendar cd = Calendar.getInstance();
+        cd.set(2018, 1, 375);
+        int result = AppHelper.getDeltaDay(Calendar.getInstance(), cd);
+        assertEquals(result, 8);
     }
 }

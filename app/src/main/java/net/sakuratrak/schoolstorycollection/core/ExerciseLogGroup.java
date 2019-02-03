@@ -125,7 +125,7 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
             _base = DbManager.getDefaultHelper(context).getExerciseLogGroups();
         }
 
-        public List<ExerciseLogGroup> FindAllWithSubject(LearningSubject subject) throws SQLException {
+        public List<ExerciseLogGroup> findAllWithSubject(LearningSubject subject) throws SQLException {
             return _base.queryForEq("subjectId", subject.getId());
         }
 

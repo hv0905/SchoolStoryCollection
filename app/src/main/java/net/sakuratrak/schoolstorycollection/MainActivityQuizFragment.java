@@ -115,7 +115,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _logContext.clear();
         try {
 
-            List<ExerciseLogGroup> datas = new ExerciseLogGroup.DbHelper(getContext()).FindAllWithSubject(getParent().getCurrentSubject());
+            List<ExerciseLogGroup> datas = new ExerciseLogGroup.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject());
 
             for (int i = datas.size() - 1; i >= 0; i--) {
                 ExerciseLogGroup data = datas.get(i);

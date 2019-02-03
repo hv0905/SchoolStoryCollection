@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import java.util.Calendar;
 import java.util.List;
 
 public final class AppHelper {
@@ -15,6 +16,26 @@ public final class AppHelper {
 
     public static String[] string2StringArray(String str) {
         return str.split(";");
+    }
+
+    public static int getDeltaDay(Calendar first, Calendar second) {
+        Calendar early;
+        Calendar late;
+        if (first.before(second)) {
+            early = first;
+            late = second;
+        } else {
+            early = second;
+            late = first;
+        }
+
+        int dayEarly = early.get(Calendar.DAY_OF_YEAR);
+        int dayLate = late.get(Calendar.DAY_OF_YEAR);
+        if (early.get(Calendar.YEAR) < late.get(Calendar.YEAR)) {
+            dayLate += 365;
+        }
+        return dayLate - dayEarly;
+
     }
 
 }

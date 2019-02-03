@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -17,11 +21,14 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import net.sakuratrak.schoolstorycollection.core.DbManager;
+import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.StatHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,13 +38,14 @@ import androidx.fragment.app.Fragment;
 
 public final class StatFragmentMainFragment extends Fragment {
 
-    public static final String TAG = "StatFragment_Main";
+    private static final String TAG = "StatFragment_Main";
 
-    boolean _created;
-    ScrollView _root;
-    PieChart _questionPie;
-    PieChart _difficultyPie;
-    final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
+    private boolean _created;
+    private ScrollView _root;
+    private BarChart _dailyQuizChart;
+    private PieChart _questionPie;
+    private PieChart _difficultyPie;
+    private final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
         refreshPies();
         if (isVisible()) {
             animateIn();
@@ -54,8 +62,13 @@ public final class StatFragmentMainFragment extends Fragment {
         _created = true;
 
         _root = (ScrollView) inflater.inflate(R.layout.fragment_stat_fragment_main, container, false);
+
+        _dailyQuizChart = _root.findViewById(R.id.dailyQuizChart);
         _questionPie = _root.findViewById(R.id.questionPie);
         _difficultyPie = _root.findViewById(R.id.difficultyPie);
+
+        UiHelper.applyAppearanceForBar(getContext(), _dailyQuizChart);
+        _dailyQuizChart.getXAxis().setValueFormatter(new DayOfWeekAxisValveFormatter());
 
         _questionPie.setCenterText(getString(R.string.StatUnitPie));
         _questionPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
@@ -91,9 +104,29 @@ public final class StatFragmentMainFragment extends Fragment {
         super.onDestroyView();
     }
 
-    public void refreshPies() {
+    private void refreshPies() {
         try {
-            List<LearningUnitInfo> units = new LearningUnitInfo.LearningUnitInfoDaoHelper(
+            //===============
+            //Bar 1
+            //===============
+
+            int[] last7Days = StatHelper.getLastNDaysQuizCount(new ExerciseLogGroup.DbHelper(getContext()), 7, getParent().getCurrentSubject());
+            ArrayList<BarEntry> dailyBarEntry = new ArrayList<>();
+            Calendar currentTime = Calendar.getInstance();
+            for (int i = 0; i < last7Days.length; i++) {
+                BarEntry entry = new BarEntry(i + 1, last7Days[i]);
+                dailyBarEntry.add(entry);
+            }
+            BarDataSet dailyQuizDataSet = new BarDataSet(dailyBarEntry, "天");
+            UiHelper.applyAppearanceForBarDataSet(getContext(), dailyQuizDataSet);
+            BarData dqd = new BarData(dailyQuizDataSet);
+            _dailyQuizChart.setData(dqd);
+
+            //===============
+            //Pie 1
+            //===============
+
+            List<LearningUnitInfo> units = new LearningUnitInfo.DbHelper(
                     DbManager.getDefaultHelper(getActivity()).getLearningUnitInfos())
                     .findBySubject(getParent().getCurrentSubject());
 
@@ -109,9 +142,12 @@ public final class StatFragmentMainFragment extends Fragment {
             _questionPie.setData(questionPieData);
 
 
-            List<QuestionInfo> questions = new QuestionInfo.QuestionInfoDaoManager(DbManager.getDefaultHelper(getActivity()).
-                    getQuestionInfos()).FindAllWithSubject(getParent().getCurrentSubject());
+            //==============
+            //Pie 2
+            //==============
 
+            List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getActivity()).
+                    getQuestionInfos()).FindAllWithSubject(getParent().getCurrentSubject());
 
             int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
 
@@ -138,7 +174,7 @@ public final class StatFragmentMainFragment extends Fragment {
 
     }
 
-    public MainActivity getParent() {
+    private MainActivity getParent() {
         return (MainActivity) getActivity();
     }
 
@@ -156,8 +192,9 @@ public final class StatFragmentMainFragment extends Fragment {
         }
     }
 
-    public void animateIn() {
+    private void animateIn() {
         if (!isAdded()) return;
+        _dailyQuizChart.animateY(1000, Easing.EaseInOutQuad);
         _questionPie.animateY(1000, Easing.EaseInOutQuad);
         _difficultyPie.animateY(1000, Easing.EaseInOutQuad);
     }

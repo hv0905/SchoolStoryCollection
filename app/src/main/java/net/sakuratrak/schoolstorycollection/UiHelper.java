@@ -7,6 +7,9 @@ import android.graphics.Color;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.PieDataSet;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +33,11 @@ public final class UiHelper {
 
     }
 
+    public static void applyAppearanceForBarDataSet(Context context, BarDataSet dataSet) {
+        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setColors(getFlatUiColors(context));
+    }
+
     public static void applyAppearanceForPie(Context context, PieChart pie) {
         pie.setRotationEnabled(false);
         pie.setCenterTextSize(16);
@@ -41,6 +49,19 @@ public final class UiHelper {
     }
 
     public static void applyAppearanceForBar(Context context, BarChart bar) {
+        bar.setMaxVisibleValueCount(100);
+        bar.setPinchZoom(false);
+        bar.setDrawGridBackground(false);
+        XAxis xAxis = bar.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setLabelCount(7);
+        YAxis leftAxis = bar.getAxisLeft();
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
     }
 
