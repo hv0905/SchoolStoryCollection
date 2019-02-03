@@ -171,6 +171,7 @@
     <string name="newUnitTitle">创建单元</string>
     <string name="done">完成</string>
     <string name="quizDailyEmptyNotce">你这个星期好像还没做过题...</string>
+    <string name="chartQuizName">最近一周的小测记录</string>
 
 
     <string-array name="learning_subjects">

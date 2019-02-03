@@ -8,11 +8,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/dailyQuizChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_margin="32dp" />
+            android:layout_marginStart="@dimen/ui_margin_ularge"
+            android:layout_marginEnd="@dimen/ui_margin_ularge"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/chartQuizName"
+            style="@style/textValue"
+            />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/questionPie"

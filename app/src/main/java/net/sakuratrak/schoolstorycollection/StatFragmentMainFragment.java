@@ -66,7 +66,7 @@ public final class StatFragmentMainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         _created = true;
 
-        _root = (ScrollView) inflater.inflate(layout.fragment_stat_fragment_main, container, false);
+        _root = (ScrollView) inflater.inflate(R.layout.fragment_stat_fragment_main, container, false);
 
         _dailyQuizChart = _root.findViewById(id.dailyQuizChart);
         _questionPie = _root.findViewById(id.questionPie);

@@ -27,7 +27,6 @@ import com.zzhoujay.markdown.MarkDown;
 
 import net.sakuratrak.schoolstorycollection.R.drawable;
 import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
@@ -92,7 +91,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_question_detail);
+        setContentView(R.layout.activity_question_detail);
 
         _appBar = findViewById(id.app_bar);
         _toolbar = findViewById(id.toolbar);

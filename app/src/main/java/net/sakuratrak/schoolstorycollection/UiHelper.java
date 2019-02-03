@@ -14,6 +14,7 @@ import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieDataSet.ValuePosition;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 
 import net.sakuratrak.schoolstorycollection.R.color;
 
@@ -41,6 +42,8 @@ public final class UiHelper {
     public static void applyAppearanceForBarDataSet(Context context, BarDataSet dataSet) {
         dataSet.setValueTextColor(Color.BLACK);
         dataSet.setColors(getFlatUiColors(context));
+        dataSet.setValueTextSize(16);
+        dataSet.setValueFormatter(new DefaultValueFormatter(0));
     }
 
     public static void applyAppearanceForPie(Context context, PieChart pie) {
@@ -71,7 +74,8 @@ public final class UiHelper {
         YAxis leftAxis = bar.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        leftAxis.setTextSize(16);
+        leftAxis.setAxisMinimum(0f);
         YAxis rightAxis = bar.getAxisRight();
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawLabels(false);
