@@ -69,7 +69,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     @DatabaseField
     private boolean favourite;
 
-    @DatabaseField()
+    @DatabaseField
     private boolean hidden;
 
     //endregion
@@ -91,6 +91,48 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
         info.setQuestionImage(new ArrayList<>());
         return info;
     }
+
+    //region some stat
+
+
+    /**
+     * 计算这题的掌握程度,数值越大越好
+     * 如果为-1,那么需要更多的小测
+     * @return 计算这题的掌握程度,数值越大越好
+     */
+    public int computeReviewValue(){
+        int[] lastNScore = getLastNScore(5);
+        if(lastNScore == null) return -1;
+
+        int head = 0,end = 4;
+        int headM = 0,endM = 0;
+        while(head < end){
+            headM+=lastNScore[head];
+            endM += lastNScore[end];
+            head++;
+            end--;
+        }
+        int deltaM = Integer.compare(endM, headM);
+        double avg = MathHelper.calcAvg(lastNScore);
+        double vari = MathHelper.calcVariance(avg,lastNScore);
+        return (int) (avg * (1 + (deltaM * (vari / 1000d))));
+    }
+
+    @Nullable
+    public int[] getLastNScore(int n){
+        int[] lastN = new int[n];
+        int size = exerciseLogs.size();
+        if(size < n) return null;
+        ArrayList<ExerciseLog> exerciseLogs = new ArrayList<>(this.exerciseLogs);
+        for (int i = 0;i<n;i++){
+            lastN[i] = exerciseLogs.get(size - (n - i)).getCorrectRatio();
+        }
+        return lastN;
+    }
+
+    //endregion
+
+
 
     public String getTitle() {
         return title;
