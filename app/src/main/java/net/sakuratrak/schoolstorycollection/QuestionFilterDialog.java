@@ -2,21 +2,16 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.widget.Switch;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
-import net.sakuratrak.schoolstorycollection.R.drawable;
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
-import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
-import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo.DbHelper;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
 import java.sql.SQLException;
@@ -24,18 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 
 public final class QuestionFilterDialog {
 
     public static final String TAG = "filter_dialog";
 
     private static final int[] QUESTION_TYPE_CHIP_IDS = new int[]{
-            id.chipSingleChoice,
-            id.chipMultiChoice,
-            id.chipEditableFill,
-            id.chipFill,
-            id.chipAnswer,
+            R.id.chipSingleChoice,
+            R.id.chipMultiChoice,
+            R.id.chipEditableFill,
+            R.id.chipFill,
+            R.id.chipAnswer,
     };
 
     private AlertDialog _dialog;
@@ -63,25 +57,25 @@ public final class QuestionFilterDialog {
     }
 
     public void showDialog(Context context) {
-        _dialog = new Builder(context)
-                .setView(layout.dialog_question_filter)
-                .setIcon(drawable.ic_filter_list_black_24dp)
-                .setPositiveButton(string.confirm, (dialog, which) -> dialogClosed())
-                .setNegativeButton(string.reset, (dialog, which) -> {
+        _dialog = new AlertDialog.Builder(context)
+                .setView(R.layout.dialog_question_filter)
+                .setIcon(R.drawable.ic_filter_list_black_24dp)
+                .setPositiveButton(R.string.confirm, (dialog, which) -> dialogClosed())
+                .setNegativeButton(R.string.reset, (dialog, which) -> {
                     resetDialog();
                     dialogClosed();
                 })
                 .setOnCancelListener(dialog -> dialogClosed())
-                .setTitle(string.filterTitle)
+                .setTitle(R.string.filterTitle)
                 .show();
         _dialog.setCanceledOnTouchOutside(false);
         //开始初始化控件
 
 
-        _searchText = _dialog.findViewById(id.searchText);
-        _hiddenSwitch = _dialog.findViewById(id.hiddenSwitch);
-        _unitChips = _dialog.findViewById(id.unitChips);
-        _questionTypeGroup = _dialog.findViewById(id.questionTypeGroup);
+        _searchText = _dialog.findViewById(R.id.searchText);
+        _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
+        _unitChips = _dialog.findViewById(R.id.unitChips);
+        _questionTypeGroup = _dialog.findViewById(R.id.questionTypeGroup);
 
         for (int i = 0; i < QUESTION_TYPE_CHIP_IDS.length; i++) {
             final int finalI = i;
@@ -107,20 +101,20 @@ public final class QuestionFilterDialog {
         _unitChips.removeAllViews();
 
         try {
-            List<LearningUnitInfo> units = new DbHelper(DbManager.getDefaultHelper(context))
+            List<LearningUnitInfo> units = new LearningUnitInfo.DbHelper(DbManager.getDefaultHelper(context))
                     .findBySubject(_subject);
             LayoutInflater lf = _dialog.getLayoutInflater();
             for (int i = units.size() - 1; i >= 0; i--) {
                 final LearningUnitInfo unit = units.get(i);
-                Chip ch = (Chip) lf.inflate(layout.elements_unit_choose_chip, _unitChips, false);
+                Chip ch = (Chip) lf.inflate(R.layout.elements_unit_choose_chip, _unitChips, false);
                 ch.setText(unit.getName());
-                ch.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                ch.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 if (_selectedUnitIds.contains(unit.getId())) {
                     ch.setChecked(true);
                 } else {
                     ch.setChecked(false);
                 }
-                _unitChips.addView(ch, 0, new ChipGroup.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                _unitChips.addView(ch, 0, new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 ch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
                         _selectedUnitIds.add(unit.getId());

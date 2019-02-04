@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @DatabaseTable(tableName = "ExerciseLog")
 public class ExerciseLog implements Serializable {

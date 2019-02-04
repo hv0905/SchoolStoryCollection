@@ -1,26 +1,20 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.content.res.ColorStateList;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.sakuratrak.schoolstorycollection.ExerciseLogAdapter.Holder;
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ExerciseLogAdapter extends Adapter<Holder> {
+public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.Holder> {
 
     private IListedDataProvidable<DataContext> _context;
 
@@ -31,7 +25,7 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(layout.adapter_exercise_log, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_exercise_log, parent, false);
         return new Holder(v);
     }
 
@@ -48,7 +42,7 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
                                 , current.Score)));
         holder._scoreProgressVal.setText(String.valueOf(current.Score));
         holder._rootView.setOnClickListener(current.onClick);
-        if (VERSION.SDK_INT >= VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder._scoreProgress.setProgress(current.Score, false);
         } else {
             holder._scoreProgress.setProgress(current.Score);
@@ -69,7 +63,7 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
         this._context = _context;
     }
 
-    public static final class Holder extends ViewHolder {
+    public static final class Holder extends RecyclerView.ViewHolder {
 
         public final ConstraintLayout _rootView;
         public final TextView _questionId;
@@ -80,12 +74,12 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
 
         public Holder(@NonNull View itemView) {
             super(itemView);
-            _rootView = itemView.findViewById(id.rootView);
-            _questionId = itemView.findViewById(id.questionId);
-            _title = itemView.findViewById(id.title);
-            _unit = itemView.findViewById(id.unit);
-            _scoreProgress = itemView.findViewById(id.scoreProgress);
-            _scoreProgressVal = itemView.findViewById(id.scoreProgressVal);
+            _rootView = itemView.findViewById(R.id.rootView);
+            _questionId = itemView.findViewById(R.id.questionId);
+            _title = itemView.findViewById(R.id.title);
+            _unit = itemView.findViewById(R.id.unit);
+            _scoreProgress = itemView.findViewById(R.id.scoreProgress);
+            _scoreProgressVal = itemView.findViewById(R.id.scoreProgressVal);
         }
     }
 
@@ -94,7 +88,7 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
         public String Name;
         public String Unit;
         public int Score;
-        public OnClickListener onClick;
+        public View.OnClickListener onClick;
 
         public DataContext(int id, String name, String unit, int score) {
             Id = id;
@@ -103,7 +97,7 @@ public class ExerciseLogAdapter extends Adapter<Holder> {
             Score = score;
         }
 
-        public DataContext(int id, String name, String unit, int score, OnClickListener onClick) {
+        public DataContext(int id, String name, String unit, int score, View.OnClickListener onClick) {
             Id = id;
             Name = name;
             Unit = unit;

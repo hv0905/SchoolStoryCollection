@@ -2,17 +2,13 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
@@ -20,11 +16,10 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import androidx.recyclerview.widget.RecyclerView;
 
 
-public abstract class UnitDisplayAdapter extends Adapter {
+public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
 
     protected IListedDataProvidable<DataContext> _dataContext;
 
@@ -60,11 +55,11 @@ public abstract class UnitDisplayAdapter extends Adapter {
         @NonNull
         @Override
         public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new Holder(LayoutInflater.from(parent.getContext()).inflate(layout.adapter_simple_unit, parent, false));
+            return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_simple_unit, parent, false));
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             DataContext current = _dataContext.get(position);
             Holder viewHolder = (Holder) holder;
             viewHolder._txtTitle.setText(current.Title);
@@ -81,7 +76,7 @@ public abstract class UnitDisplayAdapter extends Adapter {
             });
         }
 
-        public static final class Holder extends ViewHolder {
+        public static final class Holder extends RecyclerView.ViewHolder {
 
             public View _root;
             public TextView _txtTitle;
@@ -93,11 +88,11 @@ public abstract class UnitDisplayAdapter extends Adapter {
             public Holder(@NonNull View itemView) {
                 super(itemView);
                 _root = itemView;
-                _txtTitle = _root.findViewById(id.txtTitle);
-                _txtCount = _root.findViewById(id.txtCount);
-                _multiCheckbox = _root.findViewById(id.multiCheckbox);
-                _txtQuiz = _root.findViewById(id.txtQuiz);
-                _txtCount = _root.findViewById(id.txtCount);
+                _txtTitle = _root.findViewById(R.id.txtTitle);
+                _txtCount = _root.findViewById(R.id.txtCount);
+                _multiCheckbox = _root.findViewById(R.id.multiCheckbox);
+                _txtQuiz = _root.findViewById(R.id.txtQuiz);
+                _txtCount = _root.findViewById(R.id.txtCount);
             }
         }
     }
@@ -111,12 +106,12 @@ public abstract class UnitDisplayAdapter extends Adapter {
         @NonNull
         @Override
         public Holder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-            return new Holder(LayoutInflater.from(parent.getContext()).inflate(layout.adapter_unit, parent, false));
+            return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_unit, parent, false));
 
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
             DataContext current = _dataContext.get(i);
             Holder viewHolder = (Holder) holder;
             viewHolder._valTitle.setText(current.Title);
@@ -133,13 +128,13 @@ public abstract class UnitDisplayAdapter extends Adapter {
 
 
             if (current.requireMoreRecord) {
-                viewHolder._warningTxt.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+                viewHolder._warningTxt.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             } else {
                 viewHolder._warningTxt.setHeight(0);
             }
         }
 
-        public static final class Holder extends ViewHolder {
+        public static final class Holder extends RecyclerView.ViewHolder {
             private final View _root;
             private final ConstraintLayout _unitMainInfo;
             private final TextView _valTitle;
@@ -156,28 +151,28 @@ public abstract class UnitDisplayAdapter extends Adapter {
             private Holder(View rootView) {
                 super(rootView);
                 _root = rootView;
-                _valTitle = _root.findViewById(id.valTitle);
-                _valCorrectRatio = _root.findViewById(id.valCorrectRatio);
-                _correctRatioBar = _root.findViewById(id.correctRatioBar);
-                _valQuizCount = _root.findViewById(id.valQuizCount);
-                _warningTxt = _root.findViewById(id.warningTxt);
-                _valQuestionCount = _root.findViewById(id.valQuestionCount);
-                _valQuestionRatio = _root.findViewById(id.valQuestionRatio);
-                _questionRatioBar = _root.findViewById(id.questionRatioBar);
-                _frame = _root.findViewById(id.frame);
-                _unitMainInfo = _root.findViewById(id.unitMainInfo);
+                _valTitle = _root.findViewById(R.id.valTitle);
+                _valCorrectRatio = _root.findViewById(R.id.valCorrectRatio);
+                _correctRatioBar = _root.findViewById(R.id.correctRatioBar);
+                _valQuizCount = _root.findViewById(R.id.valQuizCount);
+                _warningTxt = _root.findViewById(R.id.warningTxt);
+                _valQuestionCount = _root.findViewById(R.id.valQuestionCount);
+                _valQuestionRatio = _root.findViewById(R.id.valQuestionRatio);
+                _questionRatioBar = _root.findViewById(R.id.questionRatioBar);
+                _frame = _root.findViewById(R.id.frame);
+                _unitMainInfo = _root.findViewById(R.id.unitMainInfo);
             }
 
         }
     }
 
     public static class DataContext {
-        public OnClickListener DetailClicked;
+        public View.OnClickListener DetailClicked;
         public String Title;
         public ConstraintLayout unitMainInfo;
         public boolean Checkable = true;
         public boolean Checked = false;
-        public OnCheckedChangeListener OnChecked;
+        public CompoundButton.OnCheckedChangeListener OnChecked;
         public boolean isHidden;
         //public View.OnClickListener RmClicked;
         protected int QuizCount;
@@ -197,7 +192,7 @@ public abstract class UnitDisplayAdapter extends Adapter {
             this.isHidden = isHidden;
         }
 
-        public DataContext(OnClickListener detailClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
+        public DataContext(View.OnClickListener detailClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
             DetailClicked = detailClicked;
             QuizCount = quizCount;
             QuizCorrectRatio = quizCorrectRatio;

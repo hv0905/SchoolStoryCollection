@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import net.sakuratrak.schoolstorycollection.core.Answer;
-import net.sakuratrak.schoolstorycollection.core.Answer.PlainTextAnswer;
 
 public abstract class CheckableQuizAnswerView extends QuizAnswerView {
 
@@ -24,7 +23,7 @@ public abstract class CheckableQuizAnswerView extends QuizAnswerView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public abstract PlainTextAnswer getAnswer();
+    public abstract Answer.PlainTextAnswer getAnswer();
 
     public abstract void setAnswer(Answer answer);
 

@@ -1,7 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.R.id;
-import android.R.layout;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import net.sakuratrak.schoolstorycollection.R.drawable;
-import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
@@ -24,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -62,33 +57,33 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
 
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(drawable.ic_close_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
         _listMain = findViewById(R.id.listMain);
         _unitEmptyNotice = findViewById(R.id.unitEmptyNotice);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> new Builder(this)
-                .setIcon(drawable.ic_book_black_24dp)
-                .setTitle(string.newUnitTitle)
+        fab.setOnClickListener(view -> new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_book_black_24dp)
+                .setTitle(R.string.newUnitTitle)
                 .setView(R.layout.dialog_add_unit)
-                .setPositiveButton(string.done, (dialog, which) -> {
+                .setPositiveButton(R.string.done, (dialog, which) -> {
                     AlertDialog dg = (AlertDialog) dialog;
                     TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
                     if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
-                        new Builder(getParent())
+                        new AlertDialog.Builder(getParent())
                                 .setMessage("请输入单元名称")
-                                .setTitle(string.error)
-                                .setNegativeButton(string.confirm, null)
-                                .setIcon(drawable.ic_warning_black_24dp)
+                                .setTitle(R.string.error)
+                                .setNegativeButton(R.string.confirm, null)
+                                .setIcon(R.drawable.ic_warning_black_24dp)
                                 .show();
                         return;
                     }
                     try {
                         DbManager.getDefaultHelper(getParent()).getLearningUnitInfos().create(new LearningUnitInfo(tiet.getText().toString().trim(), _currentSubject));
                     } catch (SQLException e) {
-                        Snackbar.make(_listMain, string.sqlExp, Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
                         return;
                     }
                     refreshUnit();
@@ -122,17 +117,17 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
         try {
             _info = DbManager.getDefaultHelper(this).getLearningUnitInfos().queryForEq("subjectId", _currentSubject.getId());
         } catch (SQLException e) {
-            Snackbar.make(_listMain, string.sqlExp, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(_listMain, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
         ArrayList<String> display = new ArrayList<>();
         if (_showNone) {
-            display.add(getString(string.emptyUnit));
+            display.add(getString(R.string.emptyUnit));
         }
         for (LearningUnitInfo item : _info) {
             display.add(item.getName());
         }
-        _listMain.setAdapter(new ArrayAdapter<>(this, layout.simple_expandable_list_item_1, display));
+        _listMain.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, display));
         if (_info.size() == 0) {
             //empty
             _unitEmptyNotice.setVisibility(View.VISIBLE);
@@ -144,7 +139,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case id.home:
+            case android.R.id.home:
                 setResult(RESULT_CANCELED);
                 finish();
         }

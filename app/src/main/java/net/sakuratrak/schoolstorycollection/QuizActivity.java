@@ -6,7 +6,7 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -16,12 +16,7 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.zzhoujay.markdown.MarkDown;
 
-import net.sakuratrak.schoolstorycollection.R.dimen;
-import net.sakuratrak.schoolstorycollection.R.drawable;
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
-import net.sakuratrak.schoolstorycollection.R.string;
-import net.sakuratrak.schoolstorycollection.core.Answer.PlainTextAnswer;
+import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
@@ -35,7 +30,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.appcompat.app.AlertDialog.Builder;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -99,29 +94,29 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_quiz);
+        setContentView(R.layout.activity_quiz);
 
         _autoNext = AppSettingsMaster.getIfQuizAutoNext(this);
 
-        _toolbar = findViewById(id.toolbar);
-        _questionCounter = findViewById(id.questionCounter);
-        _questionName = findViewById(id.questionName);
-        _textQuestionType = findViewById(id.textQuestionType);
-        _questionText = findViewById(id.questionText);
-        _questionImgDisplay = findViewById(id.questionImgDisplay);
-        _answerWorkZone = findViewById(id.answerWorkZone);
-        _answerViewZone = findViewById(id.answerViewZone);
-        _questionHolder = findViewById(id.questionHolder);
-        _questionScroll = findViewById(id.questionScroll);
-        _analysisText = findViewById(id.analysisText);
-        _answerContainer = findViewById(id.answerContainer);
-        _analysisImgDisplay = findViewById(id.analysisImgDisplay);
-        _mainContainer = findViewById(id.mainContainer);
-        _txtTime = findViewById(id.txtTime);
+        _toolbar = findViewById(R.id.toolbar);
+        _questionCounter = findViewById(R.id.questionCounter);
+        _questionName = findViewById(R.id.questionName);
+        _textQuestionType = findViewById(R.id.textQuestionType);
+        _questionText = findViewById(R.id.questionText);
+        _questionImgDisplay = findViewById(R.id.questionImgDisplay);
+        _answerWorkZone = findViewById(R.id.answerWorkZone);
+        _answerViewZone = findViewById(R.id.answerViewZone);
+        _questionHolder = findViewById(R.id.questionHolder);
+        _questionScroll = findViewById(R.id.questionScroll);
+        _analysisText = findViewById(R.id.analysisText);
+        _answerContainer = findViewById(R.id.answerContainer);
+        _analysisImgDisplay = findViewById(R.id.analysisImgDisplay);
+        _mainContainer = findViewById(R.id.mainContainer);
+        _txtTime = findViewById(R.id.txtTime);
 
         setSupportActionBar(_toolbar);
 
-        getSupportActionBar().setHomeAsUpIndicator(drawable.ic_close_white_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getIntent().hasExtra(EXTRA_MODE)) {
@@ -162,13 +157,13 @@ public class QuizActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case id.skip:
-                new Builder(this)
-                        .setTitle(getString(string.confirmSkip))
-                        .setIcon(drawable.ic_warning_black_24dp)
-                        .setMessage(getString(string.confirmSkipMsg))
-                        .setNegativeButton(string.confirm, (dialog, which) -> loadNext())
-                        .setPositiveButton(string.cancel, null).show();
+            case R.id.skip:
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.confirmSkip))
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setMessage(getString(R.string.confirmSkipMsg))
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> loadNext())
+                        .setPositiveButton(R.string.cancel, null).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -200,8 +195,8 @@ public class QuizActivity extends AppCompatActivity {
 
         _quizAnswerContent = _currentContext.getType().getQuizAnswerView(this);
         _quizAnswerContent.setOnAnswerReport((sender, status) -> checkAnswer());
-        FrameLayout.LayoutParams ctLp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        int dp = (int) getResources().getDimension(dimen.ui_margin_mid);
+        FrameLayout.LayoutParams ctLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int dp = (int) getResources().getDimension(R.dimen.ui_margin_mid);
         ctLp.setMargins(dp, dp, dp, dp);
         _quizAnswerContent.setLayoutParams(ctLp);
         _answerWorkZone.removeAllViews();
@@ -222,10 +217,10 @@ public class QuizActivity extends AppCompatActivity {
     public void checkAnswer() {
         Log.d(TAG, "checkAnswer: submit");
         _timer.cancel();
-        if (_currentContext.getAnswer() instanceof PlainTextAnswer) {
+        if (_currentContext.getAnswer() instanceof Answer.PlainTextAnswer) {
             //收集用户答案并检查
-            PlainTextAnswer userAnswer = ((CheckableQuizAnswerView) _quizAnswerContent).getAnswer();
-            float score = ((PlainTextAnswer) _currentContext.getAnswer()).checkAnswer(userAnswer);
+            Answer.PlainTextAnswer userAnswer = ((CheckableQuizAnswerView) _quizAnswerContent).getAnswer();
+            float score = ((Answer.PlainTextAnswer) _currentContext.getAnswer()).checkAnswer(userAnswer);
             //提交记录
             Log.d(TAG, "checkAnswer: score:" + score);
             postRecord((int) (score * 100 + 0.5));
@@ -327,21 +322,21 @@ public class QuizActivity extends AppCompatActivity {
     public void onBackPressed() {
         switch (_state) {
             case STATE_ANSWERING:
-                new Builder(this)
-                        .setIcon(drawable.ic_warning_black_24dp)
-                        .setTitle(string.exitQuizDialogAskTitle)
-                        .setMessage(string.exitQuizDialogAskState0)
-                        .setNegativeButton(string.confirm, (dialog, which) -> exit())
-                        .setPositiveButton(string.cancel, null)
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setTitle(R.string.exitQuizDialogAskTitle)
+                        .setMessage(R.string.exitQuizDialogAskState0)
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> exit())
+                        .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
             case STATE_CHECKING:
-                new Builder(this)
-                        .setIcon(drawable.ic_warning_black_24dp)
-                        .setTitle(string.exitQuizDialogAskTitle)
-                        .setMessage(string.exitQuizDialogAskState1)
-                        .setNegativeButton(string.confirm, (dialog, which) -> exit())
-                        .setPositiveButton(string.cancel, null)
+                new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setTitle(R.string.exitQuizDialogAskTitle)
+                        .setMessage(R.string.exitQuizDialogAskState1)
+                        .setNegativeButton(R.string.confirm, (dialog, which) -> exit())
+                        .setPositiveButton(R.string.cancel, null)
                         .show();
                 break;
             case STATE_POST_CHECKING:

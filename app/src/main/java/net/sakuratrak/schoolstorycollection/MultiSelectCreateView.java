@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 
 import com.google.android.material.chip.Chip;
 
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.SelectableAnswer;
 
@@ -44,11 +42,11 @@ public final class MultiSelectCreateView extends AnswerUiCreatorView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(layout.element_answer_define_multiply_choice, this);
-        a = findViewById(id.a);
-        b = findViewById(id.b);
-        c = findViewById(id.c);
-        d = findViewById(id.d);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_multiply_choice, this);
+        a = findViewById(R.id.a);
+        b = findViewById(R.id.b);
+        c = findViewById(R.id.c);
+        d = findViewById(R.id.d);
 
         OnClickListener listener = v -> toggleOnUpdate();
 

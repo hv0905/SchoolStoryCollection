@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.AttributeSet;
 
-import net.sakuratrak.schoolstorycollection.ImageListAdapter.DataContext;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import cc.shinichi.library.ImagePreview;
-import cc.shinichi.library.ImagePreview.LoadStrategy;
 import cc.shinichi.library.bean.ImageInfo;
 
 public final class ImageDisplayView extends RecyclerView {
@@ -49,11 +47,11 @@ public final class ImageDisplayView extends RecyclerView {
     }
 
     public void refresh() {
-        ArrayList<DataContext> dataContext = _mainAdapter.get_dataContext();
+        ArrayList<ImageListAdapter.DataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
-            DataContext item = new DataContext();
+            ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
             item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(),path));
             final int finalI = i;
             item.imageClicked = v -> imgClick(finalI);
@@ -70,7 +68,7 @@ public final class ImageDisplayView extends RecyclerView {
                 .setIndex(id)
                 .setImageInfoList(getInfoList())
                 .setShowDownButton(true)
-                .setLoadStrategy(LoadStrategy.AlwaysOrigin)
+                .setLoadStrategy(ImagePreview.LoadStrategy.AlwaysOrigin)
                 .setFolderName("DCIM/SchoolStoryCollection")
                 .setScaleLevel(1, 5, 16)
                 .setZoomTransitionDuration(300)

@@ -1,9 +1,9 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.Manifest.permission;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build.VERSION_CODES;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -11,7 +11,7 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog.Builder;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,13 +26,13 @@ public class SplashActivity extends AppCompatActivity {
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN;
 //        decorView.setSystemUiVisibility(uiOptions);
         //需要检查External Storage 访问权限
-        if (PermissionAdmin.get(this, permission.WRITE_EXTERNAL_STORAGE, PERMISSION_EXTERNAL_STORAGE)) {
+        if (PermissionAdmin.get(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_EXTERNAL_STORAGE)) {
             loadApp();
         }
     }
 
 
-    @RequiresApi(api = VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -41,15 +41,15 @@ public class SplashActivity extends AppCompatActivity {
                     //ok
                     loadApp();
                 } else {
-                    if (shouldShowRequestPermissionRationale(permission.WRITE_EXTERNAL_STORAGE)) {
-                        new Builder(this).setTitle("需要内部存储读写权限").setMessage("错题本Story的错题数据存储在手机内部存储空间中,所以需要内部存储空间权限.否则错题本Story无法正常工作.\n点击'确定'给Story酱分配权限吧~").setPositiveButton("确定", (dialog, which) -> {
-                            if (PermissionAdmin.get(this, permission.WRITE_EXTERNAL_STORAGE, PERMISSION_EXTERNAL_STORAGE)) {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        new AlertDialog.Builder(this).setTitle("需要内部存储读写权限").setMessage("错题本Story的错题数据存储在手机内部存储空间中,所以需要内部存储空间权限.否则错题本Story无法正常工作.\n点击'确定'给Story酱分配权限吧~").setPositiveButton("确定", (dialog, which) -> {
+                            if (PermissionAdmin.get(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_EXTERNAL_STORAGE)) {
                                 loadApp();
                             }
                         }).show();
 
                     } else {
-                        new Builder(this).setTitle("权限获取失败").setMessage("抱歉,Story酱真的需要内部存储读取权限才能好好干活喵~\n请到设置中手动开启内部存储读写权限.").setPositiveButton("确定", (dialog, which) -> finish()).show();
+                        new AlertDialog.Builder(this).setTitle("权限获取失败").setMessage("抱歉,Story酱真的需要内部存储读取权限才能好好干活喵~\n请到设置中手动开启内部存储读写权限.").setPositiveButton("确定", (dialog, which) -> finish()).show();
                     }
                 }
                 break;

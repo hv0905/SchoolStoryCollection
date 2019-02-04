@@ -5,14 +5,9 @@ import android.widget.Switch;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import net.sakuratrak.schoolstorycollection.R.drawable;
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
-import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 
 public final class UnitFilterDialog {
 
@@ -34,22 +29,22 @@ public final class UnitFilterDialog {
     }
 
     public void showDialog(Context context) {
-        _dialog = new Builder(context)
-                .setView(layout.dialog_unit_filter)
-                .setIcon(drawable.ic_filter_list_black_24dp)
-                .setPositiveButton(string.confirm, (dialog, which) -> dialogClosed())
-                .setNegativeButton(string.reset, (dialog, which) -> {
+        _dialog = new AlertDialog.Builder(context)
+                .setView(R.layout.dialog_unit_filter)
+                .setIcon(R.drawable.ic_filter_list_black_24dp)
+                .setPositiveButton(R.string.confirm, (dialog, which) -> dialogClosed())
+                .setNegativeButton(R.string.reset, (dialog, which) -> {
                     resetDialog();
                     dialogClosed();
                 })
                 .setOnCancelListener(dialog -> dialogClosed())
-                .setTitle(string.filterTitle)
+                .setTitle(R.string.filterTitle)
                 .show();
         _dialog.setCanceledOnTouchOutside(false);
 
         //init the dialog
-        _searchText = _dialog.findViewById(id.searchText);
-        _hiddenSwitch = _dialog.findViewById(id.hiddenSwitch);
+        _searchText = _dialog.findViewById(R.id.searchText);
+        _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
 
         _searchText.setText(_keyword);
         _hiddenSwitch.setChecked(_isHiddenShown);

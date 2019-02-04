@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.BlankAnswer;
 
@@ -39,8 +37,8 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(layout.element_answer_define_blank, this);
-        _answerText = findViewById(id.answerText);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_define_blank, this);
+        _answerText = findViewById(R.id.answerText);
         _answerText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

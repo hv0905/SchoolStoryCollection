@@ -2,9 +2,7 @@ package net.sakuratrak.schoolstorycollection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -22,13 +20,13 @@ public class AndroidHelper {
      * Generate a ThumbImage without load the original bitmap twice
      */
     public static Bitmap getThumbImg(String src, int maxSize) {
-        Options input = new Options();
+        BitmapFactory.Options input = new BitmapFactory.Options();
         input.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(src, input);
         int maxVal = input.outWidth > input.outHeight ? input.outWidth : input.outHeight;
         double ratio = (double) maxVal / maxSize;
 
-        Options output = new Options();
+        BitmapFactory.Options output = new BitmapFactory.Options();
 
         output.inSampleSize = (int) ratio;
 
@@ -41,7 +39,7 @@ public class AndroidHelper {
         return getThumbImg(src.getAbsolutePath(), maxSize);
     }
 
-    public static boolean saveBitmap2File(File dst, Bitmap src, CompressFormat format, int quality) throws IOException {
+    public static boolean saveBitmap2File(File dst, Bitmap src, Bitmap.CompressFormat format, int quality) throws IOException {
         if (!dst.isFile()) {
             if (!dst.createNewFile()) {
                 return false;
@@ -55,7 +53,7 @@ public class AndroidHelper {
     }
 
     public static boolean saveBitmap2File(File dst, Bitmap src) throws IOException {
-        return saveBitmap2File(dst, src, CompressFormat.PNG, 100);
+        return saveBitmap2File(dst, src, Bitmap.CompressFormat.PNG, 100);
     }
 
 

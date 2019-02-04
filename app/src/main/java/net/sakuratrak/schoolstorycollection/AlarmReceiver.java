@@ -9,17 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.net.Uri;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
+import android.os.Build;
 import android.util.Log;
 
-import net.sakuratrak.schoolstorycollection.R.mipmap;
-import net.sakuratrak.schoolstorycollection.R.raw;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 
 import java.util.Calendar;
 
-import androidx.core.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -58,11 +55,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Log.d(TAG, "alert!!!");
-        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + raw.notify);
+        Uri sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notify);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
                 CharSequence name = "完成错题提醒";
                 String description = "每天提醒你完成错题~\n要修改时间,请到应用设置中修改";
@@ -79,11 +76,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }
 
-        Builder builder = new Builder(context, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle("嗨,别来无恙啊")
                 .setContentText("这是你今日份的练习,请收好~")
                 .setSound(sound)
-                .setSmallIcon(mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true);
 
         Intent resultIntent = new Intent(context, MainActivity.class);

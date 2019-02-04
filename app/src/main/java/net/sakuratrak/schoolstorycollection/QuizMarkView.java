@@ -6,14 +6,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 
 import java.util.Locale;
 
@@ -57,15 +53,15 @@ public final class QuizMarkView extends FrameLayout {
     }
 
     private void init() {
-        _rootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(layout.element_quiz_mark, this);
+        _rootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.element_quiz_mark, this);
 
-        _markA = _rootView.findViewById(id.markA);
-        _markB = _rootView.findViewById(id.markB);
-        _markC = _rootView.findViewById(id.markC);
-        _markD = _rootView.findViewById(id.markD);
-        _doneButton = _rootView.findViewById(id.doneButton);
-        _markBar = _rootView.findViewById(id.markBar);
-        _markBarVal = _rootView.findViewById(id.markBarVal);
+        _markA = _rootView.findViewById(R.id.markA);
+        _markB = _rootView.findViewById(R.id.markB);
+        _markC = _rootView.findViewById(R.id.markC);
+        _markD = _rootView.findViewById(R.id.markD);
+        _doneButton = _rootView.findViewById(R.id.doneButton);
+        _markBar = _rootView.findViewById(R.id.markBar);
+        _markBarVal = _rootView.findViewById(R.id.markBarVal);
 
 
         _markA.setOnClickListener(v -> setScore(100));
@@ -76,7 +72,7 @@ public final class QuizMarkView extends FrameLayout {
 
         _markD.setOnClickListener(v -> setScore(0));
 
-        _markBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        _markBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 updateText();

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
 import net.sakuratrak.schoolstorycollection.core.Answer;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 
@@ -40,8 +38,8 @@ public final class ImageAnswerDisplayView extends AnswerUiDisplayView {
     }
 
     void init() {
-        LayoutInflater.from(getContext()).inflate(layout.element_answer_display_image, this);
-        _root = findViewById(id.imgs);
+        LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_image, this);
+        _root = findViewById(R.id.imgs);
     }
 
     @Override

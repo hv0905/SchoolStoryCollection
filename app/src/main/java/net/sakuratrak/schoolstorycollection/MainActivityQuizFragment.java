@@ -8,16 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import net.sakuratrak.schoolstorycollection.ExerciseLogGroupAdapter.DataContext;
-import net.sakuratrak.schoolstorycollection.MainActivity.RequireRefreshEventHandler;
-import net.sakuratrak.schoolstorycollection.R.array;
-import net.sakuratrak.schoolstorycollection.R.id;
-import net.sakuratrak.schoolstorycollection.R.layout;
-import net.sakuratrak.schoolstorycollection.R.string;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
-import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup.DbHelper;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
@@ -26,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog.Builder;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,8 +43,8 @@ public final class MainActivityQuizFragment extends Fragment {
     //endregion
 
     private ExerciseLogGroupAdapter _mainAdapter;
-    private ArrayList<DataContext> _logContext;
-    private final RequireRefreshEventHandler _update = this::update;
+    private ArrayList<ExerciseLogGroupAdapter.DataContext> _logContext;
+    private final MainActivity.RequireRefreshEventHandler _update = this::update;
 
     public MainActivityQuizFragment() {
         // Required empty public constructor
@@ -62,11 +55,11 @@ public final class MainActivityQuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        _root = (ViewGroup) inflater.inflate(layout.fragment_main_activity_quiz, container, false);
-        _operateButtons = _root.findViewById(id.operateButtons);
-        _quickQuizButton = _root.findViewById(id.quickQuizBtn);
-        _unitQuizButton = _root.findViewById(id.unitQuizBtn);
-        _listLog = _root.findViewById(id.listLog);
+        _root = (ViewGroup) inflater.inflate(R.layout.fragment_main_activity_quiz, container, false);
+        _operateButtons = _root.findViewById(R.id.operateButtons);
+        _quickQuizButton = _root.findViewById(R.id.quickQuizBtn);
+        _unitQuizButton = _root.findViewById(R.id.unitQuizBtn);
+        _listLog = _root.findViewById(R.id.listLog);
         //_buttonTest = _root.findViewById(R.id.buttonTest);
 
         _quickQuizButton.setOnClickListener(v -> {
@@ -122,17 +115,17 @@ public final class MainActivityQuizFragment extends Fragment {
         _logContext.clear();
         try {
 
-            List<ExerciseLogGroup> datas = new DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject());
+            List<ExerciseLogGroup> datas = new ExerciseLogGroup.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject());
 
             for (int i = datas.size() - 1; i >= 0; i--) {
                 ExerciseLogGroup data = datas.get(i);
                 //        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
-                _logContext.add(new DataContext(
+                _logContext.add(new ExerciseLogGroupAdapter.DataContext(
                         data.getDescription(),
                         UiHelper.defaultFormatWithTime.format(data.getHappendTime()),
                         data.getLogs().size(),
                         data.getAvgScore(),
-                        v -> new Builder(getContext()).setItems(array.quiz_log_operate, (dialog, which) -> {
+                        v -> new AlertDialog.Builder(getContext()).setItems(R.array.quiz_log_operate, (dialog, which) -> {
                             switch (which) {
                                 case 0://view
                                     Intent intent = new Intent(getContext(), QuizResultActivity.class);
@@ -157,7 +150,7 @@ public final class MainActivityQuizFragment extends Fragment {
                                     startActivityForResult(intent1, REQUEST_QUIZ);
                                     break;
                             }
-                        }).setNegativeButton(string.cancel, null).show()));
+                        }).setNegativeButton(R.string.cancel, null).show()));
             }
 
             _mainAdapter.notifyDataSetChanged();
