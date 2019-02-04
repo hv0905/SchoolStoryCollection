@@ -98,51 +98,52 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     /**
      * 计算这题的掌握程度,数值越大越好
      * 如果为-1,那么需要更多的小测
-     * @return 计算这题的掌握程度,数值越大越好
+     *
+     * @return 计算这题的掌握程度, 数值越大越好
      */
-    public int computeReviewValue(){
+    public int computeReviewValue() {
         int[] lastNScore = getLastNScore(5);
-        if(lastNScore == null) return -1;
+        if (lastNScore == null) return -1;
 
-        int head = 0,end = 4;
-        int headM = 0,endM = 0;
-        while(head < end){
-            headM+=lastNScore[head];
+        int head = 0, end = 4;
+        int headM = 0, endM = 0;
+        while (++head < --end) {
+            headM += lastNScore[head];
             endM += lastNScore[end];
-            head++;
-            end--;
         }
         int deltaM = Integer.compare(endM, headM);
         double avg = MathHelper.calcAvg(lastNScore);
-        double vari = MathHelper.calcVariance(avg,lastNScore);
-        return (int) (avg * (1 + (deltaM * (vari / 1000d))));
+        double vari = MathHelper.calcVariance(avg, lastNScore);
+        int result = (int) ((avg * (1 + (deltaM * (Math.sqrt(vari) / 100d)))) + 0.5);
+        if (result > 100) result = 100;
+        else if (result < 0) result = 0;
+        return result;
     }
 
     @Nullable
-    public int[] getLastNScore(int n){
+    public int[] getLastNScore(int n) {
         int[] lastN = new int[n];
         int size = exerciseLogs.size();
-        if(size < n) return null;
+        if (size < n) return null;
         ArrayList<ExerciseLog> exerciseLogs = new ArrayList<>(this.exerciseLogs);
-        for (int i = 0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             lastN[i] = exerciseLogs.get(size - (n - i)).getCorrectRatio();
         }
         return lastN;
     }
 
-    public int[] getLastNScoreUnsafe(int n){
-        int[] lastN = new int[n];
+    public int[] getLastNScoreUnsafe(int n) {
         int size = exerciseLogs.size();
-        if(size < n) n = size;
+        if (size < n) n = size;
+        int[] lastN = new int[n];
         ArrayList<ExerciseLog> exerciseLogs = new ArrayList<>(this.exerciseLogs);
-        for (int i = 0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             lastN[i] = exerciseLogs.get(size - (n - i)).getCorrectRatio();
         }
         return lastN;
     }
 
     //endregion
-
 
 
     public String getTitle() {
