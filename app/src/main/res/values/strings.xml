@@ -172,6 +172,8 @@
     <string name="done">完成</string>
     <string name="quizDailyEmptyNotce">你这个星期好像还没做过题...</string>
     <string name="chartQuizName">最近一周的小测记录</string>
+    <string name="titalReviewRatio">错题掌握程度</string>
+    <string name="last5Log">最近5次做题记录</string>
 
 
     <string-array name="learning_subjects">

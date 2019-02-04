@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
 import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieDataSet.ValuePosition;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
@@ -60,6 +62,7 @@ public final class UiHelper {
         bar.setMaxVisibleValueCount(100);
         bar.setPinchZoom(false);
         bar.setDrawGridBackground(false);
+        bar.setDragEnabled(false);
         bar.setScaleEnabled(false);
         Description dsc = new Description();
         dsc.setText("");
@@ -80,6 +83,14 @@ public final class UiHelper {
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawLabels(false);
         rightAxis.setDrawAxisLine(false);
+    }
+
+    public static void applyAppearanceForLine(Context context, LineChart chart){
+
+    }
+
+    public static void applyAppearanceForLineDataSet(Context context, LineDataSet dataSet){
+
     }
 
     public static int getFlatUiColor(Context context, int id) {
