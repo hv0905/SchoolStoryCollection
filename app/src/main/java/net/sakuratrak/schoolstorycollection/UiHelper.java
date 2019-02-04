@@ -86,11 +86,35 @@ public final class UiHelper {
     }
 
     public static void applyAppearanceForLine(Context context, LineChart chart){
-
+        chart.setMaxVisibleValueCount(100);
+        chart.setPinchZoom(false);
+        chart.setDrawGridBackground(false);
+        chart.setDragEnabled(false);
+        chart.setScaleEnabled(false);
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setTextSize(16);
+        leftAxis.setAxisMinimum(0f);
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawLabels(false);
+        rightAxis.setDrawAxisLine(false);
     }
 
     public static void applyAppearanceForLineDataSet(Context context, LineDataSet dataSet){
-
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setCubicIntensity(0.2f);
+        dataSet.setDrawFilled(true);
+        dataSet.setDrawCircles(false);
+        dataSet.setLineWidth(1.8f);
+        dataSet.setCircleRadius(4f);
+        dataSet.setCircleColor(context.getResources().getColor(color.colorPrimary));
+        dataSet.setHighLightColor(context.getResources().getColor(color.colorAccent));
+        dataSet.setColor(context.getResources().getColor(color.colorPrimary));
+        dataSet.setFillColor(context.getResources().getColor(color.colorPrimary));
+        dataSet.setFillAlpha(100);
+        dataSet.setDrawHorizontalHighlightIndicator(false);
     }
 
     public static int getFlatUiColor(Context context, int id) {

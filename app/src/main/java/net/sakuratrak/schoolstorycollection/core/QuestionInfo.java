@@ -130,6 +130,17 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
         return lastN;
     }
 
+    public int[] getLastNScoreUnsafe(int n){
+        int[] lastN = new int[n];
+        int size = exerciseLogs.size();
+        if(size < n) n = size;
+        ArrayList<ExerciseLog> exerciseLogs = new ArrayList<>(this.exerciseLogs);
+        for (int i = 0;i<n;i++){
+            lastN[i] = exerciseLogs.get(size - (n - i)).getCorrectRatio();
+        }
+        return lastN;
+    }
+
     //endregion
 
 

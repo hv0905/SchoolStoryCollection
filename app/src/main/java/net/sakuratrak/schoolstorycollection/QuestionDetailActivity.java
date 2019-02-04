@@ -19,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +40,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -79,6 +84,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private QuestionInfo _context;
     private boolean _edited = false;
     private boolean _hidden = false;
+    private TextView _valReviewRatio;
+    private LineChart _chartQuizLog;
 
     //endregion
 
@@ -108,6 +115,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _valCreateTime = findViewById(id.valCreateTime);
         _valDifficulty = findViewById(id.valDifficulty);
         _valUnit = findViewById(id.valUnit);
+        _valReviewRatio = findViewById(id.valReviewRatio);
+        _chartQuizLog = findViewById(id.chartQuizLog);
 
         setSupportActionBar(_toolbar);
 
@@ -127,6 +136,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         });
 
         _showAnswerButton.setOnClickListener(v -> toggleAnswer());
+        UiHelper.applyAppearanceForLine(this,_chartQuizLog);
 
         //load context
         refresh();
@@ -356,6 +366,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         _questionImgDisplay.setImages(Arrays.asList(_context.getQuestionImage()));
         _analysisImgDisplay.setImages(Arrays.asList(_context.getAnalysisImage()));
+        
+        //stat
+        
+        int stat = _context.computeReviewValue();
+        _valReviewRatio.setText(stat == -1 ? "小测不足5次":String.valueOf(stat));
+
+        ArrayList<Entry> entries = new ArrayList<>();
+        int[] last5 = _context.getLastNScoreUnsafe(5);
+        for (int i = 0; i < last5.length; i++) {
+            entries.add(new Entry(i+1,last5[i]));
+        }
+
+        LineDataSet lds = new LineDataSet(entries,"");
+        UiHelper.applyAppearanceForLineDataSet(this,lds);
+        LineData ld = new LineData(lds);
+        ld.setDrawValues(false);
+        _chartQuizLog.setData(ld);
+        
 
         if (_favouriteMenu != null) {
             _favouriteMenu.setChecked(_context.isFavourite());
