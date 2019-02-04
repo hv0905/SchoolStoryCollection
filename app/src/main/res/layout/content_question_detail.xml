@@ -16,13 +16,13 @@
         android:layout_marginRight="@dimen/ui_margin_mid"
         android:layout_marginBottom="@dimen/ui_margin_ularge"
         android:orientation="vertical">
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--style="@style/textTitle"-->
-        <!--android:text="@string/topic"-->
-        <!--android:drawableStart="@drawable/ic_help_black_24dp"-->
-        <!--/>-->
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/textTitle"
+        android:text="@string/question"
+        android:drawableStart="@drawable/ic_help_black_24dp"
+        />
 
         <include layout="@layout/include_question" />
 
@@ -38,56 +38,120 @@
 
             <include layout="@layout/include_answer_and_analysis" />
 
+        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+        <TextView
+            style="@style/textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_bar_graph_black_24dp"
+            android:text="@string/stat" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
             <TextView
-                style="@style/textTitle"
+                style="@style/textMidTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_bar_graph_black_24dp"
-                android:text="@string/stat" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-
-                <TextView
-                    style="@style/textMidTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_assignment_black_24dp"
-                    android:text="@string/titalReviewRatio"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-
-                <TextView
-                    android:id="@+id/valReviewRatio"
-                    style="@style/textValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:text="85%"
-                    />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chartQuizLog"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:drawableStart="@drawable/ic_assignment_black_24dp"
+                android:text="@string/titalReviewRatio"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 />
+
             <TextView
+                android:id="@+id/valReviewRatio"
                 style="@style/textValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/last5Log"
-                android:layout_gravity="center"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="85%"
                 />
 
-        </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复习建议"
+            style="@style/textMidTitle"
+            android:drawableStart="@drawable/ic_info_black_24dp"
+            android:layout_marginStart="@dimen/ui_margin_mid"
+            />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+            <TextView
+                android:id="@+id/reviewHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reviewRatioHigh"
+                android:drawableStart="@drawable/ic_done_green_64dp"
+                style="@style/textTitle"
+                android:textColor="@color/flat5"
+                android:gravity="center|start"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                />
+            <TextView
+                android:id="@+id/reviewMid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reviewRatioMid"
+                android:drawableStart="@drawable/ic_half_done_orange_64px"
+                style="@style/textTitle"
+                android:gravity="center|start"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:textColor="@color/flat7"
+                />
+            <TextView
+                android:id="@+id/reviewLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reviewRatioLow"
+                android:drawableStart="@drawable/ic_close_red_64dp"
+                style="@style/textTitle"
+                android:gravity="center|start"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:textColor="@color/flat8"
+                />
+            <TextView
+                android:id="@+id/reviewUnknown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reviewRatioUnknown"
+                android:drawableStart="@drawable/ic_blur_on_black_64dp"
+                style="@style/textTitle"
+                android:gravity="center|start"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                />
+        </FrameLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartQuizLog"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            />
+        <TextView
+            style="@style/textValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last5Log"
+            android:layout_gravity="center"
+            />
 
         <TextView
             style="@style/textTitle"
@@ -109,6 +173,7 @@
                 android:text="@string/unit"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 />
 
             <TextView
@@ -162,7 +227,9 @@
                 android:drawableStart="@drawable/ic_star_half_black_24dp"
                 android:text="@string/difficulty"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/valDifficulty"

@@ -28,7 +28,7 @@ public final class MathHelper {
         return calcVariance(calcAvg(vals),vals);
     }
 
-    public static double calcAvg(double[] values){
+    public static double calcAvg(double... values){
         double sum = 0;
         for (double val :
                 values) {
@@ -37,7 +37,7 @@ public final class MathHelper {
         return sum / values.length;
     }
 
-    public static double calcAvg(int[] values){
+    public static double calcAvg(int... values){
         double sum = 0;
         for (int val :
                 values) {

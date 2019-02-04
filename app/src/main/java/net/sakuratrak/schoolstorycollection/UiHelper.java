@@ -119,7 +119,7 @@ public final class UiHelper {
         dataSet.setLineWidth(1.8f);
         dataSet.setCircleRadius(4f);
         dataSet.setCircleColor(context.getResources().getColor(color.colorPrimary));
-        dataSet.setHighLightColor(context.getResources().getColor(color.colorAccent));
+        dataSet.setHighLightColor(context.getResources().getColor(color.transparent));
         dataSet.setColor(context.getResources().getColor(color.colorPrimary));
         dataSet.setFillColor(context.getResources().getColor(color.colorPrimary));
         dataSet.setFillAlpha(100);

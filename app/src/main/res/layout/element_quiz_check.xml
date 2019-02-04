@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableStart="@drawable/ic_baseline_half_check_64px"
+            android:drawableStart="@drawable/ic_half_done_white_64px"
             android:gravity="center|start"
             android:text="@string/halfRight"
             android:textColor="@color/white"

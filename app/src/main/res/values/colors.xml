@@ -7,6 +7,7 @@
     <color name="white">#FFFFFF</color>
     <color name="danger">#e74c3c</color>
     <color name="materialDark">#202124</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="flat1">#5352ed</color>
     <color name="flat2">#8e44ad</color>

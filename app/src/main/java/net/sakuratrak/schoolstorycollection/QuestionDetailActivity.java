@@ -86,6 +86,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private boolean _hidden = false;
     private TextView _valReviewRatio;
     private LineChart _chartQuizLog;
+    private TextView _reviewHigh;
+    private TextView _reviewMid;
+    private TextView _reviewLow;
+    private TextView _reviewUnknown;
 
     //endregion
 
@@ -117,6 +121,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _valUnit = findViewById(id.valUnit);
         _valReviewRatio = findViewById(id.valReviewRatio);
         _chartQuizLog = findViewById(id.chartQuizLog);
+        _reviewHigh = findViewById(id.reviewHigh);
+        _reviewMid = findViewById(id.reviewMid);
+        _reviewLow = findViewById(id.reviewLow);
+        _reviewUnknown = findViewById(id.reviewUnknown);
 
         setSupportActionBar(_toolbar);
 
@@ -257,10 +265,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
                             try {
                                 //delete all images
                                 for (String item_ : _context.getQuestionImage()) {
-//                                    File raw = new File(AppSettingsMaster.getWorkBookImageDir(this), item_);
-//                                    File tmb = new File(AppMaster.getLocalThumbCacheDir(this), item_);
-//                                    if (raw.exists()) raw.delete();
-//                                    if (tmb.exists()) tmb.delete();
                                     AppMaster.removeImgFile(this,item_);
                                     AppMaster.removeThumbFile(this,item_);
                                 }
@@ -371,6 +375,19 @@ public class QuestionDetailActivity extends AppCompatActivity {
         
         int stat = _context.computeReviewValue();
         _valReviewRatio.setText(stat == -1 ? "小测不足5次":String.valueOf(stat));
+        _reviewHigh.setVisibility(View.INVISIBLE);
+        _reviewMid.setVisibility(View.INVISIBLE);
+        _reviewLow.setVisibility(View.INVISIBLE);
+        _reviewUnknown.setVisibility(View.INVISIBLE);
+        if(stat > 80){
+            _reviewHigh.setVisibility(View.VISIBLE);
+        }else if(stat > 40){
+            _reviewMid.setVisibility(View.VISIBLE);
+        }else if(stat == -1){
+            _reviewUnknown.setVisibility(View.VISIBLE);
+        }else{
+            _reviewLow.setVisibility(View.VISIBLE);
+        }
 
         ArrayList<Entry> entries = new ArrayList<>();
         int[] last5 = _context.getLastNScoreUnsafe(5);
