@@ -91,6 +91,15 @@ public final class UiHelper {
         chart.setDrawGridBackground(false);
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
+        chart.getLegend().setEnabled(false);
+        Description dsc = new Description();
+        dsc.setText("");
+        chart.setDescription(dsc);
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        xAxis.setLabelCount(5);
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
@@ -106,7 +115,7 @@ public final class UiHelper {
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.2f);
         dataSet.setDrawFilled(true);
-        dataSet.setDrawCircles(false);
+        dataSet.setDrawCircles(true);
         dataSet.setLineWidth(1.8f);
         dataSet.setCircleRadius(4f);
         dataSet.setCircleColor(context.getResources().getColor(color.colorPrimary));

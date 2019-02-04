@@ -374,15 +374,21 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         ArrayList<Entry> entries = new ArrayList<>();
         int[] last5 = _context.getLastNScoreUnsafe(5);
-        for (int i = 0; i < last5.length; i++) {
-            entries.add(new Entry(i+1,last5[i]));
+        if(last5.length != 0) {
+            //entries.add(new Entry(0, last5[0]));
+            for (int i = 0; i < last5.length; i++) {
+                entries.add(new Entry(i + 1, last5[i]));
+            }
         }
 
         LineDataSet lds = new LineDataSet(entries,"");
         UiHelper.applyAppearanceForLineDataSet(this,lds);
         LineData ld = new LineData(lds);
-        ld.setDrawValues(false);
+        ld.setDrawValues(true);
+        ld.setValueTextColor(R.color.colorAccent);
+        ld.setValueTextSize(18f);
         _chartQuizLog.setData(ld);
+        _chartQuizLog.getXAxis().setLabelCount(last5.length);
         
 
         if (_favouriteMenu != null) {
