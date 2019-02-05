@@ -25,7 +25,7 @@
     <string name="confirmRm_title">删除确认</string>
     <string name="failSaveUnitError">错误:无法保存单元文件</string>
     <string name="questionCount">错题数量</string>
-    <string name="test">测试</string>
+    <string name="test">小测</string>
     <string name="view">查看</string>
     <string name="questionPreview">错题预览</string>
     <string name="subject">科目</string>
@@ -133,7 +133,7 @@
     <string name="noneRight">完全错误</string>
     <string name="completeQuiz">完成小测</string>
     <string name="unitQuiz">单元小测</string>
-    <string name="quickQuiz">快速小测</string>
+    <string name="quickQuiz">智能小测</string>
     <string name="quizResultStory0">你是雷姆上身了吗 ~(´･_･`)ノ⌒凸\n加油啦</string>
     <string name="quizResultStory1">你是认真的吗 ~(´･_･`)ノ⌒凸\n加油啦</string>
     <string name="quizResultStory2">要认真复习错题啊啊啊</string>
@@ -157,7 +157,7 @@
     <string name="changeSaved">更改已保存</string>
     <string name="hiddenDone">已归档</string>
     <string name="hiddenDialogMsg">归档的错题不会删除，但是不会在错题列表、小测中出现，且不会纳入统计。</string>
-    <string name="hiddenDialogTital">确定归档错题？</string>
+    <string name="hiddenDialogTitle">确定归档错题？</string>
     <string name="neverShowAgain">不再显示</string>
     <string name="confirmDelete">删除确认</string>
     <string name="hideUnit">归档单元</string>
@@ -170,9 +170,9 @@
     <string name="confirmMultiHideTitle">批量归档/取消归档？</string>
     <string name="newUnitTitle">创建单元</string>
     <string name="done">完成</string>
-    <string name="quizDailyEmptyNotce">你这个星期好像还没做过题...</string>
+    <string name="quizDailyEmptyNotice">你这个星期好像还没做过题…</string>
     <string name="chartQuizName">最近一周的小测记录</string>
-    <string name="titalReviewRatio">错题掌握程度</string>
+    <string name="titleReviewRatio">错题掌握程度</string>
     <string name="last5Log">最近5次做题记录</string>
     <string name="reviewRatioHigh">无需复习</string>
     <string name="reviewRatioMid">多瞄几眼吧</string>
@@ -183,6 +183,8 @@
     <string name="quizCorrectRatio">小测正确率</string>
     <string name="reviewSuggestion">复习建议</string>
     <string name="resetStatSuccessful">已重置统计信息</string>
+    <string name="quizWarnEmptyQuestion">记录些错题再来小测吧~</string>
+    <string name="randomQuiz">随机小测</string>
 
 
     <string-array name="learning_subjects">

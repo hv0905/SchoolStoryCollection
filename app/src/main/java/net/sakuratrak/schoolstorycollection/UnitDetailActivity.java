@@ -196,7 +196,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(_context.getName());
         int questionSum;
         try {
-            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(this)).FindAllWithSubject(_context.getSubject()).size();
+            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(this)).findAllWithSubject(_context.getSubject()).size();
         } catch (SQLException e) {
             e.printStackTrace();
             return;

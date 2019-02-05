@@ -68,7 +68,7 @@ public final class StatFragmentMainFragment extends Fragment {
         _difficultyPie = _root.findViewById(R.id.difficultyPie);
 
         UiHelper.applyAppearanceForBar(getContext(), _dailyQuizChart);
-        _questionPie.setNoDataText(getString(R.string.quizDailyEmptyNotce));
+        _questionPie.setNoDataText(getString(R.string.quizDailyEmptyNotice));
         _dailyQuizChart.getXAxis().setValueFormatter(new DayOfWeekAxisValveFormatter());
 
         _questionPie.setCenterText(getString(R.string.StatUnitPie));
@@ -148,7 +148,7 @@ public final class StatFragmentMainFragment extends Fragment {
             //==============
 
             List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getActivity()).
-                    getQuestionInfos()).FindAllWithSubject(getParent().getCurrentSubject());
+                    getQuestionInfos()).findAllWithSubject(getParent().getCurrentSubject());
 
             int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
 

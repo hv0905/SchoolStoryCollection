@@ -236,7 +236,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         int questionSum;
         try {
-            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getContext())).FindAllWithSubject(getParent().getCurrentSubject()).size();
+            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getContext())).findAllWithSubject(getParent().getCurrentSubject()).size();
         } catch (SQLException e) {
             e.printStackTrace();
             return;

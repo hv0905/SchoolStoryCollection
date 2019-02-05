@@ -265,7 +265,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         QuestionInfo.DbHelper mgr = new QuestionInfo.DbHelper(
                 DbManager.getDefaultHelper(getContext()).getQuestionInfos());
         try {
-            _contexts = mgr.FindAllWithSubject(getParent().getCurrentSubject());
+            _contexts = mgr.findAllWithSubject(getParent().getCurrentSubject());
         } catch (SQLException e) {
             e.printStackTrace();
         }

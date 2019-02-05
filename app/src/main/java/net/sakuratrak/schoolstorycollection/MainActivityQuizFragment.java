@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import net.sakuratrak.schoolstorycollection.core.DbManager;
+import com.google.android.material.snackbar.Snackbar;
+
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
+import net.sakuratrak.schoolstorycollection.core.MathHelper;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
@@ -38,7 +41,7 @@ public final class MainActivityQuizFragment extends Fragment {
     ViewGroup _root;
     private ConstraintLayout _operateButtons;
     private View _quickQuizButton;
-    private View _unitQuizButton;
+    private View _randomQuizButton;
     private RecyclerView _listLog;
     //endregion
 
@@ -58,36 +61,88 @@ public final class MainActivityQuizFragment extends Fragment {
         _root = (ViewGroup) inflater.inflate(R.layout.fragment_main_activity_quiz, container, false);
         _operateButtons = _root.findViewById(R.id.operateButtons);
         _quickQuizButton = _root.findViewById(R.id.quickQuizBtn);
-        _unitQuizButton = _root.findViewById(R.id.unitQuizBtn);
+        _randomQuizButton = _root.findViewById(R.id.randomQuizBtn);
         _listLog = _root.findViewById(R.id.listLog);
         //_buttonTest = _root.findViewById(R.id.buttonTest);
 
         _quickQuizButton.setOnClickListener(v -> {
-            //get a lot of questions
-            ArrayList<Integer> ids = new ArrayList<>();
-            List<QuestionInfo> infos = null;
             try {
-                infos = new QuestionInfo.DbHelper(
-                        DbManager.getDefaultHelper(getContext())
-                                .getQuestionInfos())
-                        .FindAllWithSubject(getParent().getCurrentSubject());
+                int n = AppSettingsMaster.getQuizSize(getContext());
+                List<QuestionInfo> qi = new ArrayList<>(new QuestionInfo.DbHelper(getContext())
+                        .findAllWithSubject(getParent().getCurrentSubject()));
+                if (qi.size() == 0) {
+                    Snackbar.make(_root, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                ArrayList<Integer> quizIds = new ArrayList<>();
+                if (qi.size() < n) {
+                    //全测
+                    for (QuestionInfo item : qi) {
+                        quizIds.add(item.getId());
+                    }
+                } else {
+                    for (int i = 0; i < qi.size(); i++) {
+                        QuestionInfo item = qi.get(i);
+                        if (item.isHidden() || (item.getUnit() != null && item.getUnit().isHidden())) {
+                            qi.remove(i);
+                            i--;
+                        }
+                    }
+                    int[] randomChance = new int[qi.size()];
+                    for (int i = 0; i < qi.size(); i++) {
+                        QuestionInfo item = qi.get(i);
+                        randomChance[i] = 110 - item.computeReviewValue();
+
+                    }
+                    int[] result = MathHelper.getMultiRandomItemWithProportion(randomChance, n);
+                    for (int item : result) {
+                        quizIds.add(qi.get(item).getId());
+                    }
+                }
+
+                Intent intent = new Intent(getContext(),QuizActivity.class);
+                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,quizIds);
+                intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
+                startActivityForResult(intent,REQUEST_QUIZ);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            for (QuestionInfo info :
-                    infos) {
-                ids.add(info.getId());
-            }
-            Intent intent = new Intent(getActivity(), QuizActivity.class);
-            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, ids);
-            intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
-            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "快速小测");
-            startActivityForResult(intent, REQUEST_QUIZ);
 
         });
 
-        _unitQuizButton.setOnClickListener(v -> {
+        _randomQuizButton.setOnClickListener(v -> {
+            try {
+                int n = AppSettingsMaster.getQuizSize(getContext());
+                List<QuestionInfo> qi = new ArrayList<>(new QuestionInfo.DbHelper(getContext())
+                        .findAllWithSubject(getParent().getCurrentSubject()));
+                if (qi.size() == 0) {
+                    Snackbar.make(_root, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                ArrayList<Integer> quizIds = new ArrayList<>();
+                if (qi.size() < n) {
+                    //全测
+                    for (QuestionInfo item : qi) {
+                        quizIds.add(item.getId());
+                    }
+                } else {
+                    int[] indexes = MathHelper.getMultiRandomItem(qi.size(),n);
+                    for(int index:indexes){
+                        quizIds.add(qi.get(index).getId());
+                    }
+                }
 
+                Intent intent = new Intent(getContext(),QuizActivity.class);
+                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,quizIds);
+                intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
+                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
+                startActivityForResult(intent,REQUEST_QUIZ);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
 
         //_buttonTest.setOnClickListener(v -> AlarmReceiver.setupAlarm(getContext(),false));

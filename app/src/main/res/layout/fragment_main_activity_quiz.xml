@@ -32,14 +32,14 @@
 
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/unitQuizBtn"
+            app:layout_constraintEnd_toStartOf="@+id/randomQuizBtn"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
-            android:id="@+id/unitQuizBtn"
+            android:id="@+id/randomQuizBtn"
             style="@style/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,10 +48,10 @@
             android:layout_marginBottom="@dimen/ui_margin_mid"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:drawableTop="@drawable/ic_collections_bookmark_black_128dp"
+            android:drawableTop="@drawable/ic_assignment_white_128dp"
             android:focusable="true"
             android:gravity="center"
-            android:text="@string/unitQuiz"
+            android:text="@string/randomQuiz"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
 

@@ -331,11 +331,15 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
         }
 
         public DbHelper(DbManager mgr) {
-            _base = mgr.getQuestionInfos();
+            this(mgr.getQuestionInfos());
+        }
+
+        public DbHelper(Context context) {
+            this(DbManager.getDefaultHelper(context));
         }
 
 
-        public List<QuestionInfo> FindAllWithSubject(LearningSubject subject) throws SQLException {
+        public List<QuestionInfo> findAllWithSubject(LearningSubject subject) throws SQLException {
             return _base.queryForEq("subjectId", subject.getId());
         }
 

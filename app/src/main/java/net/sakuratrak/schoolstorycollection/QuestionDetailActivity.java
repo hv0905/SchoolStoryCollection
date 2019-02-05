@@ -226,7 +226,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                         cb.setText(getString(string.neverShowAgain));
                         cb.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                         new Builder(this)
-                                .setTitle(string.hiddenDialogTital)
+                                .setTitle(string.hiddenDialogTitle)
                                 .setIcon(drawable.ic_warning_black_24dp)
                                 .setMessage(string.hiddenDialogMsg)
                                 .setView(cb)
