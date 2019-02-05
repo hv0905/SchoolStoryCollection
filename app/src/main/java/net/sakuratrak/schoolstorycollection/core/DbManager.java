@@ -20,7 +20,7 @@ public final class DbManager extends OrmLiteSqliteOpenHelper {
 
     public static final String DATABASE_NAME = "questionBook.db";
 
-    public static final int DATABASE_VER = 7;
+    public static final int DATABASE_VER = 8;
 
     private static OrmLiteSqliteOpenHelper currentHelper;
 

@@ -63,6 +63,9 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     @DatabaseField
     private Date authorTime;
 
+    @DatabaseField(canBeNull = true)
+    private Date resetTime;
+
     @DatabaseField
     private int difficulty;
 
@@ -291,6 +294,14 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public Date getResetTime() {
+        return resetTime;
+    }
+
+    public void setResetTime(Date resetTime) {
+        this.resetTime = resetTime;
     }
 
     /**
