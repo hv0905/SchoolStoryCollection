@@ -17,6 +17,8 @@ import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
 
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +59,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public String unitInfo;
         public Uri imgUri;
         public float difficulty;
+        public int reviewRatio;
         public boolean favourite;
         public QuestionType type;
         public boolean hidden;
@@ -69,12 +72,13 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         public QuestionInfo db;
 
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type,boolean hidden, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden, int reviewRatio, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
             this.imgUri = imgUri;
             this.type = type;
+            this.reviewRatio = reviewRatio;
             this.detailClicked = detailClicked;
             this.quizClicked = quizClicked;
             this.difficulty = difficulty;
@@ -141,6 +145,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder.valUnit.setText(current.unitInfo);
             holder.previewImgContent.setImageURI(current.imgUri);
             holder.valDifficulty.setRating(current.difficulty);
+            holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
             holder.valFavourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             View.OnClickListener listener = v -> {
                 if (current.detailClicked != null) {
@@ -164,7 +169,8 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             public final MaterialButton btnDetail;
             public final RatingBar valDifficulty;
             public final ImageView valFavourite;
-            private final View _root;
+            public final View _root;
+            public final TextView _valReviewRatio;
 
 
             public Holder(View rootView) {
@@ -179,6 +185,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
                 btnDetail = _root.findViewById(R.id.btnDetail);
                 valDifficulty = _root.findViewById(R.id.difficulty);
                 valFavourite = _root.findViewById(R.id.favourite);
+                _valReviewRatio = _root.findViewById(R.id.valReviewRatio);
             }
         }
 
@@ -223,6 +230,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._difficulty.setRating(data.difficulty);
             holder._previewImg.setImageURI(data.imgUri);
             holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
+            holder._valReviewRatio.setText(data.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", data.reviewRatio));
             holder._rootView.setOnClickListener(data.detailClicked);
             holder._rootView.setOnLongClickListener(data.showMenuClicked);
             holder._multiCheckbox.setVisibility(data.checkAble ? View.VISIBLE : View.INVISIBLE);
@@ -242,6 +250,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             public final MaterialRatingBar _difficulty;
             public final ImageView _favourite;
             public final CheckBox _multiCheckbox;
+            private final TextView _valReviewRatio;
 
 
             public Holder(@NonNull View itemView) {
@@ -252,6 +261,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
                 _textTitle = itemView.findViewById(R.id.textTitle);
                 _favourite = itemView.findViewById(R.id.favourite);
                 _multiCheckbox = itemView.findViewById(R.id.multiCheckbox);
+                _valReviewRatio = _rootView.findViewById(R.id.valReviewRatio);
             }
         }
     }

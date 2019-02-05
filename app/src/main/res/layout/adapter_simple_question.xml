@@ -53,6 +53,17 @@
         app:layout_constraintStart_toEndOf="@+id/previewImg"
         app:layout_constraintTop_toBottomOf="@id/textTitle" />
 
+    <TextView
+        android:id="@+id/valReviewRatio"
+        style="@style/textValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/ui_margin_mid"
+        app:layout_constraintBottom_toBottomOf="@id/difficulty"
+        app:layout_constraintStart_toEndOf="@id/difficulty"
+        app:layout_constraintTop_toTopOf="@id/difficulty"
+        tools:text="75%" />
+
     <ImageView
         android:id="@+id/favourite"
         android:layout_width="30dp"

@@ -316,6 +316,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     info.isFavourite(),
                     info.getType(),
                     info.isHidden(),
+                    info.computeReviewValue(),
                     v -> goDetail(info, v, currentDisplayId),
                     v -> goQuiz(info),
                     v -> {

@@ -66,6 +66,17 @@
                 app:layout_constraintStart_toEndOf="@+id/valAuthorTime"
                 app:layout_constraintTop_toTopOf="@+id/valAuthorTime" />
 
+            <TextView
+                android:id="@+id/valReviewRatio"
+                style="@style/textValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/ui_margin_mid"
+                app:layout_constraintBottom_toBottomOf="@id/favourite"
+                app:layout_constraintEnd_toStartOf="@id/favourite"
+                app:layout_constraintTop_toTopOf="@id/favourite"
+                tools:text="100%" />
+
             <ImageView
                 android:id="@+id/favourite"
                 android:layout_width="30dp"
