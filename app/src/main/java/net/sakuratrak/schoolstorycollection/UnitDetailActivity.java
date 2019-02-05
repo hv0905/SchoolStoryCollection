@@ -53,6 +53,11 @@ public class UnitDetailActivity extends AppCompatActivity {
     private TextView _valQuestionRatio;
     private ProgressBar _questionRatioBar;
     private ConstraintLayout _unitMainInfo;
+    private TextView _reviewHigh;
+    private TextView _reviewMid;
+    private TextView _reviewLow;
+    private TextView _reviewUnknown;
+    private TextView _valQuizAvg;
     //endregion
 
 
@@ -84,6 +89,11 @@ public class UnitDetailActivity extends AppCompatActivity {
         _valQuestionRatio = findViewById(R.id.valQuestionRatio);
         _questionRatioBar = findViewById(R.id.questionRatioBar);
         _unitMainInfo = findViewById(R.id.unitMainInfo);
+        _reviewHigh = findViewById(R.id.reviewHigh);
+        _reviewMid = findViewById(R.id.reviewMid);
+        _reviewLow = findViewById(R.id.reviewLow);
+        _reviewUnknown = findViewById(R.id.reviewUnknown);
+        _valQuizAvg = findViewById(R.id.valQuizAvg);
 
         UiHelper.applyAppearanceForPie(this, _difficultyPie);
 
@@ -187,14 +197,32 @@ public class UnitDetailActivity extends AppCompatActivity {
         }
         UnitDisplayAdapter.DataContext mainInfo = UnitDisplayAdapter.DataContext.fromDb(_context, questionSum);
         _valQuizCount.setText(String.valueOf(mainInfo.QuizCount));
-        _valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuizCorrectRatio));
-        _correctRatioBar.setProgress(mainInfo.QuizCorrectRatio);
+        _valCorrectRatio.setText(mainInfo.ReviewRatio == -1 ? "-" : String.format(Locale.ENGLISH, "%d%%", mainInfo.ReviewRatio));
+        _correctRatioBar.setProgress(mainInfo.ReviewRatio);
         _warningTxt.setVisibility(mainInfo.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
         _valQuestionCount.setText(String.valueOf(mainInfo.QuestionCount));
         _valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuestionRatio));
         _questionRatioBar.setProgress(mainInfo.QuestionRatio);
         _hideBtn.setText(_context.isHidden() ? R.string.undoHideUnit : R.string.hideUnit);
+        _valQuizAvg.setText(String.format(Locale.US,"%d%%",_context.computeCorrectRatio()));
+
+        _reviewHigh.setVisibility(View.INVISIBLE);
+        _reviewMid.setVisibility(View.INVISIBLE);
+        _reviewLow.setVisibility(View.INVISIBLE);
+        _reviewUnknown.setVisibility(View.INVISIBLE);
+
+        if(mainInfo.ReviewRatio > 80){
+            _reviewHigh.setVisibility(View.VISIBLE);
+        }else if(mainInfo.ReviewRatio > 40){
+            _reviewMid.setVisibility(View.VISIBLE);
+        }else if(mainInfo.ReviewRatio == -1){
+            _reviewUnknown.setVisibility(View.VISIBLE);
+        }else{
+            _reviewLow.setVisibility(View.VISIBLE);
+        }
+
         // load graph
+
     }
 
     @Override

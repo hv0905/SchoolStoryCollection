@@ -39,7 +39,6 @@ import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -351,7 +350,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _toolbarLayout.setStatusBarScrimColor(uiColor);
         _toolbarLayout.setTitle(_context.getTitle());
         _valDifficulty.setRating(_context.getDifficulty() / 2f);
-        _valCreateTime.setText(new SimpleDateFormat("yy.mm.dd hh:mm:ss", Locale.US).format(_context.getAuthorTime()));
+        _valCreateTime.setText(UiHelper.defaultFormatWithTime.format(_context.getAuthorTime()));
         _valUnit.setText(_context.getUnit() == null ? getText(string.emptyUnit) : _context.getUnit().getName());
 
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage()[0])));
@@ -374,7 +373,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //stat
         
         int stat = _context.computeReviewValue();
-        _valReviewRatio.setText(stat == -1 ? "小测不足5次":String.valueOf(stat));
+        _valReviewRatio.setText(stat == -1 ? "小测不足5次":String.format(Locale.US,"%d%%",stat));
         _reviewHigh.setVisibility(View.INVISIBLE);
         _reviewMid.setVisibility(View.INVISIBLE);
         _reviewLow.setVisibility(View.INVISIBLE);

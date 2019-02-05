@@ -35,21 +35,55 @@
 
                 <include layout="@layout/include_unit_main" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quizCorrectRatio"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/textMidTitle"
+                        android:drawableStart="@drawable/ic_done_all_black_24dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/valQuizAvg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/textValue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:text="100%"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
-                    style="@style/textTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_bar_graph_black_24dp"
-                    android:text="@string/stat" />
+                    android:text="@string/reviewSuggestion"
+                    style="@style/textMidTitle"
+                    android:drawableStart="@drawable/ic_info_black_24dp"
+                    />
+
+                <include layout="@layout/include_review_level" />
+
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/reviewRatioPie"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/difficultyPie"
                     android:layout_width="match_parent"
                     android:layout_height="300dp" />
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
 
             </LinearLayout>
 

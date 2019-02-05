@@ -80,65 +80,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="复习建议"
+            android:text="@string/reviewSuggestion"
             style="@style/textMidTitle"
             android:drawableStart="@drawable/ic_info_black_24dp"
             android:layout_marginStart="@dimen/ui_margin_mid"
             />
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            >
-            <TextView
-                android:id="@+id/reviewHigh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewRatioHigh"
-                android:drawableStart="@drawable/ic_done_green_64dp"
-                style="@style/textTitle"
-                android:textColor="@color/flat5"
-                android:gravity="center|start"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                />
-            <TextView
-                android:id="@+id/reviewMid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewRatioMid"
-                android:drawableStart="@drawable/ic_half_done_orange_64px"
-                style="@style/textTitle"
-                android:gravity="center|start"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                android:textColor="@color/flat7"
-                />
-            <TextView
-                android:id="@+id/reviewLow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewRatioLow"
-                android:drawableStart="@drawable/ic_close_red_64dp"
-                style="@style/textTitle"
-                android:gravity="center|start"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                android:textColor="@color/flat8"
-                />
-            <TextView
-                android:id="@+id/reviewUnknown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reviewRatioUnknown"
-                android:drawableStart="@drawable/ic_blur_on_black_64dp"
-                style="@style/textTitle"
-                android:gravity="center|start"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                />
-        </FrameLayout>
+        <include layout="@layout/include_review_level" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chartQuizLog"

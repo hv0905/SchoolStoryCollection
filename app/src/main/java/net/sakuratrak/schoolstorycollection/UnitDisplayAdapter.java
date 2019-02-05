@@ -65,7 +65,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._txtTitle.setText(current.Title);
             viewHolder._txtTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._txtCount.setText(String.format(Locale.US, "%dx", current.QuestionCount));
-            viewHolder._txtQuiz.setText(String.format(Locale.US, "%d%%", current.QuizCorrectRatio));
+            viewHolder._txtQuiz.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.US, "%d%%", current.ReviewRatio));
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
             viewHolder._multiCheckbox.setChecked(current.Checked);
             viewHolder._root.setOnClickListener(current.DetailClicked);
@@ -117,8 +117,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._valTitle.setText(current.Title);
             viewHolder._valTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
-            viewHolder._valCorrectRatio.setText(String.format(Locale.ENGLISH, "%d%%", current.QuizCorrectRatio));
-            viewHolder._correctRatioBar.setProgress(current.QuizCorrectRatio);
+            viewHolder._valCorrectRatio.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.ENGLISH, "%d%%", current.ReviewRatio));
+            viewHolder._correctRatioBar.setProgress(current.ReviewRatio);
             viewHolder._frame.setOnClickListener(current.DetailClicked);
             viewHolder._warningTxt.setVisibility(current.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
             viewHolder._valQuestionCount.setText(String.valueOf(current.QuestionCount));
@@ -176,15 +176,15 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         public boolean isHidden;
         //public View.OnClickListener RmClicked;
         protected int QuizCount;
-        protected int QuizCorrectRatio;
+        protected int ReviewRatio;
         protected int QuestionCount;
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
         public LearningUnitInfo db;
 
-        public DataContext(String title, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, boolean isHidden) {
+        public DataContext(String title, int quizCount, int reviewRatio, int questionCount, int questionRatio, boolean requireMoreRecord, boolean isHidden) {
             QuizCount = quizCount;
-            QuizCorrectRatio = quizCorrectRatio;
+            ReviewRatio = reviewRatio;
             QuestionCount = questionCount;
             QuestionRatio = questionRatio;
             this.requireMoreRecord = requireMoreRecord;
@@ -192,10 +192,10 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             this.isHidden = isHidden;
         }
 
-        public DataContext(View.OnClickListener detailClicked, int quizCount, int quizCorrectRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
+        public DataContext(View.OnClickListener detailClicked, int quizCount, int reviewRatio, int questionCount, int questionRatio, boolean requireMoreRecord, String title) {
             DetailClicked = detailClicked;
             QuizCount = quizCount;
-            QuizCorrectRatio = quizCorrectRatio;
+            ReviewRatio = reviewRatio;
             QuestionCount = questionCount;
             QuestionRatio = questionRatio;
             this.requireMoreRecord = requireMoreRecord;
@@ -210,7 +210,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             int questionsc = dbInfo.getQuestions().size();
             DataContext dataContext = new DataContext(dbInfo.getName(),
                     dbInfo.getExerciseLogCount(),
-                    dbInfo.computeCorrectRatio(),
+                    dbInfo.computeAvgReviewRatio(),
                     questionsc,
                     (int) (((double) questionsc / questionSum) * 100),
                     dbInfo.getIfNeedMoreQuiz(),

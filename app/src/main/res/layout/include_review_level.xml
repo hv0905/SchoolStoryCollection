@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/reviewHigh"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_done_green_64dp"
+        android:gravity="center|start"
+        android:text="@string/reviewRatioHigh"
+        android:textColor="@color/flat5"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/reviewMid"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_half_done_orange_64px"
+        android:gravity="center|start"
+        android:text="@string/reviewRatioMid"
+        android:textColor="@color/flat7"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/reviewLow"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_close_red_64dp"
+        android:gravity="center|start"
+        android:text="@string/reviewRatioLow"
+        android:textColor="@color/flat8"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/reviewUnknown"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@drawable/ic_blur_on_black_64dp"
+        android:gravity="center|start"
+        android:text="@string/reviewRatioUnknown"
+        android:visibility="visible" />
+</FrameLayout>
