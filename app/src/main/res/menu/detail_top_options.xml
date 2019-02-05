@@ -26,6 +26,13 @@
         android:icon="@drawable/ic_share_black_24dp"
         android:title="@string/share"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/resetMenu"
+        android:icon="@drawable/ic_repeat_black_24dp"
+        android:title="@string/reset_info"
+        app:showAsAction="never"
+        />
     <item
         android:id="@+id/hide"
         android:icon="@drawable/ic_move_to_inbox_black_24dp"

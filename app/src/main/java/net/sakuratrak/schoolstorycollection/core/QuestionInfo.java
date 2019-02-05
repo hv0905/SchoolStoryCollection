@@ -1,5 +1,7 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import android.content.Context;
+
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -144,6 +146,20 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
             lastN[i] = exerciseLogs.get(size - (n - i)).getCorrectRatio();
         }
         return lastN;
+    }
+
+    public void resetStat(Context context){
+        //删掉所有log
+        Dao<ExerciseLog, Integer> exerciseLogs = DbManager.getDefaultHelper(context).getExerciseLogs();
+        for (ExerciseLog log :
+                getExerciseLogs()) {
+            try {
+                exerciseLogs.delete(log);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        setResetTime(new Date());
     }
 
     //endregion

@@ -42,6 +42,7 @@ import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
@@ -195,21 +196,17 @@ public class QuestionDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case id
-                    .showAnswerMenu:
+            case id.showAnswerMenu:
                 toggleAnswer();
                 return true;
-            case id
-                    .editMenu:
+            case id.editMenu:
                 gotoEdit();
                 return true;
 
-            case id
-                    .shareMenu:
+            case id.shareMenu:
                 //todo share
                 return true;
-            case id
-                    .hide:
+            case id.hide:
                 if (_context.isHidden()) {
                     //要取消
                     _context.setHidden(false);
@@ -297,6 +294,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
                             }
                             setResult(RESULT_DELETED);
                             finish();
+                        })
+                        .setNegativeButton(string.cancel, null).show();
+                return true;
+            case id.resetMenu:
+                new Builder(this)
+                        .setIcon(drawable.ic_warning_black_24dp)
+                        .setTitle(getString(string.confirmDelete)).setMessage(String.format(getString(string.confirmQuestionResetStat_msg), _context.getTitle()))
+                        .setPositiveButton(string.confirm, (dialog, which) -> {
+                            _context.resetStat(this);
+                            try {
+                                DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
+                                _edited = true;
+                                refresh();
+                                Snackbar.make(_appBar,string.resetStatSuccessful,Snackbar.LENGTH_LONG).show();
+                            } catch (SQLException e) {
+                                Snackbar.make(_toolbarLayout, string.sqlExp, Snackbar.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
                         })
                         .setNegativeButton(string.cancel, null).show();
                 return true;

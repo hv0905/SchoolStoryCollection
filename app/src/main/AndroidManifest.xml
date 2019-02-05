@@ -71,7 +71,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UnitDetailActivity"
-            android:label="@string/title_activity_unit_detail"
             android:theme="@style/AppTheme.NoActionBar.Explode" />
 
         <activity

@@ -18,7 +18,8 @@
     <string name="quizTime">小测次数/单元掌握程度</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
-    <string name="confirmLog_msg">%s的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>
+    <string name="confirmQuestionResetStat_msg">%s的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>
+    <string name="confirmUnitResetStat_msg">%s中所有错题的所有做题记录和统计信息将清空! \n确定要从零开始吗?</string>
     <string name="confirmLog_title">清空记录确认</string>
     <string name="confirmRm_msg">%s 将永久失去(真的很久!)!</string>
     <string name="confirmRm_title">删除确认</string>
@@ -110,7 +111,6 @@
     <string name="StatDifficultyPie">错题的难度分布</string>
     <string name="like">喜欢</string>
     <string name="info">信息</string>
-    <string name="title_activity_unit_detail">UnitDetailActivity</string>
     <string name="deleted">已删除</string>
     <string name="skip">跳过</string>
     <string name="viewAnswer">查看答案</string>
@@ -134,8 +134,8 @@
     <string name="completeQuiz">完成小测</string>
     <string name="unitQuiz">单元小测</string>
     <string name="quickQuiz">快速小测</string>
-    <string name="quizResultStory0">你是雷姆上身了吗⊙﹏⊙∥\n加油啦</string>
-    <string name="quizResultStory1">你是认真的吗⊙﹏⊙∥\n加油啦</string>
+    <string name="quizResultStory0">你是雷姆上身了吗 ~(´･_･`)ノ⌒凸\n加油啦</string>
+    <string name="quizResultStory1">你是认真的吗 ~(´･_･`)ノ⌒凸\n加油啦</string>
     <string name="quizResultStory2">要认真复习错题啊啊啊</string>
     <string name="quizResultStory3">我拿不到满分都是石头门的选择.jpg</string>
     <string name="quizResultStory4">大吉大利,晚上吃鸡!</string>
@@ -182,6 +182,7 @@
     <string name="unitReviewRatio">单元掌握程度</string>
     <string name="quizCorrectRatio">小测正确率</string>
     <string name="reviewSuggestion">复习建议</string>
+    <string name="resetStatSuccessful">已重置统计信息</string>
 
 
     <string-array name="learning_subjects">
