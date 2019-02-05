@@ -1,6 +1,7 @@
 package net.sakuratrak.schoolstorycollection;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -48,6 +49,7 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class QuestionDetailActivity extends AppCompatActivity {
 
@@ -89,6 +91,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private TextView _reviewMid;
     private TextView _reviewLow;
     private TextView _reviewUnknown;
+    private ConstraintLayout _unitBtn;
 
     //endregion
 
@@ -124,6 +127,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _reviewMid = findViewById(id.reviewMid);
         _reviewLow = findViewById(id.reviewLow);
         _reviewUnknown = findViewById(id.reviewUnknown);
+        _unitBtn = findViewById(id.unitBtn);
 
         setSupportActionBar(_toolbar);
 
@@ -142,8 +146,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
             }
         });
 
+        _unitBtn.setOnClickListener(v -> {
+            if (_context.getUnit() == null) return;
+            Intent intent = new Intent(this, UnitDetailActivity.class);
+            intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, _context.getUnit().getId());
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+
+        });
+
         _showAnswerButton.setOnClickListener(v -> toggleAnswer());
-        UiHelper.applyAppearanceForLine(this,_chartQuizLog);
+        UiHelper.applyAppearanceForLine(this, _chartQuizLog);
 
         //load context
         refresh();
@@ -207,7 +219,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                         e.printStackTrace();
                         return true;
                     }
-                    Snackbar.make(_appBar,getString(string.hiddenUndoed),Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(_appBar, getString(string.hiddenUndoed), Snackbar.LENGTH_LONG).show();
                     refresh();
                     _edited = true;
                     _hidden = false;
@@ -264,17 +276,17 @@ public class QuestionDetailActivity extends AppCompatActivity {
                             try {
                                 //delete all images
                                 for (String item_ : _context.getQuestionImage()) {
-                                    AppMaster.removeImgFile(this,item_);
-                                    AppMaster.removeThumbFile(this,item_);
+                                    AppMaster.removeImgFile(this, item_);
+                                    AppMaster.removeThumbFile(this, item_);
                                 }
                                 for (String item_ : _context.getAnalysisImage()) {
-                                    AppMaster.removeImgFile(this,item_);
-                                    AppMaster.removeThumbFile(this,item_);
+                                    AppMaster.removeImgFile(this, item_);
+                                    AppMaster.removeThumbFile(this, item_);
                                 }
                                 if (_context.getAnswer() instanceof ImageAnswer) {
                                     for (String item_ : ((ImageAnswer) _context.getAnswer()).Image) {
-                                        AppMaster.removeImgFile(this,item_);
-                                        AppMaster.removeThumbFile(this,item_);
+                                        AppMaster.removeImgFile(this, item_);
+                                        AppMaster.removeThumbFile(this, item_);
                                     }
                                 }
                                 DbManager.getDefaultHelper(this).getQuestionInfos().delete(_context);
@@ -300,7 +312,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Snackbar.make(_appBar,getString(string.hiddenDone),Snackbar.LENGTH_LONG).show();
+        Snackbar.make(_appBar, getString(string.hiddenDone), Snackbar.LENGTH_LONG).show();
         refresh();
         _hidden = true;
     }
@@ -369,43 +381,43 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         _questionImgDisplay.setImages(Arrays.asList(_context.getQuestionImage()));
         _analysisImgDisplay.setImages(Arrays.asList(_context.getAnalysisImage()));
-        
+
         //stat
-        
+
         int stat = _context.computeReviewValue();
-        _valReviewRatio.setText(stat == -1 ? "小测不足5次":String.format(Locale.US,"%d%%",stat));
+        _valReviewRatio.setText(stat == -1 ? "小测不足5次" : String.format(Locale.US, "%d%%", stat));
         _reviewHigh.setVisibility(View.INVISIBLE);
         _reviewMid.setVisibility(View.INVISIBLE);
         _reviewLow.setVisibility(View.INVISIBLE);
         _reviewUnknown.setVisibility(View.INVISIBLE);
-        if(stat > 80){
+        if (stat > 80) {
             _reviewHigh.setVisibility(View.VISIBLE);
-        }else if(stat > 40){
+        } else if (stat > 40) {
             _reviewMid.setVisibility(View.VISIBLE);
-        }else if(stat == -1){
+        } else if (stat == -1) {
             _reviewUnknown.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             _reviewLow.setVisibility(View.VISIBLE);
         }
 
         ArrayList<Entry> entries = new ArrayList<>();
         int[] last5 = _context.getLastNScoreUnsafe(5);
-        if(last5.length != 0) {
+        if (last5.length != 0) {
             //entries.add(new Entry(0, last5[0]));
             for (int i = 0; i < last5.length; i++) {
                 entries.add(new Entry(i + 1, last5[i]));
             }
         }
 
-        LineDataSet lds = new LineDataSet(entries,"");
-        UiHelper.applyAppearanceForLineDataSet(this,lds);
+        LineDataSet lds = new LineDataSet(entries, "");
+        UiHelper.applyAppearanceForLineDataSet(this, lds);
         LineData ld = new LineData(lds);
         ld.setDrawValues(true);
         ld.setValueTextColor(R.color.colorAccent);
         ld.setValueTextSize(18f);
         _chartQuizLog.setData(ld);
         _chartQuizLog.getXAxis().setLabelCount(last5.length);
-        
+
 
         if (_favouriteMenu != null) {
             _favouriteMenu.setChecked(_context.isFavourite());
@@ -419,7 +431,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(_hidden) setResult(RESULT_HIDDEN);
+        if (_hidden) setResult(RESULT_HIDDEN);
         else if (_edited)
             setResult(RESULT_EDITED);
         super.onBackPressed();

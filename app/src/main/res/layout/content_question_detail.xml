@@ -109,9 +109,14 @@
             android:text="@string/info" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/unitBtn"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            >
 
             <TextView
                 style="@style/textMidTitle"
