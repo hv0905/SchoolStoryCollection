@@ -153,10 +153,7 @@ public class UnitDetailActivity extends AppCompatActivity {
             ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmUnitResetStat_msg), _context.getName()));
             ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
                 // TODO: 2019/2/5 reset unit info
-                for (QuestionInfo question :
-                        _context.getQuestions()) {
-                    question.resetStat(this);
-                }
+                _context.resetStat(this);
                 _edited = true;
                 refresh();
                 Snackbar.make(_resetBtn, R.string.resetStatSuccessful, Snackbar.LENGTH_LONG).show();

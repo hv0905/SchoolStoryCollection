@@ -130,8 +130,21 @@ public final class StatFragmentUnitFragment extends Fragment {
                             break;
                         case 1:
                             // TODO: 2019/2/1 clear
+                            new AlertDialog.Builder(getContext())
+                                    .setMessage(String.format(Locale.US, "确定要重置%d个单元的统计信息吗？", _multiCount))
+                                    .setTitle(R.string.confirmMultiResetStat)
+                                    .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
+                                        for (int i = 0; i < _displayContext.size(); i++) {
+                                            UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                                            if (dc.Checked) {
+                                                dc.db.resetStat(getContext());
+                                            }
+                                        }
+                                        getParent().requireRefresh();
+                                    })
+                                    .setNegativeButton(R.string.cancel, null)
+                                    .show();
                             break;
-
                         case 2:
                             // TODO: 2019/2/1 rm
                             new AlertDialog.Builder(getContext())

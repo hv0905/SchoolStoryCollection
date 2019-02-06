@@ -141,6 +141,13 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         this.questions = questions;
     }
 
+    public void resetStat(Context context){
+        for (QuestionInfo question :
+                getQuestions()) {
+            question.resetStat(context);
+        }
+    }
+
     @Override
     public int compareTo(LearningUnitInfo o) {
         return createTime.compareTo(o.createTime);

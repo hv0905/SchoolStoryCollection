@@ -185,6 +185,8 @@
     <string name="resetStatSuccessful">已重置统计信息</string>
     <string name="quizWarnEmptyQuestion">记录些错题再来小测吧~</string>
     <string name="randomQuiz">随机小测</string>
+    <string name="rename">重命名</string>
+    <string name="confirmMultiResetStat">重置统计信息?</string>
 
 
     <string-array name="learning_subjects">
@@ -226,6 +228,7 @@
     </string-array>
     <string-array name="question_multi_options">
         <item>切换归档/取消归档</item>
+        <item>重置统计信息</item>
         <item>删除</item>
     </string-array>
     <string-array name="settings_quiz_quizSize">
