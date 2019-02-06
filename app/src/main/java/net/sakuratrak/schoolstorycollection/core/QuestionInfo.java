@@ -112,10 +112,10 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
 
         int head = 0, end = 4;
         int headM = 0, endM = 0;
-        while (++head < --end) {
+        do {
             headM += lastNScore[head];
             endM += lastNScore[end];
-        }
+        } while (++head < --end);
         int deltaM = Integer.compare(endM, headM);
         double avg = MathHelper.calcAvg(lastNScore);
         double vari = MathHelper.calcVariance(avg, lastNScore);
@@ -148,7 +148,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
         return lastN;
     }
 
-    public void resetStat(Context context){
+    public void resetStat(Context context) {
         //删掉所有log
         Dao<ExerciseLog, Integer> exerciseLogs = DbManager.getDefaultHelper(context).getExerciseLogs();
         for (ExerciseLog log :
