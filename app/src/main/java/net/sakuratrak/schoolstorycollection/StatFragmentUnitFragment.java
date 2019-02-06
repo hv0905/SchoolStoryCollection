@@ -61,8 +61,9 @@ public final class StatFragmentUnitFragment extends Fragment {
     private TextView _multiQuizBtnText;
     private ImageButton _multiMoreBtn;
     private MaterialCardView _multiActionBar;
-    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
+    private TextView _txtUnitEmptyNotice;
+    private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
 
 
     public StatFragmentUnitFragment() {
@@ -89,6 +90,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         _multiQuizBtnText = (TextView) _root.findViewById(R.id.multiQuizBtnText);
         _multiMoreBtn = (ImageButton) _root.findViewById(R.id.multiMoreBtn);
         _multiActionBar = (MaterialCardView) _root.findViewById(R.id.multiActionBar);
+        _txtUnitEmptyNotice = _root.findViewById(R.id.txtUnitEmptyNotice);
 
         _multiQuizBtn.setOnClickListener(v -> {
             // TODO: 2019/2/1 调用单元小测
@@ -252,11 +254,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             Snackbar.make(_root, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
             return;
         }
-        if (_context.size() == 0) {
-            _unitEmptyNotice.setVisibility(View.VISIBLE);
-        } else {
-            _unitEmptyNotice.setVisibility(View.INVISIBLE);
-        }
+
 
         int questionSum;
         try {
@@ -277,7 +275,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             isHiddenShown = getParent()._unitFilterDialog.is_isHiddenShown();
             reviewRatios = getParent()._unitFilterDialog.get_selectedRatios();
             if (keyword != null && keyword.length == 0) keyword = null;
-            if(reviewRatios != null && reviewRatios.size() == 0) reviewRatios = null;
+            if (reviewRatios != null && reviewRatios.size() == 0) reviewRatios = null;
         }
 
 
@@ -297,12 +295,12 @@ public final class StatFragmentUnitFragment extends Fragment {
                 if (!mainGoFlag) continue;
             }
             int reviewValue = item.computeAvgReviewRatio();
-            if(reviewRatios != null){
-                if(!reviewRatios.contains(ReviewRatio.getByRatio(reviewValue))) continue;
+            if (reviewRatios != null) {
+                if (!reviewRatios.contains(ReviewRatio.getByRatio(reviewValue))) continue;
             }
 
             //ok,加入列表
-            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum,reviewValue);
+            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum, reviewValue);
             udiItem.DetailClicked = v -> goDetail(v, udiItem, item);
             udiItem.OnChecked = (buttonView, isChecked) -> {
                 if (isChecked) _multiCount++;
@@ -328,6 +326,13 @@ public final class StatFragmentUnitFragment extends Fragment {
                 return true;
             };
             _displayContext.add(udiItem);
+        }
+
+        if (_displayContext.size() == 0) {
+            _unitEmptyNotice.setVisibility(View.VISIBLE);
+            _txtUnitEmptyNotice.setText(getParent()._unitFilterDialog.isFilterActive() ? R.string.filterEmptyUnitUi : R.string.unitEmptyUi);
+        } else {
+            _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
 
 

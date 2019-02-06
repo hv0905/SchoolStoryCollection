@@ -256,7 +256,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         if (_displayContexts.size() == 0) {
             _workbookEmptyNotice.setVisibility(View.VISIBLE);
             _emptyNotify.setText((getParent()._questionFilterDialog != null && getParent()._questionFilterDialog.isFilterActive())
-                    ? R.string.filterEmptyUi : R.string.workbookEmptyUi);
+                    ? R.string.filterEmptyQuestionUi : R.string.workbookEmptyUi);
         } else {
             _workbookEmptyNotice.setVisibility(View.INVISIBLE);
         }
