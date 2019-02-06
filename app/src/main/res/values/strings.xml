@@ -187,6 +187,7 @@
     <string name="randomQuiz">随机小测</string>
     <string name="rename">重命名</string>
     <string name="confirmMultiResetStat">重置统计信息?</string>
+    <string name="renameUnitTitle">重命名</string>
 
 
     <string-array name="learning_subjects">

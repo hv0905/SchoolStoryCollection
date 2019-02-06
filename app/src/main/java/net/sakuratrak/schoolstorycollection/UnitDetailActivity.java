@@ -1,6 +1,8 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +14,17 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuizHelper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AlertDialog;
@@ -33,6 +39,8 @@ public class UnitDetailActivity extends AppCompatActivity {
     public static final int RESULT_DELETED = 100;
     public static final int RESULT_CHANGED = 101;
     public static final int RESULT_HIDDEN = 102;
+
+    private static final int REQUEST_QUIZ = 201;
 
     private LearningUnitInfo _context;
     private boolean _edited = false;
@@ -234,6 +242,65 @@ public class UnitDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.quiz:
+                new AlertDialog.Builder(this).setItems(R.array.list_quiz, (dialog, which) -> {
+                    List<QuestionInfo> in = new ArrayList<>(_context.getQuestions());
+                    List<QuestionInfo> quizContext = null;
+                    int n = AppSettingsMaster.getQuizSize(this);
+                    switch (which) {
+                        case 0:
+                            //sm
+                            quizContext = QuizHelper.prepareSmartQuiz(in, n);
+                            break;
+                        case 1:
+                            //rd
+                            quizContext = QuizHelper.prepareRandomQuiz(in, n);
+                            break;
+                    }
+                    if (quizContext == null) {
+                        Snackbar.make(_toolbar, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+                    ArrayList<Integer> quizIds = new ArrayList<>(quizContext.size());
+                    for (QuestionInfo qc :
+                            quizContext) {
+                        quizIds.add(qc.getId());
+                    }
+
+                    Intent intent = new Intent(this, QuizActivity.class);
+                    intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, quizIds);
+                    intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+                    intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, String.format("单元%s小测:%s", which == 0 ? "智能" : "随机", _context.getName()));
+                    startActivityForResult(intent, REQUEST_QUIZ);
+                })
+                        .setPositiveButton(R.string.cancel, null)
+                        .show();
+                return true;
+            case R.id.rename:
+                AlertDialog ad = new AlertDialog.Builder(this)
+                        .setIcon(R.drawable.ic_edit_black_24dp)
+                        .setTitle(R.string.renameUnitTitle)
+                        .setView(R.layout.dialog_add_unit)
+                        .setPositiveButton(R.string.done, (dialog, which) -> {
+                            AlertDialog dg = (AlertDialog) dialog;
+                            TextInputEditText editText = dg.findViewById(R.id.txtUnitName);
+                            if (editText.getText() == null || editText.getText().toString().trim().isEmpty()) {
+                                return;
+                            }
+                            _context.setName(editText.getText().toString().trim());
+                            try {
+                                DbManager.getDefaultHelper(this).getLearningUnitInfos().update(_context);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            _edited = true;
+                            refresh();
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                TextInputEditText edit = ad.findViewById(R.id.txtUnitName);
+                edit.setText(_context.getName());
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -250,5 +317,11 @@ public class UnitDetailActivity extends AppCompatActivity {
         Snackbar.make(_toolbar,R.string.hiddenDone,Snackbar.LENGTH_LONG).show();
         refresh();
         _hidden = true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.unit_detail_options, menu);
+        return true;
     }
 }
