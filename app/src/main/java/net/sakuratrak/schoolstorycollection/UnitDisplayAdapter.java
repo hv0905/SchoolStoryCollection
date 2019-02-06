@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._txtTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._txtCount.setText(String.format(Locale.US, "%dx", current.QuestionCount));
             viewHolder._txtQuiz.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.US, "%d%%", current.ReviewRatio));
+            viewHolder._txtQuiz.setTextColor(UiHelper.getReviewColor(viewHolder._txtQuiz.getResources(),current.ReviewRatio));
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
             viewHolder._multiCheckbox.setChecked(current.Checked);
             viewHolder._root.setOnClickListener(current.DetailClicked);
@@ -121,6 +123,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._valTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
             viewHolder._valCorrectRatio.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.ENGLISH, "%d%%", current.ReviewRatio));
+            viewHolder._valCorrectRatio.setTextColor(UiHelper.getReviewColor(viewHolder._valCorrectRatio.getResources(),current.ReviewRatio));
             viewHolder._correctRatioBar.setProgress(current.ReviewRatio);
             viewHolder._viewBtn.setOnClickListener(current.DetailClicked);
             viewHolder._quizBtn.setOnClickListener(current.QuizClicked);
@@ -184,13 +187,12 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         public boolean Checked = false;
         public CompoundButton.OnCheckedChangeListener OnChecked;
         public boolean isHidden;
-        //public View.OnClickListener RmClicked;
+        public LearningUnitInfo db;
         protected int QuizCount;
         protected int ReviewRatio;
         protected int QuestionCount;
         protected int QuestionRatio;
         protected boolean requireMoreRecord = false;
-        public LearningUnitInfo db;
 
         public DataContext(String title, int quizCount, int reviewRatio, int questionCount, int questionRatio, boolean requireMoreRecord, boolean isHidden) {
             QuizCount = quizCount;
@@ -216,11 +218,11 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
 
         }
 
-        public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum) {
+        public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum, int reviewRatio) {
             int questionsc = dbInfo.getQuestions().size();
             DataContext dataContext = new DataContext(dbInfo.getName(),
                     dbInfo.getExerciseLogCount(),
-                    dbInfo.computeAvgReviewRatio(),
+                    reviewRatio,
                     questionsc,
                     (int) (((double) questionsc / questionSum) * 100),
                     dbInfo.getIfNeedMoreQuiz(),
@@ -228,6 +230,10 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             );
             dataContext.db = dbInfo;
             return dataContext;
+        }
+
+        public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum) {
+            return fromDb(dbInfo, questionSum,dbInfo.computeAvgReviewRatio());
         }
     }
 }

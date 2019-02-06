@@ -188,6 +188,12 @@
     <string name="rename">重命名</string>
     <string name="confirmMultiResetStat">重置统计信息?</string>
     <string name="renameUnitTitle">重命名</string>
+    <string name="reviewRatio">掌握程度</string>
+    <string name="reviewNice">好</string>
+    <string name="reviewMid">一般</string>
+    <string name="reviewBad">差</string>
+    <string name="reviewUnknown">未知</string>
+    <string name="filterFavourite">仅已喜欢的题目</string>
 
 
     <string-array name="learning_subjects">

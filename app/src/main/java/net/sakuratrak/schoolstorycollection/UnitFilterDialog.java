@@ -3,29 +3,52 @@ package net.sakuratrak.schoolstorycollection;
 import android.content.Context;
 import android.widget.Switch;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 
 public final class UnitFilterDialog {
 
+    private static final int[] QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS = {
+            R.id.chipWell,
+            R.id.chipMid,
+            R.id.chipBad,
+            R.id.chipUnknown,
+    };
+
     private LearningSubject _subject;
     private AlertDialog _dialog;
-    private Runnable _onUpdate;
 
     private TextInputEditText _searchText;
     private Switch _hiddenSwitch;
+    private ChipGroup _reviewRatioChips;
+
 
     private String _keyword;
     private boolean _isHiddenShown;
+    private List<ReviewRatio> _selectedRatios = new ArrayList<>();
+
+    private Runnable _onUpdate;
 
     public UnitFilterDialog(LearningSubject _subject) {
         this._subject = _subject;
     }
 
     public UnitFilterDialog() {
+    }
+
+    public boolean isFilterActive(){
+        return (_keyword != null && !_keyword.trim().isEmpty()) ||
+                _selectedRatios.size() != 0 ||
+                _isHiddenShown;
+
     }
 
     public void showDialog(Context context) {
@@ -45,6 +68,24 @@ public final class UnitFilterDialog {
         //init the dialog
         _searchText = _dialog.findViewById(R.id.searchText);
         _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
+        _reviewRatioChips = _dialog.findViewById(R.id.reviewRatioChips);
+
+        for (int i = 0; i < QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS.length; i++) {
+            final int finalI = i;
+            Chip chip = _dialog.findViewById(QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS[i]);
+            if (_selectedRatios.contains(ReviewRatio.fromId(i))) {
+                //noinspection ConstantConditions
+                chip.setChecked(true);
+            }
+            //noinspection ConstantConditions
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    _selectedRatios.add(ReviewRatio.fromId(finalI));
+                } else {
+                    _selectedRatios.remove(ReviewRatio.fromId(finalI));
+                }
+            });
+        }
 
         _searchText.setText(_keyword);
         _hiddenSwitch.setChecked(_isHiddenShown);
@@ -53,6 +94,7 @@ public final class UnitFilterDialog {
     public void resetDialog() {
         _searchText.setText("");
         _hiddenSwitch.setChecked(false);
+        _selectedRatios.clear();
     }
 
     private void dialogClosed() {
@@ -94,4 +136,14 @@ public final class UnitFilterDialog {
     public void set_isHiddenShown(boolean _isHiddenShown) {
         this._isHiddenShown = _isHiddenShown;
     }
+
+    public List<ReviewRatio> get_selectedRatios() {
+        return _selectedRatios;
+    }
+
+    public void set_selectedRatios(List<ReviewRatio> _selectedRatios) {
+        this._selectedRatios = _selectedRatios;
+    }
+
+
 }

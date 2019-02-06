@@ -222,14 +222,20 @@ public class UnitDetailActivity extends AppCompatActivity {
         _reviewLow.setVisibility(View.INVISIBLE);
         _reviewUnknown.setVisibility(View.INVISIBLE);
 
-        if(mainInfo.ReviewRatio > 80){
-            _reviewHigh.setVisibility(View.VISIBLE);
-        }else if(mainInfo.ReviewRatio > 40){
-            _reviewMid.setVisibility(View.VISIBLE);
-        }else if(mainInfo.ReviewRatio == -1){
-            _reviewUnknown.setVisibility(View.VISIBLE);
-        }else{
-            _reviewLow.setVisibility(View.VISIBLE);
+        ReviewRatio ratio = ReviewRatio.getByRatio(mainInfo.ReviewRatio);
+        switch (ratio) {
+            case NICE:
+                _reviewHigh.setVisibility(View.VISIBLE);
+                break;
+            case MID:
+                _reviewMid.setVisibility(View.VISIBLE);
+                break;
+            case BAD:
+                _reviewLow.setVisibility(View.VISIBLE);
+                break;
+            case UNKNOWN:
+                _reviewUnknown.setVisibility(View.VISIBLE);
+                break;
         }
 
         // load graph

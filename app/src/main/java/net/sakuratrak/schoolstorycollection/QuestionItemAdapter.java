@@ -146,6 +146,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder.previewImgContent.setImageURI(current.imgUri);
             holder.valDifficulty.setRating(current.difficulty);
             holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
+            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(),current.reviewRatio));
             holder.valFavourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             View.OnClickListener listener = v -> {
                 if (current.detailClicked != null) {
@@ -207,10 +208,10 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             Holder holder = (Holder) viewHolder;
-            QuestionItemAdapter.DataContext data = _dataContext.get(i);
-            holder._textTitle.setText(data.title);
-            holder._textTitle.getPaint().setStrikeThruText(data.hidden);
-            switch (data.type) {
+            QuestionItemAdapter.DataContext current = _dataContext.get(i);
+            holder._textTitle.setText(current.title);
+            holder._textTitle.getPaint().setStrikeThruText(current.hidden);
+            switch (current.type) {
                 case SINGLE_CHOICE:
                     holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);
                     break;
@@ -227,18 +228,19 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
                     holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_done_black_24dp, 0, 0, 0);
                     break;
             }
-            holder._difficulty.setRating(data.difficulty);
-            holder._previewImg.setImageURI(data.imgUri);
-            holder._favourite.setImageResource(data.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
-            holder._valReviewRatio.setText(data.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", data.reviewRatio));
-            holder._rootView.setOnClickListener(data.detailClicked);
-            holder._rootView.setOnLongClickListener(data.showMenuClicked);
-            holder._multiCheckbox.setVisibility(data.checkAble ? View.VISIBLE : View.INVISIBLE);
-            holder._multiCheckbox.setChecked(data.checked);
+            holder._difficulty.setRating(current.difficulty);
+            holder._previewImg.setImageURI(current.imgUri);
+            holder._favourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
+            holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
+            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(),current.reviewRatio));
+            holder._rootView.setOnClickListener(current.detailClicked);
+            holder._rootView.setOnLongClickListener(current.showMenuClicked);
+            holder._multiCheckbox.setVisibility(current.checkAble ? View.VISIBLE : View.INVISIBLE);
+            holder._multiCheckbox.setChecked(current.checked);
             holder._multiCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                data.checked = isChecked;
-                if (data.onCheckChanged != null)
-                    data.onCheckChanged.onCheckedChanged(buttonView, isChecked);
+                current.checked = isChecked;
+                if (current.onCheckChanged != null)
+                    current.onCheckChanged.onCheckedChanged(buttonView, isChecked);
             });
         }
 

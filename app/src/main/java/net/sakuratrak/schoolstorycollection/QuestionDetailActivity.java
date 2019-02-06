@@ -306,7 +306,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                                 DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);
                                 _edited = true;
                                 refresh();
-                                Snackbar.make(_appBar,string.resetStatSuccessful,Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(_appBar, string.resetStatSuccessful, Snackbar.LENGTH_LONG).show();
                             } catch (SQLException e) {
                                 Snackbar.make(_toolbarLayout, string.sqlExp, Snackbar.LENGTH_LONG).show();
                                 e.printStackTrace();
@@ -404,14 +404,21 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _reviewMid.setVisibility(View.INVISIBLE);
         _reviewLow.setVisibility(View.INVISIBLE);
         _reviewUnknown.setVisibility(View.INVISIBLE);
-        if (stat > 80) {
-            _reviewHigh.setVisibility(View.VISIBLE);
-        } else if (stat > 40) {
-            _reviewMid.setVisibility(View.VISIBLE);
-        } else if (stat == -1) {
-            _reviewUnknown.setVisibility(View.VISIBLE);
-        } else {
-            _reviewLow.setVisibility(View.VISIBLE);
+
+        ReviewRatio ratio = ReviewRatio.getByRatio(stat);
+        switch (ratio) {
+            case NICE:
+                _reviewHigh.setVisibility(View.VISIBLE);
+                break;
+            case MID:
+                _reviewMid.setVisibility(View.VISIBLE);
+                break;
+            case BAD:
+                _reviewLow.setVisibility(View.VISIBLE);
+                break;
+            case UNKNOWN:
+                _reviewUnknown.setVisibility(View.VISIBLE);
+                break;
         }
 
         ArrayList<Entry> entries = new ArrayList<>();

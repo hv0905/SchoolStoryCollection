@@ -188,5 +188,23 @@ public final class UiHelper {
         return uiColor;
     }
 
+    public static int getReviewColor(Resources res, ReviewRatio ratio) {
+        switch (ratio) {
+            case NICE:
+                return res.getColor(R.color.flat5);
+            case MID:
+                return res.getColor(R.color.flat7);
+            case BAD:
+                return res.getColor(R.color.flat8);
+            case UNKNOWN:
+                return res.getColor(R.color.black);
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static int getReviewColor(Resources res, int stat) {
+        return getReviewColor(res,ReviewRatio.getByRatio(stat));
+    }
+
 
 }

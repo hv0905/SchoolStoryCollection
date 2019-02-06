@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
@@ -11,10 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/ui_margin_mid"
         android:hint="@string/searchUnit"
-        app:boxBackgroundMode="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:boxBackgroundMode="none">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchText"
@@ -32,9 +31,63 @@
         android:layout_marginStart="@dimen/ui_margin_mid"
         android:layout_marginTop="@dimen/ui_margin_mid"
         android:layout_marginEnd="@dimen/ui_margin_mid"
-        android:text="@string/filterHiddenUnit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchLayout" />
+        android:text="@string/filterHiddenUnit"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/titleReviewRatio"
+        style="@style/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ui_margin_large"
+        android:text="@string/reviewRatio" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/reviewRatioChips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipWell"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:minWidth="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reviewNice"
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMid"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:minWidth="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reviewMid"
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipBad"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:minWidth="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reviewBad"
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipUnknown"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:minWidth="70dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reviewUnknown"
+            android:textAlignment="center"
+            app:ensureMinTouchTargetSize="false" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+</LinearLayout>

@@ -141,7 +141,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                 case 0:
                                     //归档
                                     new AlertDialog.Builder(getContext())
-                                            .setMessage(String.format(Locale.US,"真的归档/取消归档%d道错题吗？",_multiCount))
+                                            .setMessage(String.format(Locale.US, "真的归档/取消归档%d道错题吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiHideTitle)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
@@ -157,14 +157,14 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                                 }
                                                 getParent().requireRefresh();
                                             })
-                                            .setNegativeButton(R.string.cancel,null)
+                                            .setNegativeButton(R.string.cancel, null)
                                             .show();
 
                                     break;
                                 case 1:
                                     //重置统计信息
                                     new AlertDialog.Builder(getContext())
-                                            .setMessage(String.format(Locale.US,"确定要重置%d道错题的统计信息吗？",_multiCount))
+                                            .setMessage(String.format(Locale.US, "确定要重置%d道错题的统计信息吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiResetStat)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
@@ -175,19 +175,19 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                                 }
                                                 getParent().requireRefresh();
                                             })
-                                            .setNegativeButton(R.string.cancel,null)
+                                            .setNegativeButton(R.string.cancel, null)
                                             .show();
                                     break;
                                 case 2:
                                     //删除
                                     new AlertDialog.Builder(getContext())
-                                            .setMessage(String.format(Locale.US,"真的删除%d道错题吗？",_multiCount))
+                                            .setMessage(String.format(Locale.US, "真的删除%d道错题吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiRmTitle)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
                                                     if (dc.checked) {
-                                                        try{
+                                                        try {
                                                             DbManager.getDefaultHelper(getContext()).getQuestionInfos().delete(dc.db);
                                                         } catch (SQLException e) {
                                                             e.printStackTrace();
@@ -196,7 +196,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                                 }
                                                 getParent().requireRefresh();
                                             })
-                                            .setNegativeButton(R.string.cancel,null)
+                                            .setNegativeButton(R.string.cancel, null)
                                             .show();
                                     break;
                             }
@@ -266,17 +266,22 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private void refreshContext() {
         //筛选条件
         boolean hiddenShown = false;
+        boolean showFavouriteOnly = false;
         String[] keyword = null;
         List<Integer> unit = null;
         List<QuestionType> type = null;
+        List<ReviewRatio> reviewRatios = null;
         if (getParent()._questionFilterDialog != null) {
             hiddenShown = getParent()._questionFilterDialog.is_isHiddenShown();
+            showFavouriteOnly = getParent()._questionFilterDialog.is_isFavouriteOnly();
             keyword = getParent()._questionFilterDialog.get_searchTxt() == null ? null : getParent()._questionFilterDialog.get_searchTxt().split(" ");
             unit = getParent()._questionFilterDialog.get_selectedUnitIds();
             type = getParent()._questionFilterDialog.get_selectedType();
+            reviewRatios = getParent()._questionFilterDialog.get_selectedRatios();
             if (keyword != null && keyword.length == 0) keyword = null;
             if (unit != null && unit.size() == 0) unit = null;
             if (type != null && type.size() == 0) type = null;
+            if (reviewRatios != null && reviewRatios.size() == 0) reviewRatios = null;
         }
 
         QuestionInfo.DbHelper mgr = new QuestionInfo.DbHelper(
@@ -290,10 +295,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
         int displayId = 0;
         for (int i = _contexts.size() - 1; i >= 0; i--) {
             QuestionInfo info = _contexts.get(i);
-
             //筛选
             //筛掉隐藏的题目
             if (!hiddenShown && info.isHidden()) continue;
+            if (showFavouriteOnly && !info.isFavourite()) continue;
             if (type != null) {
                 if (!type.contains(info.getType())) continue;
             }
@@ -323,6 +328,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
                 }
                 if (!mainGoFlag) continue;
             }
+            int reviewValue = info.computeReviewValue();
+
+            if (reviewRatios != null) {
+                ReviewRatio reviewRatio = ReviewRatio.getByRatio(reviewValue);
+                if (!reviewRatios.contains(reviewRatio)) continue;
+            }
 
             //OK,加入列表
             final int currentDisplayId = displayId++;
@@ -333,7 +344,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     info.isFavourite(),
                     info.getType(),
                     info.isHidden(),
-                    info.computeReviewValue(),
+                    reviewValue,
                     v -> goDetail(info, v, currentDisplayId),
                     v -> goQuiz(info),
                     v -> {
@@ -388,12 +399,12 @@ public final class MainActivityWorkBookFragment extends Fragment {
                         break;
                     case QuestionDetailActivity.RESULT_HIDDEN:
                         refreshContext();
-                        if(getParent()._questionFilterDialog!= null && getParent()._questionFilterDialog.is_isHiddenShown()){
+                        if (getParent()._questionFilterDialog != null && getParent()._questionFilterDialog.is_isHiddenShown()) {
                             //看起来只是被修改了
                             if (_currentDetailIndex != -1) {
                                 _mainAdapter.notifyItemChanged(_currentDetailIndex);
                             } else _mainAdapter.notifyDataSetChanged();
-                        }else{
+                        } else {
                             //看起来被删除了
                             if (_currentDetailIndex != -1)
                                 _mainAdapter.notifyItemRemoved(_currentDetailIndex);

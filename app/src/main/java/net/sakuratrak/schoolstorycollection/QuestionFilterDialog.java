@@ -24,7 +24,7 @@ public final class QuestionFilterDialog {
 
     public static final String TAG = "filter_dialog";
 
-    private static final int[] QUESTION_TYPE_CHIP_IDS = new int[]{
+    private static final int[] QUESTION_TYPE_CHIP_IDS = {
             R.id.chipSingleChoice,
             R.id.chipMultiChoice,
             R.id.chipEditableFill,
@@ -32,18 +32,29 @@ public final class QuestionFilterDialog {
             R.id.chipAnswer,
     };
 
+    private static final int[] QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS = {
+            R.id.chipWell,
+            R.id.chipMid,
+            R.id.chipBad,
+            R.id.chipUnknown,
+    };
+
     private AlertDialog _dialog;
 
     private TextInputEditText _searchText;
     private Switch _hiddenSwitch;
+    private Switch _favouriteSwitch;
     private ChipGroup _unitChips;
     private ChipGroup _questionTypeGroup;
+    private ChipGroup _reviewRatioChips;
 
     private String _searchTxt;
     private boolean _isHiddenShown;
+    private boolean _isFavouriteOnly;
     private LearningSubject _subject;
     private List<Integer> _selectedUnitIds = new ArrayList<>();
     private List<QuestionType> _selectedType = new ArrayList<>();
+    private List<ReviewRatio> _selectedRatios = new ArrayList<>();
     private Runnable _onUpdate;
 
 
@@ -74,8 +85,10 @@ public final class QuestionFilterDialog {
 
         _searchText = _dialog.findViewById(R.id.searchText);
         _hiddenSwitch = _dialog.findViewById(R.id.hiddenSwitch);
+        _favouriteSwitch = _dialog.findViewById(R.id.favouriteSwitch);
         _unitChips = _dialog.findViewById(R.id.unitChips);
         _questionTypeGroup = _dialog.findViewById(R.id.questionTypeGroup);
+        _reviewRatioChips = _dialog.findViewById(R.id.reviewRatioChips);
 
         for (int i = 0; i < QUESTION_TYPE_CHIP_IDS.length; i++) {
             final int finalI = i;
@@ -94,9 +107,27 @@ public final class QuestionFilterDialog {
             });
         }
 
+        for (int i = 0; i < QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS.length; i++) {
+            final int finalI = i;
+            Chip chip = _dialog.findViewById(QUESTION_REVIEW_RATIO_LEVEL_CHIP_IDS[i]);
+            if (_selectedRatios.contains(ReviewRatio.fromId(i))) {
+                //noinspection ConstantConditions
+                chip.setChecked(true);
+            }
+            //noinspection ConstantConditions
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    _selectedRatios.add(ReviewRatio.fromId(finalI));
+                } else {
+                    _selectedRatios.remove(ReviewRatio.fromId(finalI));
+                }
+            });
+        }
+
 
         _searchText.setText(_searchTxt);
         _hiddenSwitch.setChecked(_isHiddenShown);
+        _favouriteSwitch.setChecked(_isFavouriteOnly);
 
         _unitChips.removeAllViews();
 
@@ -135,6 +166,7 @@ public final class QuestionFilterDialog {
         //apply dialog info into fields
         _searchTxt = _searchText.getText().toString();
         _isHiddenShown = _hiddenSwitch.isChecked();
+        _isFavouriteOnly = _favouriteSwitch.isChecked();
         if (_onUpdate != null)
             _onUpdate.run();
     }
@@ -143,8 +175,23 @@ public final class QuestionFilterDialog {
         _searchText.setText("");
         _selectedUnitIds.clear();
         _selectedType.clear();
+        _selectedRatios.clear();
+        _isHiddenShown = false;
+        _isFavouriteOnly = false;
         _hiddenSwitch.setChecked(false);
+        _favouriteSwitch.setChecked(false);
     }
+
+    public boolean isFilterActive() {
+        return (_searchTxt != null && !_searchTxt.trim().isEmpty()) ||
+                (_selectedUnitIds.size() != 0) ||
+                (_selectedType.size() != 0) ||
+                (_selectedRatios.size() != 0) ||
+                _isHiddenShown ||
+                _isFavouriteOnly;
+    }
+
+    //region getter and setter
 
     public String get_searchTxt() {
         return _searchTxt;
@@ -186,10 +233,6 @@ public final class QuestionFilterDialog {
         this._onUpdate = _onUpdate;
     }
 
-    public boolean isFilterActive() {
-        return (_searchTxt != null && !_searchTxt.isEmpty()) || (_selectedUnitIds.size() != 0) || (_selectedType.size() != 0) || _isHiddenShown;
-    }
-
     public List<QuestionType> get_selectedType() {
         return _selectedType;
     }
@@ -197,4 +240,22 @@ public final class QuestionFilterDialog {
     public void set_selectedType(List<QuestionType> _selectedType) {
         this._selectedType = _selectedType;
     }
+
+    public List<ReviewRatio> get_selectedRatios() {
+        return _selectedRatios;
+    }
+
+    public void set_selectedRatios(List<ReviewRatio> _selectedRatios) {
+        this._selectedRatios = _selectedRatios;
+    }
+
+    public boolean is_isFavouriteOnly() {
+        return _isFavouriteOnly;
+    }
+
+    public void set_isFavouriteOnly(boolean _isFavouriteOnly) {
+        this._isFavouriteOnly = _isFavouriteOnly;
+    }
+
+    //endregion
 }

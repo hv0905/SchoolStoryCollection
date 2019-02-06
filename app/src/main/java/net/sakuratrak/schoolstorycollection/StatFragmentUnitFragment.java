@@ -270,11 +270,14 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         String[] keyword = null;
         boolean isHiddenShown = false;
+        List<ReviewRatio> reviewRatios = null;
 
         if (getParent()._unitFilterDialog != null) {
             keyword = getParent()._unitFilterDialog.get_keyword() == null ? null : getParent()._unitFilterDialog.get_keyword().split(" ");
             isHiddenShown = getParent()._unitFilterDialog.is_isHiddenShown();
+            reviewRatios = getParent()._unitFilterDialog.get_selectedRatios();
             if (keyword != null && keyword.length == 0) keyword = null;
+            if(reviewRatios != null && reviewRatios.size() == 0) reviewRatios = null;
         }
 
 
@@ -293,9 +296,13 @@ public final class StatFragmentUnitFragment extends Fragment {
                 }
                 if (!mainGoFlag) continue;
             }
+            int reviewValue = item.computeAvgReviewRatio();
+            if(reviewRatios != null){
+                if(!reviewRatios.contains(ReviewRatio.getByRatio(reviewValue))) continue;
+            }
 
             //ok,加入列表
-            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
+            UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum,reviewValue);
             udiItem.DetailClicked = v -> goDetail(v, udiItem, item);
             udiItem.OnChecked = (buttonView, isChecked) -> {
                 if (isChecked) _multiCount++;
@@ -305,9 +312,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                 }
                 updateMulti(false);
             };
-            udiItem.QuizClicked = v -> {
-                goSingleQuiz(udiItem, item);
-            };
+            udiItem.QuizClicked = v -> goSingleQuiz(udiItem, item);
             udiItem.MenuClicked = v -> {
                 new AlertDialog.Builder(getContext())
                         .setItems(R.array.list_options, (dialog, which) -> {
