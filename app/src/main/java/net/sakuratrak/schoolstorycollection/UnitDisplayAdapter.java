@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 
@@ -69,6 +71,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
             viewHolder._multiCheckbox.setChecked(current.Checked);
             viewHolder._root.setOnClickListener(current.DetailClicked);
+            viewHolder._root.setOnLongClickListener(current.MenuClicked);
             viewHolder._multiCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 current.Checked = isChecked;
                 if (current.OnChecked != null)
@@ -119,7 +122,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
             viewHolder._valCorrectRatio.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.ENGLISH, "%d%%", current.ReviewRatio));
             viewHolder._correctRatioBar.setProgress(current.ReviewRatio);
-            viewHolder._frame.setOnClickListener(current.DetailClicked);
+            viewHolder._viewBtn.setOnClickListener(current.DetailClicked);
+            viewHolder._quizBtn.setOnClickListener(current.QuizClicked);
             viewHolder._warningTxt.setVisibility(current.requireMoreRecord ? View.VISIBLE : View.INVISIBLE);
             viewHolder._valQuestionCount.setText(String.valueOf(current.QuestionCount));
             viewHolder._valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", current.QuestionRatio));
@@ -146,6 +150,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             private final TextView _valQuestionRatio;
             private final ProgressBar _questionRatioBar;
             private final LinearLayout _frame;
+            private final MaterialButton _viewBtn;
+            private final MaterialButton _quizBtn;
 
 
             private Holder(View rootView) {
@@ -161,6 +167,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
                 _questionRatioBar = _root.findViewById(R.id.questionRatioBar);
                 _frame = _root.findViewById(R.id.frame);
                 _unitMainInfo = _root.findViewById(R.id.unitMainInfo);
+                _viewBtn = _root.findViewById(R.id.viewBtn);
+                _quizBtn = _root.findViewById(R.id.quizBtn);
             }
 
         }
@@ -168,6 +176,8 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
 
     public static class DataContext {
         public View.OnClickListener DetailClicked;
+        public View.OnClickListener QuizClicked;
+        public View.OnLongClickListener MenuClicked;
         public String Title;
         public ConstraintLayout unitMainInfo;
         public boolean Checkable = true;

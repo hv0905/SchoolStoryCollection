@@ -425,7 +425,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
     private void showOptionMenu(QuestionInfo info, int index) {
         AlertDialog builder = new AlertDialog.Builder(getContext()).
-                setItems(new String[]{getString(R.string.view), getString(R.string.test)}, (dialog, which) -> {
+                setItems(R.array.list_options, (dialog, which) -> {
                     switch (which) {
                         case 0:
                             goDetail(info, null, index);

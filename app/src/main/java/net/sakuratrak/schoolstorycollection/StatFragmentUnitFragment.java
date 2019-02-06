@@ -16,10 +16,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuizHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
     private static final String TAG = "Stat_UnitFragment";
     private static final int REQUEST_DETAIL = 100;
+    private static final int REQUEST_QUIZ = 101;
 
     //region views
     private ConstraintLayout _root;
@@ -89,6 +92,14 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         _multiQuizBtn.setOnClickListener(v -> {
             // TODO: 2019/2/1 调用单元小测
+            ArrayList<LearningUnitInfo> selectedUnits = new ArrayList<>();
+            for (int i = 0; i < _displayContext.size(); i++) {
+                UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
+                if (dc.Checked) {
+                    selectedUnits.add(dc.db);
+                }
+            }
+            requestUnitQuiz(selectedUnits, selectedUnits.size() + "个单元");
         });
 
         _multiMoreBtn.setOnClickListener(v -> new AlertDialog.Builder(getContext())
@@ -272,7 +283,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
             //ok,加入列表
             UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext udiItem = UnitDisplayAdapter.DataContext.fromDb(item, questionSum);
-            udiItem.DetailClicked = v -> detailClicked(v, udiItem, item);
+            udiItem.DetailClicked = v -> goDetail(v, udiItem, item);
             udiItem.OnChecked = (buttonView, isChecked) -> {
                 if (isChecked) _multiCount++;
                 else {
@@ -280,6 +291,23 @@ public final class StatFragmentUnitFragment extends Fragment {
                         _multiCount--;
                 }
                 updateMulti(false);
+            };
+            udiItem.QuizClicked = v -> {
+                goSingleQuiz(udiItem, item);
+            };
+            udiItem.MenuClicked = v -> {
+                new AlertDialog.Builder(getContext())
+                        .setItems(R.array.list_options, (dialog, which) -> {
+                            switch (which) {
+                                case 0:
+                                    goDetail(v, udiItem, item);
+                                case 1:
+                                    goSingleQuiz(udiItem, item);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
+                return true;
             };
             _displayContext.add(udiItem);
         }
@@ -290,12 +318,18 @@ public final class StatFragmentUnitFragment extends Fragment {
         }
     }
 
+    private void goSingleQuiz(UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
+        ArrayList<LearningUnitInfo> unit = new ArrayList<>();
+        unit.add(item);
+        requestUnitQuiz(unit, item.getName());
+    }
+
     public void refresh() {
         refreshContext();
         _mainAdapter.notifyDataSetChanged();
     }
 
-    private void detailClicked(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
+    private void goDetail(View v, UnitDisplayAdapter.DataContext udiItem, LearningUnitInfo item) {
         Intent intent = new Intent(getActivity(), UnitDetailActivity.class);
         intent.putExtra(UnitDetailActivity.EXTRA_CONTEXT_ID, item.getId());
         ActivityOptions ao;
@@ -332,6 +366,10 @@ public final class StatFragmentUnitFragment extends Fragment {
                     case UnitDetailActivity.RESULT_HIDDEN:
                         getParent().requireRefresh();
                         break;
+                }
+            case REQUEST_QUIZ:
+                if (resultCode != QuizActivity.RESULT_NONE_DONE) {
+                    getParent().requireRefresh();
                 }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -384,6 +422,44 @@ public final class StatFragmentUnitFragment extends Fragment {
                     .setDuration(200)
                     .start();
         }
+    }
+
+    void requestUnitQuiz(List<LearningUnitInfo> units, String dist) {
+        new AlertDialog.Builder(getContext()).setItems(R.array.list_quiz, (dialog, which) -> {
+            List<QuestionInfo> in = new ArrayList<>();
+            for (LearningUnitInfo unit : units) {
+                in.addAll(unit.getQuestions());
+            }
+            List<QuestionInfo> quizContext = null;
+            int n = AppSettingsMaster.getQuizSize(getContext());
+            switch (which) {
+                case 0:
+                    //sm
+                    quizContext = QuizHelper.prepareSmartQuiz(in, n);
+                    break;
+                case 1:
+                    //rd
+                    quizContext = QuizHelper.prepareRandomQuiz(in, n);
+                    break;
+            }
+            if (quizContext == null) {
+                Snackbar.make(_root, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            ArrayList<Integer> quizIds = new ArrayList<>(quizContext.size());
+            for (QuestionInfo qc :
+                    quizContext) {
+                quizIds.add(qc.getId());
+            }
+
+            Intent intent = new Intent(getContext(), QuizActivity.class);
+            intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, quizIds);
+            intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+            intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, String.format("单元%s小测:%s", which == 0 ? "智能" : "随机", dist));
+            startActivityForResult(intent, REQUEST_QUIZ);
+        })
+                .setPositiveButton(R.string.cancel, null)
+                .show();
     }
 }
 

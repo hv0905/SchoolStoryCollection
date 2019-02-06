@@ -2,7 +2,7 @@
     <string name="AppBranch">develop</string>
     <string name="AppNameCn">错题本Story</string>
     <string name="AppAuthor">EdgeNeko in SakuraTrak studio</string>
-    <string name="AppVersionCn">版本:develop 1.0.0 发布于19.1.19</string>
+    <string name="AppVersionCn">版本:develop 1.0.0 内测版本 发布于19.2.5</string>
 
     <string name="title_home">错题本</string>
     <string name="title_quiz">小测</string>
@@ -248,5 +248,13 @@
         <item>切换归档/取消归档</item>
         <item>重置统计信息</item>
         <item>删除</item>
+    </string-array>
+    <string-array name="list_options">
+        <item>查看</item>
+        <item>小测</item>
+    </string-array>
+    <string-array name="list_quiz">
+        <item>智能小测</item>
+        <item>随机小测</item>
     </string-array>
 </resources>

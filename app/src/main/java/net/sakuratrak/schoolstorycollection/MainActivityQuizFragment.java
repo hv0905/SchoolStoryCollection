@@ -14,8 +14,8 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLog;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
-import net.sakuratrak.schoolstorycollection.core.MathHelper;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.QuizHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -67,44 +67,25 @@ public final class MainActivityQuizFragment extends Fragment {
 
         _quickQuizButton.setOnClickListener(v -> {
             try {
-                int n = AppSettingsMaster.getQuizSize(getContext());
-                List<QuestionInfo> qi = new ArrayList<>(new QuestionInfo.DbHelper(getContext())
-                        .findAllWithSubject(getParent().getCurrentSubject()));
-                if (qi.size() == 0) {
+                List<QuestionInfo> quizContext = QuizHelper.prepareSmartQuiz(
+                        new QuestionInfo.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject()),
+                        AppSettingsMaster.getQuizSize(getContext())
+                );
+                if (quizContext == null) {
                     Snackbar.make(_root, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                ArrayList<Integer> quizIds = new ArrayList<>();
-                if (qi.size() < n) {
-                    //全测
-                    for (QuestionInfo item : qi) {
-                        quizIds.add(item.getId());
-                    }
-                } else {
-                    for (int i = 0; i < qi.size(); i++) {
-                        QuestionInfo item = qi.get(i);
-                        if (item.isHidden() || (item.getUnit() != null && item.getUnit().isHidden())) {
-                            qi.remove(i);
-                            i--;
-                        }
-                    }
-                    int[] randomChance = new int[qi.size()];
-                    for (int i = 0; i < qi.size(); i++) {
-                        QuestionInfo item = qi.get(i);
-                        randomChance[i] = 110 - item.computeReviewValue();
-
-                    }
-                    int[] result = MathHelper.getMultiRandomItemWithProportion(randomChance, n);
-                    for (int item : result) {
-                        quizIds.add(qi.get(item).getId());
-                    }
+                ArrayList<Integer> quizIds = new ArrayList<>(quizContext.size());
+                for (QuestionInfo qc :
+                        quizContext) {
+                    quizIds.add(qc.getId());
                 }
 
-                Intent intent = new Intent(getContext(),QuizActivity.class);
-                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,quizIds);
-                intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
-                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
-                startActivityForResult(intent,REQUEST_QUIZ);
+                Intent intent = new Intent(getContext(), QuizActivity.class);
+                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, quizIds);
+                intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "快速小测");
+                startActivityForResult(intent, REQUEST_QUIZ);
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -114,31 +95,25 @@ public final class MainActivityQuizFragment extends Fragment {
 
         _randomQuizButton.setOnClickListener(v -> {
             try {
-                int n = AppSettingsMaster.getQuizSize(getContext());
-                List<QuestionInfo> qi = new ArrayList<>(new QuestionInfo.DbHelper(getContext())
-                        .findAllWithSubject(getParent().getCurrentSubject()));
-                if (qi.size() == 0) {
+                List<QuestionInfo> quizContext = QuizHelper.prepareRandomQuiz(
+                        new QuestionInfo.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject()),
+                        AppSettingsMaster.getQuizSize(getContext())
+                );
+                if (quizContext == null) {
                     Snackbar.make(_root, R.string.quizWarnEmptyQuestion, Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                ArrayList<Integer> quizIds = new ArrayList<>();
-                if (qi.size() < n) {
-                    //全测
-                    for (QuestionInfo item : qi) {
-                        quizIds.add(item.getId());
-                    }
-                } else {
-                    int[] indexes = MathHelper.getMultiRandomItem(qi.size(),n);
-                    for(int index:indexes){
-                        quizIds.add(qi.get(index).getId());
-                    }
+                ArrayList<Integer> quizIds = new ArrayList<>(quizContext.size());
+                for (QuestionInfo qc :
+                        quizContext) {
+                    quizIds.add(qc.getId());
                 }
 
-                Intent intent = new Intent(getContext(),QuizActivity.class);
-                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS,quizIds);
-                intent.putExtra(QuizActivity.EXTRA_MODE,QuizActivity.MODE_LIST);
-                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION,"快速小测");
-                startActivityForResult(intent,REQUEST_QUIZ);
+                Intent intent = new Intent(getContext(), QuizActivity.class);
+                intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, quizIds);
+                intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+                intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "快速小测");
+                startActivityForResult(intent, REQUEST_QUIZ);
 
             } catch (SQLException e) {
                 e.printStackTrace();
