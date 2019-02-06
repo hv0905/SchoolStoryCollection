@@ -99,6 +99,15 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
 
     //region some stat
 
+    public double computeAvgCorrectRatio(){
+        int count = 0,sum = 0;
+        for (ExerciseLog log:getExerciseLogs()) {
+            count++;
+            sum+=log.getCorrectRatio();
+        }
+        return sum / (double)count + 0.5;
+    }
+
 
     /**
      * 计算这题的掌握程度,数值越大越好

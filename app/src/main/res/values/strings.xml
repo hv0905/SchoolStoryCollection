@@ -35,7 +35,7 @@
     <string name="aboutTitle">关于错题本Story</string>
     <string name="about">关于</string>
     <string name="questionName">题目名称</string>
-    <string name="questionFrom">题目来源</string>
+    <string name="questionSrc">题目来源</string>
     <string name="unit">单元</string>
     <string name="emptyUnit">(未指定)</string>
     <string name="unitName">单元名称</string>
