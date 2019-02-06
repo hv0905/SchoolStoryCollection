@@ -76,7 +76,7 @@ public final class UiHelper {
         xAxis.setLabelCount(7);
         YAxis leftAxis = bar.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setDrawLabels(false);
         leftAxis.setTextSize(16);
         leftAxis.setAxisMinimum(0f);
         YAxis rightAxis = bar.getAxisRight();
@@ -102,7 +102,7 @@ public final class UiHelper {
         xAxis.setLabelCount(5);
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
-        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setDrawLabels(false);
         leftAxis.setTextSize(16);
         leftAxis.setAxisMinimum(0f);
         YAxis rightAxis = chart.getAxisRight();
