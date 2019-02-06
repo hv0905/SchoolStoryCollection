@@ -142,6 +142,7 @@ public final class QuestionFilterDialog {
     public void resetDialog() {
         _searchText.setText("");
         _selectedUnitIds.clear();
+        _selectedType.clear();
         _hiddenSwitch.setChecked(false);
     }
 
