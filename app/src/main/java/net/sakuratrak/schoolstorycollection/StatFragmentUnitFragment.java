@@ -327,7 +327,7 @@ public final class StatFragmentUnitFragment extends Fragment {
 
         if (_displayContext.size() == 0) {
             _unitEmptyNotice.setVisibility(View.VISIBLE);
-            _txtUnitEmptyNotice.setText(getParent()._unitFilterDialog.isFilterActive() ? R.string.filterEmptyUnitUi : R.string.unitEmptyUi);
+            _txtUnitEmptyNotice.setText(getParent()._unitFilterDialog != null && getParent()._unitFilterDialog.isFilterActive() ? R.string.filterEmptyUnitUi : R.string.unitEmptyUi);
         } else {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
         }
