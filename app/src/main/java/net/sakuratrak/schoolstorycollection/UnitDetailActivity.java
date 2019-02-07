@@ -290,6 +290,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.done, (dialog, which) -> {
                             AlertDialog dg = (AlertDialog) dialog;
                             TextInputEditText editText = dg.findViewById(R.id.txtUnitName);
+                            //noinspection ConstantConditions
                             if (editText.getText() == null || editText.getText().toString().trim().isEmpty()) {
                                 return;
                             }

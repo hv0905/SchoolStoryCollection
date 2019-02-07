@@ -136,6 +136,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
 
         });
 
+        //noinspection ConstantConditions
         _multiMoreBtn.setOnClickListener(v ->
                 new AlertDialog.Builder(getContext())
                         .setItems(R.array.question_multi_options, (dialog, which) -> {
@@ -457,7 +458,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     }
 
     private void showOptionMenu(QuestionInfo info, int index) {
-        AlertDialog builder = new AlertDialog.Builder(getContext()).
+        @SuppressWarnings("ConstantConditions") AlertDialog builder = new AlertDialog.Builder(getContext()).
                 setItems(R.array.list_options, (dialog, which) -> {
                     switch (which) {
                         case 0:
@@ -482,6 +483,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         if (second) {
             _mainAdapter = new QuestionItemAdapter.SimpleQuestionItemAdapter(new ListDataProvider<>(_displayContexts));
             if (_mainDivider == null)
+                //noinspection ConstantConditions
                 _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
             _itemList.addItemDecoration(_mainDivider);
             updateMulti(false);

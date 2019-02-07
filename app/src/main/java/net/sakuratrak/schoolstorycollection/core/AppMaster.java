@@ -94,11 +94,12 @@ public class AppMaster {
         }
         //将备选考进去
         InputStream in = context.getResources().openRawResource(R.raw.img_notify_disappear);
-        FileOutputStream out = null;
+        FileOutputStream out;
         try {
             out = new FileOutputStream(imgFile.getAbsolutePath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
         byte[] buff = new byte[1024];
         int read;

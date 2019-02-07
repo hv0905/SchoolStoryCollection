@@ -40,7 +40,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    protected static class MainSettingFragment extends PreferenceFragmentCompat {
+    public static class MainSettingFragment extends PreferenceFragmentCompat {
         protected int easterEggClickTime = 0;
 
         @Override

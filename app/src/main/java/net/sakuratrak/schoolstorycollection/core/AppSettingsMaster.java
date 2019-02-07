@@ -55,6 +55,7 @@ public final class AppSettingsMaster {
 
     public static Calendar getAlarmTime(Context context) {
         String str = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_ALARM_TIME, "");
+        //noinspection ConstantConditions
         String[] sp = str.split(":");
         if (sp.length != 2) return null;
         Calendar date = Calendar.getInstance();
@@ -80,6 +81,7 @@ public final class AppSettingsMaster {
     }
 
     public static int getQuizSize(Context context) {
+        //noinspection ConstantConditions
         return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_QUIZ_SIZE, "10"));
     }
 

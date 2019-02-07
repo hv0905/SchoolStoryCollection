@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         //设置工具栏
         setSupportActionBar(_toolbar);
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(drawable.ic_menu_white_24dp);
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
         getWindow().setStatusBarColor(uiColor);
         _toolbar.setBackgroundColor(uiColor);
+        //noinspection ConstantConditions
         getSupportActionBar().setTitle(getResources().getStringArray(array.learning_subjects)[subject.getId()]);
 
         //reset filter dialog

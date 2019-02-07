@@ -123,6 +123,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _logContext = new ArrayList<>();
         _mainAdapter = new ExerciseLogGroupAdapter(new ListDataProvider<>(_logContext));
         _listLog.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        //noinspection ConstantConditions
         _listLog.addItemDecoration(new RecycleViewDivider(RecyclerView.VERTICAL, getContext()));
         _listLog.setAdapter(new AlphaInAnimationAdapter(_mainAdapter));
         getParent().addRequireRefreshEvent(_update);
@@ -149,6 +150,7 @@ public final class MainActivityQuizFragment extends Fragment {
             for (int i = datas.size() - 1; i >= 0; i--) {
                 ExerciseLogGroup data = datas.get(i);
                 //        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
+                //noinspection ConstantConditions
                 _logContext.add(new ExerciseLogGroupAdapter.DataContext(
                         data.getDescription(),
                         UiHelper.defaultFormatWithTime.format(data.getHappendTime()),

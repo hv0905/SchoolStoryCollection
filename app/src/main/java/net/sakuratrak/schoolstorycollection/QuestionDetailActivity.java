@@ -132,6 +132,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
         setSupportActionBar(_toolbar);
 
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
 
@@ -370,6 +371,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
             return;
         }
 
+        //noinspection ConstantConditions
         getSupportActionBar().setTitle(_context.getTitle());
         _toolbar.setTitle(_context.getTitle());
         int uiColor = UiHelper.getFlatUiColor(this, _context.getSubject().getId());

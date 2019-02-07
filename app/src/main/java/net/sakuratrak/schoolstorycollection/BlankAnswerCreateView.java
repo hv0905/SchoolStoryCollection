@@ -61,7 +61,8 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
 
     @Override
     public Answer getAnswer() {
-        if (hasAnswer()) return new BlankAnswer(_answerText.getText().toString());
+        if (hasAnswer()) //noinspection ConstantConditions
+            return new BlankAnswer(_answerText.getText().toString());
         return null;
     }
 
@@ -76,6 +77,6 @@ public final class BlankAnswerCreateView extends AnswerUiCreatorView {
 
     @Override
     public boolean hasAnswer() {
-        return !_answerText.getText().toString().trim().isEmpty();
+        return _answerText.getText() != null && !_answerText.getText().toString().trim().isEmpty();
     }
 }

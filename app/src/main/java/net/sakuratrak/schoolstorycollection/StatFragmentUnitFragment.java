@@ -87,7 +87,6 @@ public final class StatFragmentUnitFragment extends Fragment {
         _txtUnitEmptyNotice = _root.findViewById(R.id.txtUnitEmptyNotice);
 
         _multiQuizBtn.setOnClickListener(v -> {
-            // TODO: 2019/2/1 调用单元小测
             ArrayList<LearningUnitInfo> selectedUnits = new ArrayList<>();
             for (int i = 0; i < _displayContext.size(); i++) {
                 UnitDisplayAdapter.DataContext dc = _displayContext.get(i);
@@ -98,12 +97,12 @@ public final class StatFragmentUnitFragment extends Fragment {
             requestUnitQuiz(selectedUnits, selectedUnits.size() + "个单元");
         });
 
+        //noinspection ConstantConditions
         _multiMoreBtn.setOnClickListener(v -> new AlertDialog.Builder(getContext())
                 .setTitle(String.format(Locale.US, "已选择%d个单元", _multiCount))
                 .setItems(R.array.unit_multi_options, (dialog, which) -> {
                     switch (which) {
                         case 0:
-                            // TODO: 2019/2/1 box
                             new AlertDialog.Builder(getContext())
                                     .setMessage(String.format(Locale.US, "真的归档/取消归档%d个单元吗？", _multiCount))
                                     .setTitle(R.string.confirmMultiHideTitle)
@@ -125,7 +124,6 @@ public final class StatFragmentUnitFragment extends Fragment {
                                     .show();
                             break;
                         case 1:
-                            // TODO: 2019/2/1 clear
                             new AlertDialog.Builder(getContext())
                                     .setMessage(String.format(Locale.US, "确定要重置%d个单元的统计信息吗？", _multiCount))
                                     .setTitle(R.string.confirmMultiResetStat)
@@ -142,7 +140,6 @@ public final class StatFragmentUnitFragment extends Fragment {
                                     .show();
                             break;
                         case 2:
-                            // TODO: 2019/2/1 rm
                             new AlertDialog.Builder(getContext())
                                     .setMessage(String.format(Locale.US, "真的删除%d个单元吗？", _multiCount))
                                     .setTitle(R.string.confirmMultiRmTitle)
@@ -184,6 +181,7 @@ public final class StatFragmentUnitFragment extends Fragment {
                 .setPositiveButton(R.string.done, (dialog, which) -> {
                     AlertDialog dg = (AlertDialog) dialog;
                     TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
+                    //noinspection ConstantConditions
                     if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
                         new AlertDialog.Builder(getParent())
                                 .setMessage("请输入单元名称")
@@ -308,6 +306,7 @@ public final class StatFragmentUnitFragment extends Fragment {
             };
             udiItem.QuizClicked = v -> goSingleQuiz(udiItem, item);
             udiItem.MenuClicked = v -> {
+                //noinspection ConstantConditions
                 new AlertDialog.Builder(getContext())
                         .setItems(R.array.list_options, (dialog, which) -> {
                             switch (which) {
@@ -340,7 +339,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         requestUnitQuiz(unit, item.getName());
     }
 
-    public void refresh() {
+    private void refresh() {
         refreshContext();
         _mainAdapter.notifyDataSetChanged();
     }
@@ -395,6 +394,7 @@ public final class StatFragmentUnitFragment extends Fragment {
         if (isSecondMode) {
             _mainAdapter = new UnitDisplayAdapter.SimpleUnitDisplayAdapter(new ListDataProvider<>(_displayContext));
             if (_mainDivider == null)
+                //noinspection ConstantConditions
                 _mainDivider = new RecycleViewDivider(RecyclerView.VERTICAL, getContext());
             _unitList.addItemDecoration(_mainDivider);
             updateMulti(false);
@@ -440,7 +440,8 @@ public final class StatFragmentUnitFragment extends Fragment {
         }
     }
 
-    void requestUnitQuiz(List<LearningUnitInfo> units, String dist) {
+    private void requestUnitQuiz(List<LearningUnitInfo> units, String dist) {
+        //noinspection ConstantConditions
         new AlertDialog.Builder(getContext()).setItems(R.array.list_quiz, (dialog, which) -> {
             List<QuestionInfo> in = new ArrayList<>();
             for (LearningUnitInfo unit : units) {

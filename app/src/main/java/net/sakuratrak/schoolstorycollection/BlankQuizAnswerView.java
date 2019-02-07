@@ -69,7 +69,8 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     public Answer.PlainTextAnswer getAnswer() {
-        if (hasAnswer()) return new BlankAnswer(_editAnswer.getText().toString());
+        if (hasAnswer()) //noinspection ConstantConditions
+            return new BlankAnswer(_editAnswer.getText().toString());
         return null;
     }
 
@@ -84,7 +85,7 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
 
     @Override
     public boolean hasAnswer() {
-        return !_editAnswer.getText().toString().trim().isEmpty();
+        return _editAnswer.getText() != null && !_editAnswer.getText().toString().trim().isEmpty();
     }
 
     @Override

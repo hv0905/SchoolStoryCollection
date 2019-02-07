@@ -71,6 +71,7 @@ public class LearningUnitChoosingActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.done, (dialog, which) -> {
                     AlertDialog dg = (AlertDialog) dialog;
                     TextInputEditText tiet = dg.findViewById(R.id.txtUnitName);
+                    //noinspection ConstantConditions
                     if (tiet.getText() == null || tiet.getText().toString().trim().isEmpty()) {
                         new AlertDialog.Builder(getParent())
                                 .setMessage("请输入单元名称")
