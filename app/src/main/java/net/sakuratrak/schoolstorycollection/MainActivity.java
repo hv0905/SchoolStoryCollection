@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle _drawerToggle;
     private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
     private ArrayList<ChangeDisplayModeEventHandler> _changeDisplayModeEvent;
+    private RequireRefreshEventHandler _questionDialogUpdate;
+    private RequireRefreshEventHandler _unitDialogUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -301,6 +303,23 @@ public class MainActivity extends AppCompatActivity {
         this._isSecondDisplayMode = _isSecondDisplayMode;
     }
 
+    public RequireRefreshEventHandler get_questionDialogUpdate() {
+        return _questionDialogUpdate;
+    }
+
+    public void set_questionDialogUpdate(RequireRefreshEventHandler _questionDialogUpdate) {
+        this._questionDialogUpdate = _questionDialogUpdate;
+    }
+
+    public RequireRefreshEventHandler get_unitDialogUpdate() {
+        return _unitDialogUpdate;
+    }
+
+    public void set_unitDialogUpdate(RequireRefreshEventHandler _unitDialogUpdate) {
+        this._unitDialogUpdate = _unitDialogUpdate;
+    }
+
+
     void showQuestionFilterDialog() {
 
         if (_questionFilterDialog == null) {
@@ -319,11 +338,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void onWorkbookFilterDialogUpdate() {
-        _pageContext.workBook.refreshList();
+        if(_questionDialogUpdate != null){
+            _questionDialogUpdate.update();
+        }
     }
 
     void onUnitFilterDialogUpdate() {
-        _pageContext.stat._adapter.unit.refresh();
+        if(_unitDialogUpdate != null){
+            _unitDialogUpdate.update();
+        }
     }
 
     void setToolBtnVisible(boolean visible) {

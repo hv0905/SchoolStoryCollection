@@ -48,33 +48,25 @@ public final class StatFragmentUnitFragment extends Fragment {
     private View _unitEmptyNotice;
     private RecyclerView _unitList;
     private FloatingActionButton _addUnitBtn;
-    //endregion
-
-    private Runnable _notifyUnitRefresh;
-    private UnitDisplayAdapter _mainAdapter;
-    private List<LearningUnitInfo> _context;
-    private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
     private RecycleViewDivider _mainDivider;
-    private int _multiCount;
-    private boolean _multiShowed;
     private FrameLayout _multiQuizBtn;
     private TextView _multiQuizBtnText;
     private ImageButton _multiMoreBtn;
     private MaterialCardView _multiActionBar;
-    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
     private TextView _txtUnitEmptyNotice;
+    //endregion
+
+    private UnitDisplayAdapter _mainAdapter;
+    private List<LearningUnitInfo> _context;
+    private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
+    private int _multiCount;
+    private boolean _multiShowed;
+    private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
     private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
+    private final MainActivity.RequireRefreshEventHandler _dialogUpdate = this::refresh;
 
 
     public StatFragmentUnitFragment() {
-    }
-
-    public Runnable getNotifyUnitRefresh() {
-        return _notifyUnitRefresh;
-    }
-
-    public void setNotifyUnitRefresh(Runnable _notifyUnitRefresh) {
-        this._notifyUnitRefresh = _notifyUnitRefresh;
     }
 
     @Override
@@ -232,11 +224,13 @@ public final class StatFragmentUnitFragment extends Fragment {
     private void regTel() {
         getParent().addRequireRefreshEvent(_requireRefresh);
         getParent().addChangeDisplayModeEvent(_changeMode);
+        getParent().set_unitDialogUpdate(_dialogUpdate);
     }
 
     private void destroyTel() {
         getParent().removeRequireRefreshEvent(_requireRefresh);
         getParent().removeChangeDisplayModeEvent(_changeMode);
+        getParent().set_unitDialogUpdate(null);
     }
 
     @Override
@@ -333,11 +327,6 @@ public final class StatFragmentUnitFragment extends Fragment {
             _txtUnitEmptyNotice.setText(getParent()._unitFilterDialog.isFilterActive() ? R.string.filterEmptyUnitUi : R.string.unitEmptyUi);
         } else {
             _unitEmptyNotice.setVisibility(View.INVISIBLE);
-        }
-
-
-        if (_notifyUnitRefresh != null) {
-            _notifyUnitRefresh.run();
         }
     }
 

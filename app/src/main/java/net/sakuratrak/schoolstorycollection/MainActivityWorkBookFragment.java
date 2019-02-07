@@ -75,6 +75,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private boolean _multiShowed = false;
     private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
+    private final MainActivity.RequireRefreshEventHandler _dialogUpdate = this::refreshList;
+
     //endregion
 
     public Runnable getNotifyToUpdate() {
@@ -238,9 +240,11 @@ public final class MainActivityWorkBookFragment extends Fragment {
         if (enabled) {
             getParent().addRequireRefreshEvent(_refreshEvent);
             getParent().addChangeDisplayModeEvent(_changeMode);
+            getParent().set_questionDialogUpdate(_dialogUpdate);
         } else {
             getParent().removeRequireRefreshEvent(_refreshEvent);
             getParent().removeChangeDisplayModeEvent(_changeMode);
+            getParent().set_questionDialogUpdate(null);
         }
     }
 
