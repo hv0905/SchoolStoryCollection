@@ -84,6 +84,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(true);
 
         Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.putExtra(MainActivity.EXTRA_FROM_NOTIFY,true);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);

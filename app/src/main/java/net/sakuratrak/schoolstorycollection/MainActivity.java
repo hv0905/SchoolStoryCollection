@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             id.nav_menu_geo
     };
     private final String TAG = "MainActivity";
+    public static final String EXTRA_FROM_NOTIFY = "from_notify";
+
     //region fields
     public QuestionFilterDialog _questionFilterDialog;
     public UnitFilterDialog _unitFilterDialog;
@@ -180,11 +182,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        //endregion
-
-
-        //region init recycler
-        //endregion
+        if(getIntent().getBooleanExtra(EXTRA_FROM_NOTIFY,false)){
+            _pager.setCurrentItem(1);
+        }
 
     }
 
