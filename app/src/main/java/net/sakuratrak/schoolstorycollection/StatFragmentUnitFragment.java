@@ -22,6 +22,7 @@ import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.ListDataProvider;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuizHelper;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package net.sakuratrak.schoolstorycollection;
+package net.sakuratrak.schoolstorycollection.core;
+
+import net.sakuratrak.schoolstorycollection.R;
 
 import androidx.annotation.StringRes;
 
@@ -11,7 +13,7 @@ public enum ReviewRatio {
     int resId;
 
 
-    ReviewRatio(@StringRes int resId){
+    ReviewRatio(@StringRes int resId) {
         this.resId = resId;
     }
 
@@ -35,7 +37,7 @@ public enum ReviewRatio {
         return ordinal();
     }
 
-    public int getStr(){
+    public int getStr() {
         return resId;
     }
 }

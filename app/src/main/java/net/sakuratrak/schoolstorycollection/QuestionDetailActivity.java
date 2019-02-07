@@ -35,6 +35,7 @@ import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,12 +52,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class QuestionDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_QUESTION_ID = "questionId";
-    private static final String TAG = "QuestionDetail";
-
     public static final int RESULT_EDITED = 200;
     public static final int RESULT_DELETED = 201;
     public static final int RESULT_HIDDEN = 202;
-
+    private static final String TAG = "QuestionDetail";
     private static final int REQUEST_EDIT = 100;
     private AppBarLayout _appBar;
     private Toolbar _toolbar;

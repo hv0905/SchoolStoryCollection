@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.PieDataSet.ValuePosition;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 
 import net.sakuratrak.schoolstorycollection.R.color;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -28,12 +29,12 @@ public final class UiHelper {
     public static final SimpleDateFormat defaultFormatWithTime = new SimpleDateFormat("yy.MM.dd hh:mm", Locale.US);
 
     public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet) {
-        applyAppearanceForPieDataSet(context, dataSet,true);
+        applyAppearanceForPieDataSet(context, dataSet, true);
     }
 
-        public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet,boolean drawVal) {
+    public static void applyAppearanceForPieDataSet(Context context, PieDataSet dataSet, boolean drawVal) {
         dataSet.setColors(getFlatUiColors(context));
-        if(drawVal) {
+        if (drawVal) {
             dataSet.setDrawValues(true);
             dataSet.setValueTextColor(Color.BLACK);
             dataSet.setValueLinePart1OffsetPercentage(80f);//数据连接线距图形片内部边界的距离，为百分数
@@ -41,7 +42,7 @@ public final class UiHelper {
             dataSet.setValueLinePart2Length(0.4f);
             dataSet.setValueLineColor(Color.BLACK);//设置连接线的颜色
             dataSet.setYValuePosition(ValuePosition.OUTSIDE_SLICE);
-        }else{
+        } else {
             dataSet.setDrawValues(false);
         }
 

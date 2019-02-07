@@ -25,6 +25,7 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.QuizHelper;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -213,7 +214,7 @@ public class UnitDetailActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
         _reviewRatioPie.animateY(1000, Easing.EaseInOutQuad);
-        _difficultyPie.animateY(1000,Easing.EaseInOutQuad);
+        _difficultyPie.animateY(1000, Easing.EaseInOutQuad);
 
     }
 
@@ -300,7 +301,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                     getResources().getColor(R.color.flat8),
                     getResources().getColor(R.color.black));
             _reviewRatioPie.setData(new PieData(reviewRatioPieDataSet));
-        }else{
+        } else {
             _reviewRatioPie.setData(null);
         }
     }

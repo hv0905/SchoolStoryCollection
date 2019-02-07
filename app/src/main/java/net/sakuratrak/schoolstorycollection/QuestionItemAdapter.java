@@ -54,6 +54,8 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
     }
 
     public static class DataContext {
+        public boolean checked = false;
+        public QuestionInfo db;
         protected String title;
         protected String authorTime;
         protected String unitInfo;
@@ -67,9 +69,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         protected View.OnClickListener quizClicked;
         protected View.OnLongClickListener showMenuClicked;
         protected boolean checkAble = true;
-        public boolean checked = false;
         protected CompoundButton.OnCheckedChangeListener onCheckChanged;
-        public QuestionInfo db;
 
 
         public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden, int reviewRatio, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {

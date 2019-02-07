@@ -13,6 +13,7 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionType;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

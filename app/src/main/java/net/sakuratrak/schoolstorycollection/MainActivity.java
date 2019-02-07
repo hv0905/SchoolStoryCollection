@@ -35,6 +35,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_FROM_NOTIFY = "from_notify";
     private static final int[] SUBJECT_MENU_IDS = {
             id.nav_menu_chinese,
             id.nav_menu_math,
@@ -46,10 +47,8 @@ public class MainActivity extends AppCompatActivity {
             id.nav_menu_history,
             id.nav_menu_geo
     };
-    private final String TAG = "MainActivity";
-    public static final String EXTRA_FROM_NOTIFY = "from_notify";
     private static final int REQUEST_SETTING = 10000;
-
+    private final String TAG = "MainActivity";
     //region fields
     public QuestionFilterDialog _questionFilterDialog;
     public UnitFilterDialog _unitFilterDialog;
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             if (menuItem.getItemId() == id.nav_menu_settings) {
                 //settings...
                 Intent intent = new Intent(this, SettingActivity.class);
-                startActivityForResult(intent,REQUEST_SETTING);
+                startActivityForResult(intent, REQUEST_SETTING);
                 return true;
             } else {
                 for (int i = 0; i < _navigationView.getMenu().size(); i++) {
@@ -184,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        if(getIntent().getBooleanExtra(EXTRA_FROM_NOTIFY,false)){
+        if (getIntent().getBooleanExtra(EXTRA_FROM_NOTIFY, false)) {
             _pager.setCurrentItem(1);
         }
 
@@ -356,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_SETTING:
                 requireRefresh();
         }

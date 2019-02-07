@@ -8,6 +8,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 
 import java.util.ArrayList;
 import java.util.List;
