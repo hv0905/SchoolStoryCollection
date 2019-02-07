@@ -38,14 +38,15 @@
     <TextView
         android:id="@+id/txtQuiz"
         style="@style/textValue.large"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/ui_margin_mid"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/multiCheckbox"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="25%" />
+        android:gravity="center"
+        tools:text="100%" />
 
     <TextView
         android:id="@+id/txtCount"
