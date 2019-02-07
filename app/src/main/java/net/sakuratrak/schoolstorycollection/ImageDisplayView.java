@@ -52,7 +52,7 @@ public final class ImageDisplayView extends RecyclerView {
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
             ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
-            item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(),path));
+            item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(), path));
             final int finalI = i;
             item.imageClicked = v -> imgClick(finalI);
             dataContext.add(item);
@@ -80,7 +80,7 @@ public final class ImageDisplayView extends RecyclerView {
         ArrayList<ImageInfo> result = new ArrayList<>();
         for (String item : _images) {
             ImageInfo dst = new ImageInfo();
-            String url = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(),item)).toString();
+            String url = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(), item)).toString();
             dst.setOriginUrl(url);
             dst.setThumbnailUrl(url);
             result.add(dst);

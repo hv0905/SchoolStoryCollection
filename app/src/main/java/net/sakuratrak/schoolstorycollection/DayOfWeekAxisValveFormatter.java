@@ -13,7 +13,7 @@ public class DayOfWeekAxisValveFormatter implements IAxisValueFormatter {
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
         Calendar currentDay = Calendar.getInstance();
-        currentDay.add(Calendar.DAY_OF_YEAR,(int)(1-value));
+        currentDay.add(Calendar.DAY_OF_YEAR, (int) (1 - value));
         return "星期" + WEEK_CHINESE[currentDay.get(Calendar.DAY_OF_WEEK) - 1];
     }
 }

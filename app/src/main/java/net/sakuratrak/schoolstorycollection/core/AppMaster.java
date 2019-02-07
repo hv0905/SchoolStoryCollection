@@ -62,10 +62,10 @@ public class AppMaster {
     }
 
     public static File getThumbFile(Context context, String imgId) {
-        File previewImgFile = getThumbFileWithoutCreate(context,imgId);
+        File previewImgFile = getThumbFileWithoutCreate(context, imgId);
         if (!previewImgFile.exists()) {
             //create preview img file
-            File fullSizeImg = getImgFileDisplay(context,imgId);
+            File fullSizeImg = getImgFileDisplay(context, imgId);
             Bitmap thump = AndroidHelper.getThumbImg(fullSizeImg, 500);
             try {
                 AndroidHelper.saveBitmap2File(previewImgFile, thump, Bitmap.CompressFormat.JPEG, 90);
@@ -76,17 +76,17 @@ public class AppMaster {
         return previewImgFile;
     }
 
-    public static File getThumbFileWithoutCreate(Context context,String imgId){
+    public static File getThumbFileWithoutCreate(Context context, String imgId) {
         return new File(AppMaster.getLocalThumbCacheDir(context), imgId);
     }
 
-    public static boolean removeThumbFile(Context context,String imgId){
+    public static boolean removeThumbFile(Context context, String imgId) {
         return getThumbFileWithoutCreate(context, imgId).delete();
     }
 
-    public static File getImgFileDisplay(Context context, String imgId){
+    public static File getImgFileDisplay(Context context, String imgId) {
         File imgFile = getImgFile(context, imgId);
-        if(imgFile.isFile()) return imgFile;
+        if (imgFile.isFile()) return imgFile;
         try {
             imgFile.createNewFile();
         } catch (IOException e) {
@@ -111,19 +111,18 @@ public class AppMaster {
                 in.close();
                 out.close();
             }
-        }catch (IOException ioEx){
+        } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
         return imgFile;
     }
 
-    public static File getImgFile(Context context, String imgId)
-    {
-       return new File(AppSettingsMaster.getWorkBookImageDir(context), imgId);
+    public static File getImgFile(Context context, String imgId) {
+        return new File(AppSettingsMaster.getWorkBookImageDir(context), imgId);
     }
 
-    public static boolean removeImgFile(Context context,String imgId){
-        return getImgFile(context,imgId).delete();
+    public static boolean removeImgFile(Context context, String imgId) {
+        return getImgFile(context, imgId).delete();
     }
 
 }

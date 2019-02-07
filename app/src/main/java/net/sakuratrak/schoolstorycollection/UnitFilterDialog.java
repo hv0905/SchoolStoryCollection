@@ -44,7 +44,7 @@ public final class UnitFilterDialog {
     public UnitFilterDialog() {
     }
 
-    public boolean isFilterActive(){
+    public boolean isFilterActive() {
         return (_keyword != null && !_keyword.trim().isEmpty()) ||
                 _selectedRatios.size() != 0 ||
                 _isHiddenShown;

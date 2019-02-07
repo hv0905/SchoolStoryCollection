@@ -46,6 +46,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private static final int REQUEST_QUIZ = 1002;
     private static final int REQUEST_DETAIL = 1001;
     private static final int REQUEST_ADD_QUESTION = 1000;
+
     //region views
     private ConstraintLayout _root;
     private RecyclerView _itemList;
@@ -76,9 +77,9 @@ public final class MainActivityWorkBookFragment extends Fragment {
     private final MainActivity.RequireRefreshEventHandler _refreshEvent = this::refreshList;
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::setDisplayMode;
     private final MainActivity.RequireRefreshEventHandler _dialogUpdate = this::refreshList;
-
     //endregion
 
+    //region methods
     public Runnable getNotifyToUpdate() {
         return _notifyToUpdate;
     }
@@ -523,4 +524,5 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     .start();
         }
     }
+    //endregion
 }

@@ -4,45 +4,45 @@ import java.util.Random;
 
 public final class MathHelper {
 
-    public static double calcVariance(double avg,double[] values){
+    public static double calcVariance(double avg, double[] values) {
         double squareSum = 0;
         for (double val :
                 values) {
-            squareSum+=Math.pow(val - avg,2);
+            squareSum += Math.pow(val - avg, 2);
         }
         return squareSum / values.length;
     }
 
-    public static double calcVariance(double avg,int[] values) {
+    public static double calcVariance(double avg, int[] values) {
         double squareSum = 0;
         for (int val :
                 values) {
-            squareSum+=Math.pow(val - avg,2);
+            squareSum += Math.pow(val - avg, 2);
         }
         return squareSum / values.length;
     }
 
-    public static double calcVariance(double[] vals){
-        return calcVariance(calcAvg(vals),vals);
+    public static double calcVariance(double[] vals) {
+        return calcVariance(calcAvg(vals), vals);
     }
 
-    public static double calcVariance(int[] vals){
-        return calcVariance(calcAvg(vals),vals);
+    public static double calcVariance(int[] vals) {
+        return calcVariance(calcAvg(vals), vals);
     }
 
-    public static double calcAvg(double... values){
+    public static double calcAvg(double... values) {
         return calcSum(values) / values.length;
     }
 
-    public static double calcAvg(int... values){
-        return calcSum(values) / (double)values.length;
+    public static double calcAvg(int... values) {
+        return calcSum(values) / (double) values.length;
     }
 
     public static int calcSum(int... values) {
         int sum = 0;
         for (int val :
                 values) {
-            sum+=val;
+            sum += val;
         }
         return sum;
     }
@@ -51,7 +51,7 @@ public final class MathHelper {
         double sum = 0;
         for (double val :
                 values) {
-            sum+=val;
+            sum += val;
         }
         return sum;
     }
@@ -67,32 +67,31 @@ public final class MathHelper {
     }
 
 
-
     public static int getSingleRandomItemWithProportion(int[] items) {
         return getSingleRandomItemWithProportion(items, calcSum(items));
     }
 
     private static int getSingleRandomItemWithProportion(int[] items, int sum) {
-        return getSingleRandomItemWithProportion(new Random(),items, sum);
+        return getSingleRandomItemWithProportion(new Random(), items, sum);
     }
 
     public static int[] getMultiRandomItemWithProportion(int[] items, int n, int sum) {
         Random rd = new Random();
-        if(items.length < n){
+        if (items.length < n) {
             throw new IllegalArgumentException();
         }
         int[] result = new int[n];
-        for(int i = 0;i<n;i++){
-            int index = getSingleRandomItemWithProportion(rd,items,sum);
+        for (int i = 0; i < n; i++) {
+            int index = getSingleRandomItemWithProportion(rd, items, sum);
             boolean goFlag = true;
-            for(int j = 0;j<i;j++){
-                if(result[j] == index){
+            for (int j = 0; j < i; j++) {
+                if (result[j] == index) {
                     goFlag = false;
                     i--;
                     break;
                 }
             }
-            if(goFlag) result[i] = index;
+            if (goFlag) result[i] = index;
 
         }
 
@@ -103,23 +102,23 @@ public final class MathHelper {
         return getMultiRandomItemWithProportion(items, n, calcSum(items));
     }
 
-    public static int[] getMultiRandomItem(int in,int n){
+    public static int[] getMultiRandomItem(int in, int n) {
         Random rd = new Random();
-        if(in < n){
+        if (in < n) {
             throw new IllegalArgumentException();
         }
         int[] result = new int[n];
-        for(int i = 0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             int index = rd.nextInt(in);
             boolean goFlag = true;
-            for(int j = 0;j < i;j++){
-                if(result[j] == index){
+            for (int j = 0; j < i; j++) {
+                if (result[j] == index) {
                     goFlag = false;
                     i--;
                     break;
                 }
             }
-            if(goFlag) result[i] = index;
+            if (goFlag) result[i] = index;
 
         }
 

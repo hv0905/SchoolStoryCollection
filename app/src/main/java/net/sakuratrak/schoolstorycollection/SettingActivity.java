@@ -18,12 +18,11 @@ import androidx.preference.PreferenceScreen;
 
 public class SettingActivity extends AppCompatActivity {
 
+    public static final String TAG = "SettingActivity";
     private static final String[] DIALOG_SETTINGS = {
             AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,
             AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM
     };
-
-    public static final String TAG = "SettingActivity";
     private MainSettingFragment fragment;
 
     @Override
@@ -66,15 +65,15 @@ public class SettingActivity extends AppCompatActivity {
                         }
                         break;
                     case "feedback_vote":
-                        Intent intVote = new Intent(Intent.ACTION_VIEW,Uri.parse("https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__tALAnlURTUzSTVLWjBHVVA5R1E3Wk44N0ZKNVFLTy4u"));
-                        if(intVote.resolveActivity(getContext().getPackageManager()) != null){
+                        Intent intVote = new Intent(Intent.ACTION_VIEW, Uri.parse("https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__tALAnlURTUzSTVLWjBHVVA5R1E3Wk44N0ZKNVFLTy4u"));
+                        if (intVote.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intVote);
                         }
 
                         break;
                     case "feedback_github":
-                        Intent intGh = new Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/EdgeNeko/SchoolStoryCollection_FeedbackOnly"));
-                        if(intGh.resolveActivity(getContext().getPackageManager()) != null){
+                        Intent intGh = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/EdgeNeko/SchoolStoryCollection_FeedbackOnly"));
+                        if (intGh.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intGh);
                         }
                         break;
@@ -99,7 +98,7 @@ public class SettingActivity extends AppCompatActivity {
                             AppSettingsMaster.setBooleanVal(getContext(), item, false);
                         }
 
-                        Toast.makeText(getContext(),"已全部重置",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "已全部重置", Toast.LENGTH_LONG).show();
                         break;
                 }
             }

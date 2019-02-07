@@ -121,7 +121,7 @@ public final class ExerciseLogGroup implements Comparable<ExerciseLogGroup> {
             _base = mgr.getExerciseLogGroups();
         }
 
-        public DbHelper(Context context){
+        public DbHelper(Context context) {
             _base = DbManager.getDefaultHelper(context).getExerciseLogGroups();
         }
 

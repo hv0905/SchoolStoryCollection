@@ -71,16 +71,16 @@ public final class AppSettingsMaster {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SETTINGS_QUIZ_AUTO_NEXT, false);
     }
 
-    public static boolean getBooleanVal(Context context,String key,boolean def){
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key,def);
+    public static boolean getBooleanVal(Context context, String key, boolean def) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, def);
     }
 
-    public static void setBooleanVal(Context context,String key,boolean val){
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key,val).apply();
+    public static void setBooleanVal(Context context, String key, boolean val) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, val).apply();
     }
 
-    public static int getQuizSize(Context context){
-        return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_QUIZ_SIZE,"10"));
+    public static int getQuizSize(Context context) {
+        return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_QUIZ_SIZE, "10"));
     }
 
 }

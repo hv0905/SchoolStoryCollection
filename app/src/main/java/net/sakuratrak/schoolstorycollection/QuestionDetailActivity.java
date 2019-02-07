@@ -379,7 +379,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _valDifficulty.setRating(_context.getDifficulty() / 2f);
         _valCreateTime.setText(UiHelper.defaultFormatWithTime.format(_context.getAuthorTime()));
         _valSource.setText(_context.getSource());
-        _valCorrectRatio.setText(String.format(Locale.US,"%d%%",(int)(_context.computeAvgCorrectRatio() + 0.5)));
+        _valCorrectRatio.setText(String.format(Locale.US, "%d%%", (int) (_context.computeAvgCorrectRatio() + 0.5)));
         _valUnit.setText(_context.getUnit() == null ? getText(R.string.emptyUnit) : _context.getUnit().getName());
 
         _imageTopContent.setImageURI(Uri.fromFile(AppMaster.getThumbFile(this, _context.getQuestionImage()[0])));

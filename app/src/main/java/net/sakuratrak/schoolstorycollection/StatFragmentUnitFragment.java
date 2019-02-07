@@ -56,6 +56,7 @@ public final class StatFragmentUnitFragment extends Fragment {
     private TextView _txtUnitEmptyNotice;
     //endregion
 
+    //region fields
     private UnitDisplayAdapter _mainAdapter;
     private List<LearningUnitInfo> _context;
     private List<UnitDisplayAdapter.FullUnitDisplayAdapter.DataContext> _displayContext;
@@ -64,8 +65,9 @@ public final class StatFragmentUnitFragment extends Fragment {
     private final MainActivity.ChangeDisplayModeEventHandler _changeMode = this::changeDisplayMode;
     private final MainActivity.RequireRefreshEventHandler _requireRefresh = this::refresh;
     private final MainActivity.RequireRefreshEventHandler _dialogUpdate = this::refresh;
+    //endregion
 
-
+    //region methods
     public StatFragmentUnitFragment() {
     }
 
@@ -473,5 +475,6 @@ public final class StatFragmentUnitFragment extends Fragment {
                 .setPositiveButton(R.string.cancel, null)
                 .show();
     }
+    //endregion
 }
 

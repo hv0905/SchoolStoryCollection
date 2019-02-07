@@ -149,7 +149,7 @@ public class ImageSelectView extends RecyclerView {
                     //noinspection ResultOfMethodCallIgnored
 //                    File toDel = new File(AppSettingsMaster.getWorkBookImageDir(getActivity()), _images.get(index));
 //                    if (toDel.isFile()) toDel.delete();
-                    AppMaster.removeImgFile(getContext(),_images.get(index));
+                    AppMaster.removeImgFile(getContext(), _images.get(index));
                     _images.remove(index);
                     onItemToggle();
                     refresh();

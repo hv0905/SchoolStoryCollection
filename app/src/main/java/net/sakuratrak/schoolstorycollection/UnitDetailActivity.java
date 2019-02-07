@@ -115,7 +115,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         _hideBtn.setOnClickListener(v -> {
-            if(_context.isHidden()){
+            if (_context.isHidden()) {
                 //要恢复显示
                 // TODO: 2019/1/29 undo hide unit
                 _context.setHidden(false);
@@ -125,12 +125,12 @@ public class UnitDetailActivity extends AppCompatActivity {
                     e.printStackTrace();
                     return;
                 }
-                Snackbar.make(_toolbar,R.string.hiddenUndoed,Snackbar.LENGTH_LONG).show();
+                Snackbar.make(_toolbar, R.string.hiddenUndoed, Snackbar.LENGTH_LONG).show();
                 refresh();
                 _hidden = false;
                 _edited = true;
 
-            }else {
+            } else {
                 //要隐藏
                 if (AppSettingsMaster.getBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM, false)) {
                     hideUnit();
@@ -149,7 +149,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                                 }
                                 hideUnit();
                             })
-                            .setNegativeButton(R.string.cancel,null)
+                            .setNegativeButton(R.string.cancel, null)
                             .show();
                 }
             }
@@ -191,7 +191,7 @@ public class UnitDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(_hidden) setResult(RESULT_HIDDEN);
+        if (_hidden) setResult(RESULT_HIDDEN);
         else if (_edited) setResult(RESULT_CHANGED);
 
         super.onBackPressed();
@@ -215,7 +215,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         _valQuestionRatio.setText(String.format(Locale.ENGLISH, "%d%%", mainInfo.QuestionRatio));
         _questionRatioBar.setProgress(mainInfo.QuestionRatio);
         _hideBtn.setText(_context.isHidden() ? R.string.undoHideUnit : R.string.hideUnit);
-        _valQuizAvg.setText(String.format(Locale.US,"%d%%",_context.computeCorrectRatio()));
+        _valQuizAvg.setText(String.format(Locale.US, "%d%%", _context.computeCorrectRatio()));
 
         _reviewHigh.setVisibility(View.INVISIBLE);
         _reviewMid.setVisibility(View.INVISIBLE);
@@ -311,7 +311,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void hideUnit(){
+    private void hideUnit() {
         // TODO: 2019/1/29
         _context.setHidden(true);
         try {
@@ -320,7 +320,7 @@ public class UnitDetailActivity extends AppCompatActivity {
             e.printStackTrace();
             return;
         }
-        Snackbar.make(_toolbar,R.string.hiddenDone,Snackbar.LENGTH_LONG).show();
+        Snackbar.make(_toolbar, R.string.hiddenDone, Snackbar.LENGTH_LONG).show();
         refresh();
         _hidden = true;
     }

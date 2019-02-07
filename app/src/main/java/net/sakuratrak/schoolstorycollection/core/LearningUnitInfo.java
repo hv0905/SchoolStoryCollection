@@ -88,7 +88,7 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         int sum = 0;
         int count = 0;
         for (QuestionInfo item : questions) {
-            if(item.isHidden()) continue;
+            if (item.isHidden()) continue;
             Collection<ExerciseLog> logs = item.getExerciseLogs();
             if (logs == null) continue;
             for (ExerciseLog log : logs) {
@@ -100,22 +100,22 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         return sum / count;
     }
 
-    public int computeAvgReviewRatio(){
-        if(questions == null || questions.size() == 0)
+    public int computeAvgReviewRatio() {
+        if (questions == null || questions.size() == 0)
             return -1;
         int sum = 0;
         int count = 0;
         for (QuestionInfo info :
                 questions) {
-            if(info.isHidden()) continue;
+            if (info.isHidden()) continue;
             int ri = info.computeReviewValue();
-            if(ri != -1){
-                sum+=ri;
+            if (ri != -1) {
+                sum += ri;
                 count++;
             }
         }
-        if(count == 0) return -1;
-        return sum/count;
+        if (count == 0) return -1;
+        return sum / count;
     }
 
     public boolean getIfNeedMoreQuiz() {
@@ -141,7 +141,7 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         this.questions = questions;
     }
 
-    public void resetStat(Context context){
+    public void resetStat(Context context) {
         for (QuestionInfo question :
                 getQuestions()) {
             question.resetStat(context);

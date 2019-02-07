@@ -99,13 +99,13 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
 
     //region some stat
 
-    public double computeAvgCorrectRatio(){
-        int count = 0,sum = 0;
-        for (ExerciseLog log:getExerciseLogs()) {
+    public double computeAvgCorrectRatio() {
+        int count = 0, sum = 0;
+        for (ExerciseLog log : getExerciseLogs()) {
             count++;
-            sum+=log.getCorrectRatio();
+            sum += log.getCorrectRatio();
         }
-        return sum / (double)count + 0.5;
+        return sum / (double) count + 0.5;
     }
 
 

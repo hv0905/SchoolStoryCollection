@@ -40,18 +40,23 @@ public final class StatFragmentMainFragment extends Fragment {
 
     private static final String TAG = "StatFragment_Main";
 
-    private boolean _created;
+    //region views
     private ScrollView _root;
     private BarChart _dailyQuizChart;
-    private PieChart _questionPie;
     private PieChart _difficultyPie;
+    private PieChart _questionPie;
+    //endregion
     private final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
         refreshPies();
         if (isVisible()) {
             animateIn();
         }
     };
+    //region fields
+    private boolean _created;
+    //endregion
 
+    //region methods
     public StatFragmentMainFragment() {
 
     }
@@ -199,6 +204,7 @@ public final class StatFragmentMainFragment extends Fragment {
         _questionPie.animateY(1000, Easing.EaseInOutQuad);
         _difficultyPie.animateY(1000, Easing.EaseInOutQuad);
     }
+    //endregion
 
 
 }

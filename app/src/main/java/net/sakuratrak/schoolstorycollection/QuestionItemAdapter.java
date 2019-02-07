@@ -88,7 +88,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.hidden = hidden;
         }
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite,QuestionType type,boolean hidden) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -146,7 +146,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder.previewImgContent.setImageURI(current.imgUri);
             holder.valDifficulty.setRating(current.difficulty);
             holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
-            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(),current.reviewRatio));
+            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(), current.reviewRatio));
             holder.valFavourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             View.OnClickListener listener = v -> {
                 if (current.detailClicked != null) {
@@ -232,7 +232,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             holder._previewImg.setImageURI(current.imgUri);
             holder._favourite.setImageResource(current.favourite ? R.drawable.ic_favorite_pink_24dp : R.drawable.ic_favorite_border_black_24dp);
             holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
-            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(),current.reviewRatio));
+            holder._valReviewRatio.setTextColor(UiHelper.getReviewColor(holder._valReviewRatio.getResources(), current.reviewRatio));
             holder._rootView.setOnClickListener(current.detailClicked);
             holder._rootView.setOnLongClickListener(current.showMenuClicked);
             holder._multiCheckbox.setVisibility(current.checkAble ? View.VISIBLE : View.INVISIBLE);

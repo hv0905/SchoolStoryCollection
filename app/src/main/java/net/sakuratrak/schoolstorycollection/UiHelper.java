@@ -11,7 +11,6 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -85,7 +84,7 @@ public final class UiHelper {
         rightAxis.setDrawAxisLine(false);
     }
 
-    public static void applyAppearanceForLine(Context context, LineChart chart){
+    public static void applyAppearanceForLine(Context context, LineChart chart) {
         chart.setMaxVisibleValueCount(100);
         chart.setPinchZoom(false);
         chart.setDrawGridBackground(false);
@@ -111,7 +110,7 @@ public final class UiHelper {
         rightAxis.setDrawAxisLine(false);
     }
 
-    public static void applyAppearanceForLineDataSet(Context context, LineDataSet dataSet){
+    public static void applyAppearanceForLineDataSet(Context context, LineDataSet dataSet) {
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.2f);
         dataSet.setDrawFilled(true);
@@ -203,7 +202,7 @@ public final class UiHelper {
     }
 
     public static int getReviewColor(Resources res, int stat) {
-        return getReviewColor(res,ReviewRatio.getByRatio(stat));
+        return getReviewColor(res, ReviewRatio.getByRatio(stat));
     }
 
 

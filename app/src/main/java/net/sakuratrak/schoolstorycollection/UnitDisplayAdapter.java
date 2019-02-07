@@ -1,6 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._txtTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._txtCount.setText(String.format(Locale.US, "%dx", current.QuestionCount));
             viewHolder._txtQuiz.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.US, "%d%%", current.ReviewRatio));
-            viewHolder._txtQuiz.setTextColor(UiHelper.getReviewColor(viewHolder._txtQuiz.getResources(),current.ReviewRatio));
+            viewHolder._txtQuiz.setTextColor(UiHelper.getReviewColor(viewHolder._txtQuiz.getResources(), current.ReviewRatio));
             viewHolder._multiCheckbox.setVisibility(current.Checkable ? View.VISIBLE : View.GONE);
             viewHolder._multiCheckbox.setChecked(current.Checked);
             viewHolder._root.setOnClickListener(current.DetailClicked);
@@ -123,7 +122,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
             viewHolder._valTitle.getPaint().setStrikeThruText(current.isHidden);
             viewHolder._valQuizCount.setText(String.valueOf(current.QuizCount));
             viewHolder._valCorrectRatio.setText(current.ReviewRatio == -1 ? "-" : String.format(Locale.ENGLISH, "%d%%", current.ReviewRatio));
-            viewHolder._valCorrectRatio.setTextColor(UiHelper.getReviewColor(viewHolder._valCorrectRatio.getResources(),current.ReviewRatio));
+            viewHolder._valCorrectRatio.setTextColor(UiHelper.getReviewColor(viewHolder._valCorrectRatio.getResources(), current.ReviewRatio));
             viewHolder._correctRatioBar.setProgress(current.ReviewRatio);
             viewHolder._viewBtn.setOnClickListener(current.DetailClicked);
             viewHolder._quizBtn.setOnClickListener(current.QuizClicked);
@@ -233,7 +232,7 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         }
 
         public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum) {
-            return fromDb(dbInfo, questionSum,dbInfo.computeAvgReviewRatio());
+            return fromDb(dbInfo, questionSum, dbInfo.computeAvgReviewRatio());
         }
     }
 }

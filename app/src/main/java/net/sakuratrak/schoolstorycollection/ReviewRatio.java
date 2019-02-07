@@ -6,10 +6,10 @@ public enum ReviewRatio {
     BAD,
     UNKNOWN;
 
-    public static ReviewRatio getByRatio(int ratio){
+    public static ReviewRatio getByRatio(int ratio) {
         if (ratio > 80) {
             return NICE;
-        } else if (ratio> 40) {
+        } else if (ratio > 40) {
             return MID;
         } else if (ratio == -1) {
             return UNKNOWN;
@@ -18,11 +18,11 @@ public enum ReviewRatio {
         }
     }
 
-    public int getId(){
-        return ordinal();
+    public static ReviewRatio fromId(int id) {
+        return values()[id];
     }
 
-    public static ReviewRatio fromId(int id){
-        return values()[id];
+    public int getId() {
+        return ordinal();
     }
 }

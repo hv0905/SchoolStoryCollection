@@ -34,7 +34,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int[] SUBJECT_MENU_IDS = new int[]{
+    private static final int[] SUBJECT_MENU_IDS = {
             id.nav_menu_chinese,
             id.nav_menu_math,
             id.nav_menu_english,
@@ -46,10 +46,9 @@ public class MainActivity extends AppCompatActivity {
             id.nav_menu_geo
     };
     private final String TAG = "MainActivity";
+    //region fields
     public QuestionFilterDialog _questionFilterDialog;
     public UnitFilterDialog _unitFilterDialog;
-    private MainActivityPagerAdapter _pageContext;
-    private LearningSubject _currentSubject = LearningSubject.CHINESE;
     //region ui_control
     private DrawerLayout _drawer;
     private BottomNavigationView _navigation;
@@ -59,16 +58,18 @@ public class MainActivity extends AppCompatActivity {
     //endregion
     private MenuItem _displayModeToggle;
     private NavigationView _navigationView;
-    //region fields
+    private MainActivityPagerAdapter _pageContext;
+    private LearningSubject _currentSubject = LearningSubject.CHINESE;
     private boolean _isSecondDisplayMode = false;
-    //endregion
-    private File _cameraCurrentFile;
     private ActionBarDrawerToggle _drawerToggle;
     private ArrayList<RequireRefreshEventHandler> _requireRefreshEvent;
     private ArrayList<ChangeDisplayModeEventHandler> _changeDisplayModeEvent;
     private RequireRefreshEventHandler _questionDialogUpdate;
     private RequireRefreshEventHandler _unitDialogUpdate;
+    private File _cameraCurrentFile;
+    //endregion
 
+    //region methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
         _navigationView.setCheckedItem(SUBJECT_MENU_IDS[startId]);
 
         //设置Drawer
-        _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, string.subject, string.subject) {
-
-        };
+        _drawerToggle = new ActionBarDrawerToggle(this, _drawer, _toolbar, string.subject, string.subject);
 
         _drawer.addDrawerListener(_drawerToggle);
 
@@ -188,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //从顶部组合框中获取目前选中的科目
     @NonNull
     public LearningSubject getCurrentSubject() {
         return _currentSubject;
@@ -294,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public boolean is_isSecondDisplayMode() {
         return _isSecondDisplayMode;
     }
@@ -319,7 +316,6 @@ public class MainActivity extends AppCompatActivity {
         this._unitDialogUpdate = _unitDialogUpdate;
     }
 
-
     void showQuestionFilterDialog() {
 
         if (_questionFilterDialog == null) {
@@ -338,13 +334,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void onWorkbookFilterDialogUpdate() {
-        if(_questionDialogUpdate != null){
+        if (_questionDialogUpdate != null) {
             _questionDialogUpdate.update();
         }
     }
 
     void onUnitFilterDialogUpdate() {
-        if(_unitDialogUpdate != null){
+        if (_unitDialogUpdate != null) {
             _unitDialogUpdate.update();
         }
     }
@@ -353,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         _filterMenu.setVisible(visible);
         _displayModeToggle.setVisible(visible);
     }
+    //endregion
 
     @FunctionalInterface
     public interface RequireRefreshEventHandler {

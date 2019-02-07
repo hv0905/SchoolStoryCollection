@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @DatabaseTable(tableName = "ExerciseLog")
 public class ExerciseLog implements Serializable {
@@ -138,7 +137,7 @@ public class ExerciseLog implements Serializable {
             _base = mgr.getExerciseLogs();
         }
 
-        public DbHelper(Context context){
+        public DbHelper(Context context) {
             _base = DbManager.getDefaultHelper(context).getExerciseLogs();
         }
 
