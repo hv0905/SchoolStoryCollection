@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -206,6 +207,14 @@ public class UnitDetailActivity extends AppCompatActivity {
         else if (_edited) setResult(RESULT_CHANGED);
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        _reviewRatioPie.animateY(1000, Easing.EaseInOutQuad);
+        _difficultyPie.animateY(1000,Easing.EaseInOutQuad);
+
     }
 
     private void refresh() {
