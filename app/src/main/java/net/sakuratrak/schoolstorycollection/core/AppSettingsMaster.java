@@ -35,7 +35,7 @@ public final class AppSettingsMaster {
     }
 
     public static File getWorkBookImageDir(Context context) {
-            return new File(getWorkbookRootDir(context), AppMaster.DIR_IMAGES);
+        return new File(getWorkbookRootDir(context), AppMaster.DIR_IMAGES);
     }
 
     public static boolean getIfOptimizeImage(Context context) {

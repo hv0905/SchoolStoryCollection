@@ -116,7 +116,7 @@ public class SettingActivity extends AppCompatActivity {
                                 .setMessage("本操作不可逆!!!\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?")
                                 .setView(cb)
                                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                                    if(cb.isChecked()){
+                                    if (cb.isChecked()) {
                                         try {
                                             DbManager dbm = DbManager.getDefaultHelper(getContext());
                                             dbm.getExerciseLogs().deleteBuilder().delete();
@@ -124,9 +124,9 @@ public class SettingActivity extends AppCompatActivity {
                                         } catch (SQLException e) {
                                             e.printStackTrace();
                                         }
-                                        Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Toast.makeText(getContext(),"已取消",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "清除成功", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "已取消", Toast.LENGTH_LONG).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, null)
@@ -141,13 +141,13 @@ public class SettingActivity extends AppCompatActivity {
                                 .setMessage("本操作不可逆!!!\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?")
                                 .setView(cb1)
                                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                                    if(cb1.isChecked()) {
+                                    if (cb1.isChecked()) {
                                         DbManager.releaseCurrentHelper();
                                         File toDelete = AppSettingsMaster.getWorkbookRootDir(getContext());
                                         AppHelper.deleteDir(toDelete);
-                                        Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Toast.makeText(getContext(),"已取消",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "清除成功", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(getContext(), "已取消", Toast.LENGTH_LONG).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, null)
@@ -161,9 +161,9 @@ public class SettingActivity extends AppCompatActivity {
                                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
                                     File toDelete = AppMaster.getLocalThumbCacheDir(getContext());
                                     AppHelper.clearDir(toDelete);
-                                    Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "清除成功", Toast.LENGTH_LONG).show();
                                 })
-                                .setNegativeButton(R.string.cancel,null)
+                                .setNegativeButton(R.string.cancel, null)
                                 .show();
                         break;
                 }

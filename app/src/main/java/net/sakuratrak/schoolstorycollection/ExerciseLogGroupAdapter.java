@@ -88,7 +88,7 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
         protected View.OnClickListener onClick;
         protected View.OnLongClickListener onLongClick;
 
-        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick,View.OnLongClickListener onLongClick) {
+        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick, View.OnLongClickListener onLongClick) {
             this.title = title;
             this.happenTime = happenTime;
             this.questionCount = questionCount;

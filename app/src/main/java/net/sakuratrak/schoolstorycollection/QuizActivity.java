@@ -44,18 +44,13 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_QUESTION_ID = "id";
     public static final String EXTRA_QUESTION_IDS = "ids";
     public static final String EXTRA_QUIZ_DESCRIPTION = "quiz_description";
-
+    public static final int RESULT_NONE_DONE = 1003;
     private static final String TAG = "QuizActivity";
-
     private static final int STATE_ANSWERING = 0;
     private static final int STATE_CHECKING = 1;
     private static final int STATE_POST_CHECKING = 2;
-
     private static final int RESULT_ALL_DONE = 1001;
     private static final int RESULT_PART_DONE = 1002;
-    public static final int RESULT_NONE_DONE = 1003;
-
-
     //region Elements
     private Toolbar _toolbar;
     private TextView _questionCounter;

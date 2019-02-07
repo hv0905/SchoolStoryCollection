@@ -29,11 +29,9 @@ import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 public class QuizResultActivity extends AppCompatActivity {
 
     public static final String EXTRA_GROUP_ID = "groupId";
-
-    private static final int REQUEST_QUIZ = 101;
     public static final int RESULT_NORMAL = 1000;
     public static final int RESULT_REQUIZ = 1001;
-
+    private static final int REQUEST_QUIZ = 101;
     //region views
     private Toolbar _toolbar;
     private AppBarLayout _appBar;
