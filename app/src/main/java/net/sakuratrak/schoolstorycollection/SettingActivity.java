@@ -1,12 +1,19 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import net.sakuratrak.schoolstorycollection.core.AppHelper;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+import net.sakuratrak.schoolstorycollection.core.DbManager;
+
+import java.io.File;
+import java.sql.SQLException;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -99,6 +106,52 @@ public class SettingActivity extends AppCompatActivity {
                         }
 
                         Toast.makeText(getContext(), "已全部重置", Toast.LENGTH_LONG).show();
+                        break;
+                    case "clearStatInfo":
+                        CheckBox cb = new CheckBox(getContext());
+                        cb.setText("我没有手滑");
+                        new AlertDialog.Builder(getContext())
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .setTitle(R.string.warning)
+                                .setMessage("本操作不可逆!!!\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?")
+                                .setView(cb)
+                                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                    if(cb.isChecked()){
+                                        try {
+                                            DbManager dbm = DbManager.getDefaultHelper(getContext());
+                                            dbm.getExerciseLogs().deleteBuilder().delete();
+                                            dbm.getExerciseLogGroups().deleteBuilder().delete();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
+                                    }else{
+                                        Toast.makeText(getContext(),"已取消",Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .show();
+                        break;
+                    case "clearAll":
+                        CheckBox cb1 = new CheckBox(getContext());
+                        cb1.setText("我没有手滑");
+                        new AlertDialog.Builder(getContext())
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .setTitle(R.string.warning)
+                                .setMessage("本操作不可逆!!!\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?")
+                                .setView(cb1)
+                                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                    if(cb1.isChecked()) {
+                                        DbManager.releaseCurrentHelper();
+                                        File toDelete = AppSettingsMaster.getWorkbookRootDir(getContext());
+                                        AppHelper.deleteDir(toDelete);
+                                        Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
+                                    }else{
+                                        Toast.makeText(getContext(),"已取消",Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .show();
                         break;
                 }
             }

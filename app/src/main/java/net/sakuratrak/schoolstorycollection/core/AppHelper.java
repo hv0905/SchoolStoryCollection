@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,6 +37,19 @@ public final class AppHelper {
         }
         return dayLate - dayEarly;
 
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
     }
 
 }

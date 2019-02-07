@@ -25,6 +25,10 @@ public class AppMaster {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static File getPublicWorkbookDir() {
         File root = Environment.getExternalStorageDirectory();
+        return getWorkbookDir(root);
+    }
+
+    private static File getWorkbookDir(File root) {
         File dir = new File(root, APP_STORAGE_DIR_ROOT);
         if (!dir.isDirectory()) {
             if (dir.isFile()) dir.delete();
@@ -49,6 +53,11 @@ public class AppMaster {
             databases.mkdir();
         }
         return dir;
+    }
+
+    public static File getInternalWorkbookDir(Context context) {
+        File root = context.getExternalFilesDir(AppMaster.DIR_DATABASES);
+        return getWorkbookDir(root);
     }
 
     public static File getLocalThumbCacheDir(Context context) {
@@ -125,5 +134,6 @@ public class AppMaster {
     public static void removeImgFile(Context context, String imgId) {
         getImgFile(context, imgId).delete();
     }
+
 
 }

@@ -21,24 +21,21 @@ public final class AppSettingsMaster {
     public static final String SETTINGS_QUIZ_SIZE = "quiz_size";
 
     public static File getWorkbookDb(Context context) {
+        File databases = new File(getWorkbookRootDir(context), AppMaster.DIR_DATABASES);
+        return new File(databases, AppMaster.FILE_WORKBOOK_DB);
+    }
+
+    public static File getWorkbookRootDir(Context context) {
         String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC, null);
         if (set == null || set.equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
-            File databases = new File(AppMaster.getPublicWorkbookDir(), AppMaster.DIR_DATABASES);
-            return new File(databases, AppMaster.FILE_WORKBOOK_DB);
+            return AppMaster.getPublicWorkbookDir();
         } else {
-            //internal
-            return new File(context.getExternalFilesDir(AppMaster.DIR_DATABASES), AppMaster.FILE_WORKBOOK_DB);
+            return AppMaster.getInternalWorkbookDir(context);
         }
     }
 
     public static File getWorkBookImageDir(Context context) {
-        String set = PreferenceManager.getDefaultSharedPreferences(context).getString(SETTINGS_INTERNAL_WORKBOOK_LOC, null);
-        if (set == null || set.equals(SETTINGS_INTERNAL_WORKBOOK_LOC_PUBLIC)) {
-            return new File(AppMaster.getPublicWorkbookDir(), AppMaster.DIR_IMAGES);
-        } else {
-            //internal
-            return context.getExternalFilesDir(AppMaster.DIR_IMAGES);
-        }
+            return new File(getWorkbookRootDir(context), AppMaster.DIR_IMAGES);
     }
 
     public static boolean getIfOptimizeImage(Context context) {

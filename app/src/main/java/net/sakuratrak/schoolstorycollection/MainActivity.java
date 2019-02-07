@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     };
     private final String TAG = "MainActivity";
     public static final String EXTRA_FROM_NOTIFY = "from_notify";
+    private static final int REQUEST_SETTING = 10000;
 
     //region fields
     public QuestionFilterDialog _questionFilterDialog;
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             if (menuItem.getItemId() == id.nav_menu_settings) {
                 //settings...
                 Intent intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_SETTING);
                 return true;
             } else {
                 for (int i = 0; i < _navigationView.getMenu().size(); i++) {
@@ -351,6 +353,16 @@ public class MainActivity extends AppCompatActivity {
         _filterMenu.setVisible(visible);
         _displayModeToggle.setVisible(visible);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode){
+            case REQUEST_SETTING:
+                requireRefresh();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     //endregion
 
     @FunctionalInterface

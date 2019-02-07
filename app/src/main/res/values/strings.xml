@@ -196,6 +196,7 @@
     <string name="reviewUnknown">未知</string>
     <string name="filterFavourite">仅已喜欢的题目</string>
     <string name="StatReviewPie">错题的掌握情况分布</string>
+    <string name="warning">⚠⚠⚠警告⚠⚠⚠</string>
 
 
     <string-array name="learning_subjects">
