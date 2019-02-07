@@ -1,10 +1,19 @@
 package net.sakuratrak.schoolstorycollection;
 
+import androidx.annotation.StringRes;
+
 public enum ReviewRatio {
-    NICE,
-    MID,
-    BAD,
-    UNKNOWN;
+    NICE(R.string.reviewNice),
+    MID(R.string.reviewMid),
+    BAD(R.string.reviewBad),
+    UNKNOWN(R.string.reviewUnknown);
+
+    int resId;
+
+
+    ReviewRatio(@StringRes int resId){
+        this.resId = resId;
+    }
 
     public static ReviewRatio getByRatio(int ratio) {
         if (ratio > 80) {
@@ -24,5 +33,9 @@ public enum ReviewRatio {
 
     public int getId() {
         return ordinal();
+    }
+
+    public int getStr(){
+        return resId;
     }
 }

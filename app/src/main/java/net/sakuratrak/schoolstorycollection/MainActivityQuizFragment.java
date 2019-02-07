@@ -62,7 +62,6 @@ public final class MainActivityQuizFragment extends Fragment {
         _quickQuizButton = _root.findViewById(R.id.quickQuizBtn);
         _randomQuizButton = _root.findViewById(R.id.randomQuizBtn);
         _listLog = _root.findViewById(R.id.listLog);
-        //_buttonTest = _root.findViewById(R.id.buttonTest);
 
         _quickQuizButton.setOnClickListener(v -> {
             try {

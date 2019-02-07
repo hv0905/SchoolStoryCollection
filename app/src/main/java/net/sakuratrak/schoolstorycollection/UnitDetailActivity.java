@@ -12,6 +12,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -52,7 +55,6 @@ public class UnitDetailActivity extends AppCompatActivity {
     private MaterialButton _resetBtn;
     private MaterialButton _rmBtn;
     private ScrollView _scrollMain;
-    private PieChart _difficultyPie;
     private TextView _valQuizCount;
     private TextView _valCorrectRatio;
     private ProgressBar _correctRatioBar;
@@ -66,6 +68,8 @@ public class UnitDetailActivity extends AppCompatActivity {
     private TextView _reviewLow;
     private TextView _reviewUnknown;
     private TextView _valQuizAvg;
+    private PieChart _reviewRatioPie;
+    private PieChart _difficultyPie;
     //endregion
 
 
@@ -87,7 +91,6 @@ public class UnitDetailActivity extends AppCompatActivity {
         _rmBtn = findViewById(R.id.rmBtn);
         _resetBtn = findViewById(R.id.resetBtn);
         _scrollMain = findViewById(R.id.scrollMain);
-        _difficultyPie = findViewById(R.id.difficultyPie);
         _toolbar = findViewById(R.id.toolbar);
         _valQuizCount = findViewById(R.id.valQuizCount);
         _valCorrectRatio = findViewById(R.id.valCorrectRatio);
@@ -102,8 +105,11 @@ public class UnitDetailActivity extends AppCompatActivity {
         _reviewLow = findViewById(R.id.reviewLow);
         _reviewUnknown = findViewById(R.id.reviewUnknown);
         _valQuizAvg = findViewById(R.id.valQuizAvg);
+        _reviewRatioPie = findViewById(R.id.reviewRatioPie);
+        _difficultyPie = findViewById(R.id.difficultyPie);
 
         UiHelper.applyAppearanceForPie(this, _difficultyPie);
+        UiHelper.applyAppearanceForPie(this, _reviewRatioPie);
 
         int uiColor = UiHelper.getFlatUiColor(this, _context.getSubject().getId());
         _toolbar.setBackgroundColor(uiColor);
@@ -114,10 +120,16 @@ public class UnitDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
+        _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
+
+        _reviewRatioPie.setCenterText(getString(R.string.StatReviewPie));
+        _reviewRatioPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
+
         _hideBtn.setOnClickListener(v -> {
             if (_context.isHidden()) {
                 //要恢复显示
-                // TODO: 2019/1/29 undo hide unit
                 _context.setHidden(false);
                 try {
                     DbManager.getDefaultHelper(this).getLearningUnitInfos().update(_context);
@@ -160,7 +172,6 @@ public class UnitDetailActivity extends AppCompatActivity {
             AlertDialog.Builder ad = new AlertDialog.Builder(this);
             ad.setTitle(R.string.confirmLog_title).setIcon(R.drawable.ic_warning_black_24dp).setMessage(String.format(getString(R.string.confirmUnitResetStat_msg), _context.getName()));
             ad.setNegativeButton(R.string.cancel, null).setPositiveButton(R.string.confirm, (dialog, which) -> {
-                // TODO: 2019/2/5 reset unit info
                 _context.resetStat(this);
                 _edited = true;
                 refresh();
@@ -240,6 +251,49 @@ public class UnitDetailActivity extends AppCompatActivity {
 
         // load graph
 
+        int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
+        int[] reviewRatioCounts = new int[4];
+
+        for (QuestionInfo item : _context.getQuestions()) {
+            difficultyCounts[item.getDifficulty()]++;
+            reviewRatioCounts[ReviewRatio.getByRatio(item.computeReviewValue()).getId()]++;
+        }
+
+        ArrayList<PieEntry> difficultyPieEntry = new ArrayList<>();
+
+        for (int i = 0; i < difficultyCounts.length; i++) {
+            if (difficultyCounts[i] == 0) continue;
+            difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.US, "%.1f★", (i) / 2f)));
+        }
+
+        ArrayList<PieEntry> reviewRatioPieEntry = new ArrayList<>();
+
+        boolean hasData = false;
+        for (int i = 0; i < reviewRatioCounts.length; i++) {
+            if (reviewRatioCounts[i] != 0) hasData = true;
+            reviewRatioPieEntry.add(new PieEntry(reviewRatioCounts[i], reviewRatioCounts[i] == 0 ? "" : getString(ReviewRatio.fromId(i).getStr())));
+        }
+
+        if (difficultyPieEntry.size() != 0) {
+            PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
+            UiHelper.applyAppearanceForPieDataSet(this, difficultyPieDataSet, false);
+            _difficultyPie.setData(new PieData(difficultyPieDataSet));
+        } else {
+            _difficultyPie.setData(null);
+        }
+
+        if (hasData) {
+            PieDataSet reviewRatioPieDataSet = new PieDataSet(reviewRatioPieEntry, getString(R.string.reviewRatio));
+            UiHelper.applyAppearanceForPieDataSet(this, reviewRatioPieDataSet, false);
+            reviewRatioPieDataSet.setColors(
+                    getResources().getColor(R.color.flat5),
+                    getResources().getColor(R.color.flat7),
+                    getResources().getColor(R.color.flat8),
+                    getResources().getColor(R.color.black));
+            _reviewRatioPie.setData(new PieData(reviewRatioPieDataSet));
+        }else{
+            _reviewRatioPie.setData(null);
+        }
     }
 
     @Override

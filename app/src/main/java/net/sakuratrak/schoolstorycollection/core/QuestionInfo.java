@@ -352,7 +352,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
             return _base.queryForEq("subjectId", subject.getId());
         }
 
-        public List<QuestionInfo> FindAllWithUnit(LearningUnitInfo... units) throws SQLException {
+        public List<QuestionInfo> findAllWithUnit(LearningUnitInfo... units) throws SQLException {
             ArrayList<QuestionInfo> infos = new ArrayList<>();
 
             for (LearningUnitInfo item : units) {
