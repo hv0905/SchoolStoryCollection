@@ -313,8 +313,10 @@ public final class StatFragmentUnitFragment extends Fragment {
                             switch (which) {
                                 case 0:
                                     goDetail(v, udiItem, item);
+                                    break;
                                 case 1:
                                     goSingleQuiz(udiItem, item);
+                                    break;
                             }
                         })
                         .setNegativeButton(R.string.cancel, null)
