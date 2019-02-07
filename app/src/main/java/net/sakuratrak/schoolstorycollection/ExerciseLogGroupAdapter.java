@@ -42,6 +42,7 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
                 ColorStateList.valueOf(
                         UiHelper.getWarnColorByScore(holder._scoreProgress.getResources(), context.score)));
         holder._rootView.setOnClickListener(context.onClick);
+        holder._rootView.setOnLongClickListener(context.onLongClick);
 
     }
 
@@ -85,13 +86,15 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
         protected int questionCount;
         protected int score;
         protected View.OnClickListener onClick;
+        protected View.OnLongClickListener onLongClick;
 
-        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
+        public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick,View.OnLongClickListener onLongClick) {
             this.title = title;
             this.happenTime = happenTime;
             this.questionCount = questionCount;
             this.score = score;
             this.onClick = onClick;
+            this.onLongClick = onLongClick;
         }
 
         public DataContext(String title, String happenTime, int questionCount, int score) {

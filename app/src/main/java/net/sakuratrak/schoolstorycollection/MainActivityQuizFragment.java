@@ -155,32 +155,20 @@ public final class MainActivityQuizFragment extends Fragment {
                         UiHelper.defaultFormatWithTime.format(data.getHappendTime()),
                         data.getLogs().size(),
                         data.getAvgScore(),
-                        v -> new AlertDialog.Builder(getContext()).setItems(R.array.quiz_log_operate, (dialog, which) -> {
-                            switch (which) {
-                                case 0://view
-                                    Intent intent = new Intent(getContext(), QuizResultActivity.class);
-                                    intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, data.getId());
-                                    startActivityForResult(intent, REQUEST_DETAIL);
-                                    break;
-                                case 1://retry
-                                    Intent intent1 = new Intent(getContext(), QuizActivity.class);
-                                    intent1.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
-                                    intent1.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "重测：" + data.getDescription());
-                                    ArrayList<Integer> arrayList = new ArrayList<>();
-                                    for (ExerciseLog log :
-                                            data.getLogs()) {
-                                        if (log.getQuestion() != null)
-                                            arrayList.add(log.getQuestion().getId());
-                                    }
-                                    if (arrayList.size() == 0) {
-                                        Toast.makeText(getContext(), "无法开始，小测中的所有题目已被删除", Toast.LENGTH_LONG).show();
-                                        return;
-                                    }
-                                    intent1.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, arrayList);
-                                    startActivityForResult(intent1, REQUEST_QUIZ);
-                                    break;
-                            }
-                        }).setNegativeButton(R.string.cancel, null).show()));
+                        v -> viewLog(data),
+                        v -> {
+                            new AlertDialog.Builder(getContext()).setItems(R.array.quiz_log_operate, (dialog, which) -> {
+                                switch (which) {
+                                    case 0://view
+                                        viewLog(data);
+                                        break;
+                                    case 1://retry
+                                        viewRetry(data);
+                                        break;
+                                }
+                            }).setNegativeButton(R.string.cancel, null).show();
+                            return true;
+                        }));
             }
 
             _mainAdapter.notifyDataSetChanged();
@@ -209,5 +197,29 @@ public final class MainActivityQuizFragment extends Fragment {
                     getParent().requireRefresh();
                 }
         }
+    }
+
+    private void viewLog(ExerciseLogGroup data) {
+        Intent intent = new Intent(getContext(), QuizResultActivity.class);
+        intent.putExtra(QuizResultActivity.EXTRA_GROUP_ID, data.getId());
+        startActivityForResult(intent, REQUEST_DETAIL);
+    }
+
+    private void viewRetry(ExerciseLogGroup data) {
+        Intent intent = new Intent(getContext(), QuizActivity.class);
+        intent.putExtra(QuizActivity.EXTRA_MODE, QuizActivity.MODE_LIST);
+        intent.putExtra(QuizActivity.EXTRA_QUIZ_DESCRIPTION, "重测：" + data.getDescription());
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (ExerciseLog log :
+                data.getLogs()) {
+            if (log.getQuestion() != null)
+                arrayList.add(log.getQuestion().getId());
+        }
+        if (arrayList.size() == 0) {
+            Toast.makeText(getContext(), "无法开始，小测中的所有题目已被删除", Toast.LENGTH_LONG).show();
+            return;
+        }
+        intent.putIntegerArrayListExtra(QuizActivity.EXTRA_QUESTION_IDS, arrayList);
+        startActivityForResult(intent, REQUEST_QUIZ);
     }
 }
