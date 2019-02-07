@@ -32,7 +32,7 @@ public final class BlankAnswer extends Answer.PlainTextAnswer {
         return 0;
     }
 
-    public String[] getAnswerList() {
+    private String[] getAnswerList() {
         String tmp = answer.replace('；', ';');
         String[] answers = tmp.split(";");
         for (int i = 0; i < answers.length; i++) {

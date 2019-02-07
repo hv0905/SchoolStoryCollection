@@ -15,12 +15,12 @@ import androidx.annotation.Nullable;
 
 public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
 
-    ViewGroup _root;
-    Chip _a;
-    Chip _b;
-    Chip _c;
-    Chip _d;
-    FloatingActionButton _confirm;
+    private ViewGroup _root;
+    private Chip _a;
+    private Chip _b;
+    private Chip _c;
+    private Chip _d;
+    private FloatingActionButton _confirm;
 
     public MultiplySelectQuizAnswerView(Context context) {
         super(context);
@@ -42,7 +42,7 @@ public class MultiplySelectQuizAnswerView extends CheckableQuizAnswerView {
         init();
     }
 
-    public void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_multiply_choice, this);
         _root = findViewById(R.id.rootView);
         _a = findViewById(R.id.answerA);

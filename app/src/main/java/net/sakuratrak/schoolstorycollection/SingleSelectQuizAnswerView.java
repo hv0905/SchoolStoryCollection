@@ -42,7 +42,7 @@ public class SingleSelectQuizAnswerView extends CheckableQuizAnswerView {
         init();
     }
 
-    public void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_single_choice, this);
         _root = findViewById(R.id.rootView);
         _a = findViewById(R.id.answerA);

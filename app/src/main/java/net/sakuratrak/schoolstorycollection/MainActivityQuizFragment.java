@@ -32,12 +32,12 @@ public final class MainActivityQuizFragment extends Fragment {
 
     public static final String TAG = "MainWindow_Quiz";
 
-    public static final int REQUEST_QUIZ = 100;
-    public static final int REQUEST_DETAIL = 101;
+    private static final int REQUEST_QUIZ = 100;
+    private static final int REQUEST_DETAIL = 101;
 
 
     //region views
-    ViewGroup _root;
+    private ViewGroup _root;
     private ConstraintLayout _operateButtons;
     private View _quickQuizButton;
     private View _randomQuizButton;
@@ -190,7 +190,7 @@ public final class MainActivityQuizFragment extends Fragment {
     }
 
 
-    public MainActivity getParent() {
+    private MainActivity getParent() {
         return (MainActivity) getActivity();
     }
 

@@ -7,7 +7,7 @@ import android.widget.Button;
 
 public final class ImageQuizAnswerView extends QuizAnswerView {
 
-    Button _confirmBtn;
+    private Button _confirmBtn;
 
     public ImageQuizAnswerView(Context context) {
         super(context);
@@ -32,7 +32,7 @@ public final class ImageQuizAnswerView extends QuizAnswerView {
         init();
     }
 
-    void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_image, this);
         _confirmBtn = findViewById(R.id.confirmBtn);
         _confirmBtn.setOnClickListener(v -> onAnswerReport(ANSWER_COMPLETED));

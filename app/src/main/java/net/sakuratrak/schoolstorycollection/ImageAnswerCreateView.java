@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 public final class ImageAnswerCreateView extends AnswerUiCreatorView {
 
     //region elements
-    TextView _noticeText;
-    ImageSelectView _answerImage;
+    private TextView _noticeText;
+    private ImageSelectView _answerImage;
     //endregion
 
 

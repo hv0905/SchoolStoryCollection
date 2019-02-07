@@ -15,9 +15,9 @@ import net.sakuratrak.schoolstorycollection.core.BlankAnswer;
 
 public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
 
-    ViewGroup _root;
-    TextInputEditText _editAnswer;
-    FloatingActionButton _confirmBtn;
+    private ViewGroup _root;
+    private TextInputEditText _editAnswer;
+    private FloatingActionButton _confirmBtn;
 
 
     public BlankQuizAnswerView(Context context) {
@@ -40,7 +40,7 @@ public final class BlankQuizAnswerView extends CheckableQuizAnswerView {
         init();
     }
 
-    void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_quiz_blank, this);
         _root = findViewById(R.id.rootView);
         _confirmBtn = findViewById(R.id.confirmBtn);

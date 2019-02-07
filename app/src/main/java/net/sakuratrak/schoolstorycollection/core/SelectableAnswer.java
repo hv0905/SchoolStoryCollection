@@ -58,7 +58,7 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
 
     }
 
-    public int getItemCount() {
+    private int getItemCount() {
         int count = 0;
         for (boolean item : getAnswerArray()) {
             if (item) count++;
@@ -66,7 +66,7 @@ public class SelectableAnswer extends Answer.PlainTextAnswer {
         return count;
     }
 
-    public boolean[] getAnswerArray() {
+    private boolean[] getAnswerArray() {
         return new boolean[]{A, B, C, D};
     }
 

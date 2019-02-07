@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 public final class PlainTextAnswerDisplayView extends AnswerUiDisplayView {
 
-    TextView _root;
+    private TextView _root;
 
 
     public PlainTextAnswerDisplayView(@NonNull Context context) {
@@ -38,7 +38,7 @@ public final class PlainTextAnswerDisplayView extends AnswerUiDisplayView {
         init();
     }
 
-    void init() {
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.element_answer_display_text, this);
         _root = findViewById(R.id.imgs);
     }

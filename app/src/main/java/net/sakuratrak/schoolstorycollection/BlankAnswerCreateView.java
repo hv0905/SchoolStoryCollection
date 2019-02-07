@@ -13,7 +13,7 @@ import net.sakuratrak.schoolstorycollection.core.BlankAnswer;
 
 public final class BlankAnswerCreateView extends AnswerUiCreatorView {
 
-    TextInputEditText _answerText;
+    private TextInputEditText _answerText;
 
     public BlankAnswerCreateView(Context context) {
         super(context);

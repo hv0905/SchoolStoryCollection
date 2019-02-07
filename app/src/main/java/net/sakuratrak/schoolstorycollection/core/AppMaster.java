@@ -80,8 +80,8 @@ public class AppMaster {
         return new File(AppMaster.getLocalThumbCacheDir(context), imgId);
     }
 
-    public static boolean removeThumbFile(Context context, String imgId) {
-        return getThumbFileWithoutCreate(context, imgId).delete();
+    public static void removeThumbFile(Context context, String imgId) {
+        getThumbFileWithoutCreate(context, imgId).delete();
     }
 
     public static File getImgFileDisplay(Context context, String imgId) {
@@ -121,8 +121,8 @@ public class AppMaster {
         return new File(AppSettingsMaster.getWorkBookImageDir(context), imgId);
     }
 
-    public static boolean removeImgFile(Context context, String imgId) {
-        return getImgFile(context, imgId).delete();
+    public static void removeImgFile(Context context, String imgId) {
+        getImgFile(context, imgId).delete();
     }
 
 }

@@ -45,14 +45,14 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_QUESTION_IDS = "ids";
     public static final String EXTRA_QUIZ_DESCRIPTION = "quiz_description";
 
-    public static final String TAG = "QuizActivity";
+    private static final String TAG = "QuizActivity";
 
-    public static final int STATE_ANSWERING = 0;
-    public static final int STATE_CHECKING = 1;
-    public static final int STATE_POST_CHECKING = 2;
+    private static final int STATE_ANSWERING = 0;
+    private static final int STATE_CHECKING = 1;
+    private static final int STATE_POST_CHECKING = 2;
 
-    public static final int RESULT_ALL_DONE = 1001;
-    public static final int RESULT_PART_DONE = 1002;
+    private static final int RESULT_ALL_DONE = 1001;
+    private static final int RESULT_PART_DONE = 1002;
     public static final int RESULT_NONE_DONE = 1003;
 
 
@@ -175,7 +175,7 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setupQuestion() {
+    private void setupQuestion() {
         if (_answerViewZone.isExpanded()) {
             _answerViewZone.collapse(0, new LinearInterpolator());
         }
@@ -214,7 +214,7 @@ public class QuizActivity extends AppCompatActivity {
         }, 1000, 1000);
     }
 
-    public void checkAnswer() {
+    private void checkAnswer() {
         Log.d(TAG, "checkAnswer: submit");
         _timer.cancel();
         if (_currentContext.getAnswer() instanceof Answer.PlainTextAnswer) {
@@ -265,7 +265,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     //增加一条做题记录
-    public void postRecord(int score) {
+    private void postRecord(int score) {
         try {
             if (_currentGroup == null) {
                 _currentGroup = new ExerciseLogGroup(getIntent().hasExtra(EXTRA_QUIZ_DESCRIPTION) ? getIntent().getStringExtra(EXTRA_QUIZ_DESCRIPTION) : "小测", _currentContext.getSubject());
@@ -281,7 +281,7 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void setupAnswer() {
+    private void setupAnswer() {
         _analysisImgDisplay.setImages(Arrays.asList(_currentContext.getAnalysisImage()));
         _analysisText.post(() -> {
             Spanned sp = MarkDown.fromMarkdown(_currentContext.getAnalysisDetail(), null, _analysisText);
@@ -300,7 +300,7 @@ public class QuizActivity extends AppCompatActivity {
                 , 650);
     }
 
-    public void loadNext() {
+    private void loadNext() {
         if (shouldExit()) {
             exit();
         } else {
@@ -347,7 +347,7 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    void exit() {
+    private void exit() {
         //退出小测,显示报告
         if (_doneCount == 0) {
             //一题都没做可以直接退了
@@ -367,7 +367,7 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    boolean shouldExit() {
+    private boolean shouldExit() {
         return _mode == MODE_SOLO || _currentId >= (_idList.size() - 1);
     }
 }

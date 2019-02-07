@@ -65,7 +65,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     @DatabaseField
     private Date authorTime;
 
-    @DatabaseField(canBeNull = true)
+    @DatabaseField()
     private Date resetTime;
 
     @DatabaseField
@@ -135,7 +135,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
     }
 
     @Nullable
-    public int[] getLastNScore(int n) {
+    private int[] getLastNScore(int n) {
         int[] lastN = new int[n];
         int size = exerciseLogs.size();
         if (size < n) return null;
@@ -325,7 +325,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
         return resetTime;
     }
 
-    public void setResetTime(Date resetTime) {
+    private void setResetTime(Date resetTime) {
         this.resetTime = resetTime;
     }
 

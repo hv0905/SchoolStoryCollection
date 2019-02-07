@@ -60,15 +60,15 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
 
     public static class Holder extends RecyclerView.ViewHolder {
 
-        public final ConstraintLayout _rootView;
-        public final TextView _textTitle;
-        public final TextView _textQuestionCount;
-        public final TextView _textHappenTime;
-        public final TextView _scoreProgressVal;
-        public final ProgressBar _scoreProgress;
+        protected final ConstraintLayout _rootView;
+        protected final TextView _textTitle;
+        protected final TextView _textQuestionCount;
+        protected final TextView _textHappenTime;
+        protected final TextView _scoreProgressVal;
+        protected final ProgressBar _scoreProgress;
 
 
-        public Holder(@NonNull View itemView) {
+        protected Holder(@NonNull View itemView) {
             super(itemView);
             _rootView = itemView.findViewById(R.id.rootView);
             _textTitle = itemView.findViewById(R.id.textTitle);
@@ -80,11 +80,11 @@ public final class ExerciseLogGroupAdapter extends RecyclerView.Adapter<Exercise
     }
 
     public static class DataContext {
-        public String title;
-        public String happenTime;
-        public int questionCount;
-        public int score;
-        public View.OnClickListener onClick;
+        protected String title;
+        protected String happenTime;
+        protected int questionCount;
+        protected int score;
+        protected View.OnClickListener onClick;
 
         public DataContext(String title, String happenTime, int questionCount, int score, View.OnClickListener onClick) {
             this.title = title;

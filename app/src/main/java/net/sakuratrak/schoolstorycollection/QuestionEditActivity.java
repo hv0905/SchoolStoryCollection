@@ -37,7 +37,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     public static final String EXTRA_SUBJECT = "subject";
     public static final String EXTRA_QUESTION_TYPE_ID = "question_type_id";
     public static final String EXTRA_CONTEXT_ID = "context";
-    public static final String TAG = "QuestionEditActivity";
+    private static final String TAG = "QuestionEditActivity";
 
     private static final int REQUEST_UNIT_CHOOSE = 200;
     private static final int REQUEST_IMAGE_CAMERA_QUESTION = 201;
@@ -274,7 +274,7 @@ public class QuestionEditActivity extends AppCompatActivity {
         }
     }
 
-    void checkState() {
+    private void checkState() {
         Log.d(TAG, "checkState: updated. need to check state");
         _okButton.setEnabled(_answerContent.hasAnswer() && _questionImgRecycle.getImages().size() != 0);
     }

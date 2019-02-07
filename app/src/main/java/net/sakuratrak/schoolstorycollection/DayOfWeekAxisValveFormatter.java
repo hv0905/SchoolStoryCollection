@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class DayOfWeekAxisValveFormatter implements IAxisValueFormatter {
 
-    public static final String[] WEEK_CHINESE = {"日", "一", "二", "三", "四", "五", "六"};
+    private static final String[] WEEK_CHINESE = {"日", "一", "二", "三", "四", "五", "六"};
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {

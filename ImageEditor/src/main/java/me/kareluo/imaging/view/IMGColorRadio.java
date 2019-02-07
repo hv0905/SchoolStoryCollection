@@ -36,7 +36,7 @@ public class IMGColorRadio extends androidx.appcompat.widget.AppCompatRadioButto
     private static final float RADIUS_BALL = 0.72f;
 
     public IMGColorRadio(Context context) {
-        this(context, null, 0);
+        this(context, 0);
     }
 
     public IMGColorRadio(Context context, AttributeSet attrs) {
@@ -44,9 +44,9 @@ public class IMGColorRadio extends androidx.appcompat.widget.AppCompatRadioButto
         initialize(context, attrs, 0);
     }
 
-    private IMGColorRadio(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initialize(context, attrs, defStyleAttr);
+    private IMGColorRadio(Context context, int defStyleAttr) {
+        super(context, null, defStyleAttr);
+        initialize(context, null, defStyleAttr);
     }
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {

@@ -51,15 +51,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class QuestionDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_QUESTION_ID = "questionId";
-    public static final String TAG = "QuestionDetail";
+    private static final String TAG = "QuestionDetail";
 
     public static final int RESULT_EDITED = 200;
     public static final int RESULT_DELETED = 201;
     public static final int RESULT_HIDDEN = 202;
 
     private static final int REQUEST_EDIT = 100;
-    AppBarLayout _appBar;
-    Toolbar _toolbar;
+    private AppBarLayout _appBar;
+    private Toolbar _toolbar;
 
     //region uiElements
     private CollapsingToolbarLayout _toolbarLayout;
@@ -163,7 +163,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     }
 
-    void loadMarkdown(TextView textView, String text) {
+    private void loadMarkdown(TextView textView, String text) {
         Spanned spanned = MarkDown.fromMarkdown(text, source -> null, textView);
         textView.setText(spanned);
     }
@@ -332,13 +332,13 @@ public class QuestionDetailActivity extends AppCompatActivity {
         _hidden = true;
     }
 
-    public void gotoEdit() {
+    private void gotoEdit() {
         Intent intent = new Intent(this, QuestionEditActivity.class);
         intent.putExtra(QuestionEditActivity.EXTRA_CONTEXT_ID, _context.getId());
         startActivityForResult(intent, REQUEST_EDIT);
     }
 
-    public void toggleAnswer() {
+    private void toggleAnswer() {
         _answerZone.toggle();
     }
 

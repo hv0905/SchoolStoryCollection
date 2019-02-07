@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void refreshSubject(LearningSubject subject) {
+    private void refreshSubject(LearningSubject subject) {
         _currentSubject = subject;
         //set toolbar color
         int uiColor = UiHelper.getFlatUiColor(this, _currentSubject.getId());
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         _changeDisplayModeEvent.remove(handler);
     }
 
-    public void changeDisplayMode() {
+    private void changeDisplayMode() {
         if (_changeDisplayModeEvent == null) return;
         for (ChangeDisplayModeEventHandler item :
                 _changeDisplayModeEvent) {
@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         this._unitDialogUpdate = _unitDialogUpdate;
     }
 
-    void showQuestionFilterDialog() {
+    private void showQuestionFilterDialog() {
 
         if (_questionFilterDialog == null) {
             _questionFilterDialog = new QuestionFilterDialog(getCurrentSubject());
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         _questionFilterDialog.showDialog(this);
     }
 
-    void showUnitFilterDialog() {
+    private void showUnitFilterDialog() {
         if (_unitFilterDialog == null) {
             _unitFilterDialog = new UnitFilterDialog(getCurrentSubject());
             _unitFilterDialog.set_onUpdate(this::onUnitFilterDialogUpdate);
@@ -333,13 +333,13 @@ public class MainActivity extends AppCompatActivity {
         _unitFilterDialog.showDialog(this);
     }
 
-    void onWorkbookFilterDialogUpdate() {
+    private void onWorkbookFilterDialogUpdate() {
         if (_questionDialogUpdate != null) {
             _questionDialogUpdate.update();
         }
     }
 
-    void onUnitFilterDialogUpdate() {
+    private void onUnitFilterDialogUpdate() {
         if (_unitDialogUpdate != null) {
             _unitDialogUpdate.update();
         }

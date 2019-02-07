@@ -60,7 +60,7 @@ public class ImageSelectView extends RecyclerView {
         init();
     }
 
-    public void init() {
+    private void init() {
         setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListAdapter(new ArrayList<>(), true);
@@ -128,7 +128,7 @@ public class ImageSelectView extends RecyclerView {
         }
     }
 
-    public void refresh() {
+    private void refresh() {
         ArrayList<ImageListAdapter.DataContext> dataContext = _mainAdapter.get_dataContext();
         dataContext.clear();
         for (int i = 0; i < _images.size(); i++) {

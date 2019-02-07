@@ -30,7 +30,7 @@ public class QuizResultActivity extends AppCompatActivity {
 
     public static final String EXTRA_GROUP_ID = "groupId";
 
-    public static final int REQUEST_QUIZ = 101;
+    private static final int REQUEST_QUIZ = 101;
     public static final int RESULT_NORMAL = 1000;
     public static final int RESULT_REQUIZ = 1001;
 

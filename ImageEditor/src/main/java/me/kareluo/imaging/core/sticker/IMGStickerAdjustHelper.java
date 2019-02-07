@@ -48,7 +48,7 @@ public class IMGStickerAdjustHelper implements View.OnTouchListener {
 
                 Log.d(TAG, String.format("X=%f,Y=%f", pointX, pointY));
 
-                mRadius = toLength(0, 0, pointX, pointY);
+                mRadius = toLength(pointX, pointY);
 
                 mDegrees = toDegrees(pointY, pointX);
 
@@ -70,7 +70,7 @@ public class IMGStickerAdjustHelper implements View.OnTouchListener {
 
                 Log.d(TAG, String.format("X=%f,Y=%f", pointX, pointY));
 
-                double radius = toLength(0, 0, pointX, pointY);
+                double radius = toLength(pointX, pointY);
 
                 double degrees = toDegrees(pointY, pointX);
 
@@ -94,7 +94,7 @@ public class IMGStickerAdjustHelper implements View.OnTouchListener {
         return Math.toDegrees(Math.atan2(v, v1));
     }
 
-    private static double toLength(float x1, float y1, float x2, float y2) {
-        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    private static double toLength(float x2, float y2) {
+        return Math.sqrt(((float) 0 - x2) * ((float) 0 - x2) + ((float) 0 - y2) * ((float) 0 - y2));
     }
 }

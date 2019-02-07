@@ -253,7 +253,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
         return (MainActivity) getActivity();
     }
 
-    public void refreshList() {
+    private void refreshList() {
         Log.d(TAG, "refreshList: go");
 
         refreshContext();

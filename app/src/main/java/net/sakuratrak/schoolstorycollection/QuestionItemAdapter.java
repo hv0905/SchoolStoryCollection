@@ -32,11 +32,11 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
     protected IListedDataProvidable<DataContext> _dataContext;
 
-    public QuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
+    protected QuestionItemAdapter(IListedDataProvidable<DataContext> _dataContext) {
         this._dataContext = _dataContext;
     }
 
-    public QuestionItemAdapter() {
+    protected QuestionItemAdapter() {
     }
 
     public IListedDataProvidable<DataContext> get_dataContext() {
@@ -54,21 +54,21 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
     }
 
     public static class DataContext {
-        public String title;
-        public String authorTime;
-        public String unitInfo;
-        public Uri imgUri;
-        public float difficulty;
-        public int reviewRatio;
-        public boolean favourite;
-        public QuestionType type;
-        public boolean hidden;
-        public View.OnClickListener detailClicked;
-        public View.OnClickListener quizClicked;
-        public View.OnLongClickListener showMenuClicked;
-        public boolean checkAble = true;
+        protected String title;
+        protected String authorTime;
+        protected String unitInfo;
+        protected Uri imgUri;
+        protected float difficulty;
+        protected int reviewRatio;
+        protected boolean favourite;
+        protected QuestionType type;
+        protected boolean hidden;
+        protected View.OnClickListener detailClicked;
+        protected View.OnClickListener quizClicked;
+        protected View.OnLongClickListener showMenuClicked;
+        protected boolean checkAble = true;
         public boolean checked = false;
-        public CompoundButton.OnCheckedChangeListener onCheckChanged;
+        protected CompoundButton.OnCheckedChangeListener onCheckChanged;
         public QuestionInfo db;
 
 
@@ -160,21 +160,21 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
 
         }
 
-        public final static class Holder extends RecyclerView.ViewHolder {
-            public final TextView title;
-            public final ImageView previewImgContent;
-            public final FrameLayout previewImgBorder;
-            public final TextView valAuthorTime;
-            public final TextView valUnit;
-            public final MaterialButton btnQuiz;
-            public final MaterialButton btnDetail;
-            public final RatingBar valDifficulty;
-            public final ImageView valFavourite;
-            public final View _root;
-            public final TextView _valReviewRatio;
+        protected final static class Holder extends RecyclerView.ViewHolder {
+            protected final TextView title;
+            protected final ImageView previewImgContent;
+            protected final FrameLayout previewImgBorder;
+            protected final TextView valAuthorTime;
+            protected final TextView valUnit;
+            protected final MaterialButton btnQuiz;
+            protected final MaterialButton btnDetail;
+            protected final RatingBar valDifficulty;
+            protected final ImageView valFavourite;
+            protected final View _root;
+            protected final TextView _valReviewRatio;
 
 
-            public Holder(View rootView) {
+            protected Holder(View rootView) {
                 super(rootView);
                 _root = rootView;
                 previewImgContent = _root.findViewById(R.id.previewImgContent);
@@ -244,18 +244,18 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             });
         }
 
-        public static class Holder extends RecyclerView.ViewHolder {
+        protected static class Holder extends RecyclerView.ViewHolder {
 
-            public final ConstraintLayout _rootView;
-            public final ImageView _previewImg;
-            public final TextView _textTitle;
-            public final MaterialRatingBar _difficulty;
-            public final ImageView _favourite;
-            public final CheckBox _multiCheckbox;
+            protected final ConstraintLayout _rootView;
+            protected final ImageView _previewImg;
+            protected final TextView _textTitle;
+            protected final MaterialRatingBar _difficulty;
+            protected final ImageView _favourite;
+            protected final CheckBox _multiCheckbox;
             private final TextView _valReviewRatio;
 
 
-            public Holder(@NonNull View itemView) {
+            protected Holder(@NonNull View itemView) {
                 super(itemView);
                 _rootView = itemView.findViewById(R.id.rootView);
                 _previewImg = itemView.findViewById(R.id.previewImg);

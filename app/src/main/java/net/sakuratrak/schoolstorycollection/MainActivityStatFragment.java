@@ -15,8 +15,8 @@ import androidx.viewpager.widget.ViewPager;
 public final class MainActivityStatFragment extends Fragment {
 
     public ViewPager _pager;
-    public TabLayout _tabLayout;
-    public StatFragmentPagerAdapter _adapter;
+    private TabLayout _tabLayout;
+    private StatFragmentPagerAdapter _adapter;
 
     public MainActivityStatFragment() {
 

@@ -65,14 +65,14 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
 
     public static final class Holder extends RecyclerView.ViewHolder {
 
-        public final ConstraintLayout _rootView;
-        public final TextView _questionId;
-        public final TextView _title;
-        public final TextView _unit;
-        public final TextView _scoreProgressVal;
-        public final ProgressBar _scoreProgress;
+        protected final ConstraintLayout _rootView;
+        protected final TextView _questionId;
+        protected final TextView _title;
+        protected final TextView _unit;
+        protected final TextView _scoreProgressVal;
+        protected final ProgressBar _scoreProgress;
 
-        public Holder(@NonNull View itemView) {
+        protected Holder(@NonNull View itemView) {
             super(itemView);
             _rootView = itemView.findViewById(R.id.rootView);
             _questionId = itemView.findViewById(R.id.questionId);
@@ -84,11 +84,11 @@ public class ExerciseLogAdapter extends RecyclerView.Adapter<ExerciseLogAdapter.
     }
 
     public static final class DataContext {
-        public int Id;
-        public String Name;
-        public String Unit;
-        public int Score;
-        public View.OnClickListener onClick;
+        protected int Id;
+        protected String Name;
+        protected String Unit;
+        protected int Score;
+        protected View.OnClickListener onClick;
 
         public DataContext(int id, String name, String unit, int score) {
             Id = id;

@@ -162,7 +162,7 @@ public final class QuestionFilterDialog {
 
     }
 
-    public void dialogClosed() {
+    private void dialogClosed() {
         //apply dialog info into fields
         _searchTxt = _searchText.getText().toString();
         _isHiddenShown = _hiddenSwitch.isChecked();

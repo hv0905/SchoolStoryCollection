@@ -82,10 +82,10 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
 
         public static final class Holder extends RecyclerView.ViewHolder {
 
-            public View _root;
-            public TextView _txtTitle;
-            public CheckBox _multiCheckbox;
-            public TextView _txtQuiz;
+            public final View _root;
+            public final TextView _txtTitle;
+            public final CheckBox _multiCheckbox;
+            public final TextView _txtQuiz;
             public TextView _txtCount;
 
 
