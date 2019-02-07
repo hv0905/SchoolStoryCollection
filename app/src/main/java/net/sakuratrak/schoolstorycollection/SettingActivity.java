@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import net.sakuratrak.schoolstorycollection.core.AppHelper;
+import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 
@@ -151,6 +152,19 @@ public class SettingActivity extends AppCompatActivity {
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, null)
+                                .show();
+                        break;
+                    case "clearThumbCache":
+                        new AlertDialog.Builder(getContext())
+                                .setIcon(R.drawable.ic_warning_black_24dp)
+                                .setTitle("清除缩略图缓存?")
+                                .setMessage("将清除缩略图缓存?")
+                                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                    File toDelete = AppMaster.getLocalThumbCacheDir(getContext());
+                                    AppHelper.clearDir(toDelete);
+                                    Toast.makeText(getContext(),"清除成功",Toast.LENGTH_LONG).show();
+                                })
+                                .setNegativeButton(R.string.cancel,null)
                                 .show();
                         break;
                 }

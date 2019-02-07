@@ -70,6 +70,8 @@
             android:summary="@string/setval_exportWorkBook"
             android:title="@string/settit_exportWorkbook" />
         <Preference
+            android:key="clearThumbCache"
+            android:persistent="false"
             android:icon="@drawable/ic_delete_black_24dp"
             android:summary="@string/setval_clearBmCache"
             android:title="@string/settit_clearBmCache" />
@@ -82,11 +84,13 @@
             <Preference
                 android:icon="@drawable/ic_delete_black_24dp"
                 android:key="clearStatInfo"
+                android:persistent="false"
                 android:summary="@string/setval_clearStatInfo"
                 android:title="@string/settit_clearStatInfo" />
             <Preference
                 android:icon="@drawable/ic_delete_black_24dp"
                 android:key="clearAll"
+                android:persistent="false"
                 android:summary="@string/setval_clearAll"
                 android:title="@string/settit_clearAll" />
         </PreferenceScreen>
