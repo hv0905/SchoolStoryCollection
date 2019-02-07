@@ -57,7 +57,7 @@
             android:entryValues="@array/settings_workbookStorageLoc_val"
             android:icon="@drawable/ic_save_black_24dp"
             android:key="internalWorkbookLoc"
-            android:summary="%s"
+            android:summary="%s\n更改本设置后请重新启动错题本Story以使新的设定生效"
             android:title="@string/settit_workbookSaveLoc" />
         <Preference
             android:key="clearThumbCache"
