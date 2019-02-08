@@ -1,3 +1,6 @@
+---
+typora-copy-images-to: ./
+---
 
 # 错题本Story
 
@@ -5,7 +8,9 @@
 
 版本:1.0.0 Preview  
 分支:Develop  
-by:Saber0905  
+Build with ❤ by EdgeNeko in SakuraTrak Studio
+
+![build with love by SakuraTrak Studio](build with love by SakuraTrak Studio.png)
 
 ## 简介
 
@@ -17,21 +22,17 @@ by:Saber0905
 最后，祝使用愉快O(∩_∩)O  
 ありがとう  
 
-Saber0905 2019.1  
+EdgeNeko 2019.1  
 
 ### 特色
 
 > 嗯,那么,明天小测的内容是?  
 
 1. 分单元的分布式错题管理功能,更精准地回顾复习  
-
 2. 错题、解析信息支持图片、Markdown文本。  
-
 3. 选择题、填空题支持即时小测评分。  
-
 4. 综合数据统计可以很方便找出知识漏洞。  
 
-5. 一键生成错题图片,要不要试试换种方式问老师?  
 
 ### 计划加入的功能
 
@@ -40,12 +41,25 @@ Saber0905 2019.1
 
 1. 测验成绩记录  
 2. 多语言支持  
+3. 生成图片分享支持
 
 有更好的建议可在"反馈"中反馈!
 
+
+
+## Copyright
+
+Copyright 2019 EdgeNeko
+
+授权任何人免费使用本应用,如需用于商业用途,请联系作者许可.
+
+未经作者许可,任何人不能二次散布、反编译本应用，违者必究。
+
 ## 感谢
 
-起始页封面：SummerLong EP Cover （pixiv id:58251557）  
+### 起始页封面
+
+SummerLong EP Cover （pixiv id:58251557）  
 
 ### 开放源代码
 
@@ -99,6 +113,22 @@ Saber0905 2019.1
 >
 > Licensed under Apache License
 
+* FloatActionButton
+
+> by Clans
+>
+> https://github.com/Clans/FloatingActionButton
+>
+> Licensed under Apache License
+
+* MaterialRatingBar
+
+> by DreaminginCodeZH
+>
+> https://github.com/DreaminginCodeZH/MaterialRatingBar
+>
+> Licensed under Apache License
+
 * glide
 
 > by bumptech
@@ -107,3 +137,10 @@ Saber0905 2019.1
 >
 > For license, please see https://github.com/bumptech/glide/blob/master/LICENSE
 
+* Imaging
+
+> by Kareluo
+>
+> https://github.com/kareluo/Imaging
+>
+> No license is provided.
