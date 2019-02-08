@@ -52,7 +52,7 @@ public final class ImageDisplayView extends RecyclerView {
         for (int i = 0; i < _images.size(); i++) {
             String path = _images.get(i);
             ImageListAdapter.DataContext item = new ImageListAdapter.DataContext();
-            item.imgSrc = Uri.fromFile(AppMaster.getImgFileDisplay(getContext(), path));
+            item.imgSrc = Uri.fromFile(AppMaster.getThumbFile(getContext(), path));
             final int finalI = i;
             item.imageClicked = v -> imgClick(finalI);
             dataContext.add(item);

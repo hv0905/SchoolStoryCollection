@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
+
 public class AppMaster {
 
     public static final String APP_STORAGE_DIR_ROOT = "SchoolStoryCollection";
@@ -93,6 +95,7 @@ public class AppMaster {
         getThumbFileWithoutCreate(context, imgId).delete();
     }
 
+    @NonNull
     public static File getImgFileDisplay(Context context, String imgId) {
         File imgFile = getImgFile(context, imgId);
         if (imgFile.isFile()) return imgFile;
