@@ -199,6 +199,8 @@
     <string name="warning">警告</string>
     <string name="dangerWarning">⚠⚠⚠警告⚠⚠⚠</string>
     <string name="notice">提示</string>
+    <string name="titleShare">选择分享方式</string>
+    <string name="saved">已保存</string>
 
 
     <string-array name="learning_subjects">
@@ -272,4 +274,9 @@
         <item>智能小测</item>
         <item>随机小测</item>
     </string-array>
+    <string-array name="share_list">
+        <item>分享</item>
+        <item>保存分享图片到相册</item>
+    </string-array>
+
 </resources>

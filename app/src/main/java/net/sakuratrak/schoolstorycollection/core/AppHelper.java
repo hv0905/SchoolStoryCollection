@@ -1,5 +1,9 @@
 package net.sakuratrak.schoolstorycollection.core;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.provider.MediaStore;
+
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
@@ -64,6 +68,18 @@ public final class AppHelper {
             return true;
         }
         return false;
+    }
+
+    //https://stackoverflow.com/questions/20859584/how-to-save-image-in-android-gallery
+    public static void addImageToGallery(String filePath, Context context) {
+
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.MediaColumns.DATA, filePath);
+
+        context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
 }

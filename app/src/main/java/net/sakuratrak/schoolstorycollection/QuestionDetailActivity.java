@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +21,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.zzhoujay.markdown.MarkDown;
 
+import net.sakuratrak.schoolstorycollection.core.AppHelper;
 import net.sakuratrak.schoolstorycollection.core.AppMaster;
 import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
@@ -44,6 +45,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +53,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -213,34 +216,64 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 return true;
 
             case R.id.shareMenu:
-                Bitmap bm = ShareHelper.generateShareBitmap(this,_context);
-                try {
-                    File shareTmp = new File(getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg");
-                    shareTmp.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(shareTmp);
-                    bm.compress(Bitmap.CompressFormat.JPEG,90,fos);
-                    fos.close();
-                    bm.recycle();
-                    //指定分享
-                    Uri providerUri = FileProvider.getUriForFile(this,
-                            getApplicationContext().getPackageName() + ".files",
-                            shareTmp);
+                Bitmap bm = ShareHelper.generateShareBitmap(this, _context);
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.titleShare)
+                        .setItems(R.array.share_list, (dialog, which) -> {
+                            switch (which) {
+                                case 0:
+                                    try {
+                                        File shareTmp = new File(getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg");
+                                        shareTmp.createNewFile();
+                                        FileOutputStream fos = new FileOutputStream(shareTmp);
+                                        bm.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                                        fos.close();
+                                        bm.recycle();
+                                        //指定分享
+                                        Uri providerUri = FileProvider.getUriForFile(this,
+                                                getApplicationContext().getPackageName() + ".files",
+                                                shareTmp);
 
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("image/jpeg");
-                    intent.putExtra(Intent.EXTRA_STREAM,providerUri);
+                                        Intent intent = new Intent(Intent.ACTION_SEND);
+                                        intent.setType("image/jpeg");
+                                        intent.putExtra(Intent.EXTRA_STREAM, providerUri);
 
-                    if(intent.resolveActivity(getPackageManager()) != null){
-                        startActivity(intent);
-                    }
+                                        if (intent.resolveActivity(getPackageManager()) != null) {
+                                            startActivity(intent);
+                                        }
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                case 1:
+                                    OutputStream output;
+                                    File filepath = Environment.getExternalStorageDirectory();
+                                    File dir = new File(new File(filepath,"DCIM"), "SchoolStoryCollection");
+                                    dir.mkdirs();
+                                    File file = new File(dir, "Share_" + UUID.randomUUID().toString() + ".jpg");
+                                    try {
+                                        output = new FileOutputStream(file);
+                                        bm.compress(Bitmap.CompressFormat.JPEG, 90, output);
+                                        output.flush();
+                                        output.close();
+                                        AppHelper.addImageToGallery(file.getAbsolutePath(),this);
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                        return;
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    Snackbar.make(_appBar,R.string.saved,Snackbar.LENGTH_LONG).show();
+                                    break;
 
-                //todo share
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
                 return true;
             case R.id.hide:
                 if (_context.isHidden()) {
