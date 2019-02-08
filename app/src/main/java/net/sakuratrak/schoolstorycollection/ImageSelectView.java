@@ -43,6 +43,7 @@ public class ImageSelectView extends RecyclerView {
     private File _currentTempCameraPhoto;
     private File _currentTargetPhoto;
     private OnClickListener _onItemToggle;
+    private PreviewActionEventHandler _previewAddItem;
     private float _addContrast = 1.8f;
 
     public ImageSelectView(@NonNull Context context) {
@@ -64,28 +65,33 @@ public class ImageSelectView extends RecyclerView {
         setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
         _images = new ArrayList<>();
         _mainAdapter = new ImageListAdapter(new ArrayList<>(), true);
-        _mainAdapter.setAddButtonClicked(v -> CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
-            //todo choose photo
-            switch (which) {
-                case 0: {
-                    if (!PermissionAdmin.get(getActivity(), Manifest.permission.CAMERA, _codeCamera)) {
-                        return;
-                    }
-                    takePhoto(_codeCamera);
-                    break;
-                }
-                case 1: {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                    if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                        getActivity().startActivityForResult(intent, _codeGet);
-                    }
-                    break;
-                }
+        _mainAdapter.setAddButtonClicked(v -> {
+            if(_previewAddItem != null) {
+                if(!_previewAddItem.preview()) return;
             }
-        }, null).show());
+            CommonAlerts.AskPhoto(getContext(), (dialog, which) -> {
+                //todo choose photo
+                switch (which) {
+                    case 0: {
+                        if (!PermissionAdmin.get(getActivity(), Manifest.permission.CAMERA, _codeCamera)) {
+                            return;
+                        }
+                        takePhoto(_codeCamera);
+                        break;
+                    }
+                    case 1: {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("image/*");
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                            getActivity().startActivityForResult(intent, _codeGet);
+                        }
+                        break;
+                    }
+                }
+            }, null).show();
+        });
         setAdapter(_mainAdapter);
     }
 
@@ -251,5 +257,18 @@ public class ImageSelectView extends RecyclerView {
      */
     public void set_addContrast(float _addContrast) {
         this._addContrast = _addContrast;
+    }
+
+    public PreviewActionEventHandler get_previewAddItem() {
+        return _previewAddItem;
+    }
+
+    public void set_previewAddItem(PreviewActionEventHandler _previewAddItem) {
+        this._previewAddItem = _previewAddItem;
+    }
+
+    @FunctionalInterface
+    public interface PreviewActionEventHandler{
+        boolean preview();
     }
 }

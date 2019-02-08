@@ -1,5 +1,6 @@
 package net.sakuratrak.schoolstorycollection;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
 import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.LearningSubject;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
@@ -29,6 +32,7 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -71,6 +75,7 @@ public class QuestionEditActivity extends AppCompatActivity {
     private MenuItem _okButton;
     private RatingBar _difficultyEdit;
     private Toolbar _toolbar;
+    private boolean _notifiedQuestionImg = false;
     //endregion
 
     @Override
@@ -169,6 +174,29 @@ public class QuestionEditActivity extends AppCompatActivity {
         _questionImgRecycle.setOnItemToggleListener(v -> checkState());
         _answerContent.setOnUpdateEventHandler(sender -> checkState());
 
+        _questionImgRecycle.set_previewAddItem(() -> {
+            if (!AppSettingsMaster.getBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HELP_ADD_QUESTION, false) && !_notifiedQuestionImg) {
+                //显示帮助窗口
+                CheckBox cb = new CheckBox(this);
+                cb.setText(R.string.neverShowAgain);
+                cb.setChecked(true);
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.notice)
+                        .setIcon(R.drawable.ic_info_black_24dp)
+                        .setMessage("为了方便小测,添加问题图片时应尽量避免拍到包含答案或与答案有关的信息.\n如果无法避免,请在图片编辑器中使用画笔或虚化去除所有答案或与答案有关的信息.")
+                        .setView(cb)
+                        .setPositiveButton(R.string.confirm, (dialog, which) -> dialog.cancel())
+                        .setOnCancelListener(dialog -> {
+                            if (cb.isChecked()) {
+                                AppSettingsMaster.setBooleanVal(this, AppSettingsMaster.SETTINGS_DIALOG_HELP_ADD_QUESTION, true);
+                            }
+                        })
+                        .show();
+                _notifiedQuestionImg = true;
+                return false;
+            } else return true;
+        });
+
     }
 
     @Override
@@ -184,41 +212,26 @@ public class QuestionEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ok:
-                if (_context == null) _context = new QuestionInfo(_currentSubject, _questionType);
-                //todo save
-                if (_editTitle.getText().toString().trim().isEmpty()) {
-                    _context.setTitle("some question ~");
-                } else {
-                    _context.setTitle(_editTitle.getText().toString());
+                if(_unit == null && !AppSettingsMaster.getBooleanVal(this,AppSettingsMaster.SETTINGS_DIALOG_HELP_NO_UNIT,false)){
+                    CheckBox cb = new CheckBox(this);
+                    cb.setText(R.string.neverShowAgain);
+                    cb.setChecked(true);
+                    new AlertDialog.Builder(this)
+                            .setIcon(R.drawable.ic_info_black_24dp)
+                            .setTitle(R.string.notice)
+                            .setView(cb)
+                            .setMessage("确定不为该错题指定一个单元?\n如果不指定单元,将无法通过错题的掌握程度分析单元的掌握程度")
+                            .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                if(cb.isChecked()){
+                                    AppSettingsMaster.setBooleanVal(this,AppSettingsMaster.SETTINGS_DIALOG_HELP_NO_UNIT,true);
+                                }
+                                save();
+                            })
+                            .setNegativeButton(R.string.cancel,null)
+                            .show();
+                }else {
+                    save();
                 }
-                if (_editSource.getText().toString().trim().isEmpty()) {
-                    _context.setSource("somewhere ~");
-                } else {
-                    _context.setSource(_editSource.getText().toString());
-                }
-                _context.setUnit(_unit);
-                _context.setQuestionDetail(_editQuestionInfo.getText().toString());
-                _context.setAnalysisDetail(_editAnalysisInfo.getText().toString());
-                _context.setQuestionImage(_questionImgRecycle.getImages());
-                _context.setAnalysisImage(_analysisImgRecycle.getImages());
-                _context.setAnswer(_answerContent.getAnswer());
-                _context.setDifficulty((int) (_difficultyEdit.getRating() * 2));
-
-                //todo update the database
-                try {
-                    if (_isEdit) {
-                        DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);//更新
-                    } else {
-                        _context.setAuthorTime(new Date());
-                        DbManager.getDefaultHelper(this).getQuestionInfos().create(_context);
-                    }
-                } catch (SQLException sql) {
-                    sql.printStackTrace();
-                    Snackbar.make(_editTitle, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
-                    return true;
-                }
-                setResult(RESULT_OK);
-                finish();
                 return true;
             case android.R.id.home:
                 setResult(RESULT_CANCELED);
@@ -226,6 +239,44 @@ public class QuestionEditActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    private void save(){
+        if (_context == null) _context = new QuestionInfo(_currentSubject, _questionType);
+        //todo save
+        if (_editTitle.getText().toString().trim().isEmpty()) {
+            _context.setTitle("some question ~");
+        } else {
+            _context.setTitle(_editTitle.getText().toString());
+        }
+        if (_editSource.getText().toString().trim().isEmpty()) {
+            _context.setSource("somewhere ~");
+        } else {
+            _context.setSource(_editSource.getText().toString());
+        }
+        _context.setUnit(_unit);
+        _context.setQuestionDetail(_editQuestionInfo.getText().toString());
+        _context.setAnalysisDetail(_editAnalysisInfo.getText().toString());
+        _context.setQuestionImage(_questionImgRecycle.getImages());
+        _context.setAnalysisImage(_analysisImgRecycle.getImages());
+        _context.setAnswer(_answerContent.getAnswer());
+        _context.setDifficulty((int) (_difficultyEdit.getRating() * 2));
+
+        //todo update the database
+        try {
+            if (_isEdit) {
+                DbManager.getDefaultHelper(this).getQuestionInfos().update(_context);//更新
+            } else {
+                _context.setAuthorTime(new Date());
+                DbManager.getDefaultHelper(this).getQuestionInfos().create(_context);
+            }
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+            Snackbar.make(_editTitle, R.string.sqlExp, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override

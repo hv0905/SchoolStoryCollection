@@ -28,7 +28,9 @@ public class SettingActivity extends AppCompatActivity {
     public static final String TAG = "SettingActivity";
     private static final String[] DIALOG_SETTINGS = {
             AppSettingsMaster.SETTINGS_DIALOG_HIDE_CONFIRM,
-            AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM
+            AppSettingsMaster.SETTINGS_DIALOG_UNIT_HIDE_CONFIRM,
+            AppSettingsMaster.SETTINGS_DIALOG_HELP_ADD_QUESTION,
+            AppSettingsMaster.SETTINGS_DIALOG_HELP_NO_UNIT,
     };
     private MainSettingFragment fragment;
 

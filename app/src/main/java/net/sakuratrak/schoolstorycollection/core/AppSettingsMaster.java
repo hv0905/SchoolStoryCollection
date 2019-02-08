@@ -18,6 +18,8 @@ public final class AppSettingsMaster {
     public static final String SETTINGS_QUIZ_AUTO_NEXT = "quiz_AutoNext";
     public static final String SETTINGS_DIALOG_HIDE_CONFIRM = "dialog_hide_confirm";
     public static final String SETTINGS_DIALOG_UNIT_HIDE_CONFIRM = "dialog_unit_hide_confirm";
+    public static final String SETTINGS_DIALOG_HELP_ADD_QUESTION = "dialog_help_add_question";
+    public static final String SETTINGS_DIALOG_HELP_NO_UNIT = "dialog_help_no_unit";
     public static final String SETTINGS_QUIZ_SIZE = "quiz_size";
 
     public static File getWorkbookDb(Context context) {
