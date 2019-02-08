@@ -24,6 +24,7 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ExerciseLogGroup;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
+import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
 import net.sakuratrak.schoolstorycollection.core.StatHelper;
 
 import java.sql.SQLException;
@@ -45,6 +46,7 @@ public final class StatFragmentMainFragment extends Fragment {
     private BarChart _dailyQuizChart;
     private PieChart _difficultyPie;
     private PieChart _questionPie;
+    private PieChart _reviewRatioPie;
     //endregion
     private final MainActivity.RequireRefreshEventHandler _requireRefreshEvent = () -> {
         refreshPies();
@@ -71,6 +73,7 @@ public final class StatFragmentMainFragment extends Fragment {
         _dailyQuizChart = _root.findViewById(R.id.dailyQuizChart);
         _questionPie = _root.findViewById(R.id.questionPie);
         _difficultyPie = _root.findViewById(R.id.difficultyPie);
+        _reviewRatioPie = _root.findViewById(R.id.reviewRatioPie);
 
         UiHelper.applyAppearanceForBar(getContext(), _dailyQuizChart);
         _questionPie.setNoDataText(getString(R.string.quizDailyEmptyNotice));
@@ -84,6 +87,10 @@ public final class StatFragmentMainFragment extends Fragment {
         _difficultyPie.setCenterText(getString(R.string.StatDifficultyPie));
         _difficultyPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
         UiHelper.applyAppearanceForPie(getActivity(), _difficultyPie);
+
+        _reviewRatioPie.setCenterText(getString(R.string.StatReviewPie));
+        _reviewRatioPie.setNoDataText(getString(R.string.StatAddQuestionNotify));
+        UiHelper.applyAppearanceForPie(getActivity(),_reviewRatioPie);
 
         _questionPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -129,7 +136,7 @@ public final class StatFragmentMainFragment extends Fragment {
             _dailyQuizChart.setData(dqd);
 
             //===============
-            //Pie 1
+            //Pie 2
             //===============
 
             List<LearningUnitInfo> units = new LearningUnitInfo.DbHelper(
@@ -149,16 +156,18 @@ public final class StatFragmentMainFragment extends Fragment {
 
 
             //==============
-            //Pie 2
+            //Pie 1+3
             //==============
 
             List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getActivity()).
                     getQuestionInfos()).findAllWithSubject(getParent().getCurrentSubject());
 
             int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
+            int[] reviewRatioCounts = new int[4];
 
             for (QuestionInfo item : questions) {
                 difficultyCounts[item.getDifficulty()]++;
+                reviewRatioCounts[ReviewRatio.getByRatio(item.computeReviewValue()).getId()]++;
             }
 
             ArrayList<PieEntry> difficultyPieEntry = new ArrayList<>();
@@ -167,12 +176,34 @@ public final class StatFragmentMainFragment extends Fragment {
                 if (difficultyCounts[i] == 0) continue;
                 difficultyPieEntry.add(new PieEntry(difficultyCounts[i], String.format(Locale.ENGLISH, "%.1f★", (i) / 2f)));
             }
+            ArrayList<PieEntry> reviewRatioPieEntry = new ArrayList<>();
 
-            PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
-            UiHelper.applyAppearanceForPieDataSet(getParent(), difficultyPieDataSet);
+            boolean hasData = false;
+            for (int i = 0; i < reviewRatioCounts.length; i++) {
+                if (reviewRatioCounts[i] != 0) hasData = true;
+                reviewRatioPieEntry.add(new PieEntry(reviewRatioCounts[i], reviewRatioCounts[i] == 0 ? "" : getString(ReviewRatio.fromId(i).getStr())));
+            }
 
-            _difficultyPie.setData(new PieData(difficultyPieDataSet));
+            if (difficultyPieEntry.size() != 0) {
+                PieDataSet difficultyPieDataSet = new PieDataSet(difficultyPieEntry, getString(R.string.difficulty));
+                UiHelper.applyAppearanceForPieDataSet(getActivity(), difficultyPieDataSet, false);
+                _difficultyPie.setData(new PieData(difficultyPieDataSet));
+            } else {
+                _difficultyPie.setData(null);
+            }
 
+            if (hasData) {
+                PieDataSet reviewRatioPieDataSet = new PieDataSet(reviewRatioPieEntry, getString(R.string.reviewRatio));
+                UiHelper.applyAppearanceForPieDataSet(getActivity(), reviewRatioPieDataSet, false);
+                reviewRatioPieDataSet.setColors(
+                        getResources().getColor(R.color.flat5),
+                        getResources().getColor(R.color.flat7),
+                        getResources().getColor(R.color.flat8),
+                        getResources().getColor(R.color.black));
+                _reviewRatioPie.setData(new PieData(reviewRatioPieDataSet));
+            } else {
+                _reviewRatioPie.setData(null);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,6 +234,7 @@ public final class StatFragmentMainFragment extends Fragment {
         _dailyQuizChart.animateY(1000, Easing.EaseInOutQuad);
         _questionPie.animateY(1000, Easing.EaseInOutQuad);
         _difficultyPie.animateY(1000, Easing.EaseInOutQuad);
+        _reviewRatioPie.animateY(1000,Easing.EaseInOutQuad);
     }
     //endregion
 

@@ -24,12 +24,18 @@
             />
 
         <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/questionPie"
+            android:id="@+id/reviewRatioPie"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="@dimen/ui_margin_ularge"
-
             />
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/questionPie"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="@dimen/ui_margin_ularge" />
 
 
         <com.github.mikephil.charting.charts.PieChart
