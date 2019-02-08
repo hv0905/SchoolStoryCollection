@@ -3,6 +3,7 @@ package net.sakuratrak.schoolstorycollection;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -36,7 +38,12 @@ import net.sakuratrak.schoolstorycollection.core.DbManager;
 import net.sakuratrak.schoolstorycollection.core.ImageAnswer;
 import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 import net.sakuratrak.schoolstorycollection.core.ReviewRatio;
+import net.sakuratrak.schoolstorycollection.core.ShareHelper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -204,6 +211,20 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 return true;
 
             case R.id.shareMenu:
+                Bitmap bm = ShareHelper.generateShareBitmap(this,_context);
+                try {
+                    File f = new File(AppSettingsMaster.getWorkbookRootDir(this),"a.jpg");
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(f);
+                    bm.compress(Bitmap.CompressFormat.JPEG,90,fos);
+                    fos.close();
+                    bm.recycle();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 //todo share
                 return true;
             case R.id.hide:
