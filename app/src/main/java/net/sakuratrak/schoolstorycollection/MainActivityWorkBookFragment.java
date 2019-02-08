@@ -148,6 +148,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                     new AlertDialog.Builder(getContext())
                                             .setMessage(String.format(Locale.US, "真的归档/取消归档%d道错题吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiHideTitle)
+                                            .setIcon(R.drawable.ic_warning_black_24dp)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
@@ -171,6 +172,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                     new AlertDialog.Builder(getContext())
                                             .setMessage(String.format(Locale.US, "确定要重置%d道错题的统计信息吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiResetStat)
+                                            .setIcon(R.drawable.ic_warning_black_24dp)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);
@@ -188,6 +190,7 @@ public final class MainActivityWorkBookFragment extends Fragment {
                                     new AlertDialog.Builder(getContext())
                                             .setMessage(String.format(Locale.US, "真的删除%d道错题吗？", _multiCount))
                                             .setTitle(R.string.confirmMultiRmTitle)
+                                            .setIcon(R.drawable.ic_warning_black_24dp)
                                             .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                                                 for (int i = 0; i < _displayContexts.size(); i++) {
                                                     DataContext dc = _displayContexts.get(i);

@@ -1,6 +1,5 @@
 package net.sakuratrak.schoolstorycollection;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -235,7 +234,7 @@ public class QuestionEditActivity extends AppCompatActivity {
                 return true;
             case android.R.id.home:
                 setResult(RESULT_CANCELED);
-                finish();
+                onBackPressed();
                 return true;
         }
         return false;
@@ -330,5 +329,16 @@ public class QuestionEditActivity extends AppCompatActivity {
         _okButton.setEnabled(_answerContent.hasAnswer() && _questionImgRecycle.getImages().size() != 0);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.ic_warning_black_24dp)
+                .setTitle(R.string.warning)
+                .setMessage("如果退出,更改将不会被保存.\n确定退出?")
+                .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                    super.onBackPressed();
+                })
+                .setNegativeButton(R.string.cancel,null)
+                .show();
+    }
 }

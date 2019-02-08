@@ -114,7 +114,7 @@ public class SettingActivity extends AppCompatActivity {
                         cb.setText("我没有手滑");
                         new AlertDialog.Builder(getContext())
                                 .setIcon(R.drawable.ic_warning_black_24dp)
-                                .setTitle(R.string.warning)
+                                .setTitle(R.string.dangerWarning)
                                 .setMessage("本操作不可逆!!!\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?\n确定要重置所有题目(包括已归档的题目)的统计信息吗?")
                                 .setView(cb)
                                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
@@ -139,7 +139,7 @@ public class SettingActivity extends AppCompatActivity {
                         cb1.setText("我没有手滑");
                         new AlertDialog.Builder(getContext())
                                 .setIcon(R.drawable.ic_warning_black_24dp)
-                                .setTitle(R.string.warning)
+                                .setTitle(R.string.dangerWarning)
                                 .setMessage("本操作不可逆!!!\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?\n确定要清空整个错题本吗?")
                                 .setView(cb1)
                                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
