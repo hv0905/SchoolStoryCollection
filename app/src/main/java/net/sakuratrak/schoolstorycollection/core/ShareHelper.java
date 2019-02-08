@@ -16,11 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ShareHelper {
-    public static final int TITLE_FONTSIZE = 50;
-    public static final int TEXT_ANSWER_FONTSIZE = 40;
-    public static final int ABOUT_FONTSIZE = 28;
-    public static final int ELEMENT_MARGIN = 20;
-    public static final int ELEMENT_MARGIN_HALF = 10;
+    private static final int TITLE_FONTSIZE = 50;
+    private static final int TEXT_ANSWER_FONTSIZE = 40;
+    private static final int ABOUT_FONTSIZE = 28;
+    private static final int ELEMENT_MARGIN = 20;
+    private static final int ELEMENT_MARGIN_HALF = 10;
 
     //NO OOM PLEASE NO NO NO!!!!!!!
 
