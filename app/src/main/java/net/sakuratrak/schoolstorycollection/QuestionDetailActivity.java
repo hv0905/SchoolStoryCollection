@@ -48,6 +48,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.UUID;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog.Builder;
@@ -55,6 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 
 public class QuestionDetailActivity extends AppCompatActivity {
 
@@ -213,12 +215,25 @@ public class QuestionDetailActivity extends AppCompatActivity {
             case R.id.shareMenu:
                 Bitmap bm = ShareHelper.generateShareBitmap(this,_context);
                 try {
-                    File f = new File(AppSettingsMaster.getWorkbookRootDir(this),"a.jpg");
-                    f.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(f);
+                    File shareTmp = new File(getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg");
+                    shareTmp.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(shareTmp);
                     bm.compress(Bitmap.CompressFormat.JPEG,90,fos);
                     fos.close();
                     bm.recycle();
+                    //指定分享
+                    Uri providerUri = FileProvider.getUriForFile(this,
+                            getApplicationContext().getPackageName() + ".files",
+                            shareTmp);
+
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("image/jpeg");
+                    intent.putExtra(Intent.EXTRA_STREAM,providerUri);
+
+                    if(intent.resolveActivity(getPackageManager()) != null){
+                        startActivity(intent);
+                    }
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
