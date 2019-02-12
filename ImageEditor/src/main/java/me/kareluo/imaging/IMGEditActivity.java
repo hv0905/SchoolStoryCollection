@@ -32,8 +32,6 @@ public class IMGEditActivity extends IMGEditBaseActivity {
 
     public static final String EXTRA_IMAGE_SAVE_PATH = "IMAGE_SAVE_PATH";
 
-    public static final String EXTRA_ADD_CONTRAST = "add_contrast";
-
     @Override
     public Bitmap getBitmap() {
         Intent intent = getIntent();
@@ -88,13 +86,6 @@ public class IMGEditActivity extends IMGEditBaseActivity {
         Bitmap bitmap = decoder.decode(options);
         if (bitmap == null) {
             return null;
-        }
-
-        float contrast = getIntent().getFloatExtra(EXTRA_ADD_CONTRAST, 1f);
-        if (contrast != 1f) {
-            Bitmap old = bitmap;
-            bitmap =  Imaging.changeBitmapContrastBrightness(bitmap, contrast, 0);
-            old.recycle();
         }
         return bitmap;
     }

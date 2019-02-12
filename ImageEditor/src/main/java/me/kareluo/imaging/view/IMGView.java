@@ -42,7 +42,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
 
     private IMGMode mPreMode = IMGMode.NONE;
 
-    private final IMGImage mImage = new IMGImage();
+    public final IMGImage mImage = new IMGImage();
 
     private GestureDetector mGDetector;
 

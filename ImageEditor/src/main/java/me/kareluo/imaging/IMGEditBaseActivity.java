@@ -3,12 +3,13 @@ package me.kareluo.imaging;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.ViewSwitcher;
 
+import androidx.appcompat.app.AppCompatActivity;
 import me.kareluo.imaging.core.IMGMode;
 import me.kareluo.imaging.core.IMGText;
 import me.kareluo.imaging.view.IMGColorGroup;
@@ -22,27 +23,21 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
         IMGTextEditDialog.Callback, RadioGroup.OnCheckedChangeListener,
         DialogInterface.OnShowListener, DialogInterface.OnDismissListener {
 
-    protected IMGView mImgView;
-
-    private RadioGroup mModeGroup;
-
-    private IMGColorGroup mColorGroup;
-
-    private IMGTextEditDialog mTextDialog;
-
-    private View mLayoutOpSub;
-
-    private ViewSwitcher mOpSwitcher, mOpSubSwitcher;
-
-    private static final int OP_HIDE = -1;
-
     protected static final int OP_NORMAL = 0;
-
     protected static final int OP_CLIP = 1;
-
+    private static final int OP_HIDE = -1;
     private static final int OP_SUB_DOODLE = 0;
-
     private static final int OP_SUB_MOSAIC = 1;
+    private static final int OP_SUB_CONTRAST = 2;
+    public static final String EXTRA_ADD_CONTRAST = "add_contrast";
+    protected IMGView mImgView;
+    private RadioGroup mModeGroup;
+    private IMGColorGroup mColorGroup;
+    private IMGTextEditDialog mTextDialog;
+    private View mLayoutOpSub;
+    private ViewSwitcher mOpSwitcher, mOpSubSwitcher;
+    private LinearLayout _contrastBlock;
+    private SeekBar _slideContrast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +47,9 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
             setContentView(R.layout.image_edit_activity);
             initViews();
             mImgView.setImageBitmap(bitmap);
+            int contrast = getIntent().getIntExtra(EXTRA_ADD_CONTRAST, 50);
+            mImgView.mImage.set_contrastVal(contrast);
+            _slideContrast.setProgress(contrast);
         } else finish();
 
     }
@@ -106,6 +104,26 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
         mColorGroup.setOnCheckedChangeListener(this);
 
         mLayoutOpSub = findViewById(R.id.layout_op_sub);
+        _contrastBlock = findViewById(R.id.contrastBlock);
+        _slideContrast = findViewById(R.id.slideContrast);
+
+        _slideContrast.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mImgView.mImage.set_contrastVal(progress);
+                mImgView.invalidate();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -115,6 +133,8 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
             onModeClick(IMGMode.DOODLE);
         } else if (vid == R.id.btn_text) {
             onTextModeClick();
+        } else if (vid == R.id.rb_contrast) {
+            onModeClick(IMGMode.CONTRAST);
         } else if (vid == R.id.rb_mosaic) {
             onModeClick(IMGMode.MOSAIC);
         } else if (vid == R.id.btn_clip) {
@@ -151,6 +171,10 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
                 mModeGroup.clearCheck();
                 setOpSubDisplay(OP_HIDE);
                 break;
+            case CONTRAST:
+                mModeGroup.check(R.id.rb_contrast);
+                setOpSubDisplay(OP_SUB_CONTRAST);
+                break;
         }
     }
 
@@ -177,9 +201,20 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
     private void setOpSubDisplay(int opSub) {
         if (opSub < 0) {
             mLayoutOpSub.setVisibility(View.GONE);
+            _contrastBlock.setVisibility(View.GONE);
         } else {
-            mOpSubSwitcher.setDisplayedChild(opSub);
-            mLayoutOpSub.setVisibility(View.VISIBLE);
+            switch (opSub){
+                case OP_SUB_CONTRAST:
+                    _contrastBlock.setVisibility(View.VISIBLE);
+                    mLayoutOpSub.setVisibility(View.GONE);
+                    break;
+                case OP_SUB_DOODLE:
+                case OP_SUB_MOSAIC:
+                    mOpSubSwitcher.setDisplayedChild(opSub);
+                    _contrastBlock.setVisibility(View.GONE);
+                    mLayoutOpSub.setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     }
 

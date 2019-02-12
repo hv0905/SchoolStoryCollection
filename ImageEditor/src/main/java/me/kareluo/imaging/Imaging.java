@@ -35,4 +35,22 @@ public class Imaging {
 
         return ret;
     }
+
+    public static Paint getContrastBrightnessPaint(float contrast,float brightness){
+        ColorMatrix cm = new ColorMatrix(new float[]
+                {
+                        contrast, 0, 0, 0, brightness,
+                        0, contrast, 0, 0, brightness,
+                        0, 0, contrast, 0, brightness,
+                        0, 0, 0, 1, 0
+                });
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(cm));
+        return paint;
+    }
+
+    public static float convertContrast(int raw){
+        return  1f + ((raw - 50) / 100f *
+                1.3f);//<-此处设置滑块灵敏度
+    }
 }

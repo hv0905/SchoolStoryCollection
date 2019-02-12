@@ -15,11 +15,11 @@
         <!--android:background="@drawable/image_bg_top"-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tv_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginTop="4dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:onClick="onClick"
             android:text="@string/image_cancel"
             android:textColor="@color/image_color_primary"
@@ -27,11 +27,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tv_done"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
             android:layout_marginTop="4dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:onClick="onClick"
             android:text="@string/image_done"
             android:textColor="@color/image_color_accent"
@@ -44,91 +44,133 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        android:id="@+id/layout_op_sub"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="invisible"
-        tools:visibility="visible">
 
-        <ViewSwitcher
-            android:id="@+id/vs_op_sub"
-            android:layout_width="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:measureAllChildren="true">
-
-            <me.kareluo.imaging.view.IMGColorGroup
-                android:id="@+id/cg_colors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:checkedButton="@+id/cr_red"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:id="@+id/cr_red"
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-                    android:button="@null"
-                    app:image_color="@color/image_color_red" />
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-                    app:image_color="@color/image_color_black" />
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-
-                    app:image_color="@color/image_color_white" />
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-                    app:image_color="@color/image_color_cyan" />
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-                    app:image_color="@color/image_color_yellow" />
-
-                <me.kareluo.imaging.view.IMGColorRadio
-                    android:layout_width="@dimen/image_color"
-                    android:layout_height="@dimen/image_color"
-                    android:layout_margin="@dimen/image_color_margin"
-                    app:image_color="@color/image_color_blue" />
-
-            </me.kareluo.imaging.view.IMGColorGroup>
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/contrastBlock"
+            android:background="#66000000"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/image_mosaic_tip"
+                android:text="拖动滑块来调整对比度"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/image_color_white"
-                android:textSize="12sp" />
+                android:textSize="18sp" />
 
-        </ViewSwitcher>
+            <SeekBar
+                android:id="@+id/slideContrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:progress="50"
+                android:progressTint="@color/image_color_accent"
+                android:thumbTint="@color/image_color_accent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btn_undo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_op_sub"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:contentDescription="@string/image_undo"
-            android:onClick="onClick"
-            android:src="@drawable/image_btn_undo" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:background="#66000000"
+            tools:visibility="gone">
 
-    </LinearLayout>
+            <ViewSwitcher
+                android:id="@+id/vs_op_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:measureAllChildren="true">
+
+                <me.kareluo.imaging.view.IMGColorGroup
+                    android:id="@+id/cg_colors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checkedButton="@+id/cr_red"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:id="@+id/cr_red"
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+                        android:button="@null"
+                        app:image_color="@color/image_color_red" />
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+                        app:image_color="@color/image_color_black" />
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+
+                        app:image_color="@color/image_color_white" />
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+                        app:image_color="@color/image_color_cyan" />
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+                        app:image_color="@color/image_color_yellow" />
+
+                    <me.kareluo.imaging.view.IMGColorRadio
+                        android:layout_width="@dimen/image_color"
+                        android:layout_height="@dimen/image_color"
+                        android:layout_margin="@dimen/image_color_margin"
+                        app:image_color="@color/image_color_blue" />
+
+                </me.kareluo.imaging.view.IMGColorGroup>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/image_mosaic_tip"
+                    android:textColor="@color/image_color_white"
+                    android:textSize="12sp" />
+
+            </ViewSwitcher>
+
+            <ImageButton
+                android:id="@+id/btn_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:contentDescription="@string/image_undo"
+                android:onClick="onClick"
+                android:src="@drawable/image_btn_undo" />
+
+        </LinearLayout>
+    </FrameLayout>
+
 
     <RadioGroup
         android:id="@+id/rg_modes"
@@ -144,6 +186,19 @@
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:button="@drawable/image_btn_doodle"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:textColor="#FFF" />
+
+        <Space
+            android:layout_width="@dimen/image_mode_space"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_contrast"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:button="@drawable/image_selector_contrast"
             android:gravity="center"
             android:onClick="onClick"
             android:textColor="#FFF" />

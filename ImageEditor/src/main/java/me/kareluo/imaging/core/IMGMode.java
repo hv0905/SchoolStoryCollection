@@ -8,6 +8,7 @@ public enum IMGMode {
 
     NONE,
     DOODLE,
+    CONTRAST,
     MOSAIC,
     CLIP
 

@@ -1,6 +1,7 @@
 package me.kareluo.imaging.core;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
@@ -12,6 +13,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.Log;
 
+import me.kareluo.imaging.Imaging;
 import me.kareluo.imaging.core.clip.IMGClip;
 import me.kareluo.imaging.core.clip.IMGClipWindow;
 import me.kareluo.imaging.core.homing.IMGHoming;
@@ -127,6 +129,16 @@ public class IMGImage {
 
     static {
         DEFAULT_IMAGE = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+    }
+
+    private int _contrastVal = 50;
+
+    public int get_contrastVal() {
+        return _contrastVal;
+    }
+
+    public void set_contrastVal(int _contrastVal) {
+        this._contrastVal = _contrastVal;
     }
 
     {
@@ -523,7 +535,9 @@ public class IMGImage {
         canvas.clipRect(mClipWin.isClipping() ? mFrame : mClipFrame);
 
         // 绘制图片
-        canvas.drawBitmap(mImage, null, mFrame, null);
+        canvas.drawBitmap(mImage, null, mFrame, Imaging.getContrastBrightnessPaint(Imaging.convertContrast(_contrastVal),1));
+
+
 
         if (DEBUG) {
             // Clip 区域

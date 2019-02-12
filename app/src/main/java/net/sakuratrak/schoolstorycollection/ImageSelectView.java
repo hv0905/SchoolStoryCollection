@@ -44,7 +44,7 @@ public class ImageSelectView extends RecyclerView {
     private File _currentTargetPhoto;
     private OnClickListener _onItemToggle;
     private PreviewActionEventHandler _previewAddItem;
-    private float _addContrast = 1.8f;
+    private int _addContrast = 65;
 
     public ImageSelectView(@NonNull Context context) {
         super(context);
@@ -248,14 +248,14 @@ public class ImageSelectView extends RecyclerView {
     }
 
 
-    public float get_addContrast() {
+    public int get_addContrast() {
         return _addContrast;
     }
 
     /**
      * disable:change to 1
      */
-    public void set_addContrast(float _addContrast) {
+    public void set_addContrast(int _addContrast) {
         this._addContrast = _addContrast;
     }
 
