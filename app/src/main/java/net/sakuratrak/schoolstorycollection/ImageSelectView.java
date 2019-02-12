@@ -44,7 +44,7 @@ public class ImageSelectView extends RecyclerView {
     private File _currentTargetPhoto;
     private OnClickListener _onItemToggle;
     private PreviewActionEventHandler _previewAddItem;
-    private int _addContrast = 65;
+    private int _addContrast = 75;
 
     public ImageSelectView(@NonNull Context context) {
         super(context);
