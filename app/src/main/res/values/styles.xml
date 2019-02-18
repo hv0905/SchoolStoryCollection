@@ -13,7 +13,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@string/default_font</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
