@@ -412,31 +412,10 @@ public final class MainActivityWorkBookFragment extends Fragment {
                         setRefreshEventStatus(true);
                         break;
                     case QuestionDetailActivity.RESULT_HIDDEN:
-                        refreshContext();
-                        if (getParent()._questionFilterDialog != null && getParent()._questionFilterDialog.is_isHiddenShown()) {
-                            //看起来只是被修改了
-                            if (_currentDetailIndex != -1) {
-                                _mainAdapter.notifyItemChanged(_currentDetailIndex);
-                            } else _mainAdapter.notifyDataSetChanged();
-                        } else {
-                            //看起来被删除了
-                            if (_currentDetailIndex != -1)
-                                _mainAdapter.notifyItemRemoved(_currentDetailIndex);
-                            else _mainAdapter.notifyDataSetChanged();
-                        }
-                        setRefreshEventStatus(false);
                         getParent().requireRefresh();
-                        setRefreshEventStatus(true);
                         break;
                     case QuestionDetailActivity.RESULT_EDITED:
-                        refreshContext();
-                        if (_currentDetailIndex != -1) {
-                            _mainAdapter.notifyItemChanged(_currentDetailIndex);
-                        } else _mainAdapter.notifyDataSetChanged();
-
-                        setRefreshEventStatus(false);
                         getParent().requireRefresh();
-                        setRefreshEventStatus(true);
                         break;
                 }
                 break;
