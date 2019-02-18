@@ -35,25 +35,38 @@
             android:name=".MainActivity"
             android:label="@string/AppNameCn"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".QuestionDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar.Explode" />
+            android:theme="@style/AppTheme.NoActionBar.Explode"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".LearningUnitChoosingActivity"
             android:label="@string/title_activity_learning_unit_choice"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".AboutActivity"
             android:label="@string/aboutTitle"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".QuestionEditActivity"
             android:label="@string/editQuestion"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,20 +75,26 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:configChanges="orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/settings"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".QuizActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
         <activity
             android:name=".UnitDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar.Explode" />
+            android:theme="@style/AppTheme.NoActionBar.Explode"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
 
         <activity
             android:name=".QuizResultActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
 
         <receiver
             android:name=".AlarmReceiver"
