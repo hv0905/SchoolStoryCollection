@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 
 import net.sakuratrak.schoolstorycollection.core.IListedDataProvidable;
 import net.sakuratrak.schoolstorycollection.core.LearningUnitInfo;
+import net.sakuratrak.schoolstorycollection.core.QuestionInfo;
 
 import java.util.Locale;
 
@@ -218,12 +219,18 @@ public abstract class UnitDisplayAdapter extends RecyclerView.Adapter {
         }
 
         public static DataContext fromDb(LearningUnitInfo dbInfo, int questionSum, int reviewRatio) {
-            int questionsc = dbInfo.getQuestions().size();
+            int questionsc = 0;
+            for (QuestionInfo qi :
+                    dbInfo.getQuestions()) {
+                if (!qi.isHidden()) questionsc++;
+            }
+            int questionRatio = questionSum == 0 ? 0 : (int) (((double) questionsc / questionSum) * 100);
+
             DataContext dataContext = new DataContext(dbInfo.getName(),
                     dbInfo.getExerciseLogCount(),
                     reviewRatio,
                     questionsc,
-                    (int) (((double) questionsc / questionSum) * 100),
+                    questionRatio,
                     dbInfo.getIfNeedMoreQuiz(),
                     dbInfo.isHidden()
             );

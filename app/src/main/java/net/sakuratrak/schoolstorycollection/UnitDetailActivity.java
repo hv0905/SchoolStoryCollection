@@ -220,9 +220,13 @@ public class UnitDetailActivity extends AppCompatActivity {
 
     private void refresh() {
         getSupportActionBar().setTitle(_context.getName());
-        int questionSum;
+        int questionSum = 0;
         try {
-            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(this)).findAllWithSubject(_context.getSubject()).size();
+            List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(this)).findAllWithSubject(_context.getSubject());
+            for (QuestionInfo qi :
+                    questions) {
+                if(!qi.isHidden()) questionSum++;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return;
@@ -264,7 +268,7 @@ public class UnitDetailActivity extends AppCompatActivity {
         int[] difficultyCounts = new int[QuestionInfo.DIFFICULTY_MAX + 1];
         int[] reviewRatioCounts = new int[4];
 
-        for (QuestionInfo item : _context.getQuestions()) {
+        for (QuestionInfo item : getActiveQuestions()) {
             difficultyCounts[item.getDifficulty()]++;
             reviewRatioCounts[ReviewRatio.getByRatio(item.computeReviewValue()).getId()]++;
         }
@@ -306,6 +310,16 @@ public class UnitDetailActivity extends AppCompatActivity {
         }
     }
 
+    public List<QuestionInfo> getActiveQuestions(){
+        List<QuestionInfo> result = new ArrayList<>();
+        for (QuestionInfo question :
+                _context.getQuestions()) {
+            if (!question.isHidden())
+                result.add(question);
+        }
+        return result;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -314,12 +328,7 @@ public class UnitDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.quiz:
                 new AlertDialog.Builder(this).setItems(R.array.list_quiz, (dialog, which) -> {
-                    List<QuestionInfo> in = new ArrayList<>();
-                    for (QuestionInfo question :
-                            _context.getQuestions()) {
-                        if (!question.isHidden())
-                            in.add(question);
-                    }
+                    List<QuestionInfo> in = getActiveQuestions();
                     List<QuestionInfo> quizContext = null;
                     int n = AppSettingsMaster.getQuizSize(this);
                     switch (which) {

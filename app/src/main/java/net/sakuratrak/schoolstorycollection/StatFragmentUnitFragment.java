@@ -254,9 +254,14 @@ public final class StatFragmentUnitFragment extends Fragment {
         }
 
 
-        int questionSum;
+        int questionSum = 0;
         try {
-            questionSum = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getContext())).findAllWithSubject(getParent().getCurrentSubject()).size();
+            List<QuestionInfo> questions = new QuestionInfo.DbHelper(DbManager.getDefaultHelper(getContext())).findAllWithSubject(getParent().getCurrentSubject());
+            for (QuestionInfo qi :
+                    questions) {
+                if (!qi.isHidden()) questionSum++;
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             return;
