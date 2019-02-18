@@ -105,7 +105,7 @@ public final class QuestionInfo implements Serializable, Comparable<QuestionInfo
             count++;
             sum += log.getCorrectRatio();
         }
-        return sum / (double) count + 0.5;
+        return sum / (double) count;
     }
 
 
