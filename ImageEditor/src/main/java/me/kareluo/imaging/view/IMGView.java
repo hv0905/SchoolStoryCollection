@@ -122,7 +122,7 @@ public class IMGView extends FrameLayout implements Runnable, ScaleGestureDetect
                 && mHomingAnimator.isRunning();
     }
 
-    private void onHoming() {
+    public void onHoming() {
         invalidate();
         stopHoming();
         startHoming(mImage.getStartHoming(getScrollX(), getScrollY()),

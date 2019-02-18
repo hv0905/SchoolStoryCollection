@@ -44,4 +44,9 @@ public class IMGAssetFileDecoder extends IMGDecoder {
 
         return null;
     }
+
+    @Override
+    public int getExifRotationAngle() {
+        return 0;
+    }
 }

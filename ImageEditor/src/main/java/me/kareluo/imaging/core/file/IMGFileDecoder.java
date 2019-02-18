@@ -7,6 +7,8 @@ import android.text.TextUtils;
 
 import java.io.File;
 
+import me.kareluo.imaging.Imaging;
+
 /**
  * Created by felix on 2017/12/26 下午3:07.
  */
@@ -35,5 +37,10 @@ public class IMGFileDecoder extends IMGDecoder {
         }
 
         return null;
+    }
+
+    @Override
+    public int getExifRotationAngle() {
+        return Imaging.getExifOrientation(getUri().getPath());
     }
 }

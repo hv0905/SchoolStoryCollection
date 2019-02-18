@@ -50,6 +50,9 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
             int contrast = getIntent().getIntExtra(EXTRA_ADD_CONTRAST, 50);
             mImgView.mImage.set_contrastVal(contrast);
             _slideContrast.setProgress(contrast);
+            int angle = getExifRotation();
+            mImgView.mImage.rotate(angle);
+            mImgView.mImage.setRotate(angle);
         } else finish();
 
     }
@@ -247,6 +250,8 @@ abstract class IMGEditBaseActivity extends AppCompatActivity implements View.OnC
     protected abstract void onRotateClipClick();
 
     protected abstract void onColorChanged(int checkedColor);
+
+    public abstract int getExifRotation();
 
     @Override
     public abstract void onText(IMGText text);

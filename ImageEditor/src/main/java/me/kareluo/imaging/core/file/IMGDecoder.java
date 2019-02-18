@@ -30,4 +30,5 @@ public abstract class IMGDecoder {
 
     public abstract Bitmap decode(BitmapFactory.Options options);
 
+    public abstract int getExifRotationAngle();
 }

@@ -66,28 +66,63 @@ public class IMGEditActivity extends IMGEditBaseActivity {
         }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 1;
-        options.inJustDecodeBounds = true;
-
-        decoder.decode(options);
-
-        if (options.outWidth > MAX_WIDTH) {
-            options.inSampleSize = IMGUtils.inSampleSize(Math.round(1f * options.outWidth / MAX_WIDTH));
-        }
-
-        if (options.outHeight > MAX_HEIGHT) {
-            options.inSampleSize = Math.max(options.inSampleSize,
-                    IMGUtils.inSampleSize(Math.round(1f * options.outHeight / MAX_HEIGHT)));
-        }
-
-
-        options.inJustDecodeBounds = false;
+//        options.inSampleSize = 1;
+//        options.inJustDecodeBounds = true;
+//
+//        decoder.decode(options);
+//
+//        if (options.outWidth > MAX_WIDTH) {
+//            options.inSampleSize = IMGUtils.inSampleSize(Math.round(1f * options.outWidth / MAX_WIDTH));
+//        }
+//
+//        if (options.outHeight > MAX_HEIGHT) {
+//            options.inSampleSize = Math.max(options.inSampleSize,
+//                    IMGUtils.inSampleSize(Math.round(1f * options.outHeight / MAX_HEIGHT)));
+//        }
+//
+//
+//        options.inJustDecodeBounds = false;
 
         Bitmap bitmap = decoder.decode(options);
         if (bitmap == null) {
             return null;
         }
         return bitmap;
+    }
+
+    @Override
+    public int getExifRotation(){
+        Intent intent = getIntent();
+        if (intent == null) {
+            return 0;
+        }
+
+        Uri uri = intent.getParcelableExtra(EXTRA_IMAGE_URI);
+        if (uri == null) {
+            return 0;
+        }
+
+        IMGDecoder decoder = null;
+
+        String path = uri.getPath();
+        if (!TextUtils.isEmpty(path)) {
+            switch (uri.getScheme()) {
+                case "asset":
+                    decoder = new IMGAssetFileDecoder(this, uri);
+                    break;
+                case "file":
+                    decoder = new IMGFileDecoder(uri);
+                    break;
+                case "content":
+                    decoder = new IMGContentDecoder(uri, getContentResolver());
+            }
+        }
+
+
+        if (decoder == null) {
+            return 0;
+        }
+        return decoder.getExifRotationAngle();
     }
 
 

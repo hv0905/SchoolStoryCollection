@@ -6,7 +6,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+
+import me.kareluo.imaging.Imaging;
 
 public class IMGContentDecoder extends IMGDecoder {
 
@@ -30,9 +33,28 @@ public class IMGContentDecoder extends IMGDecoder {
         try {
             is = _resolver.openInputStream(getUri());
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return null;
         }
+
         return BitmapFactory.decodeStream(is,null,options);
+    }
+
+    @Override
+    public int getExifRotationAngle(){
+        int result = 0;
+        try {
+            InputStream is = _resolver.openInputStream(getUri());
+            result = Imaging.getExifOrientation(is);
+            is.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return 0;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     public ContentResolver getResolver(){
