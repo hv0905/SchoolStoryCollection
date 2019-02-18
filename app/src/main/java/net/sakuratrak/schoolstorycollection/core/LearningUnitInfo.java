@@ -88,7 +88,7 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         int sum = 0;
         int count = 0;
         for (QuestionInfo item : questions) {
-            if (item.isHidden()) continue;
+            if (item.isHidden() || (item.getUnit() != null && item.getUnit().isHidden())) continue;
             Collection<ExerciseLog> logs = item.getExerciseLogs();
             if (logs == null) continue;
             for (ExerciseLog log : logs) {
@@ -107,7 +107,7 @@ public class LearningUnitInfo implements Serializable, Comparable<LearningUnitIn
         int count = 0;
         for (QuestionInfo info :
                 questions) {
-            if (info.isHidden()) continue;
+            if (info.isHidden() || (info.getUnit() != null && info.getUnit().isHidden())) continue;
             int ri = info.computeReviewValue();
             if (ri != -1) {
                 sum += ri;

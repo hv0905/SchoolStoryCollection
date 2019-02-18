@@ -65,6 +65,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         protected boolean favourite;
         protected QuestionType type;
         protected boolean hidden;
+        protected boolean unitHidden;
         protected View.OnClickListener detailClicked;
         protected View.OnClickListener quizClicked;
         protected View.OnLongClickListener showMenuClicked;
@@ -72,7 +73,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
         protected CompoundButton.OnCheckedChangeListener onCheckChanged;
 
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden, int reviewRatio, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden, boolean unitHidden, int reviewRatio, View.OnClickListener detailClicked, View.OnClickListener quizClicked, View.OnLongClickListener showMenuClicked, CompoundButton.OnCheckedChangeListener onCheckChanged) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -86,9 +87,10 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.showMenuClicked = showMenuClicked;
             this.onCheckChanged = onCheckChanged;
             this.hidden = hidden;
+            this.unitHidden = unitHidden;
         }
 
-        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden) {
+        public DataContext(String title, String authorTime, String unitInfo, Uri imgUri, float difficulty, boolean favourite, QuestionType type, boolean hidden, boolean unitHidden) {
             this.title = title;
             this.authorTime = authorTime;
             this.unitInfo = unitInfo;
@@ -97,6 +99,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             this.favourite = favourite;
             this.type = type;
             this.hidden = hidden;
+            this.unitHidden = unitHidden;
         }
 
         public DataContext() {
@@ -143,6 +146,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             }
             holder.valAuthorTime.setText(current.authorTime);
             holder.valUnit.setText(current.unitInfo);
+            holder.valUnit.getPaint().setStrikeThruText(current.unitHidden);
             holder.previewImgContent.setImageURI(current.imgUri);
             holder.valDifficulty.setRating(current.difficulty);
             holder._valReviewRatio.setText(current.reviewRatio == -1 ? "---" : String.format(Locale.US, "%d%%", current.reviewRatio));
@@ -210,7 +214,7 @@ public abstract class QuestionItemAdapter extends RecyclerView.Adapter {
             Holder holder = (Holder) viewHolder;
             QuestionItemAdapter.DataContext current = _dataContext.get(i);
             holder._textTitle.setText(current.title);
-            holder._textTitle.getPaint().setStrikeThruText(current.hidden);
+            holder._textTitle.getPaint().setStrikeThruText(current.hidden || current.unitHidden);
             switch (current.type) {
                 case SINGLE_CHOICE:
                     holder._textTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_filter_1_black_24dp, 0, 0, 0);

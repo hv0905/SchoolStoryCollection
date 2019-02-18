@@ -314,7 +314,12 @@ public class UnitDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.quiz:
                 new AlertDialog.Builder(this).setItems(R.array.list_quiz, (dialog, which) -> {
-                    List<QuestionInfo> in = new ArrayList<>(_context.getQuestions());
+                    List<QuestionInfo> in = new ArrayList<>();
+                    for (QuestionInfo question :
+                            _context.getQuestions()) {
+                        if (!question.isHidden())
+                            in.add(question);
+                    }
                     List<QuestionInfo> quizContext = null;
                     int n = AppSettingsMaster.getQuizSize(this);
                     switch (which) {

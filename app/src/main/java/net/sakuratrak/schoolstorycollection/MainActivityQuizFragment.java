@@ -52,6 +52,18 @@ public final class MainActivityQuizFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public List<QuestionInfo> getAvailableQuizQuestions() throws SQLException {
+        List<QuestionInfo> qis = new QuestionInfo.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject());
+        List<QuestionInfo> questionBag = new ArrayList<>();
+        for (QuestionInfo info :
+                qis) {
+            if (info.isHidden() || (info.getUnit() != null && info.getUnit().isHidden()))
+                continue;
+            questionBag.add(info);
+        }
+        return questionBag;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +78,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _quickQuizButton.setOnClickListener(v -> {
             try {
                 List<QuestionInfo> quizContext = QuizHelper.prepareSmartQuiz(
-                        new QuestionInfo.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject()),
+                        getAvailableQuizQuestions(),
                         AppSettingsMaster.getQuizSize(getContext())
                 );
                 if (quizContext == null) {
@@ -94,7 +106,7 @@ public final class MainActivityQuizFragment extends Fragment {
         _randomQuizButton.setOnClickListener(v -> {
             try {
                 List<QuestionInfo> quizContext = QuizHelper.prepareRandomQuiz(
-                        new QuestionInfo.DbHelper(getContext()).findAllWithSubject(getParent().getCurrentSubject()),
+                        getAvailableQuizQuestions(),
                         AppSettingsMaster.getQuizSize(getContext())
                 );
                 if (quizContext == null) {

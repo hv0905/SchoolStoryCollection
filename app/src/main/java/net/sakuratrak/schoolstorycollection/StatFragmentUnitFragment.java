@@ -449,7 +449,10 @@ public final class StatFragmentUnitFragment extends Fragment {
         new AlertDialog.Builder(getContext()).setItems(R.array.list_quiz, (dialog, which) -> {
             List<QuestionInfo> in = new ArrayList<>();
             for (LearningUnitInfo unit : units) {
-                in.addAll(unit.getQuestions());
+                for (QuestionInfo question :
+                        unit.getQuestions()) {
+                    if (!question.isHidden()) in.add(question);
+                }
             }
             List<QuestionInfo> quizContext = null;
             int n = AppSettingsMaster.getQuizSize(getContext());

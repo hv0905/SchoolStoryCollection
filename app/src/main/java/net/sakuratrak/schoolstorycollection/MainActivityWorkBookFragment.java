@@ -307,7 +307,8 @@ public final class MainActivityWorkBookFragment extends Fragment {
             QuestionInfo info = _contexts.get(i);
             //筛选
             //筛掉隐藏的题目
-            if (!hiddenShown && info.isHidden()) continue;
+            if (!hiddenShown && (info.isHidden() || (info.getUnit() != null && info.getUnit().isHidden())))
+                continue;
             if (showFavouriteOnly && !info.isFavourite()) continue;
             if (type != null) {
                 if (!type.contains(info.getType())) continue;
@@ -354,20 +355,23 @@ public final class MainActivityWorkBookFragment extends Fragment {
                     info.isFavourite(),
                     info.getType(),
                     info.isHidden(),
+                    (info.getUnit() != null && info.getUnit().isHidden()),
                     reviewValue,
                     v -> goDetail(info, v, currentDisplayId),
                     v -> goQuiz(info),
                     v -> {
                         showOptionMenu(info, currentDisplayId);
                         return true;
-                    }, (sender, e) -> {
-                if (e) _multiCount++;
-                else {
-                    if (_multiCount > 0)
-                        _multiCount--;
-                }
-                updateMulti(false);
-            });
+                    },
+                    (sender, e) -> {
+                        if (e) _multiCount++;
+                        else {
+                            if (_multiCount > 0)
+                                _multiCount--;
+                        }
+                        updateMulti(false);
+                    }
+            );
             dc.db = info;
             _displayContexts.add(dc);
 
