@@ -32,6 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Calendar calendar = Calendar.getInstance();
         Calendar d = AppSettingsMaster.getAlarmTime(context);
         if (d == null) return;
+        Log.d(TAG, "setupAlarm: your alarm is at " + d.get(Calendar.HOUR_OF_DAY) + ":" + d.get(Calendar.MINUTE));
         calendar.set(Calendar.HOUR_OF_DAY, d.get(Calendar.HOUR_OF_DAY));
         calendar.set(Calendar.MINUTE, d.get(Calendar.MINUTE));
         calendar.set(Calendar.SECOND, 0);
@@ -43,11 +44,11 @@ public class AlarmReceiver extends BroadcastReceiver {
             //新的一天也多多关照啦
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
-
+        Log.d(TAG, "setupAlarm: dayplus" + dayPlus);
         Intent intent = new Intent(context, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
         Log.d(TAG, "setupAlarm: next alarm:" + calendar.toString());
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
 
     }
 
@@ -80,7 +81,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle("嗨,别来无恙啊")
                 .setContentText("这是你今日份的练习,请收好~")
                 .setSound(sound)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_icon_white_32dp)
                 .setAutoCancel(true);
 
         Intent resultIntent = new Intent(context, MainActivity.class);

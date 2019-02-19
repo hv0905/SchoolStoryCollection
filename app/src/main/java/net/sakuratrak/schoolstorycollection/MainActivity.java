@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private RequireRefreshEventHandler _questionDialogUpdate;
     private RequireRefreshEventHandler _unitDialogUpdate;
     private File _cameraCurrentFile;
+    private boolean _shouldMenuBtnShown = true;//default show
     //endregion
 
     //region methods
@@ -203,6 +204,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.top_options, menu);
         _filterMenu = menu.findItem(id.filter);
         _displayModeToggle = menu.findItem(id.displayModeToggle);
+        if(!_shouldMenuBtnShown){
+            //hide menu
+            _filterMenu.setVisible(false);
+            _displayModeToggle.setVisible(false);
+        }
         return true;
     }
 
@@ -221,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case id.displayModeToggle:
                 _isSecondDisplayMode = !_isSecondDisplayMode;
-                _displayModeToggle.setIcon(_isSecondDisplayMode ? drawable.ic_view_list_white_24dp : drawable.ic_dashboard_white_24dp);
+                item.setIcon(_isSecondDisplayMode ? drawable.ic_view_list_white_24dp : drawable.ic_dashboard_white_24dp);
                 changeDisplayMode();
                 return true;
         }
@@ -349,7 +355,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setToolBtnVisible(boolean visible) {
+        _shouldMenuBtnShown = visible;
+        if(_filterMenu != null)
         _filterMenu.setVisible(visible);
+        if(_displayModeToggle != null)
         _displayModeToggle.setVisible(visible);
     }
 
