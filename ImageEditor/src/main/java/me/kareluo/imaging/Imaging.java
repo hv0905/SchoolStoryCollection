@@ -6,6 +6,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.media.ExifInterface;
+import android.os.Build;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,10 +60,13 @@ public class Imaging {
     }
 
     public static int getExifOrientation(InputStream is){
-        int degree = 0;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return 0;
+        }
+            int degree = 0;
         ExifInterface exif = null;
         try {
-            exif = new ExifInterface(is);
+                exif = new ExifInterface(is);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
