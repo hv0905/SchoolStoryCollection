@@ -60,7 +60,8 @@ Copyright 2019 EdgeNeko
 
 授权任何人免费使用本应用,如需用于商业用途,请联系作者许可.
 
-本程序遵循GPL协议开源
+本程序遵循GPL协议开源  
+Github开源地址(欢迎Star!): https://github.com/hv0905/SchoolStoryCollection
 
 ### 感谢
 
