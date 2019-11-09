@@ -1,18 +1,25 @@
----
-typora-copy-images-to: ./
----
-
 # 错题本Story
 
 ## School story collection
 
-版本:1.0.0 Preview  
-分支:Develop  
+## 开源说明
+
+好吧, 这项目我当初是拿来参加一个高中的比赛项目(类似NOC)的, 但是<del>因为我太菜了</del>只拿了市的三等奖, 故怒而开源之, 以报诸社区.
+
+本项目暂时遵循GPL协议开源
+
+> 顺便bb一句, 现在的高中生都这么牛逼的吗 =.=,这项目写了我快一年啊...  
+> 算了还是去搞我的生物和<del>儿童玩具</del>机器人竞赛吧
+
+欢迎 Issues 和 Pull Request
+
+## 关于
+
 Build with ❤ by EdgeNeko in SakuraTrak Studio
 
-![build with love by SakuraTrak Studio](build.png)
+![build with love by SakuraTrak Studio](./infos/build.png)
 
-## 简介
+### 简介
 
 > Developers中一直盛传着Unix哲学,它代表着一种程序设计风格,其中一条是"只做一件事并把它做好".在互联网时代,我倒希望那些互联网巨头也能学学Unix哲学...不要一味地扩展业务领域,强行推广自己的服务给用户...  
 
@@ -24,7 +31,7 @@ Build with ❤ by EdgeNeko in SakuraTrak Studio
 
 EdgeNeko 2019.1  
 
-### 特色
+#### 特色
 
 > 嗯,那么,明天小测的内容是?  
 
@@ -35,7 +42,7 @@ EdgeNeko 2019.1
 5. 一键生成错题图片,要不要试试换种方式问老师?    
 
 
-### 计划加入的功能
+#### 计划加入的功能
 
 > 穿着木屐，踏在林中石板路上，林中鸟鸣阵阵，路边小溪潺潺。拧开八音盒，陷入回忆，想着曾经发生的事情，有喜有忧，而现在却终归平静，发生过的都已过去，那就留在过去吧，干脆利落合上八音盒，不留一切，而路依然要接着走。。。  
 > (其实我只是不知道要在这里写些什么)
@@ -47,7 +54,7 @@ EdgeNeko 2019.1
 
 
 
-## Copyright
+### Copyright
 
 Copyright 2019 EdgeNeko
 
@@ -55,13 +62,13 @@ Copyright 2019 EdgeNeko
 
 未经作者许可,任何人不能二次散布、反编译本应用，违者必究。
 
-## 感谢
+### 感谢
 
-### 起始页封面
+#### 起始页封面
 
 SummerLong EP Cover （pixiv id:58251557）  
 
-### 开放源代码
+#### 开放源代码
 
 * Ormlite
 
