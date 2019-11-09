@@ -6,15 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.Toast;
-
-import net.sakuratrak.schoolstorycollection.core.AppHelper;
-import net.sakuratrak.schoolstorycollection.core.AppMaster;
-import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
-import net.sakuratrak.schoolstorycollection.core.DbManager;
-
-import java.io.File;
-import java.sql.SQLException;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -22,6 +13,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
+import net.sakuratrak.schoolstorycollection.core.AppHelper;
+import net.sakuratrak.schoolstorycollection.core.AppMaster;
+import net.sakuratrak.schoolstorycollection.core.AppSettingsMaster;
+import net.sakuratrak.schoolstorycollection.core.DbManager;
+
+import java.io.File;
+import java.sql.SQLException;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -81,7 +79,7 @@ public class SettingActivity extends AppCompatActivity {
 
                         break;
                     case "feedback_github":
-                        Intent intGh = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/EdgeNeko/SchoolStoryCollection_FeedbackOnly"));
+                        Intent intGh = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/hv0905/SchoolStoryCollection"));
                         if (intGh.resolveActivity(getContext().getPackageManager()) != null) {
                             startActivity(intGh);
                         }
