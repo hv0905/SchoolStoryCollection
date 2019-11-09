@@ -97,9 +97,6 @@
             android:summary="@string/AppAuthor"
             android:title="@string/Author" />
         <Preference
-            android:summary="@string/AppBranch"
-            android:title="@string/branch" />
-        <Preference
             android:icon="@drawable/ic_info_black_24dp"
             android:key="showDetailAbout"
             android:title="@string/showDetailedAbout">

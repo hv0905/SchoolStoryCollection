@@ -7,7 +7,6 @@ typora-copy-images-to: ./
 ## School story collection
 
 版本:1.0.0 Preview  
-分支:Develop  
 Build with ❤ by EdgeNeko in SakuraTrak Studio
 
 ![build with love by SakuraTrak Studio](build.png)
@@ -53,7 +52,7 @@ Copyright 2019 EdgeNeko
 
 授权任何人免费使用本应用,如需用于商业用途,请联系作者许可.
 
-未经作者许可,任何人不能二次散布、反编译本应用，违者必究。
+本程序遵循GPL协议开源
 
 ## 感谢
 
